@@ -7,11 +7,16 @@ providedIn: 'root'
 })
 
 export class HttpLogin {
-    apiUrl: string = environment.baseUrlLogin + "login";
+    apiUrlLogin: string = environment.baseUrlLogin + "login";
+    apiUrlSignin: string = environment.baseUrlLogin + "signin";
 
     constructor(private http: HttpClient) {}
 
     login(username:string,pss:string){
-      return this.http.post<boolean>(this.apiUrl, {username,pss});
+      return this.http.post<boolean>(this.apiUrlLogin, {username,pss});
+    }
+
+    signin(username:string,pss:string){
+      return this.http.post<boolean>(this.apiUrlSignin, {username,pss});
     }
 }

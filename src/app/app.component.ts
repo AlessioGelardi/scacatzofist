@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { lastValueFrom } from 'rxjs';
-import { HttpLogin } from './services/httpLogin';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -8,14 +7,17 @@ import { HttpLogin } from './services/httpLogin';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'myApp';
 
-  constructor(private httpLoginService: HttpLogin) {
-    
+  isLogged = false;
+
+  constructor(private router: Router) {
+
   }
 
-  async ngOnInit(): Promise<void> {
-    const access = await lastValueFrom(this.httpLoginService.login('Alessio','123ciao'));
-    alert(access)
+  login(login: boolean) {
+    if(login) {
+      this.isLogged = true;
+      this.router.navigateByUrl('/home');
+    }
   }
 }

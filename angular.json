@@ -27,9 +27,15 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "./node_modules/bootstrap/dist/css/bootstrap.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+              "node_modules/ngx-spinner/animations/square-spin.css"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/bootstrap/dist/js/bootstrap.js",
+              "node_modules/@fortawesome/fontawesome-free/js/all.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -102,5 +108,7 @@
       }
     }
   },
-  "defaultProject": "myApp"
+  "cli": {
+    "analytics": false
+  }
 }
