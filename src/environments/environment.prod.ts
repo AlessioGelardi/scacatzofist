@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  baseUrlLogin: 'http://localhost:5001/'
 };
