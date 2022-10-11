@@ -33,46 +33,55 @@ export class LoginComponent implements OnInit {
   }
 
   async login() {
-    const user = this.loginForm.value.name;
-    const password = this.loginForm.value.password;
-
-    try {
-      this.spinnerService.show();
-      this.httpLoginService.login(user,password).subscribe(
-        result => {
-          if(result) {
-            this.checkLogin.emit(true);
-          } else {
-            this.viewRegistrati = true;
-            this.swalAlert('Attenzione!','Utente e password errati o non ancora registrati','error');
+    if(this.loginForm.valid) {
+      const user = this.loginForm.value.name;
+      const password = this.loginForm.value.password;
+  
+      try {
+        this.spinnerService.show();
+        this.httpLoginService.login(user,password).subscribe(
+          result => {
+            if(result) {
+              this.checkLogin.emit(true);
+            } else {
+              this.viewRegistrati = true;
+              this.swalAlert('Attenzione!','Utente e password errati o non ancora registrati','error');
+            }
+            this.spinnerService.hide();
           }
-          this.spinnerService.hide();
-        }
-      )
-    } catch {
-      this.checkLogin.emit(false);
+        )
+      } catch {
+        this.checkLogin.emit(false);
+      }
+    } else {
+      this.swalAlert('Attenzione!','Nome e password obbligatori','error');
     }
   }
 
   async signin() {
-    const user = this.loginForm.value.name;
-    const password = this.loginForm.value.password;
-
-    try {
-      this.spinnerService.show();
-      this.httpLoginService.signin(user,password).subscribe(
-        result => {
-          if(result) {
-            this.spinnerService.hide();
-            this.swalAlert('Successo!','Utente registrato con successo, adesso puoi fare il login','success');
-            this.viewRegistrati = false;
-            this.doRegistrati();
+    if(this.loginForm.valid) {
+      const user = this.loginForm.value.name;
+      const password = this.loginForm.value.password;
+  
+      try {
+        this.spinnerService.show();
+        this.httpLoginService.signin(user,password).subscribe(
+          result => {
+            if(result) {
+              this.spinnerService.hide();
+              this.swalAlert('Successo!','Utente registrato con successo, adesso puoi fare il login','success');
+              this.viewRegistrati = false;
+              this.doRegistrati();
+            }
           }
-        }
-      )
-    } catch {
-      this.swalAlert('Attenzione!','User e/o password non registrati, riprovare','error');
+        )
+      } catch {
+        this.swalAlert('Attenzione!','User e/o password non registrati, riprovare','error');
+      }
+    } else {
+      this.swalAlert('Attenzione!','Nome e password obbligatori','error');
     }
+
   }
 
   doRegistrati() {

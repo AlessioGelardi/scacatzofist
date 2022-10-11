@@ -1,6 +1,8 @@
 <!-- Toolbar -->
 <div class="toolbar" role="banner">
-
+  <div class="container d-flex justify-content-center">
+    <img class="logo" src="https://logodix.com/logo/1996503.gif" />
+  </div>
 </div>
 
 <app-login *ngIf="!isLogged" (checkLogin)="login($event)"></app-login>
