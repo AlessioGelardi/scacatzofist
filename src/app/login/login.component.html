@@ -1,7 +1,7 @@
 <div class="content" role="main">
 
-  <h3 *ngIf="!viewSignIn">ACCEDI</h3>
-  <form [formGroup]="loginForm" (ngSubmit)="login()" *ngIf="!viewSignIn">
+  <h3 *ngIf="!viewSignIn && !viewRecupero">ACCEDI</h3>
+  <form [formGroup]="loginForm" (ngSubmit)="login()" *ngIf="!viewSignIn && !viewRecupero">
       <div style="margin-top: 10px;">
           <div class="input-group mb-3">
               <div class="input-group-append">
@@ -20,11 +20,14 @@
       <div style="margin-top: 40px;">
         <a *ngIf="viewRegistrati" (click)="doRegistrati()">registrati cliccando qui</a>
       </div>
+      <div style="margin-top: 40px;">
+        <a *ngIf="viewRegistrati" (click)="doRecupera()">recupera password cliccando qui</a>
+      </div>
   </form>
 
 
   <h3 *ngIf="viewSignIn">REGISTRATI</h3>
-  <form [formGroup]="loginForm" (ngSubmit)="signin()" *ngIf="viewSignIn">
+  <form [formGroup]="signinForm" (ngSubmit)="signin()" *ngIf="viewSignIn">
     
     <div style="margin-top: 10px;">
         <div class="input-group mb-3">
@@ -33,13 +36,87 @@
             </div>
             <input #myinput id="name" formControlName="name" type="text" name="name" class="form-control" value="" placeholder="username" required>
         </div>
-        <div class="input-group mb-2">
+        <div class="input-group mb-3">
             <div class="input-group-append">
                 <span class="input-group-text"><i style="padding-top:5px; height:21px;" class="fa fa-key"></i></span>
             </div>
             <input id="password" formControlName="password" type="password" name="password" class="form-control" value="" placeholder="password" required>
         </div>
+        <div class="input-group mb-4">
+            <div class="input-group-append">
+                <span class="input-group-text"><i style="padding-top:5px; height:21px;" class="fa fa-envelope"></i></span>
+            </div>
+            <input id="email" formControlName="email" type="text" name="email" class="form-control" value="" placeholder="email" required>
+        </div>
+        <hr>
+        <div class="input-group mb-3">
+            <select class="form-control" id="domanda" formControlName="domanda">
+                <option value="" selected="true" [disabled]="true">Domanda segreta</option>
+                <option *ngFor="let question of questions" value="{{question}}">{{question}}</option>
+            </select>
+        </div>
+        <div class="input-group mb-4">
+            <div class="input-group-append">
+                <span class="input-group-text"><i style="padding-top:5px; height:21px;" class="fa fa-exclamation"></i></span>
+            </div>
+            <input id="risposta" formControlName="risposta" type="text" name="risposta" class="form-control" value="" placeholder="risposta" required>
+        </div>
         <button type="submit" name="button" class="btn login_btn">Registrati</button>
+        
+    </div>
+    <div class="d-flex flex-row pt-1">
+        <button type="button" class="col-3 btn btn-sm" (click)="doRegistrati()"><i class="fa fa-undo"></i></button>
+    </div>
+  </form>
+
+  <h3 *ngIf="viewRecupero">RECUPERA</h3>
+  <form [formGroup]="recuperaForm" (ngSubmit)="recuperaCheck()" *ngIf="viewRecupero">
+    <div style="margin-top: 10px;">
+        <div class="input-group mb-3">
+            <div class="input-group-append">
+                <span class="input-group-text"><i style="padding-top:5px; height:21px;" class="fa fa-user"></i></span>
+            </div>
+            <input id="name" formControlName="name" type="text" name="name" class="form-control" value="" placeholder="username">
+        </div>
+        <hr>
+        <div class="input-group mb-4">
+            <div class="input-group-append">
+                <span class="input-group-text"><i style="padding-top:5px; height:21px;" class="fa fa-envelope"></i></span>
+            </div>
+            <input id="email" formControlName="email" type="text" name="email" class="form-control" value="" placeholder="email">
+        </div>
+        <input type="button" name="button" class="btn login_btn" (click)="recupera()" value="Verifica">
+        <div style="margin-top: 30px;" *ngIf="viewConfermaRecupero">
+            <hr>
+            <div class="row pt-3 text-left">
+                <label class="col-4">UserName</label>
+                <div class="col text-left">
+                    <label>{{player?.name}}</label>
+                </div>
+            </div>
+            <div class="row pt-3 text-left">
+                <label class="col-4">Email</label>
+                <div class="col text-left">
+                    <label>{{player?.email}}</label>
+                </div>
+            </div>
+            <div class="input-group mb-4" style="margin-top: 30px;">
+                <select class="form-control" id="domanda" formControlName="domanda">
+                    <option value="" selected="true" [disabled]="true">Domanda segreta</option>
+                    <option *ngFor="let question of questions" value="{{question}}">{{question}}</option>
+                </select>
+            </div>
+            <div class="input-group mb-4">
+                <div class="input-group-append">
+                    <span class="input-group-text"><i style="padding-top:5px; height:21px;" class="fa fa-exclamation"></i></span>
+                </div>
+                <input id="risposta" formControlName="risposta" type="text" name="risposta" class="form-control" value="" placeholder="risposta" required>
+            </div>
+            <button type="submit" name="button" class="btn login_btn">Verifica</button>
+        </div>
+        <div class="d-flex flex-row pt-1">
+            <button type="button" class="col-3 btn btn-sm" (click)="doRecupera()"><i class="fa fa-undo"></i></button>
+        </div>
     </div>
   </form>
 </div>

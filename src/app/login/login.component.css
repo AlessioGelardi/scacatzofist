@@ -31,3 +31,8 @@ span.i {
 .form-control {
     background-color: #cecdcb;
 }
+
+button {
+    background: #df0032 !important;
+    color: #cecdcb !important;
+}
