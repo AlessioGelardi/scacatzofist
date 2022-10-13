@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
 
   @ViewChild('myinput') elementInputName?: ElementRef;
 
-  @Output() checkLogin = new EventEmitter<boolean>();
+  @Output() checkLogin = new EventEmitter<string>();
 
   loginForm = new UntypedFormGroup({
     name: new UntypedFormControl('', Validators.required),
@@ -77,7 +77,7 @@ export class LoginComponent implements OnInit {
         this.httpLoginService.login(user,password,this.ipAddress).subscribe(
           result => {
             if(result) {
-              this.checkLogin.emit(true);
+              this.checkLogin.emit(result._id);
             } else {
               this.viewRegistrati = true;
               this.swalAlert('Attenzione!','Utente e password errati o non ancora registrati','error');
@@ -86,7 +86,7 @@ export class LoginComponent implements OnInit {
           }
         )
       } catch {
-        this.checkLogin.emit(false);
+        this.checkLogin.emit();
       }
     } else {
       this.swalAlert('Attenzione!','Username e password obbligatori','error');

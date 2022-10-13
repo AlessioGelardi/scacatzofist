@@ -14,10 +14,10 @@ export class AppComponent {
 
   }
 
-  login(login: boolean) {
-    if(login) {
+  login(id: string) {
+    if(id) {
       this.isLogged = true;
-      this.router.navigateByUrl('/home');
+      this.router.navigate(['/home',{id:id}]);
     }
   }
 }

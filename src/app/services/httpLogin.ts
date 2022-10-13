@@ -16,7 +16,7 @@ export class HttpLogin {
     constructor(private http: HttpClient) {}
 
     login(username:string,pss:string,ip:string){
-      return this.http.post<boolean>(this.apiUrlLogin, {username,pss,ip});
+      return this.http.post<Player>(this.apiUrlLogin, {username,pss,ip});
     }
 
     signin(player:any){
