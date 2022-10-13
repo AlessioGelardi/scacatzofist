@@ -39,6 +39,18 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  modificaDeck() {
+    this.swalAlert('In progress...','Questa funzionalità è ancora in sviluppo... mi dispiace','info');
+  }
+
+  marketPlace() {
+    this.swalAlert('In progress...','Questa funzionalità è ancora in sviluppo... mi dispiace','info');
+  }
+
+  giocaAdesso() {
+    this.swalAlert('In progress...','Questa funzionalità è ancora in sviluppo... mi dispiace','info');
+  }
+
   private swalAlert(title: string, message: string, icon?: SweetAlertIcon) {
     this.spinnerService.hide();
     Swal.fire(title, message, icon).then((result) => { })
