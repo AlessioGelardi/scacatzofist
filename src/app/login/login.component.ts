@@ -63,10 +63,6 @@ export class LoginComponent implements OnInit {
     this.getIPAddress();
   }
 
-  ngAfterViewInit() {
-    this.elementInputName?.nativeElement.focus();
-  }
-
   async login() {
     if(this.loginForm.valid) {
       const user = this.loginForm.value.name;
