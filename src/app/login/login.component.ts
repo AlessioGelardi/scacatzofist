@@ -70,17 +70,21 @@ export class LoginComponent implements OnInit {
   
       try {
         this.spinnerService.show();
-        this.httpLoginService.login(user,password,this.ipAddress).subscribe(
-          result => {
+        this.httpLoginService.login(user,password,this.ipAddress).subscribe({
+          next: (result) => {
             if(result) {
               this.checkLogin.emit(result._id);
-            } else {
-              this.viewRegistrati = true;
-              this.swalAlert('Attenzione!','Utente e password errati o non ancora registrati','error');
             }
+          }, // completeHandler
+          error: (error: any) => {
+            this.spinnerService.hide();
+            this.viewRegistrati = true;
+            this.swalAlert('Attenzione!','Utente e password errati o non ancora registrati','error');
+          },
+          complete: () => {
             this.spinnerService.hide();
           }
-        )
+        });
       } catch {
         this.checkLogin.emit();
       }
