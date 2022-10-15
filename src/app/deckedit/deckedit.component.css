@@ -1,0 +1,55 @@
+.deckcard {
+    max-width: 80px;
+}
+
+.deckcard:hover {
+    max-width: 240px;
+    z-index: 1;
+    position: absolute;
+}
+
+.viewCard {
+    max-width: 150px;
+    position: relative;
+    left: 120px;
+}
+
+.card {
+    background-color: #cdcccc;
+    color: #3e3d3c !important;
+}
+
+.card-header {
+    background-color: #8a8989;
+    color: #3e3d3c !important;
+}
+
+.card-body {
+    background-color: #cdcccc;
+    color: #3e3d3c !important;
+}
+
+.accordion > .accordion-header {
+    background-color:#000;
+}
+
+.accordion > .accordion-item {
+    background-color: #8a8989;
+    color: #3e3d3c !important;
+    --bs-accordion-border-color: #8a8989;
+}
+
+#headingMain > .accordion-button {
+    background-color: #8a8989;
+    color: #3e3d3c !important;
+}
+
+.accordion-header > .accordion-button  {
+    background-color: #8a8989;
+    color: #3e3d3c !important;
+    border: 2px dotted #3e3d3c;
+}
+
+.accordion-body {
+    background-color: #bdbdbd;
+}

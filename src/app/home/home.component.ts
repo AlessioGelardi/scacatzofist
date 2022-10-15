@@ -14,7 +14,7 @@ export class HomeComponent implements OnInit {
 
   player:Player | undefined;
 
-  constructor(private route: ActivatedRoute,private httpPlayerService: HttpPlayer,private spinnerService: NgxSpinnerService) {
+  constructor(private route: ActivatedRoute,private httpPlayerService: HttpPlayer,private spinnerService: NgxSpinnerService,private router: Router) {
 
   }
 
@@ -40,7 +40,8 @@ export class HomeComponent implements OnInit {
   }
 
   modificaDeck() {
-    this.swalAlert('In progress...','Questa funzionalità è ancora in sviluppo... mi dispiace','info');
+    const playerId = '63459b3a4b4c877f5a46f43e'
+    this.router.navigate(['/deckedit',{id:playerId}]);
   }
 
   marketPlace() {
