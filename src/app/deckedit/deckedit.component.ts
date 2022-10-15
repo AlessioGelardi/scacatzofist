@@ -16,6 +16,8 @@ export class DeckeditComponent implements OnInit {
 
   deckName: string = "";
 
+  viewUpdateName: boolean = false;
+
   constructor(private route: ActivatedRoute,private spinnerService: NgxSpinnerService,private httpPlayerService: HttpPlayer) { }
 
   ngOnInit(): void {
@@ -41,6 +43,18 @@ export class DeckeditComponent implements OnInit {
         }
       });
     }
+  }
+
+  updateName() {
+    this.viewUpdateName = !this.viewUpdateName;
+  }
+
+  import() {
+    this.swalAlert('In progress...','Questa funzionalità è ancora in sviluppo... mi dispiace','info');
+  }
+
+  save() {
+    this.swalAlert('In progress...','Questa funzionalità è ancora in sviluppo... mi dispiace','info');
   }
 
   private swalAlert(title: string, message: string, icon?: SweetAlertIcon) {
