@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { Player } from '../interface/player';
-import { Deck } from '../interface/card';
+import { Card, Deck } from '../interface/card';
 
 @Injectable({
 providedIn: 'root'
@@ -11,7 +11,8 @@ providedIn: 'root'
 
 export class HttpPlayer {
     apiUrlPlayer: string = environment.baseUrlLogin + "player";
-    apiUrlCardById: string = environment.baseUrlLogin + "deckById";
+    apiUrlDeckById: string = environment.baseUrlLogin + "deckById";
+    apiUrlZainoById: string = environment.baseUrlLogin + "zainoById";
 
     constructor(private http: HttpClient) {}
 
@@ -20,6 +21,10 @@ export class HttpPlayer {
     }
 
     getDeckById(id:string) {
-        return this.http.get<Deck>(this.apiUrlCardById+'?id='+id);
+        return this.http.get<Deck>(this.apiUrlDeckById+'?id='+id);
+    }
+
+    getZainoById(id:string) {
+        return this.http.get<Card[]>(this.apiUrlZainoById+'?id='+id);
     }
 }

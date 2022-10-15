@@ -1,10 +1,11 @@
 export interface Card {
-    _id?: string;
+    id: string;
     name: string;
-    type: string;
+    type: number;
     description: string;
-    atk: string;
-    def: string;
+    level: number;
+    atk: number;
+    def: number;
 }
 
 export interface Deck {
