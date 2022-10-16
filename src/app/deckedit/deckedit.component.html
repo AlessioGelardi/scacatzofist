@@ -119,11 +119,11 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let card of zaino" (click)="viewCard(card)">
+                <tr *ngFor="let card of zaino">
                     <td scope="row">
                         <button type="button" class="btn btn-outline-dark btn-sm" (click)="add(card)"><i class="fa fa-arrow-left"></i></button>
                     </td>
-                    <td>{{card.name}}</td>
+                    <td (click)="viewCard(card)">{{card.name}}</td>
                     <td>{{card.atk}}</td>
                     <td>{{card.def}}</td>
                 </tr>

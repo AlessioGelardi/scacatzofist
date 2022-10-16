@@ -52,8 +52,8 @@ export class DeckeditComponent implements OnInit {
     this.viewUpdateName = !this.viewUpdateName;
     //const playerId = this.route.snapshot.paramMap.get('id');
     const playerId = '63459b3a4b4c877f5a46f43e'
-    this.spinnerService.show();
     if(playerId && this.viewUpdateName) {
+      this.spinnerService.show();
       this.httpPlayerService.getZainoById(playerId).subscribe({
         next: (result:Card[]) => {
           if(result) {
