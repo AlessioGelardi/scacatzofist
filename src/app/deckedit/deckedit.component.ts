@@ -24,7 +24,9 @@ export class DeckeditComponent implements OnInit {
 
   ngOnInit(): void {
     this.deckName = "Ingranaggio Antico";
-    const playerId = this.route.snapshot.paramMap.get('id');
+    //const playerId = this.route.snapshot.paramMap.get('id');
+    const playerId = '63459b3a4b4c877f5a46f43e'
+    this.spinnerService.show();
     if(playerId) {
       this.httpPlayerService.getDeckById(playerId).subscribe({
         next: (result:Deck) => {
@@ -35,7 +37,6 @@ export class DeckeditComponent implements OnInit {
         error: (error: any) => {
           this.spinnerService.hide();
           if(error.status===402) {
-            //devi far comparire la possibilita di registrarsi.
             this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
           }
         },
@@ -49,7 +50,9 @@ export class DeckeditComponent implements OnInit {
   //Button Deck Edit
   updateName() {
     this.viewUpdateName = !this.viewUpdateName;
-    const playerId = this.route.snapshot.paramMap.get('id');
+    //const playerId = this.route.snapshot.paramMap.get('id');
+    const playerId = '63459b3a4b4c877f5a46f43e'
+    this.spinnerService.show();
     if(playerId && this.viewUpdateName) {
       this.httpPlayerService.getZainoById(playerId).subscribe({
         next: (result:Card[]) => {
@@ -60,7 +63,6 @@ export class DeckeditComponent implements OnInit {
         error: (error: any) => {
           this.spinnerService.hide();
           if(error.status===402) {
-            //devi far comparire la possibilita di registrarsi.
             this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
           }
         },
@@ -79,11 +81,35 @@ export class DeckeditComponent implements OnInit {
     this.swalAlert('In progress...','Questa funzionalità è ancora in sviluppo... mi dispiace','info');
   }
 
+  viewCard(card:Card) {
+    this.showCard(card.name,card.description,card.id)
+  }
+
   //Manage deck
-  add(id?:string) {
-    if(id && true) { //se è da extra o da side
-      this.deck?.main.push(id)
+  add(card:Card) {
+    if(card && true) { //se è da extra o da side
+      this.deck?.main.push(card)
     }
+  }
+
+  remove(card:Card) {
+    if(card && true) { //se è da extra o da side
+      const index = this.deck?.main.indexOf(card, 0);
+      if (index && index > -1) {
+        this.deck?.main.splice(index, 1);
+      }
+    }
+  }
+
+  private showCard(title: string, text: string, cardId: string) {
+    Swal.fire({
+    title: title,
+    color: '#3e3d3c',
+    background: '#cdcccc',
+    html: '<label style="font-size:14px">'+text+'</label>',
+    imageUrl: 'https://storage.googleapis.com/ygoprodeck.com/pics/'+cardId+'.jpg',
+    imageWidth: 160
+    })
   }
 
   private swalAlert(title: string, message: string, icon?: SweetAlertIcon) {
