@@ -16,7 +16,7 @@ export class DeckeditComponent implements OnInit {
 
   deckName: string = "";
 
-  viewUpdateName: boolean = false;
+  viewUpdateDeck: boolean = false;
 
   zaino: Card[] | undefined;
 
@@ -48,11 +48,11 @@ export class DeckeditComponent implements OnInit {
   }
 
   //Button Deck Edit
-  updateName() {
-    this.viewUpdateName = !this.viewUpdateName;
+  updateDeck() {
+    this.viewUpdateDeck = true;
     //const playerId = this.route.snapshot.paramMap.get('id');
     const playerId = '63459b3a4b4c877f5a46f43e'
-    if(playerId && this.viewUpdateName) {
+    if(playerId && this.viewUpdateDeck) {
       this.spinnerService.show();
       this.httpPlayerService.getZainoById(playerId).subscribe({
         next: (result:Card[]) => {
@@ -71,6 +71,14 @@ export class DeckeditComponent implements OnInit {
         }
       });
     }
+  }
+
+  newDeck() {
+    this.swalAlert('In progress...','Questa funzionalità è ancora in sviluppo... mi dispiace','info');
+  }
+
+  back() {
+    this.viewUpdateDeck = false;
   }
 
   import() {

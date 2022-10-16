@@ -1,16 +1,18 @@
 <div class="row">
     <div class="d-flex justify-content-around mt-4">
-        <button type="button" class="col-2 btn btn-lg rounded-pill grigino" (click)="updateName()"><i class="fa fa-pencil"></i></button>
-        <button type="button" class="col-2 btn btn-lg rounded-pill grigino" (click)="import()"><i class="fa fa-upload"></i></button>
-        <button type="button" class="col-2 btn btn-lg rounded-pill grigino" (click)="save()"><i class="fa fa-save"></i></button>
+        <button *ngIf="!viewUpdateDeck" type="button" class="col-2 btn btn-lg rounded-pill grigino" (click)="newDeck()"><i class="fa fa-plus"></i></button>
+        <button *ngIf="viewUpdateDeck" type="button" class="col-2 btn btn-lg rounded-pill grigino" (click)="back()"><i class="fa fa-undo"></i></button>
+        <button *ngIf="!viewUpdateDeck" type="button" class="col-2 btn btn-lg rounded-pill grigino" (click)="updateDeck()"><i class="fa fa-pencil"></i></button>
+        <button type="button" class="col-2 btn btn-lg rounded-pill grigino" (click)="import()"><i class="fa fa-download"></i></button>
+        <button *ngIf="viewUpdateDeck" type="button" class="col-2 btn btn-lg rounded-pill grigino" (click)="save()"><i class="fa fa-save"></i></button>
     </div>
 
-    <div *ngIf="!viewUpdateName">
+    <div *ngIf="!viewUpdateDeck">
         <div class="col-12">
             <div class="card mt-4">
                 <div class="card-header">
-                    <label *ngIf="!viewUpdateName">{{deckName}}</label>
-                    <input *ngIf="viewUpdateName" [(ngModel)]="deckName" type="text" class="form-control">
+                    <label *ngIf="!viewUpdateDeck">{{deckName}}</label>
+                    <input *ngIf="viewUpdateDeck" [(ngModel)]="deckName" type="text" class="form-control">
                 </div>
                 <div class="card-body">
                     <div class="accordion" id="subAccordion">
@@ -30,7 +32,7 @@
                             <div class="accordion-body">
                                 <div class="col-11">
                                     <div class="row">
-                                        <div *ngFor="let cardId of deck?.main" [ngClass]="viewUpdateName ? 'col-2':'col-1'">
+                                        <div *ngFor="let cardId of deck?.main" class="col-1">
                                             <img class="deckcard" src="{{'https://storage.googleapis.com/ygoprodeck.com/pics/'+cardId+'.jpg'}}" />
                                         </div>
                                     </div>
@@ -47,7 +49,7 @@
                                 <div class="accordion-body">
                                     <div class="col-11">
                                         <div class="row">
-                                            <div *ngFor="let cardId of deck?.extra" [ngClass]="viewUpdateName ? 'col-2':'col-1'">
+                                            <div *ngFor="let cardId of deck?.extra" class="col-1">
                                                 <img class="deckcard" src="{{'https://storage.googleapis.com/ygoprodeck.com/pics/'+cardId+'.jpg'}}" />
                                             </div>
                                         </div>
@@ -65,7 +67,7 @@
                             <div class="accordion-body">
                                 <div class="col-11">
                                     <div class="row">
-                                        <div *ngFor="let cardId of deck?.side" [ngClass]="viewUpdateName ? 'col-2':'col-1'">
+                                        <div *ngFor="let cardId of deck?.side" class="col-1">
                                             <img class="deckcard" src="{{'https://storage.googleapis.com/ygoprodeck.com/pics/'+cardId+'.jpg'}}" />
                                         </div>
                                     </div>
@@ -79,7 +81,7 @@
         </div>
     </div>
 
-    <div *ngIf="viewUpdateName" class="col-6">
+    <div *ngIf="viewUpdateDeck" class="col-6">
         <div class="d-flex justify-content-center mt-4">
             <h5>{{deckName}}</h5>
         </div>
@@ -105,7 +107,7 @@
         </table>
     </div>
 
-    <div *ngIf="viewUpdateName" class="col-6" >
+    <div *ngIf="viewUpdateDeck" class="col-6" >
         <div class="d-flex justify-content-center mt-4">
             <h5>LE TUE CARTE</h5>
         </div>
