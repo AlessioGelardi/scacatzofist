@@ -15,7 +15,6 @@ import { DeckComponent } from './deck/deck.component';
 import { DeckButtonComponent } from './deck/button/button.component';
 import { DeckEditComponent } from './deck/edit/edit.component';
 import { DeckDetailComponent } from './deck/detail/detail.component';
-import { ZainoComponent } from './zaino/zaino.component';
 
 @NgModule({
   declarations: [
@@ -26,8 +25,7 @@ import { ZainoComponent } from './zaino/zaino.component';
     DeckComponent,
     DeckButtonComponent,
     DeckEditComponent,
-    DeckDetailComponent,
-    ZainoComponent
+    DeckDetailComponent
   ],
   imports: [
     BrowserModule,
