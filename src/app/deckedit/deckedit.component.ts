@@ -32,6 +32,7 @@ export class DeckeditComponent implements OnInit {
         next: (result:Deck) => {
           if(result) {
             this.deck = result;
+            //this.deck.main.sort((a, b) => a.type - b.type)
           }
         }, // completeHandler
         error: (error: any) => {
@@ -82,7 +83,46 @@ export class DeckeditComponent implements OnInit {
   }
 
   import() {
-    this.swalAlert('In progress...','Questa funzionalità è ancora in sviluppo... mi dispiace','info');
+    //this.swalAlert('In progress...','Questa funzionalità è ancora in sviluppo... mi dispiace','info');
+    Swal.fire({
+      title: 'Importa il tuo deck!',
+      html: this.selectFileHTML(),
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonText: 'Importa Deck',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        this.spinnerService.show();
+        
+        let inputPathFile:any = document.getElementById('myDiv');
+
+        this.readImportDeck(inputPathFile).then(async (result) => {
+          if(result) {
+            this.swalAlert('In progress...','Questa funzionalità è ancora in sviluppo... mi dispiace','info');
+          }
+        });
+        
+        /*
+        this.readThis(inputPathFile).then(async (result) => {
+          if(result) {
+
+            const groups = JSON.stringify(this.result.groups);
+            const members = JSON.stringify(this.result.members);
+            const papelle = JSON.stringify(this.result.papelle);
+
+            //const resultImport = await this.httpBackupService.importAll(groups,members,papelle);
+
+            if(resultImport) {
+              this.swalAlert('Fatto!','Import effettuato con successo','success');
+              window.location.reload();
+            }
+          } else {
+            this.swalAlert('Attenzione!','Scegliere obbligatoriamente il file di import','error');
+          }
+        }); */
+
+      }
+    })
   }
 
   save() {
@@ -107,6 +147,35 @@ export class DeckeditComponent implements OnInit {
         this.deck?.main.splice(index, 1);
       }
     }
+  }
+
+  async readImportDeck(inputValue: any):Promise<boolean> {
+    if(inputValue.files && inputValue.files.length>0) {
+      var file:File = inputValue.files[0];
+
+      return new Promise<boolean>((resolve, reject) => {
+        var reader = new FileReader();
+        reader.onload = (evt: any) => {
+          if(evt && evt.target) {
+            const importDeck = (evt.target.result as string);
+
+            //TO-DO da completare
+            //importDeck.split('#main')
+            //console.log(importDeck)
+
+            resolve(true);
+          }
+        };
+        reader.readAsText(file);
+      });
+    } else {
+      return false;
+    }
+  }
+
+  private selectFileHTML(): string {
+    const html = '<input class="form-control" type="file" id="myDiv">';
+    return html;
   }
 
   private showCard(title: string, text: string, cardId: string) {
