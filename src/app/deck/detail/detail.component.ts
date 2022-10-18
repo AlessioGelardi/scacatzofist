@@ -11,7 +11,7 @@ import Swal, { SweetAlertIcon } from 'sweetalert2';
 })
 export class DeckDetailComponent implements OnInit {
 
-  @Input() idDeck: string | undefined;
+  @Input() deckId: string | undefined;
 
   deck: Deck | undefined;
 
@@ -19,8 +19,8 @@ export class DeckDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.spinnerService.show();
-    if(this.idDeck) {
-      this.httpPlayerService.getDeckById(this.idDeck).subscribe({
+    if(this.deckId) {
+      this.httpPlayerService.getDeckById(this.deckId).subscribe({
         next: (result:Deck) => {
           if(result) {
             this.deck = result;

@@ -8,5 +8,5 @@
     </div>
 </div>
 
-<deck-detail [idDeck]="idDeck" *ngIf="viewDeck"></deck-detail>
-<deck-edit [idDeck]="idDeck" *ngIf="modifyDeck"></deck-edit>
+<deck-detail [deckId]="deckId" *ngIf="viewDeck"></deck-detail>
+<deck-edit [deckId]="deckId" [playerId]="playerId" *ngIf="modifyDeck"></deck-edit>

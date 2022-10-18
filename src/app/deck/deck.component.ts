@@ -14,20 +14,22 @@ export class DeckComponent implements OnInit {
 
   decks: any[] = [];
 
-  idDeck: string | undefined;
+  deckId: string | undefined;
 
   viewDeck = false;
   modifyDeck = false;
+
+  playerId = '63459b3a4b4c877f5a46f43e';
 
   constructor(private route: ActivatedRoute, private spinnerService: NgxSpinnerService, private httpPlayerService: HttpPlayer) { }
 
   ngOnInit(): void {
     //this.deckName = "Ingranaggio Antico";
     //const playerId = this.route.snapshot.paramMap.get('id');
-    const playerId = '63459b3a4b4c877f5a46f43e'
+    //const playerId = 
     this.spinnerService.show();
-    if(playerId) {
-      this.httpPlayerService.getDecksById(playerId).subscribe({
+    if(this.playerId) {
+      this.httpPlayerService.getDecksById(this.playerId).subscribe({
         next: (result:any) => {
           if(result) {
             this.decks = result;
@@ -54,7 +56,7 @@ export class DeckComponent implements OnInit {
   }
 
   view(id:string) {
-    this.idDeck = id;
+    this.deckId = id;
     this.viewDeck = true;
   }
 
