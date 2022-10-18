@@ -1,0 +1,12 @@
+<deck-button [viewDetail]="viewDeck" [viewUpdate]="modifyDeck" (buttonOperation)="buttonOperationHandler($event)"></deck-button>
+
+<div class="row mt-5" *ngIf="!viewDeck && !modifyDeck">
+    <div class="row d-flex justify-content-center">
+        <button class="col-6 m-2 btn btn-lg rounded grigino" *ngFor="let card of decks" (click)="view(card.id)">
+            {{card.name}}
+        </button>
+    </div>
+</div>
+
+<deck-detail [idDeck]="idDeck" *ngIf="viewDeck"></deck-detail>
+<deck-edit [idDeck]="idDeck" *ngIf="modifyDeck"></deck-edit>

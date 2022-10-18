@@ -11,13 +11,21 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { HomeComponent } from './home/home.component';
 import { DeckeditComponent } from './deckedit/deckedit.component';
+import { DeckComponent } from './deck/deck.component';
+import { DeckButtonComponent } from './deck/button/button.component';
+import { DeckEditComponent } from './deck/edit/edit.component';
+import { DeckDetailComponent } from './deck/detail/detail.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     HomeComponent,
-    DeckeditComponent
+    DeckeditComponent,
+    DeckComponent,
+    DeckButtonComponent,
+    DeckEditComponent,
+    DeckDetailComponent
   ],
   imports: [
     BrowserModule,

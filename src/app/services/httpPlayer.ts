@@ -11,6 +11,7 @@ providedIn: 'root'
 
 export class HttpPlayer {
     apiUrlPlayer: string = environment.baseUrlLogin + "player";
+    apiUrlDecksById: string = environment.baseUrlLogin + "decksById";
     apiUrlDeckById: string = environment.baseUrlLogin + "deckById";
     apiUrlZainoById: string = environment.baseUrlLogin + "zainoById";
 
@@ -18,6 +19,10 @@ export class HttpPlayer {
 
     getPlayer(id:string){
       return this.http.get<Player>(this.apiUrlPlayer+'?id='+id);
+    }
+
+    getDecksById(id:string) {
+        return this.http.get<Deck>(this.apiUrlDecksById+'?id='+id);
     }
 
     getDeckById(id:string) {
