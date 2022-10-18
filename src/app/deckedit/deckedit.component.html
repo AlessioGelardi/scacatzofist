@@ -88,18 +88,18 @@
         <table class="table table-hover mt-3 text-center">
             <thead>
                 <tr>
-                    <th scope="col">Nome</th>
-                    <th scope="col">ATK</th>
-                    <th scope="col">DEF</th>
-                    <th scope="col">&nbsp;</th>
+                    <th>Nome</th>
+                    <th>ATK</th>
+                    <th>DEF</th>
+                    <th>&nbsp;</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let card of deck?.main">
-                    <td (click)="viewCard(card)">{{card.name}}</td>
+                    <td class="text-truncate" (click)="viewCard(card)">{{card.name}}</td>
                     <td>{{card.atk}}</td>
                     <td>{{card.def}}</td>
-                    <td scope="row">
+                    <td>
                         <button type="button" class="btn btn-outline-dark btn-sm" (click)="remove(card)"><i class="fa fa-trash"></i></button>
                     </td>
                 </tr>
@@ -122,10 +122,10 @@
             </thead>
             <tbody>
                 <tr *ngFor="let card of zaino">
-                    <td scope="row">
+                    <td>
                         <button type="button" class="btn btn-outline-dark btn-sm" (click)="add(card)"><i class="fa fa-arrow-left"></i></button>
                     </td>
-                    <td (click)="viewCard(card)">{{card.name}}</td>
+                    <td class="text-truncate" (click)="viewCard(card)">{{card.name}}</td>
                     <td>{{card.atk}}</td>
                     <td>{{card.def}}</td>
                 </tr>
