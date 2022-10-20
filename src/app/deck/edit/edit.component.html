@@ -1,31 +1,16 @@
 <div class="row">
+    <div class="d-flex justify-content-center mt-4">
+        <h5>{{deck?.name}}</h5>
+    </div>
+</div>
+<div class="row">
     <div class="col-6">
-        <div class="d-flex justify-content-center mt-4">
-            <h5>{{deck?.name}}</h5>
-        </div>
-        <table class="table table-hover mt-3 text-center">
-            <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>ATK</th>
-                    <th>DEF</th>
-                    <th>&nbsp;</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let card of deck?.main">
-                    <td class="text-truncate" (click)="showCard(card)">{{card.name}}</td>
-                    <td>{{card.atk}}</td>
-                    <td>{{card.def}}</td>
-                    <td>
-                        <button type="button" class="btn btn-outline-dark btn-sm" (click)="remove(card)"><i class="fa fa-trash"></i></button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <deck-list [type]="1" [cards]="this.deck?.main" (showCard)="showCard($event)" (removeCard)="removeCard($event)"></deck-list>
+        <deck-list [type]="2" [cards]="this.deck?.extra" (showCard)="showCard($event)" (removeCard)="removeCard($event)"></deck-list>
+        <deck-list [type]="3" [cards]="this.deck?.side" (showCard)="showCard($event)" (removeCard)="removeCard($event)"></deck-list>
     </div>
     
-    <div class="col-6" >
+    <div class="col-6">
         <div class="d-flex justify-content-center mt-4">
             <h5>LE TUE CARTE</h5>
         </div>

@@ -11,8 +11,8 @@ import Swal, { SweetAlertIcon } from 'sweetalert2';
 })
 export class DeckEditComponent implements OnInit {
 
-  @Input() deckId: string | undefined;
-  @Input() playerId: string | undefined;
+  @Input() deckId: string | undefined = '634ebd932a1bb2f2d4f921ef';
+  @Input() playerId: string | undefined = '63459b3a4b4c877f5a46f43e';
 
   deck: Deck | undefined;
 
@@ -32,7 +32,7 @@ export class DeckEditComponent implements OnInit {
         error: (error: any) => {
           this.spinnerService.hide();
           if(error.status===402) {
-            this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+            this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente è presente un problema con il deck','error');
           }
         },
         complete: () => {
@@ -51,7 +51,7 @@ export class DeckEditComponent implements OnInit {
         error: (error: any) => {
           this.spinnerService.hide();
           if(error.status===402) {
-            this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+            this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente è presente un problema con lo zaino','error');
           }
         },
         complete: () => {
@@ -67,11 +67,31 @@ export class DeckEditComponent implements OnInit {
     }
   }
 
-  remove(card:Card) {
+  removeCard(removeObject:any) {
+    const card = removeObject.card;
+    const type = removeObject.type;
+    
     if(card && true) { //se è da extra o da side
-      const index = this.deck?.main.indexOf(card, 0);
-      if (index && index > -1) {
-        this.deck?.main.splice(index, 1);
+      let indice = -1;
+      switch(type) {
+        case 1:
+          indice = this.deck?.main.indexOf(card, 0)!;
+          if (indice !== undefined && indice > -1) {
+            this.deck?.main.splice(indice, 1);
+          }
+          break;
+        case 2:
+          indice = this.deck?.extra.indexOf(card, 0)!;
+          if (indice !== undefined && indice > -1) {
+            this.deck?.extra.splice(indice, 1);
+          }
+          break;
+        case 3:
+          indice = this.deck?.side.indexOf(card, 0)!;
+          if (indice !== undefined && indice > -1) {
+            this.deck?.side.splice(indice, 1);
+          }
+          break;
       }
     }
   }
