@@ -11,8 +11,9 @@ providedIn: 'root'
 
 export class HttpPlayer {
     apiUrlPlayer: string = environment.baseUrlLogin + "player";
-    apiUrlDecksById: string = environment.baseUrlLogin + "decksById";
+    apiUrlDecksById: string = environment.baseUrlLogin + "decksById"; //idplayer
     apiUrlDeckById: string = environment.baseUrlLogin + "deckById";
+    apiUrlDeck: string = environment.baseUrlLogin + "deck";
     apiUrlZainoById: string = environment.baseUrlLogin + "zainoById";
 
     constructor(private http: HttpClient) {}
@@ -32,4 +33,25 @@ export class HttpPlayer {
     getZainoById(id:string) {
         return this.http.get<Card[]>(this.apiUrlZainoById+'?id='+id);
     }
+
+    newDeck(deck:any) {
+        return this.http.post<boolean>(this.apiUrlDeck,deck,this.generateOptions());
+    }
+
+    updateDeck(deck:any) {
+        return this.http.put<boolean>(this.apiUrlDeck,deck,this.generateOptions());
+    }
+
+    deleteDeck(idDeck?: string){
+        return this.http.delete<boolean>(this.apiUrlDeck+'?id='+idDeck);
+    }
+
+    private generateOptions() {
+        return {
+          headers: new HttpHeaders({
+            'Accept': 'application/x-www-form-urlencoded',
+            'Content-Type':  'application/json'
+          })
+        };
+      }
 }

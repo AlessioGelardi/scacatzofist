@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { HttpPlayer } from 'src/app/services/httpPlayer';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
 
 @Component({
@@ -15,18 +16,19 @@ export class DeckButtonComponent implements OnInit {
 
   @Output() buttonOperation: EventEmitter<any> = new EventEmitter();
 
+  fileName: string | undefined;
+
   constructor(private spinnerService: NgxSpinnerService) { }
 
   ngOnInit(): void {
   }
 
   newDeck() {
-    this.swalAlert('In progress...','Questa funzionalità è ancora in sviluppo... mi dispiace','info');
+    this.buttonOperation.emit({"newDeck":true});
   }
 
   homeDeck() {
     this.buttonOperation.emit({"viewDeck":false,"updateDeck":false});
-    //this.swalAlert('In progress...','Questa funzionalità è ancora in sviluppo... mi dispiace','info');
   }
 
   back() {
@@ -39,34 +41,11 @@ export class DeckButtonComponent implements OnInit {
     if(this.viewDetail) {
       this.buttonOperation.emit({"viewDeck":false,"updateDeck":true});
     } else {
-      this.swalAlert('In progress...','Questa funzionalità è ancora in sviluppo... mi dispiace','info');
+      this.buttonOperation.emit({"viewDeck":false,"updateDeck":false, "updateNameDeck":true});
     }
-    /*
-    //const playerId = this.route.snapshot.paramMap.get('id');
-    const playerId = '63459b3a4b4c877f5a46f43e'
-    if(playerId && this.viewUpdate) {
-      this.spinnerService.show();
-      this.httpPlayerService.getZainoById(playerId).subscribe({
-        next: (result:Card[]) => {
-          if(result) {
-            this.zaino = result;
-          }
-        }, // completeHandler
-        error: (error: any) => {
-          this.spinnerService.hide();
-          if(error.status===402) {
-            this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
-          }
-        },
-        complete: () => {
-          this.spinnerService.hide();
-        }
-      });
-    }*/
   }
 
   import() {
-    //this.swalAlert('In progress...','Questa funzionalità è ancora in sviluppo... mi dispiace','info');
     Swal.fire({
       title: 'Importa il tuo deck!',
       html: this.selectFileHTML(),
@@ -80,8 +59,9 @@ export class DeckButtonComponent implements OnInit {
         let inputPathFile:any = document.getElementById('myDiv');
 
         this.readImportDeck(inputPathFile).then(async (result) => {
+          
           if(result) {
-            this.swalAlert('In progress...','Questa funzionalità è ancora in sviluppo... mi dispiace','info');
+            this.buttonOperation.emit({"importDeck":true, "fileResult":result});
           }
         });
 
@@ -101,18 +81,22 @@ export class DeckButtonComponent implements OnInit {
   private async readImportDeck(inputValue: any):Promise<boolean> {
     if(inputValue.files && inputValue.files.length>0) {
       var file:File = inputValue.files[0];
+      this.fileName = (file.name as any).replaceAll(".ydk",'');
 
       return new Promise<boolean>((resolve, reject) => {
         var reader = new FileReader();
         reader.onload = (evt: any) => {
           if(evt && evt.target) {
-            const importDeck = (evt.target.result as string);
+            let importDeck = (evt.target.result.replaceAll('\r\n',',') as string);
 
-            //TO-DO da completare
-            //importDeck.split('#main')
-            //console.log(importDeck)
+            let newDeck:any = {};
+            newDeck["deck"] = {};
+            newDeck["deck"]["main"] = importDeck.split("#main")[1].split("#extra")[0].split(',');
+            newDeck["deck"]["extra"] = importDeck.split("#extra")[1].split("!side")[0].split(',');
+            newDeck["deck"]["side"] = importDeck.split("!side")[1].split(",");
+            newDeck["name"] = this.fileName;
 
-            resolve(true);
+            resolve(newDeck);
           }
         };
         reader.readAsText(file);
