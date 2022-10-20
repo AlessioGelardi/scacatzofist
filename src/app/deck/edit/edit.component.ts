@@ -11,7 +11,7 @@ import Swal, { SweetAlertIcon } from 'sweetalert2';
 })
 export class DeckEditComponent implements OnInit {
 
-  @Input() deckId: string | undefined = '634ebd932a1bb2f2d4f921ef';
+  @Input() deckId: string | undefined = '635105934aac6f08241f1096';
   @Input() playerId: string | undefined = '63459b3a4b4c877f5a46f43e';
 
   deck: Deck | undefined;
@@ -62,16 +62,33 @@ export class DeckEditComponent implements OnInit {
   }
 
   add(card:Card) {
-    if(card && true) { //se è da extra o da side
-      this.deck?.main.push(card)
+    if(card && card.type == 8388641 || card.type === 97 || card.type === 8225) {
+      this.deck?.extra.push(card);
+    } else if (card) {
+      Swal.fire({
+        title: 'Dove vuoi aggiungere questa carta?',
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: 'Main',
+        denyButtonText: 'Side',
+        cancelButtonText: 'Annulla',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.deck?.main.push(card)
+        } else if (result.isDenied) {
+          this.deck?.side.push(card)
+        }
+      })
+      
     }
+
   }
 
   removeCard(removeObject:any) {
     const card = removeObject.card;
     const type = removeObject.type;
     
-    if(card && true) { //se è da extra o da side
+    if(card) {
       let indice = -1;
       switch(type) {
         case 1:
