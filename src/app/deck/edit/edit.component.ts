@@ -109,6 +109,7 @@ export class DeckEditComponent implements OnInit {
           next: (result:Deck) => {
             if(result) {
               this.deck = result;
+              resolve()
             }
           }, // completeHandler
           error: (error: any) => {
@@ -121,7 +122,7 @@ export class DeckEditComponent implements OnInit {
             this.spinnerService.hide();
           }
         });
-        resolve()
+        
       }, 10);
     });
   }
