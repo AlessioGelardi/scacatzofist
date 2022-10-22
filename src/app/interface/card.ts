@@ -9,7 +9,10 @@ export interface Card {
 }
 
 export interface Deck {
-    main: string[],
-    extra: string[],
-    side: string[]
+    id: string,
+    playerId: string,
+    name: string,
+    main: Card[],
+    extra: Card[],
+    side: Card[]
 }
