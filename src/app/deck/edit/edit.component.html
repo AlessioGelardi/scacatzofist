@@ -5,9 +5,9 @@
 </div>
 <div class="row">
     <div class="col-6">
-        <deck-list [type]="1" [cards]="this.deck?.main" (showCard)="showCard($event)" (removeCard)="removeCard($event)"></deck-list>
-        <deck-list [type]="2" [cards]="this.deck?.extra" (showCard)="showCard($event)" (removeCard)="removeCard($event)"></deck-list>
-        <deck-list [type]="3" [cards]="this.deck?.side" (showCard)="showCard($event)" (removeCard)="removeCard($event)"></deck-list>
+        <deck-list [type]="1" [cards]="this.deck?.main!" (showCard)="showCard($event)" (removeCard)="removeCard($event)"></deck-list>
+        <deck-list [type]="2" [cards]="this.deck?.extra!" (showCard)="showCard($event)" (removeCard)="removeCard($event)"></deck-list>
+        <deck-list [type]="3" [cards]="this.deck?.side!" (showCard)="showCard($event)" (removeCard)="removeCard($event)"></deck-list>
     </div>
     
     <div class="col-6">

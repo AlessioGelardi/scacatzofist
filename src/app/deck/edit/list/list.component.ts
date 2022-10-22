@@ -8,8 +8,8 @@ import { Card } from 'src/app/interface/card';
 })
 export class DeckListComponent implements OnInit {
 
-  @Input() type: number | undefined;
-  @Input() cards: Card[] | undefined;
+  @Input() type!: number;
+  @Input() cards!: Card[];
 
   @Output() showCard: EventEmitter<Card> = new EventEmitter();
   @Output() removeCard: EventEmitter<any> = new EventEmitter();
