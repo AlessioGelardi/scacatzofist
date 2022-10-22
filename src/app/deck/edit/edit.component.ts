@@ -27,22 +27,7 @@ export class DeckEditComponent implements OnInit {
   ngOnInit(): void {
     this.spinnerService.show();
     if(this.deckId) {
-      this.httpPlayerService.getDeckById(this.deckId).subscribe({
-        next: (result:Deck) => {
-          if(result) {
-            this.deck = result;
-          }
-        }, // completeHandler
-        error: (error: any) => {
-          this.spinnerService.hide();
-          if(error.status===402) {
-            this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente è presente un problema con il deck','error');
-          }
-        },
-        complete: () => {
-          this.spinnerService.hide();
-        }
-      });
+      this.takeDeck(this.deckId);
     }
 
     if(this.playerId) {
@@ -117,6 +102,30 @@ export class DeckEditComponent implements OnInit {
     this.viewFilter=!this.viewFilter;
   }
 
+  private async takeDeck(deckId: string) {
+    await new Promise<void>((resolve, reject) => {
+      setTimeout(() => {
+        this.httpPlayerService.getDeckById(deckId).subscribe({
+          next: (result:Deck) => {
+            if(result) {
+              this.deck = result;
+            }
+          }, // completeHandler
+          error: (error: any) => {
+            this.spinnerService.hide();
+            if(error.status===402) {
+              this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente è presente un problema con il deck','error');
+            }
+          },
+          complete: () => {
+            this.spinnerService.hide();
+          }
+        });
+        resolve()
+      }, 10);
+    });
+  }
+
   private async takeZaino(playerId: string) {
     await new Promise<void>((resolve, reject) => {
       setTimeout(() => {
@@ -139,7 +148,6 @@ export class DeckEditComponent implements OnInit {
           resolve()
       }, 10);
     });
-
   }
 
   private swalAlert(title: string, message: string, icon?: SweetAlertIcon) {
