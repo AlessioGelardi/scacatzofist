@@ -19,10 +19,9 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //const playerId = this.route.snapshot.paramMap.get('id')
-    const playerId = '63459b3a4b4c877f5a46f43e'
+    const playerId = this.route.snapshot.paramMap.get('id')
     this.spinnerService.show();
-    this.httpPlayerService.getPlayer(playerId).subscribe({
+    this.httpPlayerService.getPlayer(playerId!).subscribe({
       next: (result:Player) => {
         this.player = result;
       }, // completeHandler
@@ -40,8 +39,7 @@ export class HomeComponent implements OnInit {
   }
 
   modificaDeck() {
-    const playerId = '63459b3a4b4c877f5a46f43e'
-    this.router.navigate(['/deckedit',{id:playerId}]);
+    this.router.navigate(['/deckedit',{id:this.player?._id}]);
   }
 
   marketPlace() {

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
 import { HttpPlayer } from '../services/httpPlayer';
@@ -18,22 +18,21 @@ export class DeckComponent implements OnInit {
 
   viewDeck = false;
   modifyDeck = false;
+  viewImport = false;
   viewModifyNameDeck = false;
   newDeck = false;
 
   modifyDeckName: string | undefined;
   oldDeckName: string | undefined;
 
-  playerId = '63459b3a4b4c877f5a46f43e';
+  playerId: string | undefined;
 
   @ViewChild(DeckEditComponent) mngDeckCmpt:DeckEditComponent | undefined;
 
-  constructor(private route: ActivatedRoute, private spinnerService: NgxSpinnerService, private httpPlayerService: HttpPlayer) { }
+  constructor(private route: ActivatedRoute, private spinnerService: NgxSpinnerService, private httpPlayerService: HttpPlayer, private router: Router) { }
 
   ngOnInit(): void {
-    //this.deckName = "Ingranaggio Antico";
-    //const playerId = this.route.snapshot.paramMap.get('id');
-    //const playerId = 
+    this.playerId = this.route.snapshot.paramMap.get('id')!;
     this.spinnerService.show();
     if(this.playerId) {
       this.httpPlayerService.getDecksById(this.playerId).subscribe({
@@ -45,7 +44,8 @@ export class DeckComponent implements OnInit {
         error: (error: any) => {
           this.spinnerService.hide();
           if(error.status===402) {
-            this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+            this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente non hai nessun deck','error');
+            this.viewImport = true;
           }
         },
         complete: () => {
@@ -69,6 +69,8 @@ export class DeckComponent implements OnInit {
         this.importNewDeck(operation.fileResult);
       } else if (operation.saveDeck) {
         this.saveDeck();
+      } else if (operation.backToHome) {
+        this.router.navigate(['/home',{id:this.playerId!}]);
       }
       else {
         if(!this.modifyDeck) {

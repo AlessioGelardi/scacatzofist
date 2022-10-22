@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { HttpPlayer } from 'src/app/services/httpPlayer';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
 
 @Component({
@@ -13,6 +12,8 @@ export class DeckButtonComponent implements OnInit {
   @Input() viewDetail: boolean = false;
   
   @Input() viewUpdate: boolean = false;
+
+  @Input() viewImport: boolean = false;
 
   @Output() buttonOperation: EventEmitter<any> = new EventEmitter();
 
@@ -34,6 +35,8 @@ export class DeckButtonComponent implements OnInit {
   back() {
     if(this.viewUpdate) {
       this.buttonOperation.emit({"viewDeck":true,"updateDeck":false});
+    } else if (!this.viewDetail && !this.viewUpdate){
+      this.buttonOperation.emit({"backToHome":true});
     }
   }
 

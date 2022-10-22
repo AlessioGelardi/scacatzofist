@@ -1,4 +1,4 @@
-<deck-button [viewDetail]="viewDeck" [viewUpdate]="modifyDeck" (buttonOperation)="buttonOperationHandler($event)"></deck-button>
+<deck-button [viewDetail]="viewDeck" [viewUpdate]="modifyDeck" [viewImport]="viewImport" (buttonOperation)="buttonOperationHandler($event)"></deck-button>
 
 <div class="row mt-5" *ngIf="!viewDeck && !modifyDeck">
     <div class="row d-flex justify-content-center mb-5" *ngIf="modifyDeckName">
