@@ -6,29 +6,27 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
+import { DeckComponent } from './deck/deck.component';
+import { DeckEditComponent } from './deck/edit/edit.component';
+import { DeckDetailComponent } from './deck/detail/detail.component';
+import { DeckListComponent } from './deck/edit/list/list.component';
+import { DeckButtonComponent } from './deck/button/button.component';
+import { FilterZainoPipe } from './deck/edit/filter-zaino.pipe';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { HomeComponent } from './home/home.component';
-import { DeckeditComponent } from './deckedit/deckedit.component';
-import { DeckComponent } from './deck/deck.component';
-import { DeckButtonComponent } from './deck/button/button.component';
-import { DeckEditComponent } from './deck/edit/edit.component';
-import { DeckDetailComponent } from './deck/detail/detail.component';
-import { DeckListComponent } from './deck/edit/list/list.component';
-import { FilterZainoPipe } from './deck/edit/filter-zaino.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     HomeComponent,
-    DeckeditComponent,
     DeckComponent,
-    DeckButtonComponent,
     DeckEditComponent,
     DeckDetailComponent,
     DeckListComponent,
+    DeckButtonComponent,
     FilterZainoPipe
   ],
   imports: [
