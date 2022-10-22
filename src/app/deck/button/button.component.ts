@@ -70,7 +70,7 @@ export class DeckButtonComponent implements OnInit {
   }
 
   save() {
-    this.swalAlert('In progress...','Questa funzionalità è ancora in sviluppo... mi dispiace','info');
+    this.buttonOperation.emit({"saveDeck":true});
   }
 
   private selectFileHTML(): string {

@@ -14,6 +14,7 @@ export class HttpPlayer {
     apiUrlDecksById: string = environment.baseUrlLogin + "decksById"; //idplayer
     apiUrlDeckById: string = environment.baseUrlLogin + "deckById";
     apiUrlDeck: string = environment.baseUrlLogin + "deck";
+    apiUrlSaveNameDeck: string= environment.baseUrlLogin + "savedeck";
     apiUrlZainoById: string = environment.baseUrlLogin + "zainoById";
 
     constructor(private http: HttpClient) {}
@@ -38,8 +39,12 @@ export class HttpPlayer {
         return this.http.post<boolean>(this.apiUrlDeck,deck,this.generateOptions());
     }
 
-    updateDeck(deck:any) {
-        return this.http.put<boolean>(this.apiUrlDeck,deck,this.generateOptions());
+    saveNameDeck(deck:any) {
+        return this.http.put<boolean>(this.apiUrlSaveNameDeck,deck,this.generateOptions());
+    }
+
+    updateDeck(deck:Deck,id:string) {
+        return this.http.put<boolean>(this.apiUrlDeck+'?id='+id,deck,this.generateOptions());
     }
 
     deleteDeck(idDeck?: string){

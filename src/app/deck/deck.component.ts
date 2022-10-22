@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
-import { Deck } from '../interface/card';
 import { HttpPlayer } from '../services/httpPlayer';
+import { DeckEditComponent } from './edit/edit.component';
 
 @Component({
   selector: 'app-deck',
@@ -26,6 +25,8 @@ export class DeckComponent implements OnInit {
   oldDeckName: string | undefined;
 
   playerId = '63459b3a4b4c877f5a46f43e';
+
+  @ViewChild(DeckEditComponent) mngDeckCmpt:DeckEditComponent | undefined;
 
   constructor(private route: ActivatedRoute, private spinnerService: NgxSpinnerService, private httpPlayerService: HttpPlayer) { }
 
@@ -66,6 +67,8 @@ export class DeckComponent implements OnInit {
         this.modifyDeckName = "New Deck";
       } else if (operation.importDeck) {
         this.importNewDeck(operation.fileResult);
+      } else if (operation.saveDeck) {
+        this.saveDeck();
       }
       else {
         if(!this.modifyDeck) {
@@ -114,7 +117,7 @@ export class DeckComponent implements OnInit {
             this.modifyDeck=false;
             this.modifyDeckName="";
             this.spinnerService.show();
-            this.httpPlayerService.updateDeck(deck).subscribe(
+            this.httpPlayerService.saveNameDeck(deck).subscribe(
               resultService => {
                 this.spinnerService.hide();
                 if(resultService) {
@@ -130,6 +133,22 @@ export class DeckComponent implements OnInit {
       }
     }
     
+  }
+
+  saveDeck() {
+    if(this.mngDeckCmpt) {
+      this.spinnerService.show();
+      this.httpPlayerService.updateDeck(this.mngDeckCmpt.deck!,this.mngDeckCmpt.deckId!).subscribe(
+        result => {
+          this.spinnerService.hide();
+          if(result) {
+            this.swalAlert('Fatto!','Deck salvato con successo.','success');
+          }
+          else
+            this.swalAlert('Errore','Qualcosa è andato storto durante il salvataggio del deck','error');
+        }
+      );
+    }
   }
 
   importNewDeck(fileResult:any) {

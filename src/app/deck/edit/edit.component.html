@@ -11,8 +11,10 @@
     </div>
     
     <div class="col-6">
-        <div class="d-flex justify-content-center mt-4">
-            <h5>LE TUE CARTE</h5>
+        <div class="d-flex justify-content-around mt-4">
+            <h5 *ngIf="!viewFilter">LE TUE CARTE</h5>
+            <input *ngIf="viewFilter" class="col-5" [(ngModel)]="filterName" type="text" class="form-control sfondino" placeholder="Cerca card">
+            <button class="btn btn-sm rounded grigino" (click)="doFilter()"><i class="fa fa-filter"></i></button>
         </div>
         <table class="table table-hover mt-3 text-center">
             <thead>
@@ -24,7 +26,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let card of zaino">
+                <tr *ngFor="let card of zaino | filterZaino: filterName!">
                     <td>
                         <button type="button" class="btn btn-outline-dark btn-sm" (click)="add(card)"><i class="fa fa-arrow-left"></i></button>
                     </td>

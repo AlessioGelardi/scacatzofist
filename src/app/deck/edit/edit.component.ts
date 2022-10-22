@@ -11,12 +11,16 @@ import Swal, { SweetAlertIcon } from 'sweetalert2';
 })
 export class DeckEditComponent implements OnInit {
 
-  @Input() deckId: string | undefined = '635105934aac6f08241f1096';
-  @Input() playerId: string | undefined = '63459b3a4b4c877f5a46f43e';
+  @Input() deckId: string | undefined;
+  @Input() playerId: string | undefined;
 
   deck: Deck | undefined;
 
   zaino: Card[]=[];
+
+  viewFilter = false;
+  filterName:string | undefined;
+  flagFilterGO = false;
 
   constructor(private httpPlayerService: HttpPlayer,private spinnerService: NgxSpinnerService) { }
 
@@ -42,22 +46,7 @@ export class DeckEditComponent implements OnInit {
     }
 
     if(this.playerId) {
-      this.httpPlayerService.getZainoById(this.playerId).subscribe({
-        next: (result:Card[]) => {
-          if(result) {
-            this.zaino = result;
-          }
-        }, // completeHandler
-        error: (error: any) => {
-          this.spinnerService.hide();
-          if(error.status===402) {
-            this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente è presente un problema con lo zaino','error');
-          }
-        },
-        complete: () => {
-          this.spinnerService.hide();
-        }
-      });
+      this.takeZaino(this.playerId);
     }
   }
 
@@ -122,6 +111,35 @@ export class DeckEditComponent implements OnInit {
     imageUrl: 'https://storage.googleapis.com/ygoprodeck.com/pics/'+card.id+'.jpg',
     imageWidth: 160
     })
+  }
+
+  doFilter() {
+    this.viewFilter=!this.viewFilter;
+  }
+
+  private async takeZaino(playerId: string) {
+    await new Promise<void>((resolve, reject) => {
+      setTimeout(() => {
+          this.httpPlayerService.getZainoById(playerId).subscribe({
+            next: (result: Card[]) => {
+              if (result) {
+                this.zaino = result;
+              }
+            },
+            error: (error: any) => {
+              this.spinnerService.hide();
+              if (error.status === 402) {
+                this.swalAlert('Attenzione!', 'non ho trovato nulla con questo id, probabilmente è presente un problema con lo zaino', 'error');
+              }
+            },
+            complete: () => {
+              this.spinnerService.hide();
+            }
+          });
+          resolve()
+      }, 10);
+    });
+
   }
 
   private swalAlert(title: string, message: string, icon?: SweetAlertIcon) {

@@ -16,6 +16,7 @@ import { DeckButtonComponent } from './deck/button/button.component';
 import { DeckEditComponent } from './deck/edit/edit.component';
 import { DeckDetailComponent } from './deck/detail/detail.component';
 import { DeckListComponent } from './deck/edit/list/list.component';
+import { FilterZainoPipe } from './deck/edit/filter-zaino.pipe';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { DeckListComponent } from './deck/edit/list/list.component';
     DeckButtonComponent,
     DeckEditComponent,
     DeckDetailComponent,
-    DeckListComponent
+    DeckListComponent,
+    FilterZainoPipe
   ],
   imports: [
     BrowserModule,
