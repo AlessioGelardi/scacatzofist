@@ -19,16 +19,15 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const playerId = this.route.snapshot.paramMap.get('id')
+    //const playerId = this.route.snapshot.paramMap.get('id')
     this.spinnerService.show();
-    this.httpPlayerService.getPlayer(playerId!).subscribe({
+    this.httpPlayerService.getPlayer("63459b3a4b4c877f5a46f43e").subscribe({
       next: (result:Player) => {
         this.player = result;
       }, // completeHandler
       error: (error: any) => {
         this.spinnerService.hide();
         if(error.status===402) {
-          //devi far comparire la possibilita di registrarsi.
           this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
         }
       },
@@ -43,7 +42,7 @@ export class HomeComponent implements OnInit {
   }
 
   marketPlace() {
-    this.swalAlert('In progress...','Questa funzionalità è ancora in sviluppo... mi dispiace','info');
+    this.router.navigate(['/marketplace',{id:this.player?._id}]);
   }
 
   giocaAdesso() {

@@ -1,0 +1,27 @@
+<div class="d-flex justify-content-left mt-2">
+    <button class="btn btn-sm rounded grigino" (click)="doFilter()"><i class="fa fa-filter"></i></button>
+    <input *ngIf="viewFilter" [(ngModel)]="filterName" type="text" class="form-control sfondino" placeholder="Cerca carta">
+</div>
+
+<div>
+    <table class="table table-hover mt-3 text-center">
+        <thead>
+            <tr>
+                <th scope="col">&nbsp;</th>
+                <th scope="col">Nome</th>
+                <th scope="col">ATK</th>
+                <th scope="col">DEF</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let card of zaino | filterZaino: filterName!">
+                <td>
+                    <button type="button" class="btn btn-outline-dark btn-sm" (click)="sell(card)"><i class="fa fa-dollar"></i></button>
+                </td>
+                <td class="text-truncate" (click)="show(card)">{{card.name}}</td>
+                <td>{{card.atk}}</td>
+                <td>{{card.def}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

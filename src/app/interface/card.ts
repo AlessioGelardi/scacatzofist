@@ -6,6 +6,8 @@ export interface Card {
     level: number;
     atk: number;
     def: number;
+    cost?: string;
+    player?: string;
 }
 
 export interface Deck {
