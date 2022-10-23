@@ -52,8 +52,9 @@ export class MarketplaceComponent implements OnInit {
 
   sellCard(card:Card) {
     Swal.fire({
-      title: 'Submit your Github username',
-      input: 'text',
+      title: 'Vendi la tua carta',
+      text: 'Scegli il prezzo',
+      input: 'number',
       inputAttributes: {
         autocapitalize: 'off'
       },
@@ -62,10 +63,7 @@ export class MarketplaceComponent implements OnInit {
       showLoaderOnConfirm: true
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire({
-          title: `${result.value.login}'s avatar`,
-          imageUrl: result.value.avatar_url
-        })
+        //TO-DO servizio di vendita
       }
     })
   }
