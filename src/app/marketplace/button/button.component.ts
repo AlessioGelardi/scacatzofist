@@ -31,6 +31,10 @@ export class MarketplaceButtonComponent implements OnInit {
     //this.swalAlert('In progress...','Questa funzionalità è ancora in sviluppo... mi dispiace','info');
   }
 
+  history() {
+    this.swalAlert('In progress...','Questa funzionalità è ancora in sviluppo... mi dispiace','info');
+  }
+
   edicola() {
     this.swalAlert('In progress...','Questa funzionalità è ancora in sviluppo... mi dispiace','info');
   }
