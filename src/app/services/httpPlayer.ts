@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { Player } from '../interface/player';
-import { Card, Deck } from '../interface/card';
+import { Card, Deck, SellCard } from '../interface/card';
 
 @Injectable({
 providedIn: 'root'
@@ -16,6 +16,10 @@ export class HttpPlayer {
     apiUrlDeck: string = environment.baseUrlLogin + "deck";
     apiUrlSaveNameDeck: string= environment.baseUrlLogin + "savedeck";
     apiUrlZainoById: string = environment.baseUrlLogin + "zainoById";
+
+    apiUrlMarket: string = environment.baseUrlLogin + "marketplace";
+
+    apiUrlEdicola: string = environment.baseUrlLogin + "edicola";
 
     constructor(private http: HttpClient) {}
 
@@ -49,6 +53,51 @@ export class HttpPlayer {
 
     deleteDeck(idDeck?: string){
         return this.http.delete<boolean>(this.apiUrlDeck+'?id='+idDeck);
+    }
+
+    venditaCard(playerId:string, cardId:string, prezzo:number) {
+        let vendita:any = {};
+        vendita.playerId = playerId;
+        vendita.cardId = cardId;
+        vendita.prezzo = prezzo;
+
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+
+        vendita.today = dd + '/' + mm + '/' + yyyy
+        return this.http.post<boolean>(this.apiUrlMarket,vendita,this.generateOptions());
+    }
+
+    getMarketplace() {
+        return this.http.get<SellCard[]>(this.apiUrlMarket);
+    }
+
+    acquistaCard(idMarket:string, playerIdAcquista:string, sellCard:SellCard) {
+        let acquisto:any = {};
+        acquisto.card = {}
+        acquisto.card.playerId = sellCard.playerId;
+        acquisto.card.cardId = sellCard.card.id;
+        acquisto.card.prezzo = sellCard.prezzo;
+        acquisto.card.venduto = true;
+        acquisto.playerIdAcquista = playerIdAcquista;
+
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+
+        acquisto.dataUpdate = dd + '/' + mm + '/' + yyyy
+
+        return this.http.put<boolean>(this.apiUrlMarket+'?id='+idMarket,acquisto,this.generateOptions());
+    }
+
+    acquistaPacchetti(typePack:number,taglia:number) {
+        let pack:any = {};
+        pack.type = typePack;
+        pack.taglia = taglia;
+        return this.http.put<Card[]>(this.apiUrlEdicola,pack,this.generateOptions());
     }
 
     private generateOptions() {

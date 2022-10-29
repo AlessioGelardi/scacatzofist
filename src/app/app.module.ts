@@ -21,6 +21,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { HomeComponent } from './home/home.component';
 import { PlayerStatusComponent } from './player-status/player-status.component';
 import { MarketPlaceVenditaComponent } from './marketplace/vendita/vendita.component';
+import { MarketPlaceEdicolaComponent } from './marketplace/edicola/edicola.component';
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import { MarketPlaceVenditaComponent } from './marketplace/vendita/vendita.compo
     PlayerStatusComponent,
     MarketplaceComponent,
     MarketplaceButtonComponent,
-    MarketPlaceVenditaComponent
+    MarketPlaceVenditaComponent,
+    MarketPlaceEdicolaComponent
   ],
   imports: [
     BrowserModule,

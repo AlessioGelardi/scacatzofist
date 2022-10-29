@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
-import { Card } from '../interface/card';
+import { Card, SellCard } from '../interface/card';
 import { Player } from '../interface/player';
 import { HttpPlayer } from '../services/httpPlayer';
 
@@ -15,9 +15,10 @@ export class MarketplaceComponent implements OnInit {
 
   player:Player | undefined;
 
-  marketPlace: Card[] = [];
+  marketPlace: SellCard[] = [];
 
   viewCard: boolean = false;
+  viewEdicola: boolean = false;
 
   constructor(private route: ActivatedRoute,private httpPlayerService: HttpPlayer,private spinnerService: NgxSpinnerService, private router: Router) { }
 
@@ -38,6 +39,21 @@ export class MarketplaceComponent implements OnInit {
         this.spinnerService.hide();
       }
     });
+
+    this.httpPlayerService.getMarketplace().subscribe({
+      next: (result:SellCard[]) => {
+        this.marketPlace = result;
+      }, // completeHandler
+      error: (error: any) => {
+        this.spinnerService.hide();
+        if(error.status===402) {
+          this.swalAlert('Attenzione!','Nessuna carta in vendita al momento','info');
+        }
+      },
+      complete: () => {
+        this.spinnerService.hide();
+      }
+    });
   }
 
   buttonOperationHandler(operation: any) {
@@ -46,6 +62,7 @@ export class MarketplaceComponent implements OnInit {
           this.router.navigate(['/home',{id:this.player?._id!}]);
         } else {
           this.viewCard = operation.viewCard;
+          this.viewEdicola = operation.viewEdicola;
         }
     }
   }
@@ -63,7 +80,42 @@ export class MarketplaceComponent implements OnInit {
       showLoaderOnConfirm: true
     }).then((result) => {
       if (result.isConfirmed) {
-        //TO-DO servizio di vendita
+        this.httpPlayerService.venditaCard(this.player?._id!,card.id,result.value).subscribe(
+          resultService => {
+            this.spinnerService.hide();
+            if(resultService) {
+              this.swalAlert('Fatto!','Vendita creata con successo!','success');
+            }
+            else
+              this.swalAlert('Errore','Qualcosa è andato storto durante la creazione della vendita','error');
+          }
+        );
+      }
+    })
+  }
+
+  compraCard(sellCard:SellCard) {
+    Swal.fire({
+      title: sellCard.card.name,
+      color: '#3e3d3c',
+      background: '#cdcccc',
+      html: '<label style="font-size:14px"> Sei sicur* di acquistare '+sellCard.card.name+' a '+sellCard.prezzo+' coin ?</label>',
+      imageUrl: 'https://storage.googleapis.com/ygoprodeck.com/pics/'+sellCard.card.id+'.jpg',
+      imageWidth: 160,
+      showCancelButton: true,
+      confirmButtonText: 'Acquista'
+    }).then((result) => {
+      if(result.isConfirmed) {
+        this.httpPlayerService.acquistaCard(sellCard.id,this.player?._id!,sellCard).subscribe(
+          resultService => {
+            this.spinnerService.hide();
+            if(resultService) {
+              this.swalAlert('Fatto!','Acquistato!','success');
+            }
+            else
+              this.swalAlert('Errore','Qualcosa è andato storto durante acquisto della carta','error');
+          }
+        );
       }
     })
   }

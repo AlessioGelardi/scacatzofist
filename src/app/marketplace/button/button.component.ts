@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { HttpPlayer } from 'src/app/services/httpPlayer';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
 
 @Component({
@@ -10,6 +11,7 @@ import Swal, { SweetAlertIcon } from 'sweetalert2';
 export class MarketplaceButtonComponent implements OnInit {
 
   @Input() viewCard: boolean = false;
+  @Input() viewEdicola: boolean = false;
 
   @Output() buttonOperation: EventEmitter<any> = new EventEmitter();
 
@@ -21,6 +23,8 @@ export class MarketplaceButtonComponent implements OnInit {
   back() {
     if(this.viewCard) {
       this.buttonOperation.emit({"viewCard":false});
+    } else if (this.viewEdicola) {
+      this.buttonOperation.emit({"viewCard":false,"viewEdicola":false});
     } else {
       this.buttonOperation.emit({"backToHome":true});
     }
@@ -36,7 +40,23 @@ export class MarketplaceButtonComponent implements OnInit {
   }
 
   edicola() {
-    this.swalAlert('In progress...','Questa funzionalità è ancora in sviluppo... mi dispiace','info');
+    this.buttonOperation.emit({"viewCard":false,"viewEdicola":true});
+    /*
+    this.httpPlayerService.acquistaPacchetti().subscribe({
+      next: (result) => {
+        //this.player = result;
+      }, // completeHandler
+      error: (error: any) => {
+        this.spinnerService.hide();
+        if(error.status===402) {
+          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+        }
+      },
+      complete: () => {
+        this.spinnerService.hide();
+      }
+    });
+    this.swalAlert('In progress...','Questa funzionalità è ancora in sviluppo... mi dispiace','info'); */
   }
 
   zaino() {
