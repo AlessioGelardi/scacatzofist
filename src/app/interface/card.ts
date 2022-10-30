@@ -9,6 +9,10 @@ export interface Card {
     state?: string;
 }
 
+export interface Pack {
+    cards: Card[];
+}
+
 export interface Deck {
     id: string,
     playerId: string,

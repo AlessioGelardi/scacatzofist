@@ -22,6 +22,7 @@ import { HomeComponent } from './home/home.component';
 import { PlayerStatusComponent } from './player-status/player-status.component';
 import { MarketPlaceVenditaComponent } from './marketplace/vendita/vendita.component';
 import { MarketPlaceEdicolaComponent } from './marketplace/edicola/edicola.component';
+import { MarketPlaceViewpackComponent } from './marketplace/edicola/viewpack/viewpack.component';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { MarketPlaceEdicolaComponent } from './marketplace/edicola/edicola.compo
     MarketplaceComponent,
     MarketplaceButtonComponent,
     MarketPlaceVenditaComponent,
-    MarketPlaceEdicolaComponent
+    MarketPlaceEdicolaComponent,
+    MarketPlaceViewpackComponent
   ],
   imports: [
     BrowserModule,

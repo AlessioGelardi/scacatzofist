@@ -31,6 +31,7 @@
             <div class="d-flex justify-content-around mt-3">
                 <button class="btn btn-lg rounded sfondino" (click)="acquista(3)">3</button>
                 <button class="btn btn-lg rounded sfondino" (click)="acquista(7)">7</button>
+                <button class="btn btn-lg rounded sfondino" (click)="acquista(12)">12</button>
                 <button class="btn btn-lg rounded sfondino" (click)="acquista(15)">15</button>
             </div>
         </div>
@@ -39,25 +40,11 @@
 
 <div class="mt-4" *ngIf="finishPurchase">
     <div class="row">
-        <div *ngFor="let card of newCards" class="col">
-            
-            <div class="deckcard mb-4" (click)="cardClicked(card)" [@cardFlip]="card.state">
-                <div class="face back">
-                    <img class="deckcard back" src="https://images.ygoprodeck.com/images/cards/back_high.jpg">
-                </div>
-                <div class="face front">
-                    <img class="deckcard front" [src]="'https://storage.googleapis.com/ygoprodeck.com/pics/'+card?.id+'.jpg'">
-                </div>
-            </div>
-            <!-- 
-            <div>
-                <img class="deckcard mb-4" id="{{card?.id}}" src="https://images.ygoprodeck.com/images/cards/back_high.jpg" (click)="toggleFlip()" />
-
-            </div>
-            <div>
-                <img class="deckcard mb-4" src="{{'https://storage.googleapis.com/ygoprodeck.com/pics/'+card?.id+'.jpg'}}" />
-            </div>
-            -->
+        <div *ngFor="let pack of newPacks" class="col-2 d-flex justify-content-center">
+            <img src="assets/pack.png" class="pack mb-3" (click)="show(pack)" />
+        </div>
+        <div>
+            <marketplace-viewpack [cards]="viewCards"></marketplace-viewpack>
         </div>
     </div>
 </div>

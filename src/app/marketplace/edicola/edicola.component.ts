@@ -1,30 +1,13 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Card } from 'src/app/interface/card';
+import { Card, Pack } from 'src/app/interface/card';
 import { HttpPlayer } from 'src/app/services/httpPlayer';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
 
 @Component({
   selector: 'marketplace-edicola',
   templateUrl: './edicola.component.html',
-  styleUrls: ['./edicola.component.css'],
-  animations: [
-    trigger('cardFlip', [
-      state('default', style({
-        transform: 'none'
-      })),
-      state('flipped', style({
-        transform: 'rotateY(180deg)'
-      })),
-      transition('default => flipped', [
-        animate('400ms')
-      ]),
-      transition('flipped => default', [
-        animate('200ms')
-      ])
-    ])
-  ]
+  styleUrls: ['./edicola.component.css']
 })
 export class MarketPlaceEdicolaComponent implements OnInit {
 
@@ -33,7 +16,9 @@ export class MarketPlaceEdicolaComponent implements OnInit {
   viewPack:boolean = false;
 
   finishPurchase: boolean = false;
-  newCards: Card[] = []
+  newPacks: Pack[] = []
+  quantityPack: number[] = [];
+  viewCards: Card[] = []
 
   constructor(private httpPlayerService: HttpPlayer, private spinnerService: NgxSpinnerService) {
   }
@@ -59,36 +44,83 @@ export class MarketPlaceEdicolaComponent implements OnInit {
 
   acquista(taglia:number) {
     if(this.typePack!==0 && taglia!==0) {
-      this.spinnerService.show();
-      this.httpPlayerService.acquistaPacchetti(this.typePack,taglia).subscribe({
-        next: (result:Card[]) => {
-          this.swalAlert('Fatto!','Acquistato!','success');
 
-          this.finishPurchase = true;
-          this.newCards = result;
-        }, // completeHandler
-        error: (error: any) => {
-          this.spinnerService.hide();
-          if(error.status===402) {
-            this.swalAlert('Attenzione!','Problema durante l"acquisto','error');
-          }
+      Swal.fire({
+        title: 'Acquista il tuo pack',
+        text: 'Scegli il numero di pack da acquistare',
+        input: 'number',
+        inputAttributes: {
+          autocapitalize: 'off'
         },
-        complete: () => {
-          this.spinnerService.hide();
+        showCancelButton: true,
+        confirmButtonText: 'Acquista'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          
+          let realConfirm:boolean = false;
+          switch(this.typePack) {
+            case 1: //monster
+              realConfirm = this.checkBudget(taglia,5,result.value);
+              break;
+            case 2: //magic
+              realConfirm = this.checkBudget(taglia,15,result.value);
+              break;
+            case 3: //trap
+              realConfirm = this.checkBudget(taglia,15,result.value);
+              break;
+          }
+
+          if(realConfirm) {
+            this.spinnerService.show();
+            this.httpPlayerService.acquistaPacchetti(this.typePack,taglia,result.value).subscribe({
+              next: (result:Pack[]) => {
+                this.swalAlert('Fatto!','Acquistato!','success');
+                this.finishPurchase = true;
+                this.newPacks = result;
+              }, // completeHandler
+              error: (error: any) => {
+                this.spinnerService.hide();
+                if(error.status===402) {
+                  this.swalAlert('Attenzione!','Problema durante l"acquisto','error');
+                }
+              },
+              complete: () => {
+                this.spinnerService.hide();
+              }
+            });
+          } else {
+            this.swalAlert('Attenzione!','Il tuo budget non può sostenere questa spesa','error');
+          }
         }
-      });
+      })
     } else {
       this.swalAlert('Attenzione!','Scegliere il pack e la taglia','error');
     }
-
   }
 
-  cardClicked(card:Card) {
-    if (card.state === "default") {
-      card.state = "flipped";
-    } else {
-      card.state = "default";
+  show(pack:Pack) {
+    this.viewCards = pack.cards;
+  }
+
+  private checkBudget(taglia:number, baseCost:number, quantity:number):boolean {
+    const myBudget = 3000;
+    let cost = (taglia*baseCost)
+    let rest = -1;
+    switch(taglia) {
+      case 3:
+        rest = (myBudget - (cost*quantity))
+        break;
+      case 7:
+        rest = (myBudget - ((cost-baseCost)*quantity))
+        break;
+      case 12:
+        rest = (myBudget - ((cost-(baseCost*2))*quantity))
+        break;
+      case 15:
+        rest = (myBudget - ((cost-(baseCost*3))*quantity))
+        break;
     }
+    return rest>0;
   }
 
   private swalAlert(title: string, message: string, icon?: SweetAlertIcon) {

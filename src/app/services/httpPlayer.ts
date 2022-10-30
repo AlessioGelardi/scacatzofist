@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { Player } from '../interface/player';
-import { Card, Deck, SellCard } from '../interface/card';
+import { Card, Deck, Pack, SellCard } from '../interface/card';
 
 @Injectable({
 providedIn: 'root'
@@ -93,11 +93,12 @@ export class HttpPlayer {
         return this.http.put<boolean>(this.apiUrlMarket+'?id='+idMarket,acquisto,this.generateOptions());
     }
 
-    acquistaPacchetti(typePack:number,taglia:number) {
+    acquistaPacchetti(typePack:number,taglia:number, quantity:number) {
         let pack:any = {};
         pack.type = typePack;
         pack.taglia = taglia;
-        return this.http.put<Card[]>(this.apiUrlEdicola,pack,this.generateOptions());
+        pack.quantity = quantity;
+        return this.http.put<Pack[]>(this.apiUrlEdicola,pack,this.generateOptions());
     }
 
     private generateOptions() {
