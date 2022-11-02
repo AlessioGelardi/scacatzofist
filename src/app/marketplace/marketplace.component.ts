@@ -19,6 +19,7 @@ export class MarketplaceComponent implements OnInit {
 
   viewCard: boolean = false;
   viewEdicola: boolean = false;
+  viewPack:boolean=false;
 
   constructor(private route: ActivatedRoute,private httpPlayerService: HttpPlayer,private spinnerService: NgxSpinnerService, private router: Router) { }
 
@@ -63,6 +64,7 @@ export class MarketplaceComponent implements OnInit {
         } else {
           this.viewCard = operation.viewCard;
           this.viewEdicola = operation.viewEdicola;
+          this.viewPack = operation.viewPack;
         }
     }
   }
@@ -118,6 +120,10 @@ export class MarketplaceComponent implements OnInit {
         );
       }
     })
+  }
+
+  setViewPack(viewPack: boolean) {
+    this.viewPack = viewPack;
   }
 
   showCard(card:Card) {

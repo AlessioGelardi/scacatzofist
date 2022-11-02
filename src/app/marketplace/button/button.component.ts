@@ -12,6 +12,7 @@ export class MarketplaceButtonComponent implements OnInit {
 
   @Input() viewCard: boolean = false;
   @Input() viewEdicola: boolean = false;
+  @Input() viewPack: boolean = false;
 
   @Output() buttonOperation: EventEmitter<any> = new EventEmitter();
 
@@ -23,6 +24,8 @@ export class MarketplaceButtonComponent implements OnInit {
   back() {
     if(this.viewCard) {
       this.buttonOperation.emit({"viewCard":false});
+    } else if (this.viewPack) {
+      this.buttonOperation.emit({"viewCard":false,"viewEdicola":true, "viewPack":false});
     } else if (this.viewEdicola) {
       this.buttonOperation.emit({"viewCard":false,"viewEdicola":false});
     } else {

@@ -1,5 +1,5 @@
 <div *ngIf="!finishPurchase">
-    <div class="row mt-4" *ngIf="!viewPack">
+    <div class="row" *ngIf="!viewPack">
         <div class="col-12 d-flex justify-content-center">
             <h3>BENVENUTO IN EDICOLA</h3>
         </div>
@@ -7,8 +7,18 @@
             <label>Acquista il pack che preferisci</label>
         </div>
     </div>
-
     <div class="row mt-5">
+        <div *ngIf="!viewPack" class="d-flex justify-content-around mt-3">
+            <button type="button" class="col-3 btn btn-lg rounded-pill grigino" (click)="setTypePack(1)">MOSTRO</button>
+            <button type="button" class="col-3 btn btn-lg rounded-pill grigino" (click)="setTypePack(2)">MAGIA</button>
+            <button type="button" class="col-3 btn btn-lg rounded-pill grigino" (click)="setTypePack(3)">TRAPPOLA</button>
+        </div>
+        <div *ngIf="viewPack">
+            <marketplace-viewpack [typePack]="typePack"></marketplace-viewpack>
+        </div>
+    </div>
+
+    <!-- <div class="row mt-4">  da modificare 
         <div class="col-4" *ngIf="!viewPack || (typePack===0||typePack===1)">
             <h5>MOSTRO</h5>
             <img src="assets/pack.png" class="pack" (click)="setTypePack(1)" />
@@ -35,7 +45,7 @@
                 <button class="btn btn-lg rounded sfondino" (click)="acquista(15)">15</button>
             </div>
         </div>
-    </div>
+    </div>-->
 </div>
 
 <div class="mt-4" *ngIf="finishPurchase">
@@ -44,7 +54,7 @@
             <img src="assets/pack.png" class="pack mb-3" (click)="show(pack)" />
         </div>
         <div>
-            <marketplace-viewpack [cards]="viewCards"></marketplace-viewpack>
+            <marketplace-openingpack [cards]="viewCards"></marketplace-openingpack>
         </div>
     </div>
 </div>

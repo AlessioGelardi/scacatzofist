@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { throws } from 'assert';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Card, Pack } from 'src/app/interface/card';
 import { HttpPlayer } from 'src/app/services/httpPlayer';
@@ -11,9 +12,11 @@ import Swal, { SweetAlertIcon } from 'sweetalert2';
 })
 export class MarketPlaceEdicolaComponent implements OnInit {
 
+  @Input() viewPack: boolean = false;
+  @Output() buttonTypePack: EventEmitter<boolean> = new EventEmitter();
+
   typePack:number = 0;
   namePack:string | undefined;
-  viewPack:boolean = false;
 
   finishPurchase: boolean = false;
   newPacks: Pack[] = []
@@ -28,6 +31,7 @@ export class MarketPlaceEdicolaComponent implements OnInit {
 
   setTypePack(typePack:number) {
     this.viewPack = !this.viewPack;
+    this.buttonTypePack.emit(this.viewPack)
     this.typePack = typePack;
     switch(typePack){
       case 1:

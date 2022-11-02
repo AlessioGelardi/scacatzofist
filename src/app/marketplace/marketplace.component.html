@@ -3,7 +3,7 @@
         <app-player-status [player]="player" *ngIf="!viewCard"></app-player-status>
         
         <div class="row">
-            <marketplace-button [viewCard]="viewCard" [viewEdicola]="viewEdicola" (buttonOperation)="buttonOperationHandler($event)"></marketplace-button>
+            <marketplace-button [viewCard]="viewCard" [viewEdicola]="viewEdicola" [viewPack]="viewPack" (buttonOperation)="buttonOperationHandler($event)"></marketplace-button>
         </div>
 
         <div class="row pt-3">
@@ -34,7 +34,7 @@
                 </tbody>
             </table>
         
-            <marketplace-edicola *ngIf="viewEdicola"></marketplace-edicola>
+            <marketplace-edicola [viewPack]="viewPack" (buttonTypePack)="setViewPack($event)" *ngIf="viewEdicola"></marketplace-edicola>
         </div>
 
     </div>
