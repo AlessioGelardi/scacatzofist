@@ -74,6 +74,14 @@ export class HttpPlayer {
         return this.http.get<SellCard[]>(this.apiUrlMarket);
     }
 
+    getMarketPlaceById(playerId:string) {
+        return this.http.get<SellCard[]>(this.apiUrlMarket+'?id='+playerId);
+    }
+
+    deleteSellCard(sellCardId:string) {
+        return this.http.delete<SellCard[]>(this.apiUrlMarket+'?id='+sellCardId);
+    }
+
     acquistaCard(idMarket:string, playerIdAcquista:string, sellCard:SellCard) {
         let acquisto:any = {};
         acquisto.card = {}

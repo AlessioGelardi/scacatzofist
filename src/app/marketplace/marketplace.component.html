@@ -3,11 +3,11 @@
         <app-player-status [player]="player" *ngIf="!viewCard"></app-player-status>
         
         <div class="row">
-            <marketplace-button [viewCard]="viewCard" [viewEdicola]="viewEdicola" [viewPack]="viewPack" (buttonOperation)="buttonOperationHandler($event)"></marketplace-button>
+            <marketplace-button [viewCard]="viewCard" [viewEdicola]="viewEdicola" [viewPack]="viewPack" [viewHistory]="viewHistory" (buttonOperation)="buttonOperationHandler($event)"></marketplace-button>
         </div>
 
         <div class="row pt-3">
-            <marketplace-vendita *ngIf="viewCard" [playerId]="player?._id!" (showCard)="showCard($event)" (sellCard)="sellCard($event)"></marketplace-vendita>
+            <marketplace-vendita *ngIf="viewCard" [history]="history" [viewHistory]="viewHistory" [playerId]="player?._id!" (showCard)="showCard($event)" (sellCard)="sellCard($event)"></marketplace-vendita>
 
             <table class="table table-hover mt-3 text-center" *ngIf="!viewCard && !viewEdicola">
                 <thead>

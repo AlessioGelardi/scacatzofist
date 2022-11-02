@@ -16,10 +16,12 @@ export class MarketplaceComponent implements OnInit {
   player:Player | undefined;
 
   marketPlace: SellCard[] = [];
+  history: SellCard[] = [];
 
   viewCard: boolean = false;
   viewEdicola: boolean = false;
   viewPack:boolean=false;
+  viewHistory:boolean=false;
 
   constructor(private route: ActivatedRoute,private httpPlayerService: HttpPlayer,private spinnerService: NgxSpinnerService, private router: Router) { }
 
@@ -41,20 +43,7 @@ export class MarketplaceComponent implements OnInit {
       }
     });
 
-    this.httpPlayerService.getMarketplace().subscribe({
-      next: (result:SellCard[]) => {
-        this.marketPlace = result;
-      }, // completeHandler
-      error: (error: any) => {
-        this.spinnerService.hide();
-        if(error.status===402) {
-          this.swalAlert('Attenzione!','Nessuna carta in vendita al momento','info');
-        }
-      },
-      complete: () => {
-        this.spinnerService.hide();
-      }
-    });
+    this.getMarketPlace()
   }
 
   buttonOperationHandler(operation: any) {
@@ -65,6 +54,15 @@ export class MarketplaceComponent implements OnInit {
           this.viewCard = operation.viewCard;
           this.viewEdicola = operation.viewEdicola;
           this.viewPack = operation.viewPack;
+          this.viewHistory = operation.viewHistory;
+        }
+
+        if(!this.viewCard && !this.viewEdicola) {
+          this.getMarketPlace()
+        }
+
+        if(this.viewCard && this.viewHistory) {
+          this.takeHistory(this.player?._id!);
         }
     }
   }
@@ -140,6 +138,49 @@ export class MarketplaceComponent implements OnInit {
   private swalAlert(title: string, message: string, icon?: SweetAlertIcon) {
     this.spinnerService.hide();
     Swal.fire(title, message, icon).then((result) => { })
+  }
+
+  private getMarketPlace() {
+    this.spinnerService.show();
+    this.httpPlayerService.getMarketplace().subscribe({
+      next: (result:SellCard[]) => {
+        this.marketPlace = result;
+      }, // completeHandler
+      error: (error: any) => {
+        this.spinnerService.hide();
+        if(error.status===402) {
+          this.swalAlert('Attenzione!','Nessuna carta in vendita al momento','info');
+        }
+      },
+      complete: () => {
+        this.spinnerService.hide();
+      }
+    });
+  }
+
+  private async takeHistory(playerId: string) {
+    this.spinnerService.show();
+    await new Promise<void>((resolve, reject) => {
+      setTimeout(() => {
+          this.httpPlayerService.getMarketPlaceById(playerId).subscribe({
+            next: (result: SellCard[]) => {
+              if (result) {
+                this.history = result;
+              }
+            },
+            error: (error: any) => {
+              this.spinnerService.hide();
+              if (error.status === 402) {
+                this.swalAlert('Attenzione!', 'non ho trovato nulla con questo id, probabilmente è presente un problema con il market', 'error');
+              }
+            },
+            complete: () => {
+              this.spinnerService.hide();
+            }
+          });
+          resolve()
+      }, 10);
+    });
   }
 
 }

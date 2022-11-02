@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Card } from 'src/app/interface/card';
+import { Card, SellCard } from 'src/app/interface/card';
 import { HttpPlayer } from 'src/app/services/httpPlayer';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
 
@@ -13,11 +13,13 @@ export class MarketPlaceVenditaComponent implements OnInit {
 
   @Input() playerId: string | undefined;
 
+  @Input() viewHistory: boolean = false;
+  @Input() history: SellCard[] = [];
+
   @Output() showCard: EventEmitter<Card> = new EventEmitter();
   @Output() sellCard: EventEmitter<Card> = new EventEmitter();
 
   zaino: Card[]=[];
-
   viewFilter = false;
   filterName:string | undefined;
   flagFilterGO = false;
@@ -43,6 +45,20 @@ export class MarketPlaceVenditaComponent implements OnInit {
     this.showCard.emit(card);
   }
 
+  deleteSell(idSellCard:string) {
+    this.spinnerService.show()
+    this.httpPlayerService.deleteSellCard(idSellCard).subscribe(
+      resultService => {
+        this.spinnerService.hide();
+        if(resultService) {
+          this.swalAlert('Fatto!','Vendita eliminata con successo!','success');
+        }
+        else
+          this.swalAlert('Errore','Qualcosa è andato storto durante la cancellazione della vendita','error');
+      }
+    );
+  }
+
   private async takeZaino(playerId: string) {
     await new Promise<void>((resolve, reject) => {
       setTimeout(() => {
@@ -66,6 +82,7 @@ export class MarketPlaceVenditaComponent implements OnInit {
       }, 10);
     });
   }
+  
 
   private swalAlert(title: string, message: string, icon?: SweetAlertIcon) {
     this.spinnerService.hide();
