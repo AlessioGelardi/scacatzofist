@@ -18,6 +18,7 @@
         <thead>
             <tr>
                 <th scope="col">&nbsp;</th>
+                <th scope="col" *ngIf="viewHistory">Costo</th>
                 <th scope="col">Nome</th>
                 <th scope="col">ATK</th>
                 <th scope="col">DEF</th>
@@ -36,8 +37,9 @@
         <tbody *ngIf="viewHistory">
             <tr *ngFor="let sc of history">
                 <td>
-                    <button type="button" class="btn btn-outline-dark btn-sm" (click)="deleteSell(sc.id)"><i class="fa fa-dollar"></i></button>
+                    <button type="button" class="btn btn-outline-dark btn-sm" (click)="deleteSell(sc.id)"><i class="fa fa-trash"></i></button>
                 </td>
+                <td>{{sc.prezzo}}</td>
                 <td class="text-truncate" (click)="show(sc.card)">{{sc.card.name}}</td>
                 <td>{{sc.card.atk}}</td>
                 <td>{{sc.card.def}}</td>

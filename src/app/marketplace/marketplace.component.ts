@@ -94,6 +94,21 @@ export class MarketplaceComponent implements OnInit {
     })
   }
 
+  deleteSellCard(idSellCard:string) {
+    this.spinnerService.show()
+    this.httpPlayerService.deleteSellCard(idSellCard).subscribe(
+      resultService => {
+        this.spinnerService.hide();
+        if(resultService) {
+          this.swalAlert('Fatto!','Vendita eliminata con successo!','success');
+          this.takeHistory(this.player?._id!);
+        }
+        else
+          this.swalAlert('Errore','Qualcosa è andato storto durante la cancellazione della vendita','error');
+      }
+    );
+  }
+
   compraCard(sellCard:SellCard) {
     Swal.fire({
       title: sellCard.card.name,

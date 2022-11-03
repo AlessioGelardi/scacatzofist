@@ -7,7 +7,14 @@
         </div>
 
         <div class="row pt-3">
-            <marketplace-vendita *ngIf="viewCard" [history]="history" [viewHistory]="viewHistory" [playerId]="player?._id!" (showCard)="showCard($event)" (sellCard)="sellCard($event)"></marketplace-vendita>
+            <marketplace-vendita *ngIf="viewCard"
+            [history]="history"
+            [viewHistory]="viewHistory"
+            [playerId]="player?._id!"
+            (showCard)="showCard($event)"
+            (sellCard)="sellCard($event)"
+            (deleteCard)="deleteSellCard($event)"
+            ></marketplace-vendita>
 
             <table class="table table-hover mt-3 text-center" *ngIf="!viewCard && !viewEdicola">
                 <thead>
@@ -29,7 +36,7 @@
                         <td class="text-truncate" (click)="showCard(sc.card)">{{sc.card.name}}</td>
                         <td>{{sc.card.atk}}</td>
                         <td>{{sc.card.def}}</td>
-                        <td>{{sc.playerId}}</td>
+                        <td>{{sc.playerName}}</td>
                     </tr>
                 </tbody>
             </table>

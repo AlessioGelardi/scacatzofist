@@ -27,4 +27,5 @@ export interface SellCard {
     card: Card,
     prezzo?: string;
     playerId?: string;
+    playerName?: string;
 }

@@ -18,6 +18,7 @@ export class MarketPlaceVenditaComponent implements OnInit {
 
   @Output() showCard: EventEmitter<Card> = new EventEmitter();
   @Output() sellCard: EventEmitter<Card> = new EventEmitter();
+  @Output() deleteCard: EventEmitter<string> = new EventEmitter();
 
   zaino: Card[]=[];
   viewFilter = false;
@@ -46,17 +47,7 @@ export class MarketPlaceVenditaComponent implements OnInit {
   }
 
   deleteSell(idSellCard:string) {
-    this.spinnerService.show()
-    this.httpPlayerService.deleteSellCard(idSellCard).subscribe(
-      resultService => {
-        this.spinnerService.hide();
-        if(resultService) {
-          this.swalAlert('Fatto!','Vendita eliminata con successo!','success');
-        }
-        else
-          this.swalAlert('Errore','Qualcosa è andato storto durante la cancellazione della vendita','error');
-      }
-    );
+    this.deleteCard.emit(idSellCard);
   }
 
   private async takeZaino(playerId: string) {
