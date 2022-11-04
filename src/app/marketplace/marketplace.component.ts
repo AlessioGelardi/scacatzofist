@@ -25,6 +25,7 @@ export class MarketplaceComponent implements OnInit {
   viewEdicola: boolean = false;
   viewPack:boolean=false;
   viewHistory:boolean=false;
+  finishPurchase:boolean=false;
 
   @ViewChild(MarketplaceButtonComponent) button:MarketplaceButtonComponent | undefined;
 
@@ -62,6 +63,7 @@ export class MarketplaceComponent implements OnInit {
           this.viewEdicola = operation.viewEdicola;
           this.viewPack = operation.viewPack;
           this.viewHistory = operation.viewHistory;
+          this.finishPurchase = operation.finishPurchase;
         }
 
         if(!this.viewCard && !this.viewEdicola) {
@@ -150,6 +152,10 @@ export class MarketplaceComponent implements OnInit {
 
   setViewPack(viewPack: boolean) {
     this.viewPack = viewPack;
+  }
+
+  setFinishPurchase(finishPurchase:boolean) {
+    this.finishPurchase = finishPurchase;
   }
 
   showCard(card:Card) {

@@ -13,12 +13,13 @@ import Swal, { SweetAlertIcon } from 'sweetalert2';
 export class MarketPlaceEdicolaComponent implements OnInit {
 
   @Input() viewPack: boolean = false;
+  @Input() finishPurchase: boolean = false;
   @Output() buttonTypePack: EventEmitter<boolean> = new EventEmitter();
+  @Output() buttonFinishP: EventEmitter<boolean> = new EventEmitter();
 
   typePack:number = 0;
   namePack:string | undefined;
 
-  finishPurchase: boolean = false;
   newPacks: Pack[] = []
   quantityPack: number[] = [];
   viewCards: Card[] = []
@@ -80,6 +81,7 @@ export class MarketPlaceEdicolaComponent implements OnInit {
               next: (result:Pack[]) => {
                 this.swalAlert('Fatto!','Acquistato!','success');
                 this.finishPurchase = true;
+                this.buttonFinishP.emit(this.finishPurchase)
                 this.newPacks = result;
               }, // completeHandler
               error: (error: any) => {
