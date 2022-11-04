@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'marketplace-viewpack',
@@ -7,11 +7,17 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class MarketPlaceViewpackComponent implements OnInit {
 
-  @Input() typePack:number=0;
+  @Input() namePack:string | undefined;
+
+  @Output() buttonOperation: EventEmitter<number> = new EventEmitter();
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  acquista(taglia:number) {
+    this.buttonOperation.emit(taglia);
   }
 
 }

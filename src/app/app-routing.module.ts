@@ -6,9 +6,10 @@ import { LoginComponent } from './login/login.component';
 import { MarketplaceComponent } from './marketplace/marketplace.component';
 
 const routes: Routes = [
+  { path: '', component: LoginComponent},
   { path:'home', component: HomeComponent},
   { path:'deckedit', component: DeckComponent },
-  { path: '', component: MarketplaceComponent}
+  { path: 'marketplace', component: MarketplaceComponent}
 ];
 
 @NgModule({

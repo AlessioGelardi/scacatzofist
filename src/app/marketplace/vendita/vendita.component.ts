@@ -10,28 +10,22 @@ import Swal, { SweetAlertIcon } from 'sweetalert2';
   styleUrls: ['./vendita.component.css']
 })
 export class MarketPlaceVenditaComponent implements OnInit {
-
-  @Input() playerId: string | undefined;
-
   @Input() viewHistory: boolean = false;
   @Input() history: SellCard[] = [];
+
+  @Input() zaino: Card[]=[];
 
   @Output() showCard: EventEmitter<Card> = new EventEmitter();
   @Output() sellCard: EventEmitter<Card> = new EventEmitter();
   @Output() deleteCard: EventEmitter<string> = new EventEmitter();
-
-  zaino: Card[]=[];
+  
   viewFilter = false;
   filterName:string | undefined;
   flagFilterGO = false;
 
-  constructor(private spinnerService: NgxSpinnerService,private httpPlayerService: HttpPlayer) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.spinnerService.show();
-    if(this.playerId) {
-      this.takeZaino(this.playerId);
-    }
   }
 
   doFilter() {
@@ -48,36 +42,6 @@ export class MarketPlaceVenditaComponent implements OnInit {
 
   deleteSell(idSellCard:string) {
     this.deleteCard.emit(idSellCard);
-  }
-
-  private async takeZaino(playerId: string) {
-    await new Promise<void>((resolve, reject) => {
-      setTimeout(() => {
-          this.httpPlayerService.getZainoById(playerId).subscribe({
-            next: (result: Card[]) => {
-              if (result) {
-                this.zaino = result;
-              }
-            },
-            error: (error: any) => {
-              this.spinnerService.hide();
-              if (error.status === 402) {
-                this.swalAlert('Attenzione!', 'non ho trovato nulla con questo id, probabilmente è presente un problema con lo zaino', 'error');
-              }
-            },
-            complete: () => {
-              this.spinnerService.hide();
-            }
-          });
-          resolve()
-      }, 10);
-    });
-  }
-  
-
-  private swalAlert(title: string, message: string, icon?: SweetAlertIcon) {
-    this.spinnerService.hide();
-    Swal.fire(title, message, icon).then((result) => { })
   }
 
 }

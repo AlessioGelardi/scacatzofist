@@ -1,1 +1,14 @@
-<label>ViewPack</label>
+<div class="col">
+    <div class="d-flex justify-content-center">
+        <h5>HAI SCELTO IL PACK {{namePack}}</h5>
+    </div>
+    <div class="col-12 d-flex justify-content-center">
+        <label>Scegli la taglia</label>
+    </div>
+    <div class="d-flex justify-content-around mt-3">
+        <button class="btn btn-lg rounded sfondino" (click)="acquista(3)">3</button>
+        <button class="btn btn-lg rounded sfondino" (click)="acquista(7)">7</button>
+        <button class="btn btn-lg rounded sfondino" (click)="acquista(12)">12</button>
+        <button class="btn btn-lg rounded sfondino" (click)="acquista(15)">15</button>
+    </div>
+</div>

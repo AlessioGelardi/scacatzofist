@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
 import { Card, SellCard } from '../interface/card';
 import { Player } from '../interface/player';
 import { HttpPlayer } from '../services/httpPlayer';
+import { MarketplaceButtonComponent } from './button/button.component';
 
 @Component({
   selector: 'app-marketplace',
@@ -18,17 +19,21 @@ export class MarketplaceComponent implements OnInit {
   marketPlace: SellCard[] = [];
   history: SellCard[] = [];
 
+  zaino: Card[] = []
+
   viewCard: boolean = false;
   viewEdicola: boolean = false;
   viewPack:boolean=false;
   viewHistory:boolean=false;
 
+  @ViewChild(MarketplaceButtonComponent) button:MarketplaceButtonComponent | undefined;
+
   constructor(private route: ActivatedRoute,private httpPlayerService: HttpPlayer,private spinnerService: NgxSpinnerService, private router: Router) { }
 
   ngOnInit(): void {
-    //const playerId = this.route.snapshot.paramMap.get('id')
+    const playerId = "63459b3a4b4c877f5a46f43e"; //this.route.snapshot.paramMap.get('id')
     this.spinnerService.show();
-    this.httpPlayerService.getPlayer("63459b3a4b4c877f5a46f43e").subscribe({
+    this.httpPlayerService.getPlayer(playerId).subscribe({
       next: (result:Player) => {
         this.player = result;
       }, // completeHandler
@@ -42,6 +47,8 @@ export class MarketplaceComponent implements OnInit {
         this.spinnerService.hide();
       }
     });
+
+    this.takeZaino(playerId);
 
     this.getMarketPlace()
   }
@@ -80,16 +87,22 @@ export class MarketplaceComponent implements OnInit {
       showLoaderOnConfirm: true
     }).then((result) => {
       if (result.isConfirmed) {
-        this.httpPlayerService.venditaCard(this.player?._id!,card.id,result.value).subscribe(
-          resultService => {
+        this.spinnerService.show();
+        this.httpPlayerService.venditaCard(this.player?._id!,card.id,result.value).subscribe({
+          next: () => {
+            this.button?.back()
+            this.swalAlert('Fatto!','Vendita creata con successo!','success');
+          }, // completeHandler
+          error: (error: any) => {
             this.spinnerService.hide();
-            if(resultService) {
-              this.swalAlert('Fatto!','Vendita creata con successo!','success');
+            if(error.status===403) {
+              this.swalAlert('Attenzione!','Carta presente nel deck ---> '+error.error,'error');
             }
-            else
-              this.swalAlert('Errore','Qualcosa è andato storto durante la creazione della vendita','error');
+          },
+          complete: () => {
+            this.spinnerService.hide();
           }
-        );
+        });
       }
     })
   }
@@ -173,6 +186,31 @@ export class MarketplaceComponent implements OnInit {
     });
   }
 
+  private async takeZaino(playerId: string) {
+    this.spinnerService.show();
+    await new Promise<void>((resolve, reject) => {
+      setTimeout(() => {
+          this.httpPlayerService.getZainoById(playerId).subscribe({
+            next: (result: Card[]) => {
+              if (result) {
+                this.zaino = result;
+              }
+            },
+            error: (error: any) => {
+              this.spinnerService.hide();
+              if (error.status === 402) {
+                this.swalAlert('Attenzione!', 'non ho trovato nulla con questo id, probabilmente è presente un problema con lo zaino', 'error');
+              }
+            },
+            complete: () => {
+              this.spinnerService.hide();
+            }
+          });
+          resolve()
+      }, 10);
+    });
+  }
+
   private async takeHistory(playerId: string) {
     this.spinnerService.show();
     await new Promise<void>((resolve, reject) => {
@@ -186,7 +224,8 @@ export class MarketplaceComponent implements OnInit {
             error: (error: any) => {
               this.spinnerService.hide();
               if (error.status === 402) {
-                this.swalAlert('Attenzione!', 'non ho trovato nulla con questo id, probabilmente è presente un problema con il market', 'error');
+                this.history = [];
+                this.swalAlert('Attenzione!','Nessuna carta in vendita al momento','info');
               }
             },
             complete: () => {
