@@ -37,7 +37,7 @@
         <tbody *ngIf="viewHistory">
             <tr *ngFor="let sc of history">
                 <td>
-                    <button type="button" class="btn btn-outline-dark btn-sm" (click)="deleteSell(sc.id)"><i class="fa fa-trash"></i></button>
+                    <button type="button" class="btn btn-outline-dark btn-sm" (click)="deleteSell(sc.id,sc.card.id)"><i class="fa fa-trash"></i></button>
                 </td>
                 <td>{{sc.prezzo}}</td>
                 <td class="text-truncate" (click)="show(sc.card)">{{sc.card.name}}</td>

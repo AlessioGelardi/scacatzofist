@@ -17,7 +17,7 @@ export class MarketPlaceVenditaComponent implements OnInit {
 
   @Output() showCard: EventEmitter<Card> = new EventEmitter();
   @Output() sellCard: EventEmitter<Card> = new EventEmitter();
-  @Output() deleteCard: EventEmitter<string> = new EventEmitter();
+  @Output() deleteCard: EventEmitter<any> = new EventEmitter();
   
   viewFilter = false;
   filterName:string | undefined;
@@ -40,8 +40,8 @@ export class MarketPlaceVenditaComponent implements OnInit {
     this.showCard.emit(card);
   }
 
-  deleteSell(idSellCard:string) {
-    this.deleteCard.emit(idSellCard);
+  deleteSell(idSellCard:string, cardId:string) {
+    this.deleteCard.emit({'id':idSellCard,'cardId':cardId});
   }
 
 }

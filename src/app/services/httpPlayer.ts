@@ -78,11 +78,11 @@ export class HttpPlayer {
         return this.http.get<SellCard[]>(this.apiUrlMarket+'?id='+playerId);
     }
 
-    deleteSellCard(sellCardId:string) {
-        return this.http.delete<SellCard[]>(this.apiUrlMarket+'?id='+sellCardId);
+    deleteSellCard(sellCardId:string, cardId: string, playerId:string) {
+        return this.http.delete<SellCard[]>(this.apiUrlMarket+'?id='+sellCardId+';'+cardId+';'+playerId);
     }
 
-    acquistaCard(idMarket:string, playerIdAcquista:string, sellCard:SellCard) {
+    acquistaCard(sellCard:SellCard, playerIdAcquista:string) {
         let acquisto:any = {};
         acquisto.card = {}
         acquisto.card.playerId = sellCard.playerId;
@@ -98,14 +98,16 @@ export class HttpPlayer {
 
         acquisto.dataUpdate = dd + '/' + mm + '/' + yyyy
 
-        return this.http.put<boolean>(this.apiUrlMarket+'?id='+idMarket,acquisto,this.generateOptions());
+        return this.http.put<boolean>(this.apiUrlMarket+'?id='+sellCard.id,acquisto,this.generateOptions());
     }
 
-    acquistaPacchetti(typePack:number,taglia:number, quantity:number) {
+    acquistaPacchetti(playerId:string, typePack:number,taglia:number, quantity:number, prezzo:number) {
         let pack:any = {};
         pack.type = typePack;
         pack.taglia = taglia;
         pack.quantity = quantity;
+        pack.prezzo = prezzo;
+        pack.playerId = playerId;
         return this.http.put<Pack[]>(this.apiUrlEdicola,pack,this.generateOptions());
     }
 

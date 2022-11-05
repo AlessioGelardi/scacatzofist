@@ -49,6 +49,7 @@
             </table>
         
             <marketplace-edicola *ngIf="viewEdicola"
+                [playerId]="player?._id!"
                 [viewPack]="viewPack"
                 [finishPurchase]="finishPurchase"
                 (buttonFinishP)="setFinishPurchase($event)"

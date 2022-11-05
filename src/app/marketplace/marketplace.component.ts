@@ -33,24 +33,9 @@ export class MarketplaceComponent implements OnInit {
 
   ngOnInit(): void {
     const playerId = "63459b3a4b4c877f5a46f43e"; //this.route.snapshot.paramMap.get('id')
-    this.spinnerService.show();
-    this.httpPlayerService.getPlayer(playerId).subscribe({
-      next: (result:Player) => {
-        this.player = result;
-      }, // completeHandler
-      error: (error: any) => {
-        this.spinnerService.hide();
-        if(error.status===402) {
-          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
-        }
-      },
-      complete: () => {
-        this.spinnerService.hide();
-      }
-    });
 
+    this.takePlayer(playerId);
     this.takeZaino(playerId);
-
     this.getMarketPlace()
   }
 
@@ -94,6 +79,7 @@ export class MarketplaceComponent implements OnInit {
           next: () => {
             this.button?.back()
             this.swalAlert('Fatto!','Vendita creata con successo!','success');
+            this.takeZaino(this.player?._id!);
           }, // completeHandler
           error: (error: any) => {
             this.spinnerService.hide();
@@ -109,14 +95,17 @@ export class MarketplaceComponent implements OnInit {
     })
   }
 
-  deleteSellCard(idSellCard:string) {
+  deleteSellCard(sellCard:any) {
+    const idSellCard = sellCard.id;
+    const cardId = sellCard.cardId;
     this.spinnerService.show()
-    this.httpPlayerService.deleteSellCard(idSellCard).subscribe(
+    this.httpPlayerService.deleteSellCard(idSellCard, cardId, this.player?._id!).subscribe(
       resultService => {
         this.spinnerService.hide();
         if(resultService) {
           this.swalAlert('Fatto!','Vendita eliminata con successo!','success');
           this.takeHistory(this.player?._id!);
+          this.takeZaino(this.player?._id!);
         }
         else
           this.swalAlert('Errore','Qualcosa è andato storto durante la cancellazione della vendita','error');
@@ -129,18 +118,20 @@ export class MarketplaceComponent implements OnInit {
       title: sellCard.card.name,
       color: '#3e3d3c',
       background: '#cdcccc',
-      html: '<label style="font-size:14px"> Sei sicur* di acquistare '+sellCard.card.name+' a '+sellCard.prezzo+' coin ?</label>',
+      html: '<label style="font-size:14px"> Sei sicur* di acquistare '+sellCard.card.name+' a <b>'+sellCard.prezzo+'</b> coin ?</label>',
       imageUrl: 'https://storage.googleapis.com/ygoprodeck.com/pics/'+sellCard.card.id+'.jpg',
       imageWidth: 160,
       showCancelButton: true,
       confirmButtonText: 'Acquista'
     }).then((result) => {
       if(result.isConfirmed) {
-        this.httpPlayerService.acquistaCard(sellCard.id,this.player?._id!,sellCard).subscribe(
+        this.httpPlayerService.acquistaCard(sellCard,this.player?._id!).subscribe(
           resultService => {
             this.spinnerService.hide();
             if(resultService) {
               this.swalAlert('Fatto!','Acquistato!','success');
+              this.takePlayer(this.player?._id!);
+              this.getMarketPlace();
             }
             else
               this.swalAlert('Errore','Qualcosa è andato storto durante acquisto della carta','error');
@@ -156,6 +147,7 @@ export class MarketplaceComponent implements OnInit {
 
   setFinishPurchase(finishPurchase:boolean) {
     this.finishPurchase = finishPurchase;
+    this.takePlayer(this.player?._id!);
   }
 
   showCard(card:Card) {
@@ -184,6 +176,24 @@ export class MarketplaceComponent implements OnInit {
         this.spinnerService.hide();
         if(error.status===402) {
           this.swalAlert('Attenzione!','Nessuna carta in vendita al momento','info');
+        }
+      },
+      complete: () => {
+        this.spinnerService.hide();
+      }
+    });
+  }
+
+  private takePlayer(playerId: string) {
+    this.spinnerService.show();
+    this.httpPlayerService.getPlayer(playerId).subscribe({
+      next: (result:Player) => {
+        this.player = result;
+      }, // completeHandler
+      error: (error: any) => {
+        this.spinnerService.hide();
+        if(error.status===402) {
+          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
         }
       },
       complete: () => {

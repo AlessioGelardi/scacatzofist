@@ -12,6 +12,7 @@ import Swal, { SweetAlertIcon } from 'sweetalert2';
 })
 export class MarketPlaceEdicolaComponent implements OnInit {
 
+  @Input() playerId:string | undefined;
   @Input() viewPack: boolean = false;
   @Input() finishPurchase: boolean = false;
   @Output() buttonTypePack: EventEmitter<boolean> = new EventEmitter();
@@ -61,23 +62,24 @@ export class MarketPlaceEdicolaComponent implements OnInit {
         confirmButtonText: 'Acquista'
       }).then((result) => {
         if (result.isConfirmed) {
-          
-          let realConfirm:boolean = false;
+
+          const myBudget = 3000;
+          let prezzo = -1;
           switch(this.typePack) {
             case 1: //monster
-              realConfirm = this.checkBudget(taglia,5,result.value);
+              prezzo = this.calculatePrezzo(taglia,5,result.value);
               break;
             case 2: //magic
-              realConfirm = this.checkBudget(taglia,15,result.value);
+              prezzo = this.calculatePrezzo(taglia,5,result.value);
               break;
             case 3: //trap
-              realConfirm = this.checkBudget(taglia,15,result.value);
+              prezzo = this.calculatePrezzo(taglia,5,result.value);
               break;
           }
 
-          if(realConfirm) {
+          if(this.checkBudget(myBudget, prezzo)) {
             this.spinnerService.show();
-            this.httpPlayerService.acquistaPacchetti(this.typePack,taglia,result.value).subscribe({
+            this.httpPlayerService.acquistaPacchetti(this.playerId!,this.typePack,taglia,result.value,prezzo).subscribe({
               next: (result:Pack[]) => {
                 this.swalAlert('Fatto!','Acquistato!','success');
                 this.finishPurchase = true;
@@ -108,25 +110,27 @@ export class MarketPlaceEdicolaComponent implements OnInit {
     this.viewCards = pack.cards;
   }
 
-  private checkBudget(taglia:number, baseCost:number, quantity:number):boolean {
-    const myBudget = 3000;
-    let cost = (taglia*baseCost)
-    let rest = -1;
+  private calculatePrezzo(taglia:number, baseCost:number, quantity:number):number {
+    let cost = taglia*baseCost;
     switch(taglia) {
       case 3:
-        rest = (myBudget - (cost*quantity))
+        cost = cost*quantity;
         break;
       case 7:
-        rest = (myBudget - ((cost-baseCost)*quantity))
+        cost = (cost-baseCost)*quantity;
         break;
       case 12:
-        rest = (myBudget - ((cost-(baseCost*2))*quantity))
+        cost = (cost-(baseCost*2))*quantity;
         break;
       case 15:
-        rest = (myBudget - ((cost-(baseCost*3))*quantity))
+        cost = (cost-(baseCost*3))*quantity;
         break;
     }
-    return rest>0;
+    return cost;
+  }
+
+  private checkBudget(budget:number, prezzo:number):boolean {
+    return budget-prezzo>0;
   }
 
   private swalAlert(title: string, message: string, icon?: SweetAlertIcon) {
