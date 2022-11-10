@@ -93,7 +93,7 @@ export class DeckEditComponent implements OnInit {
     color: '#3e3d3c',
     background: '#cdcccc',
     html: '<label style="font-size:14px">'+card.description+'</label>',
-    imageUrl: 'https://storage.googleapis.com/ygoprodeck.com/pics/'+card.id+'.jpg',
+    imageUrl: 'https://images.ygoprodeck.com/images/cards/'+card.id+'.jpg',
     imageWidth: 160
     })
   }

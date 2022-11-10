@@ -127,7 +127,7 @@ export class MarketplaceComponent implements OnInit {
       color: '#3e3d3c',
       background: '#cdcccc',
       html: '<label style="font-size:14px"> Sei sicur* di acquistare '+sellCard.card.name+' a <b>'+sellCard.prezzo+'</b> coin ?</label>',
-      imageUrl: 'https://storage.googleapis.com/ygoprodeck.com/pics/'+sellCard.card.id+'.jpg',
+      imageUrl: 'https://images.ygoprodeck.com/images/cards/'+sellCard.card.id+'.jpg',
       imageWidth: 160,
       showCancelButton: true,
       confirmButtonText: 'Acquista'
@@ -166,7 +166,7 @@ export class MarketplaceComponent implements OnInit {
     color: '#3e3d3c',
     background: '#cdcccc',
     html: '<label style="font-size:14px">'+card.description+'</label>',
-    imageUrl: 'https://storage.googleapis.com/ygoprodeck.com/pics/'+card.id+'.jpg',
+    imageUrl: 'https://images.ygoprodeck.com/images/cards/'+card.id+'.jpg',
     imageWidth: 160
     })
   }
