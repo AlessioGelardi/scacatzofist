@@ -1,7 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { HttpPlayer } from 'src/app/services/httpPlayer';
-import Swal, { SweetAlertIcon } from 'sweetalert2';
 
 @Component({
   selector: 'marketplace-button',
@@ -18,7 +15,7 @@ export class MarketplaceButtonComponent implements OnInit {
 
   @Output() buttonOperation: EventEmitter<any> = new EventEmitter();
 
-  constructor(private spinnerService: NgxSpinnerService) { }
+  constructor() { }
 
   ngOnInit(): void {
   }
@@ -46,15 +43,13 @@ export class MarketplaceButtonComponent implements OnInit {
 
   history() {
     this.buttonOperation.emit({"viewCard":true,"viewHistory":true})
-    //this.swalAlert('In progress...','Questa funzionalità è ancora in sviluppo... mi dispiace','info');
   }
 
   edicola() {
     this.buttonOperation.emit({"viewCard":false,"viewEdicola":true});
   }
 
-  private swalAlert(title: string, message: string, icon?: SweetAlertIcon) {
-    this.spinnerService.hide();
-    Swal.fire(title, message, icon).then((result) => { })
+  homeMarket() {
+    this.buttonOperation.emit({"homeMarket":true});
   }
 }

@@ -18,6 +18,7 @@ export class HttpPlayer {
     apiUrlZainoById: string = environment.baseUrlLogin + "zainoById";
 
     apiUrlMarket: string = environment.baseUrlLogin + "marketplace";
+    marketplaceById: string = environment.baseUrlLogin + "marketplaceById";
 
     apiUrlEdicola: string = environment.baseUrlLogin + "edicola";
 
@@ -75,7 +76,7 @@ export class HttpPlayer {
     }
 
     getMarketPlaceById(playerId:string) {
-        return this.http.get<SellCard[]>(this.apiUrlMarket+'?id='+playerId);
+        return this.http.get<SellCard[]>(this.marketplaceById+'?id='+playerId);
     }
 
     deleteSellCard(sellCardId:string, cardId: string, playerId:string) {

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { throws } from 'assert';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Card, Pack } from 'src/app/interface/card';
+import { Card, Pack, SellCard } from 'src/app/interface/card';
 import { HttpPlayer } from 'src/app/services/httpPlayer';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
 
@@ -20,6 +20,7 @@ export class MarketPlaceEdicolaComponent implements OnInit {
 
   typePack:number = 0;
   namePack:string | undefined;
+  packs: any[] = [];
 
   newPacks: Pack[] = []
   quantityPack: number[] = [];
@@ -36,14 +37,40 @@ export class MarketPlaceEdicolaComponent implements OnInit {
     this.buttonTypePack.emit(this.viewPack)
     this.typePack = typePack;
     switch(typePack){
-      case 1:
+      case 1: //TO-DO
         this.namePack = "MOSTRO";
+        this.packs = [{ 
+          "name": "TRAPPOLA NORMALE",
+          "prezzoBase": 5,
+          "visible":true
+        }, {
+          "name": "TRAPPOLA CONTINUA",
+          "prezzoBase": 15,
+          "visible":true
+        }, {
+          "name": "TRAPPOLA CONTRO",
+          "prezzoBase": 15,
+          "visible":false
+        }]
         break;
-      case 2:
+      case 2: //TO-DO
         this.namePack = "MAGIA";
         break;
       case 3:
-        this.namePack = "TRAPPOLA";
+        //this.namePack = "TRAPPOLA";
+        this.packs = [{ 
+          "name": "TRAPPOLA NORMALE",
+          "prezzoBase": 5,
+          "visible":true
+        }, {
+          "name": "TRAPPOLA CONTINUA",
+          "prezzoBase": 15,
+          "visible":true
+        }, {
+          "name": "TRAPPOLA CONTRO",
+          "prezzoBase": 15,
+          "visible":false
+        }]
         break;
     }
   }

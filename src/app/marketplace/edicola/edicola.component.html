@@ -14,7 +14,7 @@
             <button type="button" class="col-3 btn btn-lg rounded-pill grigino" (click)="setTypePack(3)">TRAPPOLA</button>
         </div>
         <div *ngIf="viewPack">
-            <marketplace-viewpack [namePack]="namePack" (buttonOperation)="acquista($event)"></marketplace-viewpack>
+            <marketplace-viewpack [packs]="packs" (buttonOperation)="acquista($event)"></marketplace-viewpack>
         </div>
     </div>
 </div>

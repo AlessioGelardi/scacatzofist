@@ -32,7 +32,7 @@ export class MarketplaceComponent implements OnInit {
   constructor(private route: ActivatedRoute,private httpPlayerService: HttpPlayer,private spinnerService: NgxSpinnerService, private router: Router) { }
 
   ngOnInit(): void {
-    const playerId = "63459b3a4b4c877f5a46f43e"; //this.route.snapshot.paramMap.get('id')
+    const playerId = this.route.snapshot.paramMap.get('id')!;
 
     this.takePlayer(playerId);
     this.takeZaino(playerId);
@@ -44,11 +44,19 @@ export class MarketplaceComponent implements OnInit {
         if(operation.backToHome) {
           this.router.navigate(['/home',{id:this.player?._id!}]);
         } else {
-          this.viewCard = operation.viewCard;
-          this.viewEdicola = operation.viewEdicola;
-          this.viewPack = operation.viewPack;
-          this.viewHistory = operation.viewHistory;
-          this.finishPurchase = operation.finishPurchase;
+          if(operation.homeMarket) {
+            this.viewCard = false;
+            this.viewEdicola = false;
+            this.viewPack = false;
+            this.viewHistory = false;
+            this.finishPurchase = false;
+          } else {
+            this.viewCard = operation.viewCard;
+            this.viewEdicola = operation.viewEdicola;
+            this.viewPack = operation.viewPack;
+            this.viewHistory = operation.viewHistory;
+            this.finishPurchase = operation.finishPurchase;
+          }
         }
 
         if(!this.viewCard && !this.viewEdicola) {
@@ -131,6 +139,7 @@ export class MarketplaceComponent implements OnInit {
             if(resultService) {
               this.swalAlert('Fatto!','Acquistato!','success');
               this.takePlayer(this.player?._id!);
+              this.takeZaino(this.player?._id!);
               this.getMarketPlace();
             }
             else
@@ -148,6 +157,7 @@ export class MarketplaceComponent implements OnInit {
   setFinishPurchase(finishPurchase:boolean) {
     this.finishPurchase = finishPurchase;
     this.takePlayer(this.player?._id!);
+    this.takeZaino(this.player?._id!);
   }
 
   showCard(card:Card) {

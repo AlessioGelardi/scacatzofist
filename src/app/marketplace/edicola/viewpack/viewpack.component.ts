@@ -7,13 +7,21 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class MarketPlaceViewpackComponent implements OnInit {
 
-  @Input() namePack:string | undefined;
+  @Input() packs:any[] = [];
 
   @Output() buttonOperation: EventEmitter<number> = new EventEmitter();
+
+  viewPrice: boolean = false;
+  namePack:string | undefined;
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  show(pack:any) {
+    this.viewPrice = !this.viewPrice;
+    this.namePack = pack.name;
   }
 
   acquista(taglia:number) {

@@ -19,9 +19,9 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //const playerId = this.route.snapshot.paramMap.get('id')
+    const playerId = this.route.snapshot.paramMap.get('id')
     this.spinnerService.show();
-    this.httpPlayerService.getPlayer("63459b3a4b4c877f5a46f43e").subscribe({
+    this.httpPlayerService.getPlayer(playerId!).subscribe({
       next: (result:Player) => {
         this.player = result;
       }, // completeHandler
