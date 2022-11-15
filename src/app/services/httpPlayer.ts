@@ -102,13 +102,14 @@ export class HttpPlayer {
         return this.http.put<boolean>(this.apiUrlMarket+'?id='+sellCard.id,acquisto,this.generateOptions());
     }
 
-    acquistaPacchetti(playerId:string, typePack:number,taglia:number, quantity:number, prezzo:number) {
+    acquistaPacchetti(playerId:string, typePack:number,taglia:number, quantity:number, prezzo:number, monster:boolean) {
         let pack:any = {};
         pack.type = typePack;
         pack.taglia = taglia;
         pack.quantity = quantity;
         pack.prezzo = prezzo;
         pack.playerId = playerId;
+        pack.monster = monster;
         return this.http.put<Pack[]>(this.apiUrlEdicola,pack,this.generateOptions());
     }
 

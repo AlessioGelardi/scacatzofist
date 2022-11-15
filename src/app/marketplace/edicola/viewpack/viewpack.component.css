@@ -9,3 +9,21 @@
 .grigino {
     background-color: #8a8989;
 }
+
+label {
+    font-size: 18px;
+    font-style: oblique;
+    font-weight: bold;
+}
+
+.buttonSelect {
+    background-color: #cecdcb;
+    font-size: 22px;
+    font-style: oblique;
+    font-weight: bold;
+    padding: 15px 25px 15px 25px;
+}
+
+.buttonSelect:hover {
+    opacity: 0.7;
+}

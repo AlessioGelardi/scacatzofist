@@ -13,13 +13,13 @@ import Swal, { SweetAlertIcon } from 'sweetalert2';
 export class MarketPlaceEdicolaComponent implements OnInit {
 
   @Input() playerId:string | undefined;
+  @Input() playerBudget: number | undefined;
   @Input() viewPack: boolean = false;
   @Input() finishPurchase: boolean = false;
   @Output() buttonTypePack: EventEmitter<boolean> = new EventEmitter();
   @Output() buttonFinishP: EventEmitter<boolean> = new EventEmitter();
 
   typePack:number = 0;
-  namePack:string | undefined;
   packs: any[] = [];
 
   newPacks: Pack[] = []
@@ -38,45 +38,137 @@ export class MarketPlaceEdicolaComponent implements OnInit {
     this.typePack = typePack;
     switch(typePack){
       case 1: //TO-DO
-        this.namePack = "MOSTRO";
         this.packs = [{ 
-          "name": "TRAPPOLA NORMALE",
-          "prezzoBase": 5,
-          "visible":true
+          "name": "MOSTRO NORMALE Lv1-4",
+          "baseCost": 10,
+          "type": 17,
+          "src": "assets/pack/monster.png",
+          "monster": true
         }, {
-          "name": "TRAPPOLA CONTINUA",
-          "prezzoBase": 15,
-          "visible":true
+          "name": "MOSTRO CON EFFETTO Lv1-4",
+          "baseCost": 15,
+          "type": 33,
+          "src": "assets/pack/monsterEffect.png",
+          "monster": true
         }, {
-          "name": "TRAPPOLA CONTRO",
-          "prezzoBase": 15,
-          "visible":false
+          "name": "MOSTRO NORMALE Lv5-6",
+          "baseCost": 15,
+          "type": 17,
+          "src": "assets/pack/monster1.png",
+          "monster": true
+        }, {
+          "name": "MOSTRO CON EFFETTO Lv5-6",
+          "baseCost": 20,
+          "type": 33,
+          "src": "assets/pack/monster1Effect.png",
+          "monster": true
+        }, {
+          "name": "MOSTRO NORMALE Lv7-9",
+          "baseCost": 25,
+          "type": 17,
+          "src": "assets/pack/monster2.png",
+          "monster": true
+        }, {
+          "name": "MOSTRO CON EFFETTO Lv7-9",
+          "baseCost": 30,
+          "type": 33,
+          "src": "assets/pack/monster2Effect.png",
+          "monster": true
+        }, {
+          "name": "MOSTRO CON EFFETTO Lv10+",
+          "baseCost": 35,
+          "type": 33,
+          "src": "assets/pack/monster3.png",
+          "monster": true
+        }, {
+          "name": "MOSTRO FUSIONE",
+          "baseCost": 50,
+          "type": 97,
+          "src": "assets/pack/monsterFusion.png",
+          "monster": true
+        }, {
+          "name": "MOSTRO SYNCHRO",
+          "baseCost": 50,
+          "type": 8225,
+          "src": "assets/pack/monsterSynchro.png",
+          "monster": true
+        }, {
+          "name": "MOSTRO XYZ",
+          "baseCost": 55,
+          "type": 8388641,
+          "src": "assets/pack/monsterXYZ.png",
+          "monster": true
         }]
         break;
-      case 2: //TO-DO
-        this.namePack = "MAGIA";
+      case 2:
+        this.packs = [{ 
+          "name": "MAGIA NORMALE",
+          "baseCost": 5,
+          "src": "assets/pack/magic.png",
+          "type": 2,
+          "monster": false
+        }, {
+          "name": "MAGIA RAPIDA",
+          "baseCost": 15,
+          "src": "assets/pack/magicFast.png",
+          "type": 65538,
+          "monster": false
+        }, {
+          "name": "MAGIA CONTINUA",
+          "baseCost": 15,
+          "src": "assets/pack/magicContinua.png",
+          "type": 131074,
+          "monster": false
+        }, {
+          "name": "MAGIA RITUALE",
+          "baseCost": 10,
+          "src": "assets/pack/magicRituale.png",
+          "type": 130,
+          "monster": false
+        }, {
+          "name": "MAGIA EQUIPAGGIAMENTO",
+          "baseCost": 15,
+          "src": "assets/pack/magicEquip.png",
+          "type": 262146,
+          "monster": false
+        }, {
+          "name": "MAGIA TERRENO",
+          "baseCost": 10,
+          "src": "assets/pack/magicTerreno.png",
+          "type": 524290,
+          "monster": false
+        }]
         break;
       case 3:
-        //this.namePack = "TRAPPOLA";
         this.packs = [{ 
           "name": "TRAPPOLA NORMALE",
-          "prezzoBase": 5,
-          "visible":true
+          "baseCost": 5,
+          "src": "assets/pack/trap.png",
+          "type": 4,
+          "monster": false
         }, {
           "name": "TRAPPOLA CONTINUA",
-          "prezzoBase": 15,
-          "visible":true
+          "baseCost": 15,
+          "src": "assets/pack/trapContinua.png",
+          "type": 131076,
+          "monster": false
         }, {
           "name": "TRAPPOLA CONTRO",
-          "prezzoBase": 15,
-          "visible":false
+          "baseCost": 15,
+          "src": "assets/pack/trapContro.png",
+          "type": 1048580,
+          "monster": false
         }]
         break;
     }
   }
 
-  acquista(taglia:number) {
-    if(this.typePack!==0 && taglia!==0) {
+  acquista(objectAcquista:any) {
+    let taglia = objectAcquista.taglia;
+    let baseCost = objectAcquista.baseCost;
+    let typePack = objectAcquista.typePack;
+    let monster = objectAcquista.monster;
+    if(typePack !== 0 && taglia !== 0 && baseCost !== 0) {
 
       Swal.fire({
         title: 'Acquista il tuo pack',
@@ -90,23 +182,11 @@ export class MarketPlaceEdicolaComponent implements OnInit {
       }).then((result) => {
         if (result.isConfirmed) {
 
-          const myBudget = 3000;
-          let prezzo = -1;
-          switch(this.typePack) {
-            case 1: //monster
-              prezzo = this.calculatePrezzo(taglia,5,result.value);
-              break;
-            case 2: //magic
-              prezzo = this.calculatePrezzo(taglia,5,result.value);
-              break;
-            case 3: //trap
-              prezzo = this.calculatePrezzo(taglia,5,result.value);
-              break;
-          }
+          let prezzo = this.calculatePrezzo(taglia,baseCost,result.value);
 
-          if(this.checkBudget(myBudget, prezzo)) {
+          if(this.playerBudget!-prezzo>=0) {
             this.spinnerService.show();
-            this.httpPlayerService.acquistaPacchetti(this.playerId!,this.typePack,taglia,result.value,prezzo).subscribe({
+            this.httpPlayerService.acquistaPacchetti(this.playerId!,typePack,taglia,result.value,prezzo,monster).subscribe({
               next: (result:Pack[]) => {
                 this.swalAlert('Fatto!','Acquistato!','success');
                 this.finishPurchase = true;
@@ -124,7 +204,7 @@ export class MarketPlaceEdicolaComponent implements OnInit {
               }
             });
           } else {
-            this.swalAlert('Attenzione!','Il tuo budget non può sostenere questa spesa','error');
+            this.swalAlert('Budget non sufficente!','Il prezzo del pack è '+prezzo,'error');
           }
         }
       })
@@ -154,10 +234,6 @@ export class MarketPlaceEdicolaComponent implements OnInit {
         break;
     }
     return cost;
-  }
-
-  private checkBudget(budget:number, prezzo:number):boolean {
-    return budget-prezzo>0;
   }
 
   private swalAlert(title: string, message: string, icon?: SweetAlertIcon) {

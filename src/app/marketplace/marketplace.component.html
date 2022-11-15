@@ -50,6 +50,7 @@
         
             <marketplace-edicola *ngIf="viewEdicola"
                 [playerId]="player?._id!"
+                [playerBudget]="player?.credits"
                 [viewPack]="viewPack"
                 [finishPurchase]="finishPurchase"
                 (buttonFinishP)="setFinishPurchase($event)"

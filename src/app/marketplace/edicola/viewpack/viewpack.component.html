@@ -1,26 +1,39 @@
-<div class="row mt-4">
-    <div class="col d-flex justify-content-around" *ngIf="!viewPrice">
-        <div *ngFor="let pack of packs">
-            <img src="assets/pack.png" class="pack mb-3" (click)="show(pack)">
+<div class="col-11 d-flex justify-content-around text-center" *ngIf="!viewPrice">
+    <div class="row">
+        <div *ngFor="let pack of packs" class="col-3">
+            <div class="row">
+                <label>{{pack.baseCost}} <i class="fa fa-diamond"></i> </label>
+            </div>
+        
+            <div class="row">
+                <img src="{{pack.src}}" class="pack mb-3" (click)="show(pack)">
+            </div>
         </div>
     </div>
+</div>
 
-
+<div class="row mt-4">
     <div class="col-4" *ngIf="viewPrice">
-        <img src="assets/pack.png" class="pack mb-3" (click)="show(null)">
+        <img src="{{selectPack.src}}" class="pack mb-3" (click)="show(null)">
     </div>
     <div class="col-8" *ngIf="viewPrice">
         <div class="d-flex justify-content-center">
-            <h5>HAI SCELTO IL PACK {{namePack}}</h5>
+            <h5>HAI SCELTO IL PACK {{selectPack.name}}</h5>
         </div>
         <div class="col-12 d-flex justify-content-center">
             <label>Scegli la taglia</label>
         </div>
         <div class="d-flex justify-content-around mt-3">
-            <button class="btn btn-lg rounded sfondino" (click)="acquista(3)">3</button>
-            <button class="btn btn-lg rounded sfondino" (click)="acquista(7)">7</button>
-            <button class="btn btn-lg rounded sfondino" (click)="acquista(12)">12</button>
-            <button class="btn btn-lg rounded sfondino" (click)="acquista(15)">15</button>
+            <label>{{calculatePrezzo(3,selectPack.baseCost)}} <i class="fa fa-diamond"></i></label>
+            <label>{{calculatePrezzo(7,selectPack.baseCost)}} <i class="fa fa-diamond"></i></label>
+            <label>{{calculatePrezzo(12,selectPack.baseCost)}} <i class="fa fa-diamond"></i></label>
+            <label>{{calculatePrezzo(15,selectPack.baseCost)}} <i class="fa fa-diamond"></i></label>
+        </div>
+        <div class="d-flex justify-content-around mt-3">
+            <button class="btn btn-lg rounded buttonSelect" (click)="acquista(3,selectPack.baseCost,selectPack.type,selectPack.monster)">3</button>
+            <button class="btn btn-lg rounded buttonSelect" (click)="acquista(7,selectPack.baseCost,selectPack.type,selectPack.monster)">7</button>
+            <button class="btn btn-lg rounded buttonSelect" (click)="acquista(12,selectPack.baseCost,selectPack.type,selectPack.monster)">12</button>
+            <button class="btn btn-lg rounded buttonSelect" (click)="acquista(15,selectPack.baseCost,selectPack.type,selectPack.monster)">15</button>
         </div>
     </div>
 </div>

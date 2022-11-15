@@ -9,10 +9,10 @@ export class MarketPlaceViewpackComponent implements OnInit {
 
   @Input() packs:any[] = [];
 
-  @Output() buttonOperation: EventEmitter<number> = new EventEmitter();
+  @Output() buttonOperation: EventEmitter<any> = new EventEmitter();
 
   viewPrice: boolean = false;
-  namePack:string | undefined;
+  selectPack: any | undefined;
 
   constructor() { }
 
@@ -21,11 +21,30 @@ export class MarketPlaceViewpackComponent implements OnInit {
 
   show(pack:any) {
     this.viewPrice = !this.viewPrice;
-    this.namePack = pack.name;
+    this.selectPack = pack;
   }
 
-  acquista(taglia:number) {
-    this.buttonOperation.emit(taglia);
+  acquista(taglia:number, baseCost:number, type:number, monster:boolean) {
+    this.buttonOperation.emit({"taglia":taglia,"baseCost":baseCost, "typePack":type, "monster":monster});
+  }
+
+  calculatePrezzo(taglia:number, baseCost:number):number {
+    let cost = taglia*baseCost;
+    switch(taglia) {
+      case 3:
+        cost = cost;
+        break;
+      case 7:
+        cost = (cost-baseCost);
+        break;
+      case 12:
+        cost = (cost-(baseCost*2));
+        break;
+      case 15:
+        cost = (cost-(baseCost*3));
+        break;
+    }
+    return cost;
   }
 
 }
