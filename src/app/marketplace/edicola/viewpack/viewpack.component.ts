@@ -24,8 +24,8 @@ export class MarketPlaceViewpackComponent implements OnInit {
     this.selectPack = pack;
   }
 
-  acquista(taglia:number, baseCost:number, type:number, monster:boolean) {
-    this.buttonOperation.emit({"taglia":taglia,"baseCost":baseCost, "typePack":type, "monster":monster});
+  acquista(taglia:number, baseCost:number, type:number, monster:boolean, level:number) {
+    this.buttonOperation.emit({"taglia":taglia,"baseCost":baseCost, "typePack":type, "monster":monster, "level":level});
   }
 
   calculatePrezzo(taglia:number, baseCost:number):number {

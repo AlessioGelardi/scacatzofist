@@ -102,9 +102,10 @@ export class HttpPlayer {
         return this.http.put<boolean>(this.apiUrlMarket+'?id='+sellCard.id,acquisto,this.generateOptions());
     }
 
-    acquistaPacchetti(playerId:string, typePack:number,taglia:number, quantity:number, prezzo:number, monster:boolean) {
+    acquistaPacchetti(playerId:string, level:number, typePack:number,taglia:number, quantity:number, prezzo:number, monster:boolean) {
         let pack:any = {};
         pack.type = typePack;
+        pack.level = level;
         pack.taglia = taglia;
         pack.quantity = quantity;
         pack.prezzo = prezzo;

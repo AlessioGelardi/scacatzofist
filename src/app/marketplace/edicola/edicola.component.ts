@@ -41,61 +41,74 @@ export class MarketPlaceEdicolaComponent implements OnInit {
         this.packs = [{ 
           "name": "MOSTRO NORMALE Lv1-4",
           "baseCost": 10,
-          "type": 17,
+          "level": [1,2,3,4],
+          "type": [17,16401,20497,4113],
           "src": "assets/pack/monster.png",
           "monster": true
         }, {
           "name": "MOSTRO CON EFFETTO Lv1-4",
           "baseCost": 15,
-          "type": 33,
+          "level": [1,2,3,4],
+          "type": [33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561],
           "src": "assets/pack/monsterEffect.png",
           "monster": true
         }, {
           "name": "MOSTRO NORMALE Lv5-6",
           "baseCost": 15,
-          "type": 17,
+          "level": [5,6],
+          "type": [17,16401,20497,4113],
           "src": "assets/pack/monster1.png",
           "monster": true
         }, {
           "name": "MOSTRO CON EFFETTO Lv5-6",
           "baseCost": 20,
-          "type": 33,
+          "level": [5,6],
+          "type": [33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561],
           "src": "assets/pack/monster1Effect.png",
           "monster": true
         }, {
           "name": "MOSTRO NORMALE Lv7-9",
           "baseCost": 25,
-          "type": 17,
+          "level": [7,9],
+          "type": [17,16401,20497,4113],
           "src": "assets/pack/monster2.png",
           "monster": true
         }, {
           "name": "MOSTRO CON EFFETTO Lv7-9",
           "baseCost": 30,
-          "type": 33,
+          "level": [7,9],
+          "type": [33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561],
           "src": "assets/pack/monster2Effect.png",
           "monster": true
         }, {
           "name": "MOSTRO CON EFFETTO Lv10+",
           "baseCost": 35,
-          "type": 33,
+          "level": [10],
+          "type": [33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561],
           "src": "assets/pack/monster3.png",
           "monster": true
         }, {
+          "name": "MOSTRO RITUALE",
+          "baseCost": 45,
+          "type": [129,161,673,2097313, 4257],
+          "src": "assets/pack/magicRituale.png",
+          "monster": true
+        },{
           "name": "MOSTRO FUSIONE",
           "baseCost": 50,
-          "type": 97,
+          "type": [97,65,4161,4193],
           "src": "assets/pack/monsterFusion.png",
           "monster": true
         }, {
           "name": "MOSTRO SYNCHRO",
           "baseCost": 50,
-          "type": 8225,
+          "type": [8225,12321,8193],
           "src": "assets/pack/monsterSynchro.png",
           "monster": true
         }, {
           "name": "MOSTRO XYZ",
           "baseCost": 55,
-          "type": 8388641,
+          "type": [8388641,8388609],
           "src": "assets/pack/monsterXYZ.png",
           "monster": true
         }]
@@ -167,6 +180,7 @@ export class MarketPlaceEdicolaComponent implements OnInit {
     let taglia = objectAcquista.taglia;
     let baseCost = objectAcquista.baseCost;
     let typePack = objectAcquista.typePack;
+    let level = objectAcquista.level;
     let monster = objectAcquista.monster;
     if(typePack !== 0 && taglia !== 0 && baseCost !== 0) {
 
@@ -186,7 +200,7 @@ export class MarketPlaceEdicolaComponent implements OnInit {
 
           if(this.playerBudget!-prezzo>=0) {
             this.spinnerService.show();
-            this.httpPlayerService.acquistaPacchetti(this.playerId!,typePack,taglia,result.value,prezzo,monster).subscribe({
+            this.httpPlayerService.acquistaPacchetti(this.playerId!,level, typePack,taglia,result.value,prezzo,monster).subscribe({
               next: (result:Pack[]) => {
                 this.swalAlert('Fatto!','Acquistato!','success');
                 this.finishPurchase = true;
