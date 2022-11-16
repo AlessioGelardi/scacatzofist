@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 export class AppComponent {
 
   isLogged = false;
+  id:string | undefined;
 
   constructor(private router: Router) {
 
@@ -17,7 +18,12 @@ export class AppComponent {
   login(id: string) {
     if(id) {
       this.isLogged = true;
+      this.id = id;
       this.router.navigate(['/home',{id:id}]);
     }
+  }
+
+  turnHome() {
+    this.router.navigate(['/home',{id:this.id}]);
   }
 }

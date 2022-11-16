@@ -13,9 +13,19 @@ import { DeckListComponent } from './deck/edit/list/list.component';
 import { DeckButtonComponent } from './deck/button/button.component';
 import { FilterZainoPipe } from './deck/edit/filter-zaino.pipe';
 
+import { MarketplaceComponent } from './marketplace/marketplace.component';
+import { MarketplaceButtonComponent } from './marketplace/button/button.component';
+
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { HomeComponent } from './home/home.component';
+import { PlayerStatusComponent } from './player-status/player-status.component';
+import { MarketPlaceVenditaComponent } from './marketplace/vendita/vendita.component';
+import { MarketPlaceEdicolaComponent } from './marketplace/edicola/edicola.component';
+import { MarketPlaceViewpackComponent } from './marketplace/edicola/viewpack/viewpack.component';
+import { MarketPlaceOpeningpackComponent } from './marketplace/edicola/openingpack/openingpack.component';
+import { AutofocusDirective } from './autofocus.directive';
+
 
 @NgModule({
   declarations: [
@@ -27,7 +37,15 @@ import { HomeComponent } from './home/home.component';
     DeckDetailComponent,
     DeckListComponent,
     DeckButtonComponent,
-    FilterZainoPipe
+    FilterZainoPipe,
+    PlayerStatusComponent,
+    MarketplaceComponent,
+    MarketplaceButtonComponent,
+    MarketPlaceVenditaComponent,
+    MarketPlaceEdicolaComponent,
+    MarketPlaceViewpackComponent,
+    MarketPlaceOpeningpackComponent,
+    AutofocusDirective
   ],
   imports: [
     BrowserModule,

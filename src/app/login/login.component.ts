@@ -199,7 +199,7 @@ export class LoginComponent implements OnInit {
     this.svuotaForm();
   }
 
-  private getIPAddress() {
+  private getIPAddress() { //TO_DO
     this.http.get("http://api.ipify.org/?format=json").subscribe((res:any)=>{
       this.ipAddress = res.ip;
     });

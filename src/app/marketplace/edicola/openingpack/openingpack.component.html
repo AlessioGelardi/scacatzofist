@@ -1,0 +1,12 @@
+<div class="row mt-4">
+    <div *ngFor="let card of cards" class="col">
+        <div class="deckcard mb-4" (click)="cardClicked(card)" [@cardFlip]="card.state">
+            <div class="face back">
+                <img class="deckcard back" src="https://images.ygoprodeck.com/images/cards/back_high.jpg">
+            </div>
+            <div class="face front">
+                <img class="deckcard front" [src]="'https://images.ygoprodeck.com/images/cards/'+card?.id+'.jpg'">
+            </div>
+        </div>
+    </div> 
+</div>

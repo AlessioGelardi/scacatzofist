@@ -5,6 +5,6 @@ export interface Player {
     email: string;
     domanda: string;
     risposta: string;
-    coin: string;
-    credits: string;
+    coin: number;
+    credits: number;
 }

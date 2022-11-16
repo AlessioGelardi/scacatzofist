@@ -6,6 +6,11 @@ export interface Card {
     level: number;
     atk: number;
     def: number;
+    state?: string;
+}
+
+export interface Pack {
+    cards: Card[];
 }
 
 export interface Deck {
@@ -15,4 +20,12 @@ export interface Deck {
     main: Card[],
     extra: Card[],
     side: Card[]
+}
+
+export interface SellCard {
+    id: string,
+    card: Card,
+    prezzo?: string;
+    playerId?: string;
+    playerName?: string;
 }

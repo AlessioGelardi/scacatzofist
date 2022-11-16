@@ -28,7 +28,6 @@ export class HomeComponent implements OnInit {
       error: (error: any) => {
         this.spinnerService.hide();
         if(error.status===402) {
-          //devi far comparire la possibilita di registrarsi.
           this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
         }
       },
@@ -43,7 +42,7 @@ export class HomeComponent implements OnInit {
   }
 
   marketPlace() {
-    this.swalAlert('In progress...','Questa funzionalità è ancora in sviluppo... mi dispiace','info');
+    this.router.navigate(['/marketplace',{id:this.player?._id}]);
   }
 
   giocaAdesso() {

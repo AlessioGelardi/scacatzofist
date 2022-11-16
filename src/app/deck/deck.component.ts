@@ -73,9 +73,6 @@ export class DeckComponent implements OnInit {
         this.router.navigate(['/home',{id:this.playerId!}]);
       }
       else {
-        if(!this.modifyDeck) {
-          this.deckId = undefined;
-        }
         this.modifyDeckName = "";
       }
     }
