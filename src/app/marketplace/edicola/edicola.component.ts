@@ -204,6 +204,7 @@ export class MarketPlaceEdicolaComponent implements OnInit {
 
           if(this.playerBudget!-prezzo>=0) {
             this.spinnerService.show();
+            this.viewCards = [];
             this.httpPlayerService.acquistaPacchetti(this.playerId!,level, typePack,taglia,result.value,prezzo,monster).subscribe({
               next: (result:Pack[]) => {
                 this.swalAlert('Fatto!','Acquistato!','success');
