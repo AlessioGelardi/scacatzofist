@@ -92,7 +92,9 @@ export class MarketplaceComponent implements OnInit {
           error: (error: any) => {
             this.spinnerService.hide();
             if(error.status===403) {
-              this.swalAlert('Attenzione!','Carta presente nel deck ---> '+error.error,'error');
+              let msg = "";
+              error.error.forEach((z: any) => msg=z.name+" x"+z.count);
+              this.swalAlert('Attenzione!','Carta presente nel deck ---> '+msg,'error');
             }
           },
           complete: () => {
