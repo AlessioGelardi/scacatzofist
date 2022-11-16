@@ -90,24 +90,28 @@ export class MarketPlaceEdicolaComponent implements OnInit {
         }, {
           "name": "MOSTRO RITUALE",
           "baseCost": 45,
+          "level": [0],
           "type": [129,161,673,2097313, 4257],
           "src": "assets/pack/monsterRitual.png",
           "monster": true
         },{
           "name": "MOSTRO FUSIONE",
           "baseCost": 50,
+          "level": [0],
           "type": [97,65,4161,4193],
           "src": "assets/pack/monsterFusion.png",
           "monster": true
         }, {
           "name": "MOSTRO SYNCHRO",
           "baseCost": 50,
+          "level": [0],
           "type": [8225,12321,8193],
           "src": "assets/pack/monsterSynchro.png",
           "monster": true
         }, {
           "name": "MOSTRO XYZ",
           "baseCost": 55,
+          "level": [0],
           "type": [8388641,8388609],
           "src": "assets/pack/monsterXYZ.png",
           "monster": true
