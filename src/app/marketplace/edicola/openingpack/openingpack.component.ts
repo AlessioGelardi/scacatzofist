@@ -1,6 +1,7 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, Input, OnInit } from '@angular/core';
 import { Card } from 'src/app/interface/card';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'marketplace-openingpack',
@@ -35,6 +36,15 @@ export class MarketPlaceOpeningpackComponent implements OnInit {
   cardClicked(card:Card) {
     if (card.state === "default") {
       card.state = "flipped";
+    } else if(card.state === "flipped") {
+      Swal.fire({
+        title: card.name,
+        color: '#3e3d3c',
+        background: '#cdcccc',
+        html: '<label style="font-size:14px">'+card.description+'</label>',
+        imageUrl: 'https://images.ygoprodeck.com/images/cards/'+card.id+'.jpg',
+        imageWidth: 160
+        })
     } else {
       card.state = "default";
     }

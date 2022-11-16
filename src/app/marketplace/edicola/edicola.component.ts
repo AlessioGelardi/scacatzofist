@@ -37,7 +37,7 @@ export class MarketPlaceEdicolaComponent implements OnInit {
     this.buttonTypePack.emit(this.viewPack)
     this.typePack = typePack;
     switch(typePack){
-      case 1: //TO-DO
+      case 1:
         this.packs = [{ 
           "name": "MOSTRO NORMALE Lv1-4",
           "baseCost": 10,
@@ -49,7 +49,7 @@ export class MarketPlaceEdicolaComponent implements OnInit {
           "name": "MOSTRO CON EFFETTO Lv1-4",
           "baseCost": 15,
           "level": [1,2,3,4],
-          "type": [33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561],
+          "type": [33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561,2097185,2101281],
           "src": "assets/pack/monsterEffect.png",
           "monster": true
         }, {
@@ -63,7 +63,7 @@ export class MarketPlaceEdicolaComponent implements OnInit {
           "name": "MOSTRO CON EFFETTO Lv5-6",
           "baseCost": 20,
           "level": [5,6],
-          "type": [33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561],
+          "type": [33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561,2097185,2101281],
           "src": "assets/pack/monster1Effect.png",
           "monster": true
         }, {
@@ -77,14 +77,14 @@ export class MarketPlaceEdicolaComponent implements OnInit {
           "name": "MOSTRO CON EFFETTO Lv7-9",
           "baseCost": 30,
           "level": [7,9],
-          "type": [33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561],
+          "type": [33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561,2097185,2101281],
           "src": "assets/pack/monster2Effect.png",
           "monster": true
         }, {
           "name": "MOSTRO CON EFFETTO Lv10+",
           "baseCost": 35,
           "level": [10],
-          "type": [33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561],
+          "type": [33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561,2097185,2101281],
           "src": "assets/pack/monster3.png",
           "monster": true
         }, {
