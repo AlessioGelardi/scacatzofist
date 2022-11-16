@@ -1,8 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { NgxSpinnerService } from 'ngx-spinner';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Card, SellCard } from 'src/app/interface/card';
-import { HttpPlayer } from 'src/app/services/httpPlayer';
-import Swal, { SweetAlertIcon } from 'sweetalert2';
 
 @Component({
   selector: 'marketplace-vendita',

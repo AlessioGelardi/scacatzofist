@@ -91,7 +91,7 @@ export class MarketPlaceEdicolaComponent implements OnInit {
           "name": "MOSTRO RITUALE",
           "baseCost": 45,
           "type": [129,161,673,2097313, 4257],
-          "src": "assets/pack/magicRituale.png",
+          "src": "assets/pack/monsterRitual.png",
           "monster": true
         },{
           "name": "MOSTRO FUSIONE",

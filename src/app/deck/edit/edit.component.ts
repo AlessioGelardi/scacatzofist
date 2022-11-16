@@ -103,6 +103,7 @@ export class DeckEditComponent implements OnInit {
   }
 
   private async takeDeck(deckId: string) {
+    this.spinnerService.show();
     await new Promise<void>((resolve, reject) => {
       setTimeout(() => {
         this.httpPlayerService.getDeckById(deckId).subscribe({
@@ -128,6 +129,7 @@ export class DeckEditComponent implements OnInit {
   }
 
   private async takeZaino(playerId: string) {
+    this.spinnerService.show();
     await new Promise<void>((resolve, reject) => {
       setTimeout(() => {
           this.httpPlayerService.getZainoById(playerId).subscribe({

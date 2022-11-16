@@ -24,6 +24,7 @@ import { MarketPlaceVenditaComponent } from './marketplace/vendita/vendita.compo
 import { MarketPlaceEdicolaComponent } from './marketplace/edicola/edicola.component';
 import { MarketPlaceViewpackComponent } from './marketplace/edicola/viewpack/viewpack.component';
 import { MarketPlaceOpeningpackComponent } from './marketplace/edicola/openingpack/openingpack.component';
+import { AutofocusDirective } from './autofocus.directive';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import { MarketPlaceOpeningpackComponent } from './marketplace/edicola/openingpa
     MarketPlaceVenditaComponent,
     MarketPlaceEdicolaComponent,
     MarketPlaceViewpackComponent,
-    MarketPlaceOpeningpackComponent
+    MarketPlaceOpeningpackComponent,
+    AutofocusDirective
   ],
   imports: [
     BrowserModule,
