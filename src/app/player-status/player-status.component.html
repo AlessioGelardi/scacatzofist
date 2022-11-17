@@ -1,9 +1,15 @@
 <div class="row">
     <div class="card">
+        <div class="position-absolute top-50 start-0 translate-middle-y px-3">
+            <img src="assets/player/boy.png" style="max-width:50px"/>
+        </div>
         <div class="card-body d-flex justify-content-around">
             <p>{{player?.name}}</p>
             <p>{{player?.coin}} <i class="fa fa-database"></i></p>
             <p>{{player?.credits}} <i class="fa fa-diamond"></i></p>
+        </div>
+        <div class="position-absolute bottom-0 end-0 px-1" (click)="logout()">
+            <i class="fa fa-power-off" style="color:#df0032"></i>
         </div>
     </div>
 </div>
