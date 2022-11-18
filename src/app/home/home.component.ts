@@ -46,7 +46,7 @@ export class HomeComponent implements OnInit {
   }
 
   giocaAdesso() {
-    this.swalAlert('In progress...','Questa funzionalità è ancora in sviluppo... mi dispiace','info');
+    this.router.navigate(['/playnow',{id:this.player?._id}]);
   }
 
   private swalAlert(title: string, message: string, icon?: SweetAlertIcon) {
