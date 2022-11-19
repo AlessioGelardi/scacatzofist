@@ -13,6 +13,13 @@ import { HttpPlayer } from '../services/httpPlayer';
 export class PlaynowComponent implements OnInit {
 
   player:Player | undefined;
+  typeMod: number | undefined;
+
+  viewModalita:boolean = true;
+  
+  viewScontro:boolean = false;
+
+  viewReqs:boolean = false;
 
   constructor(private route: ActivatedRoute,private httpPlayerService: HttpPlayer,private spinnerService: NgxSpinnerService) { }
 
@@ -22,20 +29,40 @@ export class PlaynowComponent implements OnInit {
     this.takePlayer(playerId);
   }
 
+  buttonOperationHandler(operation: any) {
+    if(operation) {
+
+      if(operation.homePlaynow) {
+        this.viewModalita = true;
+        this.viewReqs = false;
+        this.viewScontro = false;
+      } else {
+        this.viewModalita = false;
+        this.viewReqs = operation.viewReqs ? operation.viewReqs:false;
+        this.viewScontro = operation.viewScontro ? operation.viewScontro:false;
+      }
+
+
+    }
+  }
+
   scontro() {
-    this.swalAlert('In progress...','Questa funzionalità è ancora in sviluppo... mi dispiace','info');
+    this.typeMod = 1;
+    this.viewScontro = !this.viewScontro;
+    this.viewModalita = !this.viewModalita
+    //this.swalAlert('In progress...',"Questa funzionalità è ancora in sviluppo... Ci dispiace per l'inconveniente torna più tardi !!! ",'info');
   }
 
   puntata() {
-    this.swalAlert('In progress...','Questa funzionalità è ancora in sviluppo... mi dispiace','info');
+    this.swalAlert('In progress...',"Questa funzionalità è ancora in sviluppo... Ci dispiace per l'inconveniente torna più tardi !!! ",'info');
   }
 
   cardbettle() {
-    this.swalAlert('In progress...','Questa funzionalità è ancora in sviluppo... mi dispiace','info');
+    this.swalAlert('In progress...',"Questa funzionalità è ancora in sviluppo... Ci dispiace per l'inconveniente torna più tardi !!! ",'info');
   }
 
   torneo() {
-    this.swalAlert('In progress...','Questa funzionalità è ancora in sviluppo... mi dispiace','info');
+    this.swalAlert('In progress...',"Questa funzionalità è ancora in sviluppo... Ci dispiace per l'inconveniente torna più tardi !!! ",'info');
   }
 
   private takePlayer(playerId: string) {

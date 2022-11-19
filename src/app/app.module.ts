@@ -26,6 +26,9 @@ import { MarketPlaceViewpackComponent } from './marketplace/edicola/viewpack/vie
 import { MarketPlaceOpeningpackComponent } from './marketplace/edicola/openingpack/openingpack.component';
 import { AutofocusDirective } from './autofocus.directive';
 import { PlaynowComponent } from './playnow/playnow.component';
+import { PlaynowButtonComponent } from './playnow/button/button.component';
+import { PlaynowScontroComponent } from './playnow/scontro/scontro.component';
+import { PlaynowReqsComponent } from './playnow/reqs/reqs.component';
 
 
 @NgModule({
@@ -47,7 +50,10 @@ import { PlaynowComponent } from './playnow/playnow.component';
     MarketPlaceViewpackComponent,
     MarketPlaceOpeningpackComponent,
     AutofocusDirective,
-    PlaynowComponent
+    PlaynowComponent,
+    PlaynowButtonComponent,
+    PlaynowScontroComponent,
+    PlaynowReqsComponent
   ],
   imports: [
     BrowserModule,

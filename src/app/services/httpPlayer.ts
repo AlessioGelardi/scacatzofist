@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { Player } from '../interface/player';
 import { Card, Deck, Pack, SellCard } from '../interface/card';
+import { Reqs } from '../interface/reqs';
 
 @Injectable({
 providedIn: 'root'
@@ -11,6 +12,7 @@ providedIn: 'root'
 
 export class HttpPlayer {
     apiUrlPlayer: string = environment.baseUrlLogin + "player";
+    apiUrlPlayers: string = environment.baseUrlLogin + "players";
     apiUrlDecksById: string = environment.baseUrlLogin + "decksById"; //idplayer
     apiUrlDeckById: string = environment.baseUrlLogin + "deckById";
     apiUrlDeck: string = environment.baseUrlLogin + "deck";
@@ -22,7 +24,14 @@ export class HttpPlayer {
 
     apiUrlEdicola: string = environment.baseUrlLogin + "edicola";
 
+
+    apiUrlPlaynow: string = environment.baseUrlLogin + "playnow";
+
     constructor(private http: HttpClient) {}
+
+    getPlayers(id:string){ //escludo id
+        return this.http.get<Player[]>(this.apiUrlPlayers+'?id='+id);
+    }
 
     getPlayer(id:string){
       return this.http.get<Player>(this.apiUrlPlayer+'?id='+id);
@@ -112,6 +121,15 @@ export class HttpPlayer {
         pack.playerId = playerId;
         pack.monster = monster;
         return this.http.put<Pack[]>(this.apiUrlEdicola,pack,this.generateOptions());
+    }
+
+    //Playnow
+    newRequest(request:any) {
+        return this.http.post<boolean>(this.apiUrlPlaynow,request,this.generateOptions());
+    }
+
+    getReqs(typeMod:number) {
+        return this.http.get<Reqs[]>(this.apiUrlPlaynow+'?typeMod='+typeMod);
     }
 
     private generateOptions() {
