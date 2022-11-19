@@ -1,1 +1,24 @@
-<p>reqs works!</p>
+<div>
+    <table class="table table-hover mt-2 text-center">
+        <thead>
+            <tr>
+                <th scope="col">Player Richiedente</th>
+                <th scope="col">Vincita Potenziale</th>
+                <th scope="col">Modalità</th>
+                <th scope="col">Status</th>
+                <th scope="col">&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let req of reqs">
+
+                <td>{{req.playerIdOppo}}</td>
+                <td>{{req.typeMod}}</td>
+                <td>{{req.typeMod}}</td>
+                <td>
+                    <button type="button" class="btn btn-outline-dark btn-sm" (click)="doDetail()"><i class="fa fa-trash"></i></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

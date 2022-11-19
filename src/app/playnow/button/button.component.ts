@@ -14,7 +14,7 @@ export class PlaynowButtonComponent implements OnInit {
 
   @Output() buttonOperation: EventEmitter<any> = new EventEmitter();
 
-  constructor(private spinnerService: NgxSpinnerService) { }
+  constructor() { }
 
   ngOnInit(): void {
   }
@@ -33,11 +33,6 @@ export class PlaynowButtonComponent implements OnInit {
 
   homePlaynow() {
     this.buttonOperation.emit({"homePlaynow":true});
-  }
-
-  private swalAlert(title: string, message: string, icon?: SweetAlertIcon) {
-    this.spinnerService.hide();
-    Swal.fire(title, message, icon).then((result) => { })
   }
 
 }
