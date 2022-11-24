@@ -3,6 +3,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
 import { Reqs } from '../interface/reqs';
 import { HttpPlayer } from '../services/httpPlayer';
+import { Status } from "../enum/status";
+import { TypeMod } from "../enum/typeMod";
 
 @Component({
   selector: 'app-notifier',
@@ -44,6 +46,14 @@ export class NotifierComponent implements OnInit {
         this.spinnerService.hide();
       }
     });
+  }
+
+  public get Status() {
+    return Status; 
+  }
+
+  public get TypeMod() {
+    return TypeMod; 
   }
 
   private swalAlert(title: string, message: string, icon?: SweetAlertIcon) {
