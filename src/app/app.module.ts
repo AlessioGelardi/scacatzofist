@@ -28,7 +28,7 @@ import { AutofocusDirective } from './autofocus.directive';
 import { PlaynowComponent } from './playnow/playnow.component';
 import { PlaynowButtonComponent } from './playnow/button/button.component';
 import { PlaynowScontroComponent } from './playnow/scontro/scontro.component';
-import { PlaynowReqsComponent } from './playnow/reqs/reqs.component';
+import { NotifierComponent } from './notifier/notifier.component';
 
 
 @NgModule({
@@ -53,7 +53,7 @@ import { PlaynowReqsComponent } from './playnow/reqs/reqs.component';
     PlaynowComponent,
     PlaynowButtonComponent,
     PlaynowScontroComponent,
-    PlaynowReqsComponent
+    NotifierComponent
   ],
   imports: [
     BrowserModule,

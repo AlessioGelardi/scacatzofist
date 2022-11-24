@@ -4,6 +4,7 @@ import { DeckComponent } from './deck/deck.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { MarketplaceComponent } from './marketplace/marketplace.component';
+import { NotifierComponent } from './notifier/notifier.component';
 import { PlaynowComponent } from './playnow/playnow.component';
 
 const routes: Routes = [
@@ -11,7 +12,8 @@ const routes: Routes = [
   { path:'home', component: HomeComponent},
   { path:'deckedit', component: DeckComponent },
   { path: 'marketplace', component: MarketplaceComponent},
-  { path: 'playnow', component: PlaynowComponent}
+  { path: 'playnow', component: PlaynowComponent},
+  { path: 'notifier', component: NotifierComponent}
 ];
 
 @NgModule({

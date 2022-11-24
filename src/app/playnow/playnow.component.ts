@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
 import { Player } from '../interface/player';
+import { PlayerStatusComponent } from '../player-status/player-status.component';
 import { HttpPlayer } from '../services/httpPlayer';
 
 @Component({
@@ -12,7 +13,10 @@ import { HttpPlayer } from '../services/httpPlayer';
 })
 export class PlaynowComponent implements OnInit {
 
+  @ViewChild(PlayerStatusComponent) mngPlayerCmpt:PlayerStatusComponent | undefined;
+
   player:Player | undefined;
+  numberNotify:number | undefined;
   typeMod: number | undefined;
 
   viewModalita:boolean = true;
@@ -21,28 +25,38 @@ export class PlaynowComponent implements OnInit {
 
   viewReqs:boolean = false;
 
-  constructor(private route: ActivatedRoute,private httpPlayerService: HttpPlayer,private spinnerService: NgxSpinnerService) { }
+  
+
+  constructor(private route: ActivatedRoute,private httpPlayerService: HttpPlayer,private spinnerService: NgxSpinnerService, private router: Router) { }
 
   ngOnInit(): void {
     const playerId = this.route.snapshot.paramMap.get('id')!;
 
     this.takePlayer(playerId);
+    this.takeNumberNotify(playerId);
   }
 
   buttonOperationHandler(operation: any) {
     if(operation) {
-
-      if(operation.homePlaynow) {
-        this.viewModalita = true;
-        this.viewReqs = false;
-        this.viewScontro = false;
+      if(operation.backToHome) {
+        this.router.navigate(['/home',{id:this.player?._id!}]);
       } else {
-        this.viewModalita = false;
-        this.viewReqs = operation.viewReqs ? operation.viewReqs:false;
-        this.viewScontro = operation.viewScontro ? operation.viewScontro:false;
+        if(operation.homePlaynow) {
+          this.viewModalita = true;
+          this.viewReqs = false;
+          this.viewScontro = false;
+        } else {
+          this.viewModalita = false;
+          this.viewReqs = operation.viewReqs ? operation.viewReqs:false;
+          this.viewScontro = operation.viewScontro ? operation.viewScontro:false;
+        }
       }
 
-
+      if(this.viewReqs) {
+        this.mngPlayerCmpt?.doNotify();
+      } else {
+        this.mngPlayerCmpt?.closeNotify();
+      }
     }
   }
 
@@ -50,7 +64,6 @@ export class PlaynowComponent implements OnInit {
     this.typeMod = 1;
     this.viewScontro = !this.viewScontro;
     this.viewModalita = !this.viewModalita
-    //this.swalAlert('In progress...',"Questa funzionalità è ancora in sviluppo... Ci dispiace per l'inconveniente torna più tardi !!! ",'info');
   }
 
   puntata() {
@@ -70,6 +83,26 @@ export class PlaynowComponent implements OnInit {
     this.httpPlayerService.getPlayer(playerId).subscribe({
       next: (result:Player) => {
         this.player = result;
+      }, // completeHandler
+      error: (error: any) => {
+        this.spinnerService.hide();
+        if(error.status===402) {
+          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+        }
+      },
+      complete: () => {
+        this.spinnerService.hide();
+      }
+    });
+  }
+
+  private takeNumberNotify(playerId: string) {
+    this.spinnerService.show();
+    this.httpPlayerService.getNumberNotify(playerId).subscribe({
+      next: (result) => {
+        if(result>0){
+          this.numberNotify = result;
+        }
       }, // completeHandler
       error: (error: any) => {
         this.spinnerService.hide();

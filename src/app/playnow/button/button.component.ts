@@ -22,8 +22,10 @@ export class PlaynowButtonComponent implements OnInit {
   back() {
     if(this.viewReqs) {
       this.buttonOperation.emit({"viewScontro":true});
-    } else {
+    } else if (this.viewScontro && !this.viewReqs) {
       this.buttonOperation.emit({"homePlaynow":true});
+    } else {
+      this.buttonOperation.emit({"backToHome":true});
     }
   }
 

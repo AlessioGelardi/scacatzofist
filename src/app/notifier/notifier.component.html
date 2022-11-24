@@ -1,0 +1,47 @@
+<div class="mt-5">
+    <label>Le tue richieste ricevute</label>
+    <table class="table table-hover mt-2 text-center">
+        <thead>
+            <tr>
+                <th scope="col">&nbsp;</th>
+                <th scope="col">Status</th>
+                <th scope="col">Player Richiedente</th>
+                <th scope="col">Modalità</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let req of myReqs">
+                <td>
+                    <button type="button" class="btn btn-outline-dark btn-sm" (click)="doDetail()"><i class="fa fa-eye"></i></button>
+                </td>
+                <td>{{req.status}}</td>
+                <td>{{req.playerRichiedente}}</td>
+                <td>{{req.typeMod}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="mt-5">
+    <label>Le tue richieste inviate</label>
+    <table class="table table-hover mt-2 text-center">
+        <thead>
+            <tr>
+                <th scope="col">&nbsp;</th>
+                <th scope="col">Status</th>
+                <th scope="col">Player Ricevente</th>
+                <th scope="col">Modalità</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let req of reqs">
+                <td>
+                    <button type="button" class="btn btn-outline-dark btn-sm" (click)="doDetail()"><i class="fa fa-eye"></i></button>
+                </td>
+                <td>{{req.status}}</td>
+                <td>{{req.playerRicevente}}</td>
+                <td>{{req.typeMod}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

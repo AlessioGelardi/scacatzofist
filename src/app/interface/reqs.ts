@@ -3,6 +3,8 @@ export interface Reqs {
     typeMod: number;
     playerIdReq: string;
     playerIdOppo: string;
+    playerRichiedente: string;
+    playerRicevente: string;
     dataIns: Date;
     status: number;
 }

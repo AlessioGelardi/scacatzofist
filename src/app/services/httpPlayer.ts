@@ -27,6 +27,8 @@ export class HttpPlayer {
 
     apiUrlPlaynow: string = environment.baseUrlLogin + "playnow";
 
+    apiUrlNotify:string = environment.baseUrlLogin + "notify";
+
     constructor(private http: HttpClient) {}
 
     getPlayers(id:string){ //escludo id
@@ -128,8 +130,17 @@ export class HttpPlayer {
         return this.http.post<boolean>(this.apiUrlPlaynow,request,this.generateOptions());
     }
 
-    getReqs(typeMod:number) {
-        return this.http.get<Reqs[]>(this.apiUrlPlaynow+'?typeMod='+typeMod);
+    getReqs(id:string, typeMod?:number) {
+        let req:any = {};
+        req.id = id;
+         if(typeMod) {
+            req.typeMod = typeMod!;
+        }
+        return this.http.get<any>(this.apiUrlPlaynow,{params:req});
+    }
+
+    getNumberNotify(id:string){
+        return this.http.get<number>(this.apiUrlNotify+'?id='+id);
     }
 
     private generateOptions() {
