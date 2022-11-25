@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-center">
     <div class="col-9">
-        <app-player-status [player]="player" [numberNotify]="numberNotify" [typeMod]="typeMod"></app-player-status>
+        <app-player-status [player]="player" [numberNotify]="numberNotify"></app-player-status>
     </div>
 </div>
 
@@ -22,6 +22,6 @@
 
 <div class="mt-3" *ngIf="!viewModalita">
 
-    <!-- <playnow-reqs [typeMod]="typeMod" *ngIf="viewReqs"></playnow-reqs> -->
+    <app-notifier [playerId]="player!._id" [typeMod]="typeMod" *ngIf="viewReqs"></app-notifier>
     <playnow-scontro [playerId]="player!._id"  *ngIf="viewScontro"></playnow-scontro>
 </div>

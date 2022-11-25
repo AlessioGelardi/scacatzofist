@@ -54,6 +54,7 @@ export class PlaynowScontroComponent implements OnInit {
         request.typeMod = 1;
         request.playerIdReq = this.playerId;
         request.playerIdOppo = playerId;
+        request.status = 1;
 
         this.spinnerService.show();
         this.httpPlayerService.newRequest(request).subscribe({

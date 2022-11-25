@@ -9,5 +9,9 @@ export interface Reqs {
     playerRichiedente: string;
     playerRicevente: string;
     dataIns: Date;
+    dataUpdate?: Date;
     status: Status;
+    vincita:any;
+    perdita:any;
+    vincitore?:string;
 }

@@ -13,8 +13,6 @@ import { HttpPlayer } from '../services/httpPlayer';
 })
 export class PlaynowComponent implements OnInit {
 
-  @ViewChild(PlayerStatusComponent) mngPlayerCmpt:PlayerStatusComponent | undefined;
-
   player:Player | undefined;
   numberNotify:number | undefined;
   typeMod: number | undefined;
@@ -24,8 +22,6 @@ export class PlaynowComponent implements OnInit {
   viewScontro:boolean = false;
 
   viewReqs:boolean = false;
-
-  
 
   constructor(private route: ActivatedRoute,private httpPlayerService: HttpPlayer,private spinnerService: NgxSpinnerService, private router: Router) { }
 
@@ -50,12 +46,6 @@ export class PlaynowComponent implements OnInit {
           this.viewReqs = operation.viewReqs ? operation.viewReqs:false;
           this.viewScontro = operation.viewScontro ? operation.viewScontro:false;
         }
-      }
-
-      if(this.viewReqs) {
-        this.mngPlayerCmpt?.doNotify();
-      } else {
-        this.mngPlayerCmpt?.closeNotify();
       }
     }
   }

@@ -73,12 +73,7 @@ export class HttpPlayer {
         vendita.cardId = cardId;
         vendita.prezzo = prezzo;
 
-        var today = new Date();
-        var dd = String(today.getDate()).padStart(2, '0');
-        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-        var yyyy = today.getFullYear();
-
-        vendita.today = dd + '/' + mm + '/' + yyyy
+        vendita.today = this.takeFormatToday();
         return this.http.post<boolean>(this.apiUrlMarket,vendita,this.generateOptions());
     }
 
@@ -103,12 +98,7 @@ export class HttpPlayer {
         acquisto.card.venduto = true;
         acquisto.playerIdAcquista = playerIdAcquista;
 
-        var today = new Date();
-        var dd = String(today.getDate()).padStart(2, '0');
-        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-        var yyyy = today.getFullYear();
-
-        acquisto.dataUpdate = dd + '/' + mm + '/' + yyyy
+        acquisto.dataUpdate = this.takeFormatToday();
 
         return this.http.put<boolean>(this.apiUrlMarket+'?id='+sellCard.id,acquisto,this.generateOptions());
     }
@@ -127,7 +117,13 @@ export class HttpPlayer {
 
     //Playnow
     newRequest(request:any) {
+        request.dataIns = this.takeFormatToday();
         return this.http.post<boolean>(this.apiUrlPlaynow,request,this.generateOptions());
+    }
+
+    updateRequest(request:any) {
+        request.dataUpdate = this.takeFormatToday();
+        return this.http.put<boolean>(this.apiUrlPlaynow,request,this.generateOptions());
     }
 
     getReqs(id:string, typeMod?:number) {
@@ -141,6 +137,15 @@ export class HttpPlayer {
 
     getNumberNotify(id:string){
         return this.http.get<number>(this.apiUrlNotify+'?id='+id);
+    }
+
+    private takeFormatToday() {
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+
+        return dd + '/' + mm + '/' + yyyy
     }
 
     private generateOptions() {
