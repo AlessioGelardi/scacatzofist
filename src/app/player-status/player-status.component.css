@@ -6,3 +6,11 @@
 .card-body {
     padding-bottom: 0px;
 }
+
+.grigino {
+    background-color: #cdcccc;
+}
+
+button:hover {
+    font-size: 20px;
+}

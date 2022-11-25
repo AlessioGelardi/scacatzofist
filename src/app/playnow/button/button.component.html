@@ -1,0 +1,5 @@
+<div class="d-flex justify-content-around mt-4">
+    <button type="button" class="col-2 btn btn-lg rounded-pill grigino" (click)="back()"><i class="fa fa-undo"></i></button>
+    <button *ngIf="viewReqs" type="button" class="col-2 btn btn-lg rounded-pill grigino" (click)="homePlaynow()"><i class="fa fa-home"></i></button>
+    <button *ngIf="viewScontro && !viewReqs" type="button" class="col-2 btn btn-lg rounded-pill grigino" (click)="richieste()"><i class="fa fa-list"></i></button>
+</div>
