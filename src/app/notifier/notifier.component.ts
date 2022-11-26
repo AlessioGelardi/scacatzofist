@@ -43,7 +43,7 @@ export class NotifierComponent implements OnInit {
           '<strong>'+richiedente+'</strong> ti ha invitato in Modalità <strong>'+TypeMod[typeMod]+'</strong> <br><br>'+
           'Vincita: <strong>'+vincita.coin+' <i class="fa fa fa-database"></i> '+vincita.credits+' <i class="fa fa fa-diamond"></i></strong><br>'+
           'Perdita: <strong>'+perdita.coin+' <i class="fa fa fa-database"></i></strong><br><br>'+
-          'Se non è presente il "-" davanti la perdita significa che se perdi il tuo credito verrà comunque incrementato, in questo caso di '+perdita.coin+'!<br><br>',
+          'Se non è presente il "-" davanti la perdita significa che se perdi, il tuo credito verrà comunque incrementato, in questo caso di '+perdita.coin+'!<br><br>',
           showDenyButton: true,
           confirmButtonText:
             '<i class="fa fa-check"></i> Accetta!',
@@ -87,7 +87,7 @@ export class NotifierComponent implements OnInit {
         '<label>'+richiedente+'<strong> VS </strong>'+ricevente+' <br><br>'+
         'Vincita: <strong>'+vincita.coin+' <i class="fa fa fa-database"></i> '+vincita.credits+' <i class="fa fa fa-diamond"></i></strong><br>'+
         'Perdita: <strong>'+perdita.coin+' <i class="fa fa fa-database"></i></strong><br><br>'+
-        'Se non è presente il "-" davanti la perdita significa che se perdi il tuo credito verrà comunque incrementato, in questo caso di '+perdita.coin+'!<br><br>',
+        'Se non è presente il "-" davanti la perdita significa che se perdi, il tuo credito verrà comunque incrementato, in questo caso di '+perdita.coin+'!<br><br>',
         showDenyButton: true,
         confirmButtonColor: '#46a9c9',
         denyButtonColor: '#46a9c9',
