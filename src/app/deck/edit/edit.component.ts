@@ -21,22 +21,26 @@ export class DeckEditComponent implements OnInit {
   viewFilter = false;
   filterName:string | undefined;
   flagFilterGO = false;
+  sliceStart: number = 0;
+  sliceEnd: number = 60;
+  slice: number = 60;
+  sliceLimit: number | undefined;
 
   constructor(private httpPlayerService: HttpPlayer,private spinnerService: NgxSpinnerService) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.spinnerService.show();
     if(this.deckId) {
-      this.takeDeck(this.deckId);
+      await this.takeDeck(this.deckId);
     }
 
     if(this.playerId) {
-      this.takeZaino(this.playerId);
+      await this.takeZaino(this.playerId);
     }
   }
 
   add(card:Card) {
-    if(card && card.type == 8388641 || card.type === 97 || card.type === 8225) {
+    if(card && card.type == 8388641 || card.type === 97 || card.type === 8225) { //TO-DO
       this.deck?.extra.push(card);
     } else if (card) {
       Swal.fire({
@@ -136,6 +140,7 @@ export class DeckEditComponent implements OnInit {
             next: (result: Card[]) => {
               if (result) {
                 this.zaino = result;
+                this.sliceLimit = this.zaino.length;
               }
             },
             error: (error: any) => {
@@ -151,6 +156,16 @@ export class DeckEditComponent implements OnInit {
           resolve()
       }, 10);
     });
+  }
+
+  backSlice() {
+    this.sliceEnd -= this.slice;
+    this.sliceStart -= this.slice;
+  }
+
+  continueSlice() {
+    this.sliceStart += this.slice;
+    this.sliceEnd += this.slice;
   }
 
   private swalAlert(title: string, message: string, icon?: SweetAlertIcon) {

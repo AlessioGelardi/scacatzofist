@@ -11,6 +11,7 @@ export class MarketPlaceVenditaComponent implements OnInit {
   @Input() history: SellCard[] = [];
 
   @Input() zaino: Card[]=[];
+  @Input() sliceLimit: number | undefined;
 
   @Output() showCard: EventEmitter<Card> = new EventEmitter();
   @Output() sellCard: EventEmitter<Card> = new EventEmitter();
@@ -20,9 +21,14 @@ export class MarketPlaceVenditaComponent implements OnInit {
   filterName:string | undefined;
   flagFilterGO = false;
 
+  sliceStart: number = 0;
+  sliceEnd: number = 60;
+  slice: number = 60;
+
   constructor() { }
 
   ngOnInit(): void {
+    this.sliceLimit = this.zaino.length;
   }
 
   doFilter() {
@@ -39,6 +45,16 @@ export class MarketPlaceVenditaComponent implements OnInit {
 
   deleteSell(idSellCard:string, cardId:string) {
     this.deleteCard.emit({'id':idSellCard,'cardId':cardId});
+  }
+
+  backSlice() {
+    this.sliceEnd -= this.slice;
+    this.sliceStart -= this.slice;
+  }
+
+  continueSlice() {
+    this.sliceStart += this.slice;
+    this.sliceEnd += this.slice;
   }
 
 }

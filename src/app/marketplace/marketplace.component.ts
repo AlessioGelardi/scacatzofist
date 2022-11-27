@@ -19,7 +19,8 @@ export class MarketplaceComponent implements OnInit {
   marketPlace: SellCard[] = [];
   history: SellCard[] = [];
 
-  zaino: Card[] = []
+  zaino: Card[] = [];
+  sliceLimit: number | undefined;
 
   viewCard: boolean = false;
   viewEdicola: boolean = false;
@@ -31,15 +32,15 @@ export class MarketplaceComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,private httpPlayerService: HttpPlayer,private spinnerService: NgxSpinnerService, private router: Router) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     const playerId = this.route.snapshot.paramMap.get('id')!;
 
-    this.takePlayer(playerId);
-    this.takeZaino(playerId);
-    this.getMarketPlace()
+    await this.takePlayer(playerId);
+    await this.takeZaino(playerId);
+    await this.getMarketPlace();
   }
 
-  buttonOperationHandler(operation: any) {
+  async buttonOperationHandler(operation: any) {
     if(operation) {
         if(operation.backToHome) {
           this.router.navigate(['/home',{id:this.player?._id!}]);
@@ -60,11 +61,11 @@ export class MarketplaceComponent implements OnInit {
         }
 
         if(!this.viewCard && !this.viewEdicola) {
-          this.getMarketPlace()
+          await this.getMarketPlace();
         }
 
         if(this.viewCard && this.viewHistory) {
-          this.takeHistory(this.player?._id!);
+          await this.takeHistory(this.player?._id!);
         }
     }
   }
@@ -105,17 +106,17 @@ export class MarketplaceComponent implements OnInit {
     })
   }
 
-  deleteSellCard(sellCard:any) {
+  async deleteSellCard(sellCard:any) {
     const idSellCard = sellCard.id;
     const cardId = sellCard.cardId;
     this.spinnerService.show()
     this.httpPlayerService.deleteSellCard(idSellCard, cardId, this.player?._id!).subscribe(
-      resultService => {
+      async resultService => {
         this.spinnerService.hide();
         if(resultService) {
           this.swalAlert('Fatto!','Vendita eliminata con successo!','success');
-          this.takeHistory(this.player?._id!);
-          this.takeZaino(this.player?._id!);
+          await this.takeHistory(this.player?._id!);
+          await this.takeZaino(this.player?._id!);
         }
         else
           this.swalAlert('Errore','Qualcosa è andato storto durante la cancellazione della vendita','error');
@@ -123,7 +124,7 @@ export class MarketplaceComponent implements OnInit {
     );
   }
 
-  compraCard(sellCard:SellCard) {
+  async compraCard(sellCard:SellCard) {
     Swal.fire({
       title: sellCard.card.name,
       color: '#3e3d3c',
@@ -136,13 +137,13 @@ export class MarketplaceComponent implements OnInit {
     }).then((result) => {
       if(result.isConfirmed) {
         this.httpPlayerService.acquistaCard(sellCard,this.player?._id!).subscribe(
-          resultService => {
+          async resultService => {
             this.spinnerService.hide();
             if(resultService) {
               this.swalAlert('Fatto!','Acquistato!','success');
-              this.takePlayer(this.player?._id!);
-              this.takeZaino(this.player?._id!);
-              this.getMarketPlace();
+              await this.takePlayer(this.player?._id!);
+              await this.takeZaino(this.player?._id!);
+              await this.getMarketPlace();
             }
             else
               this.swalAlert('Errore','Qualcosa è andato storto durante acquisto della carta','error');
@@ -178,39 +179,51 @@ export class MarketplaceComponent implements OnInit {
     Swal.fire(title, message, icon).then((result) => { })
   }
 
-  private getMarketPlace() {
+  private async getMarketPlace() {
     this.spinnerService.show();
-    this.httpPlayerService.getMarketplace().subscribe({
-      next: (result:SellCard[]) => {
-        this.marketPlace = result;
-      }, // completeHandler
-      error: (error: any) => {
-        this.spinnerService.hide();
-        if(error.status===402) {
-          this.swalAlert('Attenzione!','Nessuna carta in vendita al momento','info');
-        }
-      },
-      complete: () => {
-        this.spinnerService.hide();
-      }
+    await new Promise<void>((resolve, reject) => {
+      setTimeout(() => {
+          this.httpPlayerService.getMarketplace().subscribe({
+            next: (result: SellCard[]) => {
+              this.marketPlace = result;
+            },
+            error: (error: any) => {
+              this.spinnerService.hide();
+              if (error.status === 402) {
+                this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+              }
+            },
+            complete: () => {
+              this.spinnerService.hide();
+            }
+          });
+          resolve()
+      }, 10);
     });
   }
 
-  private takePlayer(playerId: string) {
+  private async takePlayer(playerId: string) {
     this.spinnerService.show();
-    this.httpPlayerService.getPlayer(playerId).subscribe({
-      next: (result:Player) => {
-        this.player = result;
-      }, // completeHandler
-      error: (error: any) => {
-        this.spinnerService.hide();
-        if(error.status===402) {
-          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
-        }
-      },
-      complete: () => {
-        this.spinnerService.hide();
-      }
+    await new Promise<void>((resolve, reject) => {
+      setTimeout(() => {
+          this.httpPlayerService.getPlayer(playerId).subscribe({
+            next: (result: Player) => {
+              if (result) {
+                this.player = result;
+              }
+            },
+            error: (error: any) => {
+              this.spinnerService.hide();
+              if (error.status === 402) {
+                this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+              }
+            },
+            complete: () => {
+              this.spinnerService.hide();
+            }
+          });
+          resolve()
+      }, 10);
     });
   }
 
@@ -222,6 +235,7 @@ export class MarketplaceComponent implements OnInit {
             next: (result: Card[]) => {
               if (result) {
                 this.zaino = result;
+                this.sliceLimit = this.zaino.length;
               }
             },
             error: (error: any) => {

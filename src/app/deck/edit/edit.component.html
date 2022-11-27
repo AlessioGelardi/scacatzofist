@@ -26,7 +26,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let card of zaino | filterZaino: filterName!">
+                <tr *ngFor="let card of zaino | filterZaino: filterName! | slice:sliceStart:sliceEnd; let i=index">
                     <td>
                         <button type="button" class="btn btn-outline-dark btn-sm" (click)="add(card)"><i class="fa fa-arrow-left"></i></button>
                     </td>
@@ -36,5 +36,11 @@
                 </tr>
             </tbody>
         </table>
+        <div class="row mt-1">
+            <div class="d-flex justify-content-between mt-1">
+                <button class="btn btn-outline-dark btn-sm px-3" *ngIf="sliceStart>0" (click)="backSlice()"><i class="fa fa-arrow-left"></i></button>
+                <button class="btn btn-outline-dark btn-sm px-3" *ngIf="sliceLimit! >= sliceEnd" (click)="continueSlice()"><i class="fa fa-arrow-right"></i></button>
+            </div>
+        </div>
     </div>
 </div>
