@@ -32,7 +32,7 @@ export class PlayerStatusComponent implements OnInit {
       cancelButtonText: 'No, rimani!'
     }).then((result) => {
       if (result.isConfirmed) {
-        window.location.reload();
+        window.location.href = 'https://alessiogelardi.github.io/scacatzofist/'
       }
     })
     

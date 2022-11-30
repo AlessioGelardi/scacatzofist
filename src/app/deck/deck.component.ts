@@ -153,17 +153,23 @@ export class DeckComponent implements OnInit {
   importNewDeck(fileResult:any) {
     fileResult["playerId"] = this.playerId;
     this.spinnerService.show();
-    this.httpPlayerService.newDeck(fileResult).subscribe(
-      resultService => {
-        this.spinnerService.hide();
-        if(resultService) {
+
+    this.httpPlayerService.newDeck(fileResult).subscribe({
+      next: (result:boolean) => {
+        if(result) {
+          this.viewImport = false;
           this.swalAlert('Fatto!','Deck creato con successo.','success');
           this.ngOnInit()
         }
-        else
-          this.swalAlert('Errore','Qualcosa è andato storto durante la creazione del nuovo deck','error');
+      }, // completeHandler
+      error: (error: any) => {
+        this.spinnerService.hide();
+        this.swalAlert('Errore','Qualcosa è andato storto durante la creazione del nuovo deck','error');
+      },
+      complete: () => {
+        this.spinnerService.hide();
       }
-    );
+    });
   }
 
   doDeleteDeck(id:string) {
