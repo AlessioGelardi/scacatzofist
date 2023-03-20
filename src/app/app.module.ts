@@ -29,6 +29,7 @@ import { PlaynowComponent } from './playnow/playnow.component';
 import { PlaynowButtonComponent } from './playnow/button/button.component';
 import { PlaynowScontroComponent } from './playnow/scontro/scontro.component';
 import { NotifierComponent } from './notifier/notifier.component';
+import { FortuneWheelComponent } from './fortune-wheel/fortune-wheel.component';
 
 
 @NgModule({
@@ -53,7 +54,8 @@ import { NotifierComponent } from './notifier/notifier.component';
     PlaynowComponent,
     PlaynowButtonComponent,
     PlaynowScontroComponent,
-    NotifierComponent
+    NotifierComponent,
+    FortuneWheelComponent
   ],
   imports: [
     BrowserModule,
