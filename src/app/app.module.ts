@@ -5,7 +5,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
-import { LoginComponent } from './login/login.component';
 import { DeckComponent } from './deck/deck.component';
 import { DeckEditComponent } from './deck/edit/edit.component';
 import { DeckDetailComponent } from './deck/detail/detail.component';
@@ -29,12 +28,12 @@ import { PlaynowComponent } from './playnow/playnow.component';
 import { PlaynowButtonComponent } from './playnow/button/button.component';
 import { PlaynowScontroComponent } from './playnow/scontro/scontro.component';
 import { NotifierComponent } from './notifier/notifier.component';
+import { LoginModule } from './module/login/login.module';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
     HomeComponent,
     DeckComponent,
     DeckEditComponent,
@@ -62,7 +61,8 @@ import { NotifierComponent } from './notifier/notifier.component';
     HttpClientModule,
     FormsModule,
     NgxSpinnerModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    LoginModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -4,7 +4,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
 import { Card, SellCard } from '../interface/card';
 import { Player } from '../interface/player';
-import { HttpPlayer } from '../services/httpPlayer';
+import { HttpPlayer } from '../servicesOld/httpPlayer';
 import { MarketplaceButtonComponent } from './button/button.component';
 
 @Component({

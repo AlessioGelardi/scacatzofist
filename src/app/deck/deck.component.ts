@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
-import { HttpPlayer } from '../services/httpPlayer';
+import { HttpPlayer } from '../servicesOld/httpPlayer';
 import { DeckEditComponent } from './edit/edit.component';
 
 @Component({

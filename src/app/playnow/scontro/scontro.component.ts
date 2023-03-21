@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Player } from 'src/app/interface/player';
-import { HttpPlayer } from 'src/app/services/httpPlayer';
+import { HttpPlayer } from 'src/app/servicesOld/httpPlayer';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
 
 @Component({

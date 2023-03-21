@@ -1,0 +1,52 @@
+<div class="content" role="main">
+    <h3 >RECUPERA</h3>
+    <form [formGroup]="recuperaForm" (ngSubmit)="recuperaCheck()">
+        <div class="mt-3">
+            <div class="input-group mb-3">
+                <div class="input-group-append">
+                    <span class="input-group-text"><i class="fa fa-user span_icon"></i></span>
+                </div>
+                <input id="name" formControlName="name" type="text" name="name" class="form-control" value="" placeholder="username">
+            </div>
+            <hr>
+            <div class="input-group mb-4">
+                <div class="input-group-append">
+                    <span class="input-group-text"><i class="fa fa-envelope span_icon"></i></span>
+                </div>
+                <input id="email" formControlName="email" type="text" name="email" class="form-control" value="" placeholder="email">
+            </div>
+            <input type="button" name="button" class="btn login_btn" (click)="recupera()" value="Verifica">
+            <div class="mt-3" *ngIf="viewConfermaRecupero">
+                <hr>
+                <div class="row pt-3 text-left">
+                    <label class="col-4">UserName</label>
+                    <div class="col text-left">
+                        <label>{{player?.name}}</label>
+                    </div>
+                </div>
+                <div class="row pt-3 text-left">
+                    <label class="col-4">Email</label>
+                    <div class="col text-left">
+                        <label>{{player?.email}}</label>
+                    </div>
+                </div>
+                <div class="mt-3 input-group mb-4">
+                    <select class="form-control" id="domanda" formControlName="domanda">
+                        <option value="" selected="true" [disabled]="true">Domanda segreta</option>
+                        <option *ngFor="let question of questions" value="{{question}}">{{question}}</option>
+                    </select>
+                </div>
+                <div class="input-group mb-4">
+                    <div class="input-group-append">
+                        <span class="input-group-text"><i class="fa fa-exclamation"></i></span>
+                    </div>
+                    <input id="risposta" formControlName="risposta" type="text" name="risposta" class="form-control" value="" placeholder="risposta" required>
+                </div>
+                <button type="submit" name="button" class="btn login_btn">VERIFICA</button>
+            </div>
+            <div class="mt-3 d-flex flex-row pt-1">
+                <button type="button" class="btn btn-md btn-secondary" (click)="returnLogin()"><i class="fa fa-undo"></i></button>
+            </div>
+        </div>
+    </form>
+</div>

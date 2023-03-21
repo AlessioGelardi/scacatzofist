@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { throws } from 'assert';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Card, Pack, SellCard } from 'src/app/interface/card';
-import { HttpPlayer } from 'src/app/services/httpPlayer';
+import { HttpPlayer } from 'src/app/servicesOld/httpPlayer';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
 
 @Component({

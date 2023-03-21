@@ -4,7 +4,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
 import { Player } from '../interface/player';
 import { PlayerStatusComponent } from '../player-status/player-status.component';
-import { HttpPlayer } from '../services/httpPlayer';
+import { HttpPlayer } from '../servicesOld/httpPlayer';
 
 @Component({
   selector: 'app-playnow',

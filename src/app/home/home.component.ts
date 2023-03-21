@@ -3,7 +3,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
 import { Player } from '../interface/player';
-import { HttpPlayer } from '../services/httpPlayer';
+import { HttpPlayer } from '../servicesOld/httpPlayer';
 
 @Component({
   selector: 'app-home',

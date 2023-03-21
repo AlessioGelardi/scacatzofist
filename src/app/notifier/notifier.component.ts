@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
 import { Reqs } from '../interface/reqs';
-import { HttpPlayer } from '../services/httpPlayer';
+import { HttpPlayer } from '../servicesOld/httpPlayer';
 import { Status } from "../enum/status";
 import { TypeMod } from "../enum/typeMod";
 
