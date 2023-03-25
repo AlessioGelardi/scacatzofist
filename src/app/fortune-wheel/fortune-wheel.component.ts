@@ -16,10 +16,15 @@ export class FortuneWheelComponent implements OnInit {
 
   @Input() slices: Slice[] = [];
 
-  constructor() { }
+  arrow:number;
+
+  constructor() {
+    this.arrow=324;
+  }
 
   ngOnInit(): void {
     this.createWheel();
+    
   }
 
   createWheel() {
@@ -43,11 +48,24 @@ export class FortuneWheelComponent implements OnInit {
     return color;
   }
 
-  toggleRotation() {
-    //this.animationState = this.animationState === 'notRotated' ? 'rotated' : 'notRotated';
-    for (let i = 0; i <= 10; i++) {
-      this.slices[i].numTransform+=290;
+  doRotation() {
+    const numRand = Math.floor(Math.random()*10);
+
+    console.log(this.slices[numRand]) //oggetto raggiunto.
+
+    for (let i = 0; i < 10; i++) {
+      this.slices[i].numTransform+=1440+this.orcaNumero(numRand);
     }
+  }
+
+  orcaNumero(numRand:number) {
+    let addCa = 0;
+    const obj = [2,3,4,5,6,7,8,9,0,1];
+    if(obj[numRand]!=0) {
+      addCa = -(36*obj[numRand])
+    }
+
+    return addCa;
   }
 
 }

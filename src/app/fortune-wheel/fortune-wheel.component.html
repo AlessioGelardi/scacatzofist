@@ -9,9 +9,11 @@
 <button (click)="spin()">Spin!</button>
 -->
 
+
 <div class="mt-5 slices" *ngFor="let slice of slices; let i = index">
     <div class="slice" [style.transform]="'translate(-50%, -50%) rotate(' + slice.numTransform + 'deg)'" [style.border-color]="slice.color+' transparent'" >
         <div class="label">{{slice.label}}</div>
     </div>
 </div>
-<button (click)="toggleRotation()">Ruota l'elemento</button>
+<div class="arrow"></div>
+<button (click)="doRotation()">Ruota l'elemento</button>

@@ -147,3 +147,17 @@
     font-weight: bold;
     text-align: center;
   }
+
+/* FRECCIA */
+  .arrow {
+    position: relative;
+    top: 210px;
+    left: 285px;
+    transform: rotate(90deg);
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 20px 0 20px 40px;
+    border-color: transparent transparent transparent #ff0000;
+    z-index: 1;
+  }
