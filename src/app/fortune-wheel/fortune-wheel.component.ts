@@ -29,9 +29,10 @@ export class FortuneWheelComponent implements OnInit {
 
   createWheel() {
     this.slices = [];
-    for (let i = 1; i <= 10; i++) {
+    const deck=['acqua','amazzone','drago','EroeElementale','fuoco','goblin','guerriero','ingranaggioAntico','jinzo','luce'];
+    for (let i = 0; i < 10; i++) {
       const slice: Slice = {
-        label: `Slice ${i}`,
+        label: deck[i],
         color: this.getRandomColor(),
         numTransform: i * (360 / 10)
       };
