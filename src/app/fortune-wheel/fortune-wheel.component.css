@@ -132,8 +132,8 @@
     position: absolute;
     width: 0;
     height: 0;
-    left: 50%;
-    top: 50%;
+    left: 30%;
+    top: 30%;
     transform-origin: 50% 100%;
     transform: translate(-50%, -50%) rotate(36deg);
   }
@@ -151,8 +151,8 @@
 /* FRECCIA */
   .arrow {
     position: relative;
-    top: 145px;
-    left: 42%;
+    top: 10px;
+    left: 15%;
     transform: rotate(90deg);
     width: 0;
     height: 0;
@@ -167,8 +167,8 @@
 
   .spin-btn {
     position: absolute;
-    left:635px;
-    top:460px;
+    left:22%;
+    top:45%;
     display: flex;
     justify-content: center;
     align-items: center;
