@@ -5,11 +5,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
-import { DeckComponent } from './deck/deck.component';
-import { DeckEditComponent } from './deck/edit/edit.component';
-import { DeckDetailComponent } from './deck/detail/detail.component';
-import { DeckListComponent } from './deck/edit/list/list.component';
-import { DeckButtonComponent } from './deck/button/button.component';
 import { FilterZainoPipe } from './deck/edit/filter-zaino.pipe';
 
 import { MarketplaceComponent } from './marketplace/marketplace.component';
@@ -23,23 +18,18 @@ import { MarketPlaceVenditaComponent } from './marketplace/vendita/vendita.compo
 import { MarketPlaceEdicolaComponent } from './marketplace/edicola/edicola.component';
 import { MarketPlaceViewpackComponent } from './marketplace/edicola/viewpack/viewpack.component';
 import { MarketPlaceOpeningpackComponent } from './marketplace/edicola/openingpack/openingpack.component';
-import { AutofocusDirective } from './autofocus.directive';
 import { PlaynowComponent } from './playnow/playnow.component';
 import { PlaynowButtonComponent } from './playnow/button/button.component';
 import { PlaynowScontroComponent } from './playnow/scontro/scontro.component';
 import { NotifierComponent } from './notifier/notifier.component';
 import { LoginModule } from './module/login/login.module';
+import { DeckModule } from './module/deck/deck.module';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    DeckComponent,
-    DeckEditComponent,
-    DeckDetailComponent,
-    DeckListComponent,
-    DeckButtonComponent,
     FilterZainoPipe,
     PlayerStatusComponent,
     MarketplaceComponent,
@@ -48,7 +38,6 @@ import { LoginModule } from './module/login/login.module';
     MarketPlaceEdicolaComponent,
     MarketPlaceViewpackComponent,
     MarketPlaceOpeningpackComponent,
-    AutofocusDirective,
     PlaynowComponent,
     PlaynowButtonComponent,
     PlaynowScontroComponent,
@@ -62,7 +51,8 @@ import { LoginModule } from './module/login/login.module';
     FormsModule,
     NgxSpinnerModule,
     ReactiveFormsModule,
-    LoginModule
+    LoginModule,
+    DeckModule
   ],
   providers: [],
   bootstrap: [AppComponent]

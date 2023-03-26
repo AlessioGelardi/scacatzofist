@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
-import { Player } from '../interface/player';
+import { Player } from '../module/interface/player';
 
 @Component({
   selector: 'app-player-status',

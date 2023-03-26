@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Card } from 'src/app/interface/card';
+import { Card } from 'src/app/module/interface/card';
 
 @Component({
   selector: 'deck-list',

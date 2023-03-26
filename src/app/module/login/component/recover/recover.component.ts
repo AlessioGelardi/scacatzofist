@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Player } from 'src/app/interface/player';
+import { Player } from 'src/app/module/interface/player';
 import { MessageService } from 'src/app/module/services/swalAlert/message.service';
 import { LoginService } from '../../httpservices/login.service';
 

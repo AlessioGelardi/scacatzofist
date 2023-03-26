@@ -2,17 +2,17 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
-import { Player } from '../interface/player';
-import { Card, Deck, Pack, SellCard } from '../interface/card';
-import { Reqs } from '../interface/reqs';
+import { Player } from '../module/interface/player';
+import { Card, Deck, Pack, SellCard } from '../module/interface/card';
+import { Reqs } from '../module/interface/reqs';
 
 @Injectable({
 providedIn: 'root'
 })
 
 export class HttpPlayer {
-    apiUrlPlayer: string = environment.baseUrlLogin + "player";
-    apiUrlPlayers: string = environment.baseUrlLogin + "players";
+    //apiUrlPlayer: string = environment.baseUrlLogin + "player";
+    //apiUrlPlayers: string = environment.baseUrlLogin + "players";
     apiUrlDecksById: string = environment.baseUrlLogin + "decksById"; //idplayer
     apiUrlDeckById: string = environment.baseUrlLogin + "deckById";
     apiUrlDeck: string = environment.baseUrlLogin + "deck";
@@ -31,13 +31,13 @@ export class HttpPlayer {
 
     constructor(private http: HttpClient) {}
 
-    getPlayers(id:string){ //escludo id
+    /* getPlayers(id:string){ //escludo id
         return this.http.get<Player[]>(this.apiUrlPlayers+'?id='+id);
-    }
+    } */
 
-    getPlayer(id:string){
+    /* getPlayer(id:string){
       return this.http.get<Player>(this.apiUrlPlayer+'?id='+id);
-    }
+    } 
 
     getDecksById(id:string) {
         return this.http.get<Deck>(this.apiUrlDecksById+'?id='+id);
@@ -65,7 +65,7 @@ export class HttpPlayer {
 
     deleteDeck(idDeck?: string){
         return this.http.delete<boolean>(this.apiUrlDeck+'?id='+idDeck);
-    }
+    } */
 
     venditaCard(playerId:string, cardId:string, prezzo:number) {
         let vendita:any = {};

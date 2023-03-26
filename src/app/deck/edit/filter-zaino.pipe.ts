@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Card } from 'src/app/interface/card';
+import { Card } from 'src/app/module/interface/card';
 
 @Pipe({
   name: 'filterZaino'

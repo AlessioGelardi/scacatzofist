@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
-import { Player } from '../interface/player';
+import { Player } from '../module/interface/player';
 import { HttpPlayer } from '../servicesOld/httpPlayer';
 
 @Component({
@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit {
   }
 
   private takePlayer(playerId: string) {
-    this.spinnerService.show();
+    /*this.spinnerService.show();
     this.httpPlayerService.getPlayer(playerId).subscribe({
       next: (result:Player) => {
         this.player = result;
@@ -53,7 +53,7 @@ export class HomeComponent implements OnInit {
       complete: () => {
         this.spinnerService.hide();
       }
-    });
+    });*/
   }
 
   private takeNumberNotify(playerId: string) {

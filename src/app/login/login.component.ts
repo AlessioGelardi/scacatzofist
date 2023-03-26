@@ -5,7 +5,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
-import { Player } from '../interface/player';
+import { Player } from '../module/interface/player';
 
 @Component({
   selector: 'app-login',

@@ -8,7 +8,6 @@ import { PlaynowComponent } from './playnow/playnow.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent},
-  { path: 'deckedit', component: DeckComponent },
   { path: 'marketplace', component: MarketplaceComponent},
   { path: 'playnow', component: PlaynowComponent},
   { path: 'notifier', component: NotifierComponent}

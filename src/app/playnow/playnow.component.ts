@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
-import { Player } from '../interface/player';
+import { Player } from '../module/interface/player';
 import { PlayerStatusComponent } from '../player-status/player-status.component';
 import { HttpPlayer } from '../servicesOld/httpPlayer';
 
@@ -70,7 +70,7 @@ export class PlaynowComponent implements OnInit {
 
   private takePlayer(playerId: string) {
     this.spinnerService.show();
-    this.httpPlayerService.getPlayer(playerId).subscribe({
+    /*this.httpPlayerService.getPlayer(playerId).subscribe({
       next: (result:Player) => {
         this.player = result;
       }, // completeHandler
@@ -83,7 +83,7 @@ export class PlaynowComponent implements OnInit {
       complete: () => {
         this.spinnerService.hide();
       }
-    });
+    });*/
   }
 
   private takeNumberNotify(playerId: string) {

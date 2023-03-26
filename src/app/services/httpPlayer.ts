@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
-import { Player } from '../interface/player';
-import { Card, Deck, Pack, SellCard } from '../interface/card';
-import { Reqs } from '../interface/reqs';
+import { Player } from '../module/interface/player';
+import { Card, Deck, Pack, SellCard } from '../module/interface/card';
+import { Reqs } from '../module/interface/reqs';
 
 @Injectable({
 providedIn: 'root'

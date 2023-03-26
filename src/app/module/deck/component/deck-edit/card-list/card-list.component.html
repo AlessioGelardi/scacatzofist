@@ -1,0 +1,25 @@
+<div class="d-flex justify-content-center mt-4">
+    <h5 *ngIf="typeDeck===1">MAIN</h5>
+    <h5 *ngIf="typeDeck===2">EXTRA</h5>
+    <h5 *ngIf="typeDeck===3">SIDE</h5>
+</div>
+<table class="table table-hover mt-3 text-center" style="margin-left:-40px">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>ATK</th>
+            <th>DEF</th>
+            <th>&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let card of cards">
+            <td class="text-truncate" (click)="show(card)">{{card.name}}</td>
+            <td>{{card.atk}}</td>
+            <td>{{card.def}}</td>
+            <td>
+                <button type="button" class="btn btn-outline-dark btn-sm" (click)="remove(card,typeDeck!)"><i class="fa fa-trash"></i></button>
+            </td>
+        </tr>
+    </tbody>
+</table>

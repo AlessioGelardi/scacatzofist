@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Player } from 'src/app/interface/player';
+import { Player } from 'src/app/module/interface/player';
 import { HttpPlayer } from 'src/app/servicesOld/httpPlayer';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
 
@@ -23,7 +23,7 @@ export class PlaynowScontroComponent implements OnInit {
 
   private takePlayers() {
     this.spinnerService.show();
-    this.httpPlayerService.getPlayers(this.playerId!).subscribe({
+    /*this.httpPlayerService.getPlayers(this.playerId!).subscribe({
       next: (result:Player[]) => {
         this.players = result;
       }, // completeHandler
@@ -36,7 +36,7 @@ export class PlaynowScontroComponent implements OnInit {
       complete: () => {
         this.spinnerService.hide();
       }
-    });
+    });*/
   }
 
   inviaRichiesta(playerId:string,playerName:string) {

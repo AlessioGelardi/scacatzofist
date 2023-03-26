@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { Card, SellCard } from 'src/app/interface/card';
+import { Card, SellCard } from 'src/app/module/interface/card';
 
 @Component({
   selector: 'marketplace-vendita',

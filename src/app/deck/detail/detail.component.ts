@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Card, Deck } from 'src/app/interface/card';
+import { Card, Deck } from 'src/app/module/interface/card';
 import { HttpPlayer } from 'src/app/servicesOld/httpPlayer';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
 
@@ -18,7 +18,7 @@ export class DeckDetailComponent implements OnInit {
   constructor(private httpPlayerService: HttpPlayer,private spinnerService: NgxSpinnerService) { }
 
   ngOnInit(): void {
-    this.spinnerService.show();
+    /* this.spinnerService.show();
     if(this.deckId) {
       this.httpPlayerService.getDeckById(this.deckId).subscribe({
         next: (result:Deck) => {
@@ -36,7 +36,7 @@ export class DeckDetailComponent implements OnInit {
           this.spinnerService.hide();
         }
       });
-    }
+    }*/
   }
 
   showCard(card:Card) {

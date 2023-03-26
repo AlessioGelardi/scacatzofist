@@ -1,0 +1,27 @@
+<deck-buttons [buttons]="buttons" (buttonOperation)="buttonOperationHandler($event)"></deck-buttons>
+
+<div class="row mt-5">
+    <div class="row d-flex justify-content-center mb-5" *ngIf="newDeckName">
+        <div class="col-5" >
+            <div class="row">
+                <label>Scegli il nuovo nome del deck</label>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <input class="col-5" [(ngModel)]="newDeckName" type="text" class="form-control sfondino" placeholder="Cerca user">
+                </div>
+                <div class="col-2">
+                    <button class="btn btn-md rounded sfondino" (click)="saveName()"><i class="fa fa-save"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row d-flex justify-content-center" *ngFor="let deck of decks">
+        <button class="col-5 m-2 btn btn-lg rounded grigino" (click)="viewDeck(deck.id)">
+            {{deck.name}} 
+        </button>
+        <button class="col-1 m-2 btn btn-sm rounded grigino" *ngIf="modifyDeck" (click)="doModifyDeckName(deck.name)"><i class="fa fa-pencil"></i></button>
+        <button class="col-1 m-2 btn btn-sm rounded grigino" *ngIf="modifyDeck" (click)="doDeleteDeck(deck.id)"><i class="fa fa-trash"></i></button>
+    </div>
+</div>

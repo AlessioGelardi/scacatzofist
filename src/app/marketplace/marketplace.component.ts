@@ -2,8 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
-import { Card, SellCard } from '../interface/card';
-import { Player } from '../interface/player';
+import { Card, SellCard } from '../module/interface/card';
+import { Player } from '../module/interface/player';
 import { HttpPlayer } from '../servicesOld/httpPlayer';
 import { MarketplaceButtonComponent } from './button/button.component';
 
@@ -204,7 +204,7 @@ export class MarketplaceComponent implements OnInit {
 
   private async takePlayer(playerId: string) {
     this.spinnerService.show();
-    await new Promise<void>((resolve, reject) => {
+    /*await new Promise<void>((resolve, reject) => {
       setTimeout(() => {
           this.httpPlayerService.getPlayer(playerId).subscribe({
             next: (result: Player) => {
@@ -224,12 +224,12 @@ export class MarketplaceComponent implements OnInit {
           });
           resolve()
       }, 10);
-    });
+    });*/
   }
 
   private async takeZaino(playerId: string) {
     this.spinnerService.show();
-    await new Promise<void>((resolve, reject) => {
+    /*await new Promise<void>((resolve, reject) => {
       setTimeout(() => {
           this.httpPlayerService.getZainoById(playerId).subscribe({
             next: (result: Card[]) => {
@@ -250,7 +250,7 @@ export class MarketplaceComponent implements OnInit {
           });
           resolve()
       }, 10);
-    });
+    });*/
   }
 
   private async takeHistory(playerId: string) {

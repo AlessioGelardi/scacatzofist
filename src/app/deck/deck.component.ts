@@ -35,7 +35,7 @@ export class DeckComponent implements OnInit {
     this.playerId = this.route.snapshot.paramMap.get('id')!;
     this.spinnerService.show();
     if(this.playerId) {
-      this.httpPlayerService.getDecksById(this.playerId).subscribe({
+      /*this.httpPlayerService.getDecksById(this.playerId).subscribe({
         next: (result:any) => {
           if(result) {
             this.decks = result;
@@ -51,7 +51,7 @@ export class DeckComponent implements OnInit {
         complete: () => {
           this.spinnerService.hide();
         }
-      });
+      });*/
     }
   }
 
@@ -116,7 +116,7 @@ export class DeckComponent implements OnInit {
             this.modifyDeck=false;
             this.modifyDeckName="";
             this.spinnerService.show();
-            this.httpPlayerService.saveNameDeck(deck).subscribe(
+            /*this.httpPlayerService.saveNameDeck(deck).subscribe(
               resultService => {
                 this.spinnerService.hide();
                 if(resultService) {
@@ -125,7 +125,7 @@ export class DeckComponent implements OnInit {
                 else
                   this.swalAlert('Errore','Qualcosa è andato storto durante la modifica del nome del deck','error');
               }
-            );
+            );*/
 
           }
         }
@@ -137,7 +137,7 @@ export class DeckComponent implements OnInit {
   saveDeck() {
     if(this.mngDeckCmpt) {
       this.spinnerService.show();
-      this.httpPlayerService.updateDeck(this.mngDeckCmpt.deck!,this.mngDeckCmpt.deckId!).subscribe(
+      /*this.httpPlayerService.updateDeck(this.mngDeckCmpt.deck!,this.mngDeckCmpt.deckId!).subscribe(
         result => {
           this.spinnerService.hide();
           if(result) {
@@ -146,7 +146,7 @@ export class DeckComponent implements OnInit {
           else
             this.swalAlert('Errore','Qualcosa è andato storto durante il salvataggio del deck','error');
         }
-      );
+      );*/
     }
   }
 
@@ -154,7 +154,7 @@ export class DeckComponent implements OnInit {
     fileResult["playerId"] = this.playerId;
     this.spinnerService.show();
 
-    this.httpPlayerService.newDeck(fileResult).subscribe({
+    /*this.httpPlayerService.newDeck(fileResult).subscribe({
       next: (result:boolean) => {
         if(result) {
           this.viewImport = false;
@@ -169,7 +169,7 @@ export class DeckComponent implements OnInit {
       complete: () => {
         this.spinnerService.hide();
       }
-    });
+    });*/
   }
 
   doDeleteDeck(id:string) {
@@ -191,7 +191,7 @@ export class DeckComponent implements OnInit {
           if (index > -1) {
             this.decks.splice(index, 1);
             this.spinnerService.show();
-            this.httpPlayerService.deleteDeck(id).subscribe({
+             /* this.httpPlayerService.deleteDeck(id).subscribe({
               next: (result:boolean) => {
                 if(result) {
                   this.swalAlert('Evvai','Il tuo deck è stato cancellato','success');
@@ -205,7 +205,7 @@ export class DeckComponent implements OnInit {
               complete: () => {
                 this.spinnerService.hide();
               }
-            });
+            });*/
           }
         }
       })

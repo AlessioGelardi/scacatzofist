@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Card, Deck } from 'src/app/interface/card';
+import { Card, Deck } from 'src/app/module/interface/card';
 import { HttpPlayer } from 'src/app/servicesOld/httpPlayer';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
 
@@ -107,7 +107,7 @@ export class DeckEditComponent implements OnInit {
   }
 
   private async takeDeck(deckId: string) {
-    this.spinnerService.show();
+    /*this.spinnerService.show();
     await new Promise<void>((resolve, reject) => {
       setTimeout(() => {
         this.httpPlayerService.getDeckById(deckId).subscribe({
@@ -129,12 +129,12 @@ export class DeckEditComponent implements OnInit {
         });
         
       }, 10);
-    });
+    });*/
   }
 
   private async takeZaino(playerId: string) {
     this.spinnerService.show();
-    await new Promise<void>((resolve, reject) => {
+    /*await new Promise<void>((resolve, reject) => {
       setTimeout(() => {
           this.httpPlayerService.getZainoById(playerId).subscribe({
             next: (result: Card[]) => {
@@ -155,7 +155,7 @@ export class DeckEditComponent implements OnInit {
           });
           resolve()
       }, 10);
-    });
+    });*/
   }
 
   backSlice() {

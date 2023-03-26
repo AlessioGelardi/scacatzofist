@@ -1,6 +1,6 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, Input, OnInit } from '@angular/core';
-import { Card } from 'src/app/interface/card';
+import { Card } from 'src/app/module/interface/card';
 import Swal from 'sweetalert2';
 
 @Component({
