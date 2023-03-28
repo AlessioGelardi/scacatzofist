@@ -24,6 +24,7 @@ import { PlaynowScontroComponent } from './playnow/scontro/scontro.component';
 import { NotifierComponent } from './notifier/notifier.component';
 import { LoginModule } from './module/login/login.module';
 import { DeckModule } from './module/deck/deck.module';
+import { PlayerModule } from './module/player/player.module';
 
 
 @NgModule({
@@ -52,6 +53,7 @@ import { DeckModule } from './module/deck/deck.module';
     NgxSpinnerModule,
     ReactiveFormsModule,
     LoginModule,
+    PlayerModule,
     DeckModule
   ],
   providers: [],

@@ -1,0 +1,23 @@
+<div class="row">
+    <div class="card">
+        <div class="position-absolute top-50 start-0 translate-middle-y px-3">
+            <img src="assets/player/boy.png" style="max-width:50px"/>
+        </div>
+        <div class="card-body d-flex justify-content-around">
+            <p>{{player?.name}}</p>
+            <p>{{player?.coin}} <i class="fa fa-database"></i></p>
+            <p>{{player?.credits}} <i class="fa fa-diamond"></i></p>
+        </div>
+
+        <button type="button" class="position-absolute top-0 end-0 px-1 border-0 grigino" (click)="readNotify()">
+            <i class="fa fa-bell grigino" style="color:#df0032"></i> <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">{{numberNotify!}}</span>
+        </button>
+        <button type="button" class="position-absolute bottom-0 end-0 px-1 border-0 grigino" (click)="logout()">
+            <i class="fa fa-power-off" style="color:#df0032"></i>
+        </button>
+    </div>
+</div>
+
+<!-- <div class="row">
+    <app-notifier *ngIf="viewNotify" [playerId]="player!._id" [typeMod]="typeMod"></app-notifier>
+</div> -->

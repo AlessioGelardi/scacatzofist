@@ -13,10 +13,10 @@ providedIn: 'root'
 export class HttpPlayer {
     //apiUrlPlayer: string = environment.baseUrlLogin + "player";
     //apiUrlPlayers: string = environment.baseUrlLogin + "players";
-    apiUrlDecksById: string = environment.baseUrlLogin + "decksById"; //idplayer
-    apiUrlDeckById: string = environment.baseUrlLogin + "deckById";
-    apiUrlDeck: string = environment.baseUrlLogin + "deck";
-    apiUrlSaveNameDeck: string= environment.baseUrlLogin + "savedeck";
+    //apiUrlDecksById: string = environment.baseUrlLogin + "decksById"; //idplayer
+    //apiUrlDeckById: string = environment.baseUrlLogin + "deckById";
+    //apiUrlDeck: string = environment.baseUrlLogin + "deck";
+    ///apiUrlSaveNameDeck: string= environment.baseUrlLogin + "savedeck";
     apiUrlZainoById: string = environment.baseUrlLogin + "zainoById";
 
     apiUrlMarket: string = environment.baseUrlLogin + "marketplace";

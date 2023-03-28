@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { Button } from 'src/app/module/interface/button';
 import { MessageService } from 'src/app/module/services/swalAlert/message.service';
 import Swal from 'sweetalert2';
@@ -33,7 +32,6 @@ export class DeckComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
     private router: Router,
-    private spinnerService: NgxSpinnerService,
     private messageService: MessageService,
     private deckStateService: StateDeckService) {
 
@@ -64,7 +62,7 @@ export class DeckComponent implements OnInit {
     ];
 
     
-    this.playerId = '63459b3a4b4c877f5a46f43e'; //this.route.snapshot.paramMap.get('id')!;
+    this.playerId = this.route.snapshot.paramMap.get('id')!;
     this.takeDecks();
 
   }
