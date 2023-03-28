@@ -1,0 +1,66 @@
+<div class="d-flex justify-content-center">
+    <div class="col-9">
+        <!-- <app-player-status [player]="player" *ngIf="!viewCard"></app-player-status> -->
+        
+        <div class="row">
+            <!-- 
+            <marketplace-button
+                [viewCard]="viewCard"
+                [viewEdicola]="viewEdicola"
+                [viewPack]="viewPack"
+                [viewHistory]="viewHistory"
+                [finishPurchase]="finishPurchase"
+                (buttonOperation)="buttonOperationHandler($event)">
+            </marketplace-button>-->
+        </div>
+
+        <div class="row pt-3">
+            <!-- 
+            <marketplace-vendita *ngIf="viewCard"
+                [history]="history"
+                [viewHistory]="viewHistory"
+                [zaino]="zaino"
+                [sliceLimit]="sliceLimit"
+                (showCard)="showCard($event)"
+                (sellCard)="sellCard($event)"
+                (deleteCard)="deleteSellCard($event)">
+            </marketplace-vendita>-->
+
+            <table class="table table-hover mt-3 text-center" >
+                <thead>
+                    <tr>
+                        <th scope="col">&nbsp;</th>
+                        <th scope="col">Costo</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">ATK</th>
+                        <th scope="col">DEF</th>
+                        <th scope="col">Player</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let sc of marketPlace">
+                        <td>
+                            <button type="button" class="btn btn-outline-dark btn-sm" (click)="compraCard(sc)"><i class="fa fa-shopping-cart"></i></button>
+                        </td>
+                        <td>{{sc.prezzo}}</td>
+                        <td class="text-truncate" (click)="showCard(sc.card)">{{sc.card.name}}</td>
+                        <td>{{sc.card.atk}}</td>
+                        <td>{{sc.card.def}}</td>
+                        <td>{{sc.playerName}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        
+            <!-- 
+            <marketplace-edicola *ngIf="viewEdicola"
+                [playerId]="player?._id!"
+                [playerBudget]="player?.credits"
+                [viewPack]="viewPack"
+                [finishPurchase]="finishPurchase"
+                (buttonFinishP)="setFinishPurchase($event)"
+                (buttonTypePack)="setViewPack($event)">
+            </marketplace-edicola>-->
+        </div>
+
+    </div>
+</div>
