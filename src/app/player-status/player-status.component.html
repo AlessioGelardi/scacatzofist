@@ -9,7 +9,7 @@
             <p>{{player?.credits}} <i class="fa fa-diamond"></i></p>
         </div>
 
-        <button type="button" class="position-absolute top-0 end-0 px-1 border-0 grigino" (click)="doNotify()">
+        <button type="button" class="position-absolute top-0 end-0 px-1 border-0 grigino" (click)="readNotify()">
             <i class="fa fa-bell grigino" style="color:#df0032"></i> <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">{{numberNotify!}}</span>
         </button>
         <button type="button" class="position-absolute bottom-0 end-0 px-1 border-0 grigino" (click)="logout()">
@@ -18,6 +18,6 @@
     </div>
 </div>
 
-<div class="row">
+<!-- <div class="row">
     <app-notifier *ngIf="viewNotify" [playerId]="player!._id" [typeMod]="typeMod"></app-notifier>
-</div>
+</div> -->

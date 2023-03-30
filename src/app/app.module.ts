@@ -24,13 +24,13 @@ import { PlaynowScontroComponent } from './playnow/scontro/scontro.component';
 import { NotifierComponent } from './notifier/notifier.component';
 import { LoginModule } from './module/login/login.module';
 import { DeckModule } from './module/deck/deck.module';
-import { PlayerModule } from './module/player/player.module';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
+    PlayerStatusComponent,
     FilterZainoPipe,
     PlayerStatusComponent,
     MarketplaceComponent,
@@ -53,7 +53,6 @@ import { PlayerModule } from './module/player/player.module';
     NgxSpinnerModule,
     ReactiveFormsModule,
     LoginModule,
-    PlayerModule,
     DeckModule
   ],
   providers: [],

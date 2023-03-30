@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Player } from 'src/app/module/interface/player';
-import { MessageService } from 'src/app/module/services/swalAlert/message.service';
+import { MessageService } from 'src/app/services/swalAlert/message.service';
 import Swal from 'sweetalert2';
 import { LoginService } from '../../httpservices/login.service';
 

@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { NgxSpinnerService } from 'ngx-spinner';
-import Swal, { SweetAlertIcon } from 'sweetalert2';
-import { Player } from '../module/interface/player';
-import { HttpPlayer } from '../servicesOld/httpPlayer';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Player } from 'src/app/module/interface/player';
+import { StatePlayerService } from '../services/state/state-player.service';
+import { MessageService } from '../services/swalAlert/message.service';
 
 @Component({
   selector: 'app-home',
@@ -15,19 +14,22 @@ export class HomeComponent implements OnInit {
   player:Player | undefined;
   numberNotify:number | undefined;
 
-  constructor(private route: ActivatedRoute,private httpPlayerService: HttpPlayer,private spinnerService: NgxSpinnerService,private router: Router) {
+  constructor(private route: ActivatedRoute,
+    private playerStateService: StatePlayerService,
+    private messageService: MessageService,
+    private router: Router) {
 
   }
 
   ngOnInit(): void {
-    const playerId = this.route.snapshot.paramMap.get('id')
+    const playerId = "63459b3a4b4c877f5a46f43e";//this.route.snapshot.paramMap.get('id') 
 
-    this.takePlayer(playerId!);
-    this.takeNumberNotify(playerId!);
+    this.takePlayer(playerId);
+    this.takeNumberNotify(playerId);
   }
 
   modificaDeck() {
-    this.router.navigate(['/deckedit',{id:this.player?._id}]);
+    this.router.navigate(['/deck',{id:this.player?._id}]);
   }
 
   marketPlace() {
@@ -39,24 +41,24 @@ export class HomeComponent implements OnInit {
   }
 
   private takePlayer(playerId: string) {
-    /*this.spinnerService.show();
-    this.httpPlayerService.getPlayer(playerId).subscribe({
-      next: (result:Player) => {
-        this.player = result;
-      }, // completeHandler
-      error: (error: any) => {
-        this.spinnerService.hide();
-        if(error.status===402) {
+    this.playerStateService.getPlayer(playerId).then((resp) => {
+      if(resp) {
+        this.player = resp;
+      } else {
+        //TO-DO gestione degli errori
+        /*
+        if(resp.status===402) {
           this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
         }
-      },
-      complete: () => {
-        this.spinnerService.hide();
+        */
+
+        this.messageService.alert('Attenzione!','Errore durante la chiamata getPlayer','error');
       }
-    });*/
+    });
   }
 
   private takeNumberNotify(playerId: string) {
+    /*
     this.spinnerService.show();
     this.httpPlayerService.getNumberNotify(playerId).subscribe({
       next: (result) => {
@@ -67,18 +69,14 @@ export class HomeComponent implements OnInit {
       error: (error: any) => {
         this.spinnerService.hide();
         if(error.status===402) {
-          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+          this.messageService.alert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
         }
       },
       complete: () => {
         this.spinnerService.hide();
       }
-    });
-  }
-
-  private swalAlert(title: string, message: string, icon?: SweetAlertIcon) {
-    this.spinnerService.hide();
-    Swal.fire(title, message, icon).then((result) => { })
+    });*/
   }
 
 }
+

@@ -1,51 +1,47 @@
 import { Component, Input, OnInit } from '@angular/core';
-import Swal from 'sweetalert2';
-import { Player } from '../module/interface/player';
+import { Player } from 'src/app/module/interface/player';
 
 @Component({
-  selector: 'app-player-status',
+  selector: 'player-status',
   templateUrl: './player-status.component.html',
   styleUrls: ['./player-status.component.css']
 })
 export class PlayerStatusComponent implements OnInit {
 
   @Input() player:Player | undefined;
-  @Input() numberNotify: number | undefined;
-  @Input() typeMod:number | undefined;
 
-  viewNotify:boolean = false;
+  numberNotify:number | undefined;
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  readNotify() {
+
+  }
+
   logout() {
-    Swal.fire({
-      title: 'Sicuro?',
-      text: "Sei sicuro di voler fare il logout ?",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, esci!',
-      cancelButtonText: 'No, rimani!'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        window.location.href = 'https://alessiogelardi.github.io/scacatzofist/'
+
+  }
+
+  private takeNumberNotify(playerId: string) {
+    /*this.spinnerService.show();
+    this.httpPlayerService.getNumberNotify(playerId).subscribe({
+      next: (result) => {
+        if(result>0){
+          this.numberNotify = result;
+        }
+      }, // completeHandler
+      error: (error: any) => {
+        this.spinnerService.hide();
+        if(error.status===402) {
+          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+        }
+      },
+      complete: () => {
+        this.spinnerService.hide();
       }
-    })
-    
+    });*/
   }
-
-  doNotify() {
-    if(this.numberNotify!>0) {
-      this.viewNotify = !this.viewNotify;
-    }
-  }
-
-  closeNotify() {
-    this.viewNotify=false;
-  }
-
 }
