@@ -25,6 +25,7 @@ import { NotifierComponent } from './notifier/notifier.component';
 import { LoginModule } from './module/login/login.module';
 import { DeckModule } from './module/deck/deck.module';
 import { PlayerModule } from './module/player/player.module';
+import { MarketModule } from './module/market/market.module';
 
 
 @NgModule({
@@ -54,7 +55,8 @@ import { PlayerModule } from './module/player/player.module';
     ReactiveFormsModule,
     LoginModule,
     PlayerModule,
-    DeckModule
+    DeckModule,
+    MarketModule
   ],
   providers: [],
   bootstrap: [AppComponent]

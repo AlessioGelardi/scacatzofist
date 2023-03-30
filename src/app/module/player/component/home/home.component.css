@@ -14,6 +14,6 @@ button {
 
 button:hover {
     display: inline-block;
-    border-radius: 10px;
-    box-shadow: 5px 10px #8a8989;
+    border-radius: 10x;
+    box-shadow: 5px 10px #df0032;
 }

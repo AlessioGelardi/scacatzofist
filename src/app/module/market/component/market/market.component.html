@@ -3,29 +3,10 @@
         <!-- <app-player-status [player]="player" *ngIf="!viewCard"></app-player-status> -->
         
         <div class="row">
-            <!-- 
-            <marketplace-button
-                [viewCard]="viewCard"
-                [viewEdicola]="viewEdicola"
-                [viewPack]="viewPack"
-                [viewHistory]="viewHistory"
-                [finishPurchase]="finishPurchase"
-                (buttonOperation)="buttonOperationHandler($event)">
-            </marketplace-button>-->
+            <market-buttons [buttons]="buttons" (buttonOperation)="buttonOperationHandler($event)"></market-buttons>
         </div>
 
         <div class="row pt-3">
-            <!-- 
-            <marketplace-vendita *ngIf="viewCard"
-                [history]="history"
-                [viewHistory]="viewHistory"
-                [zaino]="zaino"
-                [sliceLimit]="sliceLimit"
-                (showCard)="showCard($event)"
-                (sellCard)="sellCard($event)"
-                (deleteCard)="deleteSellCard($event)">
-            </marketplace-vendita>-->
-
             <table class="table table-hover mt-3 text-center" >
                 <thead>
                     <tr>
