@@ -12,7 +12,6 @@ import { MarketplaceButtonComponent } from './marketplace/button/button.componen
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { HomeComponent } from './home/home.component';
 import { MarketPlaceVenditaComponent } from './marketplace/vendita/vendita.component';
 import { MarketPlaceEdicolaComponent } from './marketplace/edicola/edicola.component';
 import { MarketPlaceViewpackComponent } from './marketplace/edicola/viewpack/viewpack.component';
@@ -30,7 +29,6 @@ import { PlayerModule } from './module/player/player.module';
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
     FilterZainoPipe,
     MarketplaceComponent,
     MarketplaceButtonComponent,
