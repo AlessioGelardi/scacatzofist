@@ -3,8 +3,7 @@ import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Button } from 'src/app/module/interface/button';
 import { Card, Deck } from 'src/app/module/interface/card';
-import { MessageService } from 'src/app/module/services/swalAlert/message.service';
-import Swal from 'sweetalert2';
+import { MessageService } from 'src/app/services/swalAlert/message.service';
 import { DeckService } from '../../services/httpservices/deck.service';
 import { StateDeckService } from '../../services/state/state-deck.service';
 

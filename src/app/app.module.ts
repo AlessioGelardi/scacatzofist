@@ -24,7 +24,6 @@ import { PlaynowScontroComponent } from './playnow/scontro/scontro.component';
 import { NotifierComponent } from './notifier/notifier.component';
 import { LoginModule } from './module/login/login.module';
 import { DeckModule } from './module/deck/deck.module';
-import { PlayerModule } from './module/player/player.module';
 import { MarketModule } from './module/market/market.module';
 
 
@@ -32,6 +31,7 @@ import { MarketModule } from './module/market/market.module';
   declarations: [
     AppComponent,
     HomeComponent,
+    PlayerStatusComponent,
     FilterZainoPipe,
     PlayerStatusComponent,
     MarketplaceComponent,
@@ -54,9 +54,9 @@ import { MarketModule } from './module/market/market.module';
     NgxSpinnerModule,
     ReactiveFormsModule,
     LoginModule,
-    PlayerModule,
     DeckModule,
-    MarketModule
+    MarketModule,
+    DeckModule
   ],
   providers: [],
   bootstrap: [AppComponent]

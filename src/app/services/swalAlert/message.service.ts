@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Card } from 'src/app/module/interface/card';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
-import { Card } from '../../interface/card';
 
 @Injectable({
   providedIn: 'root'

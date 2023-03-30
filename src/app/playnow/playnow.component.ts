@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
 import { Player } from '../module/interface/player';
-import { PlayerStatusComponent } from '../player-status/player-status.component';
 import { HttpPlayer } from '../servicesOld/httpPlayer';
 
 @Component({

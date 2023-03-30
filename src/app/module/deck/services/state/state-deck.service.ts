@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { firstValueFrom, map } from 'rxjs';
 import { Deck } from 'src/app/module/interface/card';
-import { MessageService } from 'src/app/module/services/swalAlert/message.service';
+import { MessageService } from 'src/app/services/swalAlert/message.service';
 import { DeckService } from '../httpservices/deck.service';
 
 @Injectable({
