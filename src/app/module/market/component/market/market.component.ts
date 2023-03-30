@@ -3,8 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Button } from 'src/app/module/interface/button';
 import { Card, SellCard } from 'src/app/module/interface/card';
 import { Player } from 'src/app/module/interface/player';
-import { StatePlayerService } from 'src/app/module/player/services/state/state-player.service';
-import { MessageService } from 'src/app/module/services/swalAlert/message.service';
+import { StatePlayerService } from 'src/app/services/state/state-player.service';
+import { MessageService } from 'src/app/services/swalAlert/message.service';
 import Swal from 'sweetalert2';
 import { StateMarketService } from '../../services/state/state-market.service';
 

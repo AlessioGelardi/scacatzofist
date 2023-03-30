@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Button } from 'src/app/module/interface/button';
 import { Card, SellCard } from 'src/app/module/interface/card';
-import { MessageService } from 'src/app/module/services/swalAlert/message.service';
+import { MessageService } from 'src/app/services/swalAlert/message.service';
 import { StateMarketService } from '../../services/state/state-market.service';
 
 @Component({
