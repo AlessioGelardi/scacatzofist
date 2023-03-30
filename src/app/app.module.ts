@@ -13,7 +13,6 @@ import { MarketplaceButtonComponent } from './marketplace/button/button.componen
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { HomeComponent } from './home/home.component';
-import { PlayerStatusComponent } from './player-status/player-status.component';
 import { MarketPlaceVenditaComponent } from './marketplace/vendita/vendita.component';
 import { MarketPlaceEdicolaComponent } from './marketplace/edicola/edicola.component';
 import { MarketPlaceViewpackComponent } from './marketplace/edicola/viewpack/viewpack.component';
@@ -25,15 +24,14 @@ import { NotifierComponent } from './notifier/notifier.component';
 import { LoginModule } from './module/login/login.module';
 import { DeckModule } from './module/deck/deck.module';
 import { MarketModule } from './module/market/market.module';
+import { PlayerModule } from './module/player/player.module';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    PlayerStatusComponent,
     FilterZainoPipe,
-    PlayerStatusComponent,
     MarketplaceComponent,
     MarketplaceButtonComponent,
     MarketPlaceVenditaComponent,
@@ -55,8 +53,8 @@ import { MarketModule } from './module/market/market.module';
     ReactiveFormsModule,
     LoginModule,
     DeckModule,
-    MarketModule,
-    DeckModule
+    PlayerModule,
+    MarketModule
   ],
   providers: [],
   bootstrap: [AppComponent]

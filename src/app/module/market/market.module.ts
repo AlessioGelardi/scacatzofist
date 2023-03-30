@@ -7,6 +7,7 @@ import { MarketSellComponent } from './component/market-sell/market-sell.compone
 import { MarketEdicolaComponent } from './component/market-edicola/market-edicola.component';
 import { VetrinaComponent } from './component/market-edicola/vetrina/vetrina.component';
 import { OpeningPackComponent } from './component/market-edicola/opening-pack/opening-pack.component';
+import { PlayerModule } from '../player/player.module';
 
 
 
@@ -21,7 +22,8 @@ import { OpeningPackComponent } from './component/market-edicola/opening-pack/op
   ],
   imports: [
     CommonModule,
-    MarketRoutingModule
+    MarketRoutingModule,
+    PlayerModule
   ]
 })
 export class MarketModule { }
