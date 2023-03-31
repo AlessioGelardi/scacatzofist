@@ -8,6 +8,8 @@ import { MarketEdicolaComponent } from './component/market-edicola/market-edicol
 import { VetrinaComponent } from './component/market-edicola/vetrina/vetrina.component';
 import { OpeningPackComponent } from './component/market-edicola/opening-pack/opening-pack.component';
 import { PlayerModule } from '../player/player.module';
+import { ZainoModule } from '../zaino/zaino.module';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -22,8 +24,10 @@ import { PlayerModule } from '../player/player.module';
   ],
   imports: [
     CommonModule,
+    FormsModule,
     MarketRoutingModule,
-    PlayerModule
+    PlayerModule,
+    ZainoModule
   ]
 })
 export class MarketModule { }

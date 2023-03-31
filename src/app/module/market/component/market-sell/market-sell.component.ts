@@ -18,6 +18,9 @@ export class MarketSellComponent implements OnInit {
 
   playerId:string | undefined;
 
+  viewFilter = false;
+  filterName:string | undefined;
+
   constructor(private route: ActivatedRoute,
     private router: Router,
     private marketStateService: StateMarketService,
@@ -82,6 +85,10 @@ export class MarketSellComponent implements OnInit {
         }
       }
     });
+  }
+
+  doFilter() {
+    this.viewFilter=!this.viewFilter;
   }
 
 }

@@ -8,7 +8,7 @@ import { DeckRoutingModule } from './deck-routing.module';
 import { DeckDetailComponent } from './component/deck-detail/deck-detail.component';
 import { DeckEditComponent } from './component/deck-edit/deck-edit.component';
 import { CardListComponent } from './component/deck-edit/card-list/card-list.component';
-import { AutofocusDirective } from 'src/app/autofocus.directive';
+import { ZainoModule } from '../zaino/zaino.module';
 
 
 
@@ -19,14 +19,14 @@ import { AutofocusDirective } from 'src/app/autofocus.directive';
     DeckDetailComponent,
     DeckListComponent,
     DeckButtonsComponent,
-    CardListComponent,
-    AutofocusDirective
+    CardListComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    DeckRoutingModule
+    DeckRoutingModule,
+    ZainoModule
   ]
 })
 export class DeckModule { }
