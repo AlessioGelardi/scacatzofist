@@ -4,6 +4,7 @@ import { Button } from 'src/app/module/interface/button';
 import { Card, SellCard } from 'src/app/module/interface/card';
 import { MessageService } from 'src/app/services/swalAlert/message.service';
 import { StateMarketService } from '../../services/state/state-market.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-market-sell',
@@ -20,6 +21,9 @@ export class MarketSellComponent implements OnInit {
 
   viewFilter = false;
   filterName:string | undefined;
+
+  viewCard: boolean = false;
+  zaino: Card[]=[];
 
   constructor(private route: ActivatedRoute,
     private router: Router,
@@ -73,6 +77,46 @@ export class MarketSellComponent implements OnInit {
 
   showCard(card:Card) {
     this.messageService.showDetailCard(card);
+  }
+
+  sellCard(card:Card) {
+    Swal.fire({
+      title: 'Vendi la tua carta',
+      text: 'Scegli il prezzo',
+      input: 'number',
+      inputAttributes: {
+        autocapitalize: 'off'
+      },
+      showCancelButton: true,
+      confirmButtonText: 'Vendi',
+      showLoaderOnConfirm: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        /*
+        this.spinnerService.show();
+        this.httpPlayerService.venditaCard(this.player?._id!,card.id,result.value).subscribe({
+          next: () => {
+            this.button?.back()
+            this.swalAlert('Fatto!','Vendita creata con successo!','success');
+            this.takeZaino(this.player?._id!);
+          }, // completeHandler
+          error: (error: any) => {
+            this.spinnerService.hide();
+            if(error.status===403) {
+              let msg = "";
+              error.error.forEach((z: any) => msg=z.name+" x"+z.count);
+              this.swalAlert('Attenzione!','Carta presente nel deck ---> '+msg,'error');
+            }
+          },
+          complete: () => {
+            this.spinnerService.hide();
+          }
+        });
+
+        */
+      }
+    })
   }
 
   deleteSell(sellId:string,cardId:string) {
