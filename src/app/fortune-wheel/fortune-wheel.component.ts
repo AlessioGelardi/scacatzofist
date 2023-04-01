@@ -1,5 +1,5 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 export interface Slice {
   label: string;
@@ -18,7 +18,10 @@ export class FortuneWheelComponent implements OnInit {
 
   arrow:number;
 
-  constructor() {
+  viewStarter: boolean = false;
+  nameDeck:string | undefined;
+
+  constructor(private router: Router) {
     this.arrow=324;
   }
 
@@ -29,7 +32,7 @@ export class FortuneWheelComponent implements OnInit {
 
   createWheel() {
     this.slices = [];
-    const deck=['acqua','amazzone','drago','EroeElementale','fuoco','goblin','guerriero','ingranaggioAntico','jinzo','luce'];
+    const deck=['acqua','amazzone','drago','EroeElementale','fuoco','goblin','guerriero','IngranaggioAntico','jinzo','luce'];
     for (let i = 0; i < 10; i++) {
       const slice: Slice = {
         label: deck[i],
@@ -52,11 +55,15 @@ export class FortuneWheelComponent implements OnInit {
   doRotation() {
     const numRand = Math.floor(Math.random()*10);
 
-    console.log(this.slices[numRand]) //oggetto raggiunto.
-
     for (let i = 0; i < 10; i++) {
       this.slices[i].numTransform+=1440+this.orcaNumero(numRand);
     }
+
+    setTimeout(() => {
+      this.viewStarter=true;
+      this.nameDeck=this.slices[numRand+1].label.toUpperCase();
+    }, 2000);
+    
   }
 
   orcaNumero(numRand:number) {
@@ -67,6 +74,10 @@ export class FortuneWheelComponent implements OnInit {
     }
 
     return addCa;
+  }
+
+  login() {
+    this.router.navigate(['/login']);
   }
 
 }

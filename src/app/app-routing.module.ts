@@ -9,7 +9,7 @@ import { NotifierComponent } from './notifier/notifier.component';
 import { PlaynowComponent } from './playnow/playnow.component';
 
 const routes: Routes = [
-  { path: '', component: FortuneWheelComponent},
+  { path: '', component: LoginComponent},
   { path:'home', component: HomeComponent},
   { path:'deckedit', component: DeckComponent },
   { path: 'marketplace', component: MarketplaceComponent},

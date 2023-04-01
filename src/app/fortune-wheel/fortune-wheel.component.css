@@ -150,9 +150,9 @@
 
 /* FRECCIA */
   .arrow {
-    position: relative;
-    top: 10px;
-    left: 15%;
+    position: absolute;
+    top: 80px;
+    left: 24%;
     transform: rotate(90deg);
     width: 0;
     height: 0;
@@ -195,3 +195,13 @@
     transform: translate(-50%, -50%);
   }
   
+
+  .pack:hover {
+    opacity: 0.7;
+  }
+
+  .login_btn {
+    width: 100%;
+    background: #df0032 !important;
+    color: #cecdcb !important;
+}

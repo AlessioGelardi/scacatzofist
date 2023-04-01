@@ -1,7 +1,7 @@
 <div class="content" role="main">
 
-  <h3 *ngIf="!viewSignIn && !viewRecupero">ACCEDI</h3>
-  <form [formGroup]="loginForm" (ngSubmit)="login()" *ngIf="!viewSignIn && !viewRecupero">
+  <h3 *ngIf="!viewSignIn && !viewRecupero && !viewRuota">ACCEDI</h3>
+  <form [formGroup]="loginForm" (ngSubmit)="login()" *ngIf="!viewSignIn && !viewRecupero && !viewRuota">
       <div style="margin-top: 10px;">
           <div class="input-group mb-3">
               <div class="input-group-append">
@@ -119,6 +119,7 @@
         </div>
     </div>
   </form>
-
-  <app-fortune-wheel></app-fortune-wheel>
 </div>
+
+
+<app-fortune-wheel *ngIf="viewRuota"></app-fortune-wheel>

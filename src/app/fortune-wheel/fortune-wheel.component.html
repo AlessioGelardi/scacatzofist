@@ -9,15 +9,41 @@
 <button (click)="spin()">Spin!</button>
 -->
 
+<div class="row m-0">
+    <div class="col-6">
 
-<div class="mt-5 slices" *ngFor="let slice of slices; let i = index">
-    <div class="slice" [style.transform]="'translate(-50%, -50%) rotate(' + slice.numTransform + 'deg)'" [style.border-color]="slice.color+' transparent'" >
-        <div class="label">{{slice.label}}</div>
+        <div class="mt-5 slices" *ngFor="let slice of slices; let i = index">
+            <div class="slice" [style.transform]="'translate(-50%, -50%) rotate(' + slice.numTransform + 'deg)'" [style.border-color]="slice.color+' transparent'" >
+                <div class="label">{{slice.label}}</div>
+            </div>
+        </div>
+        <div class="arrow"></div>
+        <!-- <button (click)="doRotation()">Ruota l'elemento</button>-->
+        <button class="spin-btn" (click)="doRotation()">
+            <span class="spin-text">SPIN</span>
+        </button>
+
+
     </div>
+    <div class="col-5 text-center">
+        <h3 class="">LA RUOTA DELLA FORTUNA</h3>
+        <p>Clicca il pulsante <b>"SPIN"</b> e ti verrà assegnato uno starter deck <u>in maniera casuale</u></p>
+
+        <div class="mt-4" *ngIf="viewStarter">
+            <h3>IL TUO STARTER DECK</h3>
+            <div class="mt-3">
+                <h4>{{nameDeck}}</h4>
+                <img class="pack" src="assets/pack.png">
+            </div>
+            <div class="mt-3">
+                <p>Adesso puoi fare il login e iniziare a giocare, buon game!</p>
+                <button name="button" class="btn login_btn" (click)="login()">Login</button>
+            </div>
+        </div>
+    </div>
+    
 </div>
-<div class="arrow"></div>
-<!-- <button (click)="doRotation()">Ruota l'elemento</button>-->
-<button class="spin-btn" (click)="doRotation()">
-    <span class="spin-text">SPIN</span>
-</button>
+
+
+
   

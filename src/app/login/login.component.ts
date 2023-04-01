@@ -41,6 +41,7 @@ export class LoginComponent implements OnInit {
   viewSignIn = false;
   viewRecupero = false;
   viewRegistrati = false;
+  viewRuota = true;
   viewConfermaRecupero = false;
 
   ipAddress = '';
@@ -126,7 +127,8 @@ export class LoginComponent implements OnInit {
             }
           },
           complete: () => {
-            this.swalAlert('Successo!','Utente registrato con successo, adesso puoi fare il login','success');
+            this.swalAlert('Successo!','Utente registrato con successo, adesso scegli il tuo deck iniziale','success');
+            this.viewRuota = true;
             this.spinnerService.hide();
           }
         });

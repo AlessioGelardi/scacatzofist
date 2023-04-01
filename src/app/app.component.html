@@ -5,7 +5,9 @@
   </div>
 </div>
 
-<div class="content" role="main">
+<app-login *ngIf="!isLogged" (checkLogin)="login($event)"></app-login>
+
+<div class="content" role="main" *ngIf="isLogged">
   <div class="container">
     <div>
       <router-outlet></router-outlet>
