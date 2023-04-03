@@ -5,6 +5,7 @@ import { Card, SellCard } from 'src/app/module/interface/card';
 import { MessageService } from 'src/app/services/swalAlert/message.service';
 import { StateMarketService } from '../../services/state/state-market.service';
 import Swal from 'sweetalert2';
+import { StatePlayerService } from 'src/app/services/state/state-player.service';
 
 @Component({
   selector: 'app-market-sell',
@@ -25,9 +26,15 @@ export class MarketSellComponent implements OnInit {
   viewCard: boolean = false;
   zaino: Card[]=[];
 
+  sliceLimit: number | undefined;
+  sliceStart: number = 0;
+  sliceEnd: number = 60;
+  slice: number = 60;
+
   constructor(private route: ActivatedRoute,
     private router: Router,
     private marketStateService: StateMarketService,
+    private playerStateService: StatePlayerService,
     private messageService: MessageService) {
 
   }
@@ -40,11 +47,11 @@ export class MarketSellComponent implements OnInit {
         code: "BACK",
         class: "fa fa-undo"
       },
-      /* {
+      {
         name: "SELL-BUTTON",
         code: "SELL",
         class: "fa fa-briefcase"
-      }, */
+      },
       {
         name: "EDICOLA-BUTTON",
         code: "EDICOLA",
@@ -52,10 +59,22 @@ export class MarketSellComponent implements OnInit {
       }
     ];
 
-    this.playerId = "63459b3a4b4c877f5a46f43e"; //this.route.snapshot.paramMap.get('id') 
+    this.playerId = "63459b3a4b4c877f5a46f43e"; //this.route.snapshot.paramMap.get('id')
 
-    this.marketStateService.getSellHistory(this.playerId).then((resp) => {
-      this.history = resp!;
+    this.playerStateService.getZaino(this.playerId!).then((resp) => {
+      if(resp) {
+        this.zaino = resp;
+        this.sliceLimit = this.zaino.length;
+      } else {
+        //TO-DO gestione degli errori
+        /*
+        if(resp.status===402) {
+          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+        }
+        */
+
+        this.messageService.alert('Attenzione!','Errore durante la chiamata getZaino','error');
+      }
     });
   }
 
@@ -65,9 +84,12 @@ export class MarketSellComponent implements OnInit {
         case 'BACK':
           this.router.navigate(['/market']);
           break;
-        /* case 'SELL':
-          this.router.navigate(['/sell']);
-          break; */
+        case 'SELL':
+          this.viewCard = !this.viewCard;
+          this.marketStateService.getSellHistory(this.playerId!).then((resp) => {
+            this.history = resp!;
+          });
+          break;
         case 'EDICOLA':
           this.router.navigate(['/edicola']);
           break;
@@ -133,6 +155,16 @@ export class MarketSellComponent implements OnInit {
 
   doFilter() {
     this.viewFilter=!this.viewFilter;
+  }
+
+  backSlice() {
+    this.sliceEnd -= this.slice;
+    this.sliceStart -= this.slice;
+  }
+
+  continueSlice() {
+    this.sliceStart += this.slice;
+    this.sliceEnd += this.slice;
   }
 
 }

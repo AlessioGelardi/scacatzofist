@@ -15,7 +15,7 @@
     <div class="col-6">
         <div class="d-flex justify-content-around mt-4">
             <h5 *ngIf="!viewFilter">LE TUE CARTE</h5>
-            <input *ngIf="viewFilter" class="col-5" [(ngModel)]="filterName" type="text" class="form-control sfondino" placeholder="Cerca card" inputCardFocus>
+            <input *ngIf="viewFilter" class="col-5" [(ngModel)]="filterName" type="text" class="form-control sfondino" placeholder="Cerca card" autofocus>
             <button class="btn btn-sm rounded grigino" (click)="doFilter()"><i class="fa fa-filter"></i></button>
         </div>
         <table class="table table-hover mt-3 text-center">

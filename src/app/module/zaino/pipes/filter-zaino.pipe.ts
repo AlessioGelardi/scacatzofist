@@ -1,8 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Card } from 'src/app/module/interface/card';
+import { Card } from '../../interface/card';
 
 @Pipe({
-  name: 'filterZainoOld'
+  name: 'filterZaino'
 })
 export class FilterZainoPipe implements PipeTransform {
 

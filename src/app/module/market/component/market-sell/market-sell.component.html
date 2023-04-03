@@ -6,13 +6,13 @@
     <div *ngIf="!viewCard">
         <h5>Le tue carte disponibili</h5>
     </div>
-    <div>
+    <div *ngIf="viewCard">
         <h5>Le tue carte in vendita</h5>
     </div>
 </div>
 
 
-<div class="d-flex justify-content-left mt-2">
+<div class="d-flex justify-content-left mt-2" *ngIf="!viewCard">
     <button class="btn btn-sm rounded grigino" (click)="doFilter()"><i class="fa fa-filter"></i></button>
     <input *ngIf="viewFilter" [(ngModel)]="filterName" type="text" class="form-control sfondino" placeholder="Cerca carta" autofocus>
 </div>
@@ -22,14 +22,14 @@
         <thead>
             <tr>
                 <th scope="col">&nbsp;</th>
-                <th scope="col">Costo</th>
+                <th scope="col" *ngIf="viewCard">Costo</th>
                 <th scope="col">Nome</th>
                 <th scope="col">ATK</th>
                 <th scope="col">DEF</th>
             </tr>
         </thead>
         <tbody *ngIf="!viewCard">
-            <tr *ngFor="let card of zaino">
+            <tr *ngFor="let card of zaino | filterZaino: filterName! | slice:sliceStart:sliceEnd; let i=index">
                 <td>
                     <button type="button" class="btn btn-outline-dark btn-sm" (click)="sellCard(card)"><i class="fa fa-dollar"></i></button>
                 </td>
@@ -50,11 +50,10 @@
             </tr>
         </tbody>
     </table>
-    <!-- 
-    <div class="row mt-1">
+    <div class="row mt-1" *ngIf="!viewCard">
         <div class="d-flex justify-content-between mt-1">
             <button class="btn btn-outline-dark btn-sm px-3" *ngIf="sliceStart>0" (click)="backSlice()"><i class="fa fa-arrow-left"></i></button>
             <button class="btn btn-outline-dark btn-sm px-3" *ngIf="sliceLimit! >= sliceEnd" (click)="continueSlice()"><i class="fa fa-arrow-right"></i></button>
         </div>
-    </div>-->
+    </div>
 </div>

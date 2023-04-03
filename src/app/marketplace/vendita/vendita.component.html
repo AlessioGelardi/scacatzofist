@@ -25,7 +25,7 @@
             </tr>
         </thead>
         <tbody *ngIf="!viewHistory">
-            <tr *ngFor="let card of zaino | filterZaino: filterName! | slice:sliceStart:sliceEnd; let i=index">
+            <tr *ngFor="let card of zaino | filterZainoOld: filterName! | slice:sliceStart:sliceEnd; let i=index">
                 <td>
                     <button type="button" class="btn btn-outline-dark btn-sm" (click)="sell(card)"><i class="fa fa-dollar"></i></button>
                 </td>

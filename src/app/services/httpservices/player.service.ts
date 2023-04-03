@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Player } from '../../module/interface/player';
+import { Card } from 'src/app/module/interface/card';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,7 @@ import { Player } from '../../module/interface/player';
 export class PlayerService {
 
   apiUrlPlayer: string = environment.baseUrlPlayer + "player";
+  apiUrlZaino: string = environment.baseUrlPlayer + "zainoById";
 
   constructor(private http: HttpClient) { }
 
@@ -19,6 +21,10 @@ export class PlayerService {
 
   getAllPlayers(): Observable<Player[]>{
     return this.http.get<Player[]>(this.apiUrlPlayer);
+  }
+
+  getZaino(id:string): Observable<Card[]> {
+    return this.http.get<Card[]>(this.apiUrlZaino+'?id='+id);
   }
 
 }
