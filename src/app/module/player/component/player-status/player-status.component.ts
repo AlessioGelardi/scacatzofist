@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { TypeMod } from 'src/app/enum/typeMod';
 import { Player } from 'src/app/module/interface/player';
 
 @Component({
@@ -12,36 +14,16 @@ export class PlayerStatusComponent implements OnInit {
 
   numberNotify:number | undefined;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
 
   readNotify() {
-
+    this.router.navigate(['/request',{id:this.player?._id!,typeMode:TypeMod.ALL}]);
   }
 
   logout() {
-
-  }
-
-  private takeNumberNotify(playerId: string) {
-    /*this.spinnerService.show();
-    this.httpPlayerService.getNumberNotify(playerId).subscribe({
-      next: (result) => {
-        if(result>0){
-          this.numberNotify = result;
-        }
-      }, // completeHandler
-      error: (error: any) => {
-        this.spinnerService.hide();
-        if(error.status===402) {
-          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
-        }
-      },
-      complete: () => {
-        this.spinnerService.hide();
-      }
-    });*/
+    this.router.navigate(['/login']);
   }
 }

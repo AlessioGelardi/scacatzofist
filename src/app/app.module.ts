@@ -25,6 +25,7 @@ import { DeckModule } from './module/deck/deck.module';
 import { MarketModule } from './module/market/market.module';
 import { PlayerModule } from './module/player/player.module';
 import { PlayNowModule } from './module/play-now/play-now.module';
+import { NotifierModule } from './module/notifier/notifier.module';
 
 
 @NgModule({
@@ -54,7 +55,8 @@ import { PlayNowModule } from './module/play-now/play-now.module';
     DeckModule,
     PlayerModule,
     MarketModule,
-    PlayNowModule
+    PlayNowModule,
+    NotifierModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -9,6 +9,8 @@ import { NotifierComponent } from './notifier/notifier.component';
 import { PlaynowComponent } from './playnow/playnow.component';
 import { playerRoutes, PlayerRoutingModule } from './module/player/player-routing.module';
 import { PlayNowRoutingModule, playNowRoutes } from './module/play-now/market-routing.module';
+import { notifierRoutes } from './module/notifier/notifier-routing.module';
+import { NotifierModule } from './module/notifier/notifier.module';
 
 const routes: Routes = [
   ...loginRoutes,
@@ -16,6 +18,7 @@ const routes: Routes = [
   ...deckRoutes,
   ...marketRoutes,
   ...playNowRoutes,
+  ...notifierRoutes,
   { path: 'home', component: HomeComponent },
   { path: 'marketplace', component: MarketplaceComponent},
   { path: 'playnow', component: PlaynowComponent},
@@ -29,6 +32,7 @@ const routes: Routes = [
     MarketRoutingModule,
     PlayerRoutingModule,
     PlayNowRoutingModule,
+    NotifierModule,
     RouterModule.forRoot(routes)
   ],
   exports: [RouterModule]

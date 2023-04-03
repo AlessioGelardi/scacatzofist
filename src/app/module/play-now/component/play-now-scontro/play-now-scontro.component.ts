@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TypeMod } from 'src/app/enum/typeMod';
 import { Button } from 'src/app/module/interface/button';
 import { Player } from 'src/app/module/interface/player';
+import { StateNotifierService } from 'src/app/module/notifier/services/state/state-notifier.service';
 import { StatePlayerService } from 'src/app/services/state/state-player.service';
 import { MessageService } from 'src/app/services/swalAlert/message.service';
 import Swal from 'sweetalert2';
@@ -23,6 +25,7 @@ export class PlayNowScontroComponent implements OnInit {
   constructor(private route: ActivatedRoute,
     private router: Router,
     private messageService: MessageService,
+    private notifierStateService: StateNotifierService,
     private playerStateService: StatePlayerService) { }
 
   ngOnInit(): void {
@@ -51,7 +54,7 @@ export class PlayNowScontroComponent implements OnInit {
           this.router.navigate(['/playnow']);
           break;
         case 'REQUEST':
-          this.router.navigate(['/request']);
+          this.router.navigate(['/request',{id:this.playerId,typeMode:TypeMod.SCONTRO}]);
           break;
       }
     }
@@ -74,24 +77,20 @@ export class PlayNowScontroComponent implements OnInit {
         request.playerIdOppo = playerId;
         request.status = 1;
 
-        /*
-        this.spinnerService.show();
-        this.httpPlayerService.newRequest(request).subscribe({
-          next: (result:any) => {
-            if(result) {
-              this.swalAlert('Fatto!','Richiesta inviata!','success');
+        this.notifierStateService.inviaRichiesta(request).then((resp) => {
+          if(resp === true) {
+            this.messageService.alert('Fatto!','Richiesta inviata!','success');
+          } else {
+            if(resp) {
+              const statusError = resp.status;
+              if(statusError === 402) {
+                this.messageService.alert('Attenzione!','Richiesta gia inviata, controlla nelle tue richieste','error');
+              } else {
+                this.messageService.alert('Errore','Richiesta gia inviata, controlla nelle tue richieste','error');
+              }
             }
-          }, // completeHandler
-          error: (error: any) => {
-            this.spinnerService.hide();
-            if(error.status===402) {
-              this.swalAlert('Attenzione!','Richiesta gia inviata, controlla nelle tue richieste','error');
-            }
-          },
-          complete: () => {
-            this.spinnerService.hide();
           }
-        });*/
+        });
       }
     })
   }

@@ -61,7 +61,7 @@ export class StateMarketService {
     return this.sellHistory;    
   }
 
-  async  deleteSellCard(sellCardId:string, cardId: string, playerId:string) {
+  async deleteSellCard(sellCardId:string, cardId: string, playerId:string) {
     this.spinnerService.show();
     let response;
 
