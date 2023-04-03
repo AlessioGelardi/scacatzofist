@@ -5,7 +5,7 @@ import { MarketSellComponent } from './component/market-sell/market-sell.compone
 import { MarketComponent } from './component/market/market.component';
 
 export const marketRoutes: Routes = [
-  { path: '', component: MarketComponent },
+  { path: 'market', component: MarketComponent },
   { path: 'sell', component: MarketSellComponent },
   { path: 'edicola', component: MarketEdicolaComponent }
 ];

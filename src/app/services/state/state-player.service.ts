@@ -37,12 +37,12 @@ export class StatePlayerService {
     return this.player;
   }
 
-  async getAllPlayers() {
+  async getAllPlayers(id:string) {
     this.spinnerService.show();
 
     if(!this.allplayers) {
       try {
-        const response = await firstValueFrom(this.playerService.getAllPlayers());
+        const response = await firstValueFrom(this.playerService.getAllPlayers(id));
         this.allplayers = response;
         this.spinnerService.hide();
       } catch(error:any) {

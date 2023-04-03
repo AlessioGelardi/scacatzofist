@@ -24,6 +24,7 @@ import { LoginModule } from './module/login/login.module';
 import { DeckModule } from './module/deck/deck.module';
 import { MarketModule } from './module/market/market.module';
 import { PlayerModule } from './module/player/player.module';
+import { PlayNowModule } from './module/play-now/play-now.module';
 
 
 @NgModule({
@@ -52,7 +53,8 @@ import { PlayerModule } from './module/player/player.module';
     LoginModule,
     DeckModule,
     PlayerModule,
-    MarketModule
+    MarketModule,
+    PlayNowModule
   ],
   providers: [],
   bootstrap: [AppComponent]

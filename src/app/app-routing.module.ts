@@ -8,12 +8,14 @@ import { marketRoutes, MarketRoutingModule } from './module/market/market-routin
 import { NotifierComponent } from './notifier/notifier.component';
 import { PlaynowComponent } from './playnow/playnow.component';
 import { playerRoutes, PlayerRoutingModule } from './module/player/player-routing.module';
+import { PlayNowRoutingModule, playNowRoutes } from './module/play-now/market-routing.module';
 
 const routes: Routes = [
   ...loginRoutes,
   ...playerRoutes,
   ...deckRoutes,
   ...marketRoutes,
+  ...playNowRoutes,
   { path: 'home', component: HomeComponent },
   { path: 'marketplace', component: MarketplaceComponent},
   { path: 'playnow', component: PlaynowComponent},
@@ -26,6 +28,7 @@ const routes: Routes = [
     DeckRoutingModule,
     MarketRoutingModule,
     PlayerRoutingModule,
+    PlayNowRoutingModule,
     RouterModule.forRoot(routes)
   ],
   exports: [RouterModule]

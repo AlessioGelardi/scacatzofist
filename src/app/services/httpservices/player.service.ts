@@ -11,6 +11,7 @@ import { Card } from 'src/app/module/interface/card';
 export class PlayerService {
 
   apiUrlPlayer: string = environment.baseUrlPlayer + "player";
+  apiUrlPlayers: string = environment.baseUrlPlayer + "players";
   apiUrlZaino: string = environment.baseUrlPlayer + "zainoById";
 
   constructor(private http: HttpClient) { }
@@ -19,8 +20,8 @@ export class PlayerService {
     return this.http.get<Player>(this.apiUrlPlayer+'?id='+id);
   }
 
-  getAllPlayers(): Observable<Player[]>{
-    return this.http.get<Player[]>(this.apiUrlPlayer);
+  getAllPlayers(id:string): Observable<Player[]>{
+    return this.http.get<Player[]>(this.apiUrlPlayers);
   }
 
   getZaino(id:string): Observable<Card[]> {
