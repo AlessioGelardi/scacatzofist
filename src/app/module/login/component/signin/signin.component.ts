@@ -112,6 +112,7 @@ export class SigninComponent implements OnInit {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
         this.svuotaForm();
+        this.router.navigate(['/recover']);
       }
     });
   }

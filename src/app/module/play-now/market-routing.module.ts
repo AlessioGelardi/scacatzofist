@@ -4,7 +4,7 @@ import { PlayNowComponent } from './component/play-now/play-now.component';
 import { PlayNowScontroComponent } from './component/play-now-scontro/play-now-scontro.component';
 
 export const playNowRoutes: Routes = [
-  { path: '', component: PlayNowComponent },
+  { path: 'playnow', component: PlayNowComponent },
   { path: 'scontro', component: PlayNowScontroComponent }
 ];
 

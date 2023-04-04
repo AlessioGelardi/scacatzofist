@@ -44,7 +44,7 @@ export class RecoverComponent implements OnInit {
     this.router.navigate(['/']);
   }
 
-  async recupera() {
+  recupera() {
     const user = this.recuperaForm.value.name;
     const email = this.recuperaForm.value.email;
     if(user || email) {
