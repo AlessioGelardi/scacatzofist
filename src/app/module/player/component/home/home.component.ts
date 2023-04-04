@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Player } from 'src/app/module/interface/player';
-import { StatePlayerService } from '../../../../services/state/state-player.service';
-import { MessageService } from '../../../../services/swalAlert/message.service';
+import { MessageService } from 'src/app/module/swalAlert/message.service';
+import { StatePlayerService } from '../../services/state/state-player.service';
 
 @Component({
   selector: 'player-home',

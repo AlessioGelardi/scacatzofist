@@ -1,6 +1,0 @@
-<div class="row mt-3 d-flex justify-content-center text-center">
-    <div class="col-9"><label>Decidi con chi duellare</label></div>
-    <div *ngFor="let player of players">
-        <button class="col-7 m-2 btn btn-lg rounded grigino" (click)="inviaRichiesta(player._id!,player.name)">{{player.name}}</button>
-    </div>
-</div>

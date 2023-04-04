@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { firstValueFrom } from 'rxjs';
 import { NotifierService } from '../httpservice/notifier.service';
-import { Reqs } from 'src/app/module/interface/reqs';
-import { MessageService } from 'src/app/services/swalAlert/message.service';
+import { MessageService } from 'src/app/module/swalAlert/message.service';
 
 @Injectable({
   providedIn: 'root'

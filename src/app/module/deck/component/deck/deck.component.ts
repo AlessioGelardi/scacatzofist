@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Button } from 'src/app/module/interface/button';
-import { MessageService } from 'src/app/services/swalAlert/message.service';
 import Swal from 'sweetalert2';
 import { StateDeckService } from '../../services/state/state-deck.service';
+import { MessageService } from 'src/app/module/swalAlert/message.service';
 
 @Component({
   selector: 'app-deck',

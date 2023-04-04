@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { Button } from 'src/app/module/interface/button';
 import { Card, Deck } from 'src/app/module/interface/card';
-import { MessageService } from 'src/app/services/swalAlert/message.service';
-import Swal from 'sweetalert2';
 import { StateDeckService } from '../../services/state/state-deck.service';
+import { MessageService } from 'src/app/module/swalAlert/message.service';
 
 @Component({
   selector: 'app-deck-detail',
@@ -20,7 +18,6 @@ export class DeckDetailComponent implements OnInit {
   deck: Deck | undefined;
 
   constructor(private router: Router,
-    private spinnerService: NgxSpinnerService,
     private deckStateService: StateDeckService,
     private messageService: MessageService) {
     

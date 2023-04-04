@@ -1,5 +1,5 @@
-import { Status } from "../../enum/status";
-import { TypeMod } from "../../enum/typeMod";
+import { Status } from "../notifier/enum/status";
+import { TypeMod } from "../play-now/enum/typeMod";
 
 export interface Reqs {
     id: string,

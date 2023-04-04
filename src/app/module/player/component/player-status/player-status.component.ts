@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { TypeMod } from 'src/app/enum/typeMod';
+import { TypeMod } from 'src/app/module/play-now/enum/typeMod';
 import { Player } from 'src/app/module/interface/player';
 
 @Component({

@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
 import { LoginService } from '../../httpservices/login.service';
-import { MessageService } from 'src/app/services/swalAlert/message.service';
+import { MessageService } from 'src/app/module/swalAlert/message.service';
 
 @Component({
   selector: 'app-login',

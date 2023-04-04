@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Button } from 'src/app/module/interface/button';
 import { Player } from 'src/app/module/interface/player';
-import { StatePlayerService } from 'src/app/services/state/state-player.service';
-import { MessageService } from 'src/app/services/swalAlert/message.service';
+import { StatePlayerService } from 'src/app/module/player/services/state/state-player.service';
+import { MessageService } from 'src/app/module/swalAlert/message.service';
 
 @Component({
   selector: 'app-play-now',

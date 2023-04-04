@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Status } from 'src/app/enum/status';
-import { TypeMod } from 'src/app/enum/typeMod';
+import { Status } from 'src/app/module/notifier/enum/status';
+import { TypeMod } from 'src/app/module/play-now/enum/typeMod';
 import { Reqs } from 'src/app/module/interface/reqs';
-import { MessageService } from 'src/app/services/swalAlert/message.service';
 import Swal from 'sweetalert2';
 import { StateNotifierService } from '../../services/state/state-notifier.service';
 import { ActivatedRoute } from '@angular/router';
+import { MessageService } from 'src/app/module/swalAlert/message.service';
 
 @Component({
   selector: 'app-notifier',

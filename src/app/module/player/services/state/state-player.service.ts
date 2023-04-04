@@ -3,7 +3,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { firstValueFrom } from 'rxjs';
 import { Card } from 'src/app/module/interface/card';
 import { Player } from 'src/app/module/interface/player';
-import { PlayerService } from 'src/app/services/httpservices/player.service';
+import { PlayerService } from '../httpservices/player.service';
 
 @Injectable({
   providedIn: 'root'

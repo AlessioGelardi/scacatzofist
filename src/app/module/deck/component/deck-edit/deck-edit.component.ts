@@ -3,11 +3,10 @@ import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Button } from 'src/app/module/interface/button';
 import { Card, Deck } from 'src/app/module/interface/card';
-import { MessageService } from 'src/app/services/swalAlert/message.service';
-import { DeckService } from '../../services/httpservices/deck.service';
 import { StateDeckService } from '../../services/state/state-deck.service';
-import { StatePlayerService } from 'src/app/services/state/state-player.service';
 import Swal from 'sweetalert2';
+import { StatePlayerService } from 'src/app/module/player/services/state/state-player.service';
+import { MessageService } from 'src/app/module/swalAlert/message.service';
 
 @Component({
   selector: 'app-deck-edit',
