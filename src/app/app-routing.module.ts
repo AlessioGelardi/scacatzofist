@@ -4,7 +4,7 @@ import { deckRoutes, DeckRoutingModule } from './module/deck/deck-routing.module
 import { loginRoutes, LoginRoutingModule } from './module/login/login-routing.module';
 import { marketRoutes, MarketRoutingModule } from './module/market/market-routing.module';
 import { playerRoutes, PlayerRoutingModule } from './module/player/player-routing.module';
-import { PlayNowRoutingModule, playNowRoutes } from './module/play-now/market-routing.module';
+import { PlayNowRoutingModule, playNowRoutes } from './module/play-now/play-now-routing.module';
 import { notifierRoutes } from './module/notifier/notifier-routing.module';
 import { NotifierModule } from './module/notifier/notifier.module';
 

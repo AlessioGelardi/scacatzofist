@@ -42,7 +42,7 @@ export class PlayNowScontroComponent implements OnInit {
       }
     ];
 
-    this.playerId = "63459b3a4b4c877f5a46f43e"; //this.route.snapshot.paramMap.get('id')
+    this.playerId = this.route.snapshot.paramMap.get('id')!;
     this.takePlayer(this.playerId);
     this.takeAllPlayers(this.playerId);
   }

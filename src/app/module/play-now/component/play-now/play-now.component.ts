@@ -36,7 +36,7 @@ export class PlayNowComponent implements OnInit {
       }
     ];
 
-    const playerId = "63459b3a4b4c877f5a46f43e"; //this.route.snapshot.paramMap.get('id') 
+    const playerId = this.route.snapshot.paramMap.get('id')!; 
     this.takePlayer(playerId);
 
   }
@@ -55,7 +55,7 @@ export class PlayNowComponent implements OnInit {
   }
 
   scontro() {
-    this.router.navigate(['/scontro']);
+    this.router.navigate(['/scontro',{id:this.player!._id}]);
   }
 
   puntata() {
