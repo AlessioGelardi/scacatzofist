@@ -4,6 +4,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
 import { LoginService } from '../../httpservices/login.service';
 import { MessageService } from 'src/app/module/swalAlert/message.service';
+import { StatePlayerService } from 'src/app/module/player/services/state/state-player.service';
 
 @Component({
   selector: 'app-login',
@@ -24,9 +25,11 @@ export class LoginComponent implements OnInit {
   constructor(private router: Router,
     private loginService: LoginService,
     private spinnerService: NgxSpinnerService,
+    private playerStateService: StatePlayerService,
     private messageService: MessageService) { }
 
   ngOnInit(): void {
+    this.playerStateService.resetState();
   }
 
   async login() {
