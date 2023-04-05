@@ -7,7 +7,7 @@ import { StatePlayerService } from '../../services/state/state-player.service';
 @Component({
   selector: 'player-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['../../styles/player.css','./home.component.css']
 })
 export class HomeComponent implements OnInit {
 
@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const playerId = "63459b3a4b4c877f5a46f43e";//this.route.snapshot.paramMap.get('id') 
+    const playerId = this.route.snapshot.paramMap.get('id')!;
 
     this.takePlayer(playerId);
     this.takeNumberNotify(playerId);

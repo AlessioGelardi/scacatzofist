@@ -6,7 +6,7 @@ import { Player } from 'src/app/module/interface/player';
 @Component({
   selector: 'player-status',
   templateUrl: './player-status.component.html',
-  styleUrls: ['./player-status.component.css']
+  styleUrls: ['../../styles/player.css']
 })
 export class PlayerStatusComponent implements OnInit {
 
