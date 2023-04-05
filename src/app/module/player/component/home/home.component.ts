@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit {
   }
 
   marketPlace() {
-    this.router.navigate(['/marketplace',{id:this.player?._id}]);
+    this.router.navigate(['/market',{id:this.player?._id}]);
   }
 
   giocaAdesso() {

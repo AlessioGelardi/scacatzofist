@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-market-edicola',
   templateUrl: './market-edicola.component.html',
-  styleUrls: ['./market-edicola.component.css']
+  styleUrls: ['./market-edicola.component.css','../../styles/market.css']
 })
 export class MarketEdicolaComponent implements OnInit {
 

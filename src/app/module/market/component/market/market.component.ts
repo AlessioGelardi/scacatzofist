@@ -89,7 +89,7 @@ export class MarketComponent implements OnInit {
           this.router.navigate(['/home']);
           break;
         case 'SELL':
-          this.router.navigate(['/sell']);
+          this.router.navigate(['/sell',{id:this.player?._id}]);
           break;
         case 'EDICOLA':
           this.router.navigate(['/edicola']);

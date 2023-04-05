@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 @Component({
   selector: 'market-vetrina',
   templateUrl: './vetrina.component.html',
-  styleUrls: ['./vetrina.component.css']
+  styleUrls: ['./vetrina.component.css','../../../styles/market.css']
 })
 export class VetrinaComponent implements OnInit {
 

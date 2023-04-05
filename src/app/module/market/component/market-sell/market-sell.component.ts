@@ -59,7 +59,7 @@ export class MarketSellComponent implements OnInit {
       }
     ];
 
-    this.playerId = "63459b3a4b4c877f5a46f43e"; //this.route.snapshot.paramMap.get('id')
+    this.playerId = this.route.snapshot.paramMap.get('id')!;
 
     this.playerStateService.getZaino(this.playerId!).then((resp) => {
       if(resp) {
