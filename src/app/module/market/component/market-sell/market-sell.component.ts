@@ -10,7 +10,7 @@ import { MessageService } from 'src/app/module/swalAlert/message.service';
 @Component({
   selector: 'app-market-sell',
   templateUrl: './market-sell.component.html',
-  styleUrls: ['./market-sell.component.css']
+  styleUrls: ['./market-sell.component.css','../../styles/market.css']
 })
 export class MarketSellComponent implements OnInit {
 
@@ -115,28 +115,18 @@ export class MarketSellComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
 
-        /*
-        this.spinnerService.show();
-        this.httpPlayerService.venditaCard(this.player?._id!,card.id,result.value).subscribe({
-          next: () => {
-            this.button?.back()
-            this.swalAlert('Fatto!','Vendita creata con successo!','success');
-            this.takeZaino(this.player?._id!);
-          }, // completeHandler
-          error: (error: any) => {
-            this.spinnerService.hide();
-            if(error.status===403) {
-              let msg = "";
-              error.error.forEach((z: any) => msg=z.name+" x"+z.count);
-              this.swalAlert('Attenzione!','Carta presente nel deck ---> '+msg,'error');
+        this.marketStateService.venditaCard(this.playerId!,card.id,result.value).then((resp) => {
+          if(resp === true) {
+            this.messageService.alert('Fatto!','Vendita creata con successo!','success');
+          } else {
+            if(resp && resp.status !== 200) {
+              if(resp.status === 403) {
+                this.messageService.alert('Attenzione','Carta presente nel deck','error');
+              }
+              this.messageService.alert('Errore','Qualcosa è andato storto durante la creazione della vendita','error');
             }
-          },
-          complete: () => {
-            this.spinnerService.hide();
           }
         });
-
-        */
       }
     })
   }

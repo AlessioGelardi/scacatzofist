@@ -22,6 +22,16 @@ export class MarketService {
     return this.http.get<SellCard[]>(this.marketplaceById+'?id='+playerId);
   }
 
+  venditaCard(playerId:string, cardId:string, prezzo:number) {
+    let vendita:any = {};
+    vendita.playerId = playerId;
+    vendita.cardId = cardId;
+    vendita.prezzo = prezzo;
+
+    vendita.today = this.takeFormatToday();
+    return this.http.post<boolean>(this.apiUrlMarket,vendita,this.generateOptions());
+}
+
   deleteSellCard(sellCardId:string, cardId: string, playerId:string) {
     return this.http.delete<SellCard[]>(this.apiUrlMarketPlace+'?id='+sellCardId+';'+cardId+';'+playerId);
   }
