@@ -29,10 +29,10 @@ export class MarketService {
     vendita.prezzo = prezzo;
 
     vendita.today = this.takeFormatToday();
-    return this.http.post<boolean>(this.apiUrlMarket,vendita,this.generateOptions());
+    return this.http.post<boolean>(this.apiUrlMarketPlace,vendita,this.generateOptions());
 }
 
-  deleteSellCard(sellCardId:string, cardId: string, playerId:string) {
+  deleteSellCard(sellCardId:string, cardId: string, playerId:string): Observable<SellCard[]> {
     return this.http.delete<SellCard[]>(this.apiUrlMarketPlace+'?id='+sellCardId+';'+cardId+';'+playerId);
   }
 
