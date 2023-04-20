@@ -31,9 +31,9 @@
 
 /* FRECCIA */
 .arrow {
-  position: relative;
-  left: 33%;
-  bottom: 48%;
+  position: absolute;
+  left: 8%;
+  top: 2%;
   transform: rotate(90deg);
   width: 0;
   height: 0;
@@ -44,9 +44,9 @@
 }
 
 .spin-btn {
-  position: relative;
-  left:25%;
-  top:60%;
+  position: absolute;
+  left:1%;
+  top:52%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -82,4 +82,18 @@
   width: 100%;
   background: #df0032 !important;
   color: #cecdcb !important;
+}
+
+
+.fortune-wheel-wrapper {
+  position: relative;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.fortune-wheel {
+  position: relative;
+  width: 100%;
+  padding-bottom: 100%;
+  /* inserisci qui il codice CSS per la ruota della fortuna */
 }

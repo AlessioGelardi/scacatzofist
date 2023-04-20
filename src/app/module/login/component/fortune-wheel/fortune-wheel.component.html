@@ -12,16 +12,22 @@
 <div class="row m-0">
     <div class="col-6">
 
-        <div class="mt-5 slices" *ngFor="let slice of slices; let i = index">
-            <div class="slice" [style.transform]="'translate(-50%, -50%) rotate(' + slice.numTransform + 'deg)'" [style.border-color]="slice.color+' transparent'" >
-                <div class="label">{{slice.label}}</div>
+        <div class="fortune-wheel-wrapper">
+            <div class="fortune-wheel">
+                <div class="mt-5 slices" *ngFor="let slice of slices; let i = index">
+                    <div class="slice" [style.transform]="'translate(-50%, -50%) rotate(' + slice.numTransform + 'deg)'" [style.border-color]="slice.color+' transparent'" >
+                        <div class="label">{{slice.label}}</div>
+                    </div>
+                </div>
             </div>
+
+            <div class="arrow"></div>
+            <!-- <button (click)="doRotation()">Ruota l'elemento</button>-->
+            <button class="spin-btn" (click)="doRotation()">
+                <span class="spin-text">SPIN</span>
+            </button>
         </div>
-        <div class="arrow"></div>
-        <!-- <button (click)="doRotation()">Ruota l'elemento</button>-->
-        <button class="spin-btn" (click)="doRotation()">
-            <span class="spin-text">SPIN</span>
-        </button>
+
 
 
     </div>
