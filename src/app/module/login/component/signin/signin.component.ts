@@ -78,6 +78,7 @@ export class SigninComponent implements OnInit {
           },
           complete: () => {
             this.messageService.alert('Successo!','Utente registrato con successo, adesso puoi fare il login','success');
+            this.router.navigate(['/ruota']);
             this.spinnerService.hide();
           }
         });

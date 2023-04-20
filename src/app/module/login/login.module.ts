@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RecoverComponent } from './component/recover/recover.component';
 import { SigninComponent } from './component/signin/signin.component';
 import { LoginRoutingModule } from './login-routing.module';
+import { FortuneWheelComponent } from './component/fortune-wheel/fortune-wheel.component';
 
 
 
@@ -12,7 +13,8 @@ import { LoginRoutingModule } from './login-routing.module';
   declarations: [
     LoginComponent,
     RecoverComponent,
-    SigninComponent
+    SigninComponent,
+    FortuneWheelComponent
   ],
   imports: [
     CommonModule,

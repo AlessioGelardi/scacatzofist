@@ -1,5 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { LoginService } from '../../httpservices/login.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { Deck } from 'src/app/module/interface/card';
+import { MessageService } from 'src/app/module/swalAlert/message.service';
 
 export interface Slice {
   label: string;
@@ -21,18 +25,40 @@ export class FortuneWheelComponent implements OnInit {
   viewStarter: boolean = false;
   nameDeck:string | undefined;
 
-  constructor(private router: Router) {
+  decks:Deck[] = [];
+
+  constructor(private router: Router,
+    private loginService: LoginService,
+    private spinnerService: NgxSpinnerService,
+    private messageService: MessageService) {
     this.arrow=324;
   }
 
   ngOnInit(): void {
-    this.createWheel();
+    
+
+    this.spinnerService.show();
+    this.loginService.starterDeck().subscribe({
+      next: (result) => {
+        if(result) {
+          this.decks=result;
+          this.createWheel();
+        }
+      }, // completeHandler
+      error: (error: any) => {
+        this.spinnerService.hide();
+        this.messageService.alert('Errore!','Errore durante il recupero degli starterDeck','error');
+      },
+      complete: () => {
+        this.spinnerService.hide();
+      }
+    });
     
   }
 
   createWheel() {
     this.slices = [];
-    const deck=['acqua','amazzone','drago','EroeElementale','fuoco','goblin','guerriero','IngranaggioAntico','jinzo','luce'];
+    const deck:string[]=this.nameDecks();
     for (let i = 0; i < 10; i++) {
       const slice: Slice = {
         label: deck[i],
@@ -78,6 +104,14 @@ export class FortuneWheelComponent implements OnInit {
 
   login() {
     this.router.navigate(['/login']);
+  }
+
+  private nameDecks(): string[] {
+    let namedecks:string[] = [];
+    for (let x of this.decks) {
+      namedecks.push(x['name'])
+    }
+    return namedecks;
   }
 
 }

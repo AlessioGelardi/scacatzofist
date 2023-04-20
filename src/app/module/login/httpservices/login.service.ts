@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Player } from 'src/app/module/interface/player';
 import { environment } from 'src/environments/environment';
+import { Deck } from '../../interface/card';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,7 @@ export class LoginService {
   apiUrlLogin: string = environment.baseUrlLogin + "login";
   apiUrlSignin: string = environment.baseUrlLogin + "signin";
   apiUrlRecupera: string = environment.baseUrlLogin + "recupera";
+  apiUrlStarterDeck: string = environment.baseUrlLogin + "deck";
 
   constructor(private http: HttpClient) {}
 
@@ -32,5 +34,9 @@ export class LoginService {
     }
 
     return this.http.get<Player>(url);
+  }
+
+  starterDeck() {
+    return this.http.get<Deck[]>(this.apiUrlStarterDeck);
   }
 }
