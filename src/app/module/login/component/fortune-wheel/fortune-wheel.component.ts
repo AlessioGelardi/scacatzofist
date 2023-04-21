@@ -1,9 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { LoginService } from '../../httpservices/login.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Deck } from 'src/app/module/interface/card';
 import { MessageService } from 'src/app/module/swalAlert/message.service';
+import { StatePlayerService } from 'src/app/module/player/services/state/state-player.service';
+import { Player } from 'src/app/module/interface/player';
 
 export interface Slice {
   label: string;
@@ -27,7 +29,11 @@ export class FortuneWheelComponent implements OnInit {
 
   decks:Deck[] = [];
 
+  player:Player | undefined;
+
   constructor(private router: Router,
+    private route: ActivatedRoute,
+    private playerStateService: StatePlayerService,
     private loginService: LoginService,
     private spinnerService: NgxSpinnerService,
     private messageService: MessageService) {
@@ -35,7 +41,8 @@ export class FortuneWheelComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
+    const playerId = this.route.snapshot.paramMap.get('id')!;
+    this.takePlayer(playerId);
 
     this.spinnerService.show();
     this.loginService.starterDeck().subscribe({
@@ -112,6 +119,23 @@ export class FortuneWheelComponent implements OnInit {
       namedecks.push(x['name'])
     }
     return namedecks;
+  }
+
+  private takePlayer(playerId: string) {
+    this.playerStateService.getPlayer(playerId).then((resp) => {
+      if(resp) {
+        this.player = resp;
+      } else {
+        //TO-DO gestione degli errori
+        /*
+        if(resp.status===402) {
+          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+        }
+        */
+
+        this.messageService.alert('Attenzione!','Errore durante la chiamata getPlayer','error');
+      }
+    });
   }
 
 }

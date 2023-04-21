@@ -67,6 +67,8 @@ export class SigninComponent implements OnInit {
           next: (result: boolean) => {
             if(result) {
               //this.viewRegistrati = false;
+              this.messageService.alert('Successo!','Utente registrato con successo, adesso puoi fare il login','success');
+              this.router.navigate(['/ruota',{id:result}]);
               this.svuotaForm();
             }
           }, // completeHandler
@@ -77,8 +79,6 @@ export class SigninComponent implements OnInit {
             }
           },
           complete: () => {
-            this.messageService.alert('Successo!','Utente registrato con successo, adesso puoi fare il login','success');
-            this.router.navigate(['/ruota']);
             this.spinnerService.hide();
           }
         });

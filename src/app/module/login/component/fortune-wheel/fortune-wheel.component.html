@@ -1,14 +1,3 @@
-<!-- <div class="wheel" [@rotateWheel]="rotateState">
-    <div class="slices">
-            <div class="slice" *ngFor="let slice of slices; let i = index" [style.background-color]="slice.color" [style.transform]="'rotate(' + getSliceRotation(i) + 'deg)'">
-            <div class="label">{{ slice.label }}</div>
-        </div>
-    </div>
-    
-</div>
-<button (click)="spin()">Spin!</button>
--->
-
 <div class="row m-0">
     <div class="col-6">
 
@@ -33,6 +22,8 @@
     </div>
     <div class="col-5 text-center">
         <h3 class="">LA RUOTA DELLA FORTUNA</h3>
+        <br>
+        <p><b>{{player?.name}}</b> Benvenuto a SCACATZOFIST, sei pronto per duellare?</p>
         <p>Clicca il pulsante <b>"SPIN"</b> e ti verrà assegnato uno starter deck <u>in maniera casuale</u></p>
 
         <div class="mt-4" *ngIf="viewStarter">
