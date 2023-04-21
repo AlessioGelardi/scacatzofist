@@ -20,6 +20,21 @@ export class StateDeckService {
 
   }
 
+  async newDeck(deck:any) {
+    this.spinnerService.show();
+    let response;
+
+    try {
+      response = await firstValueFrom(this.deckService.newDeck(deck));
+      this.spinnerService.hide();
+    } catch (error: any) {
+      response = error;
+      this.spinnerService.hide();
+    }
+
+    return response
+  }
+
   async getDecks(playerId:string) {
     this.spinnerService.show();
 

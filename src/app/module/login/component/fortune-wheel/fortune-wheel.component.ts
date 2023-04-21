@@ -6,6 +6,7 @@ import { Deck } from 'src/app/module/interface/card';
 import { MessageService } from 'src/app/module/swalAlert/message.service';
 import { StatePlayerService } from 'src/app/module/player/services/state/state-player.service';
 import { Player } from 'src/app/module/interface/player';
+import { StateDeckService } from 'src/app/module/deck/services/state/state-deck.service';
 
 export interface Slice {
   label: string;
@@ -36,6 +37,7 @@ export class FortuneWheelComponent implements OnInit {
     private playerStateService: StatePlayerService,
     private loginService: LoginService,
     private spinnerService: NgxSpinnerService,
+    private deckStateService: StateDeckService,
     private messageService: MessageService) {
     this.arrow=324;
   }
@@ -95,6 +97,18 @@ export class FortuneWheelComponent implements OnInit {
     setTimeout(() => {
       this.viewStarter=true;
       this.nameDeck=this.slices[numRand+1].label.toUpperCase();
+
+      let selectedDeck = this.takeDeckByName(this.nameDeck);
+      this.spinnerService.show();
+      selectedDeck!.playerId = this.player?._id!;
+      this.deckStateService.newDeck(selectedDeck!,).then((resp) => {
+        if(resp && resp.status===200) {
+          this.messageService.alert('Fatto!','Deck salvato con successo.','success');
+        } else {
+          this.messageService.alert('Errore','Qualcosa è andato storto durante il salvataggio del deck','error');
+        }
+      });
+
     }, 2000);
     
   }
@@ -136,6 +150,10 @@ export class FortuneWheelComponent implements OnInit {
         this.messageService.alert('Attenzione!','Errore durante la chiamata getPlayer','error');
       }
     });
+  }
+
+  private takeDeckByName(name:string) {
+    return this.decks.find(i => i.name.toUpperCase() === name.toUpperCase());
   }
 
 }
