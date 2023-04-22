@@ -11,8 +11,7 @@
             </div>
 
             <div class="arrow"></div>
-            <!-- <button (click)="doRotation()">Ruota l'elemento</button>-->
-            <button class="spin-btn" (click)="doRotation()">
+            <button class="spin-btn" (click)="doRotation()" [disabled]="disableWheel">
                 <span class="spin-text">SPIN</span>
             </button>
         </div>
@@ -23,7 +22,7 @@
     <div class="col-5 text-center">
         <h3 class="">LA RUOTA DELLA FORTUNA</h3>
         <br>
-        <p><b>{{player?.name}}</b> Benvenuto a SCACATZOFIST, sei pronto per duellare?</p>
+        <p><b>{{player?.name}}</b> benvenuto a SCACATZOFIST, sei pronto per duellare?</p>
         <p>Clicca il pulsante <b>"SPIN"</b> e ti verrà assegnato uno starter deck <u>in maniera casuale</u></p>
 
         <div class="mt-4" *ngIf="viewStarter">

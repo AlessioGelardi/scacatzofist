@@ -28,6 +28,8 @@ export class FortuneWheelComponent implements OnInit {
   viewStarter: boolean = false;
   nameDeck:string | undefined;
 
+  disableWheel:boolean = false;
+
   decks:Deck[] = [];
 
   player:Player | undefined;
@@ -101,9 +103,10 @@ export class FortuneWheelComponent implements OnInit {
       let selectedDeck = this.takeDeckByName(this.nameDeck);
       this.spinnerService.show();
       selectedDeck!.playerId = this.player?._id!;
-      this.deckStateService.newDeck(selectedDeck!,).then((resp) => {
-        if(resp && resp.status===200) {
-          this.messageService.alert('Fatto!','Deck salvato con successo.','success');
+      this.deckStateService.newDeck(selectedDeck!).then((resp) => {
+        if(resp) {
+          this.disableWheel=true;
+          this.messageService.alert('Ecco a te!','Ti è stato assegnato il deck '+selectedDeck!.name,'success');
         } else {
           this.messageService.alert('Errore','Qualcosa è andato storto durante il salvataggio del deck','error');
         }
@@ -124,7 +127,7 @@ export class FortuneWheelComponent implements OnInit {
   }
 
   login() {
-    this.router.navigate(['/login']);
+    this.router.navigate(['/']);
   }
 
   private nameDecks(): string[] {
