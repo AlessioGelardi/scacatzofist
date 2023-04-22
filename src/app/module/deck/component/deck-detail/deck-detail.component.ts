@@ -54,7 +54,7 @@ export class DeckDetailComponent implements OnInit {
     if(code) {
       switch(code) {
         case 'BACK':
-          this.router.navigate(['/deck']);
+          this.router.navigate(['/deck',{id:this.playerId!}]);
           break;
         case 'EDIT':
           this.router.navigate(['/deckEdit',{id:this.deckId,playerId:this.playerId!}]);

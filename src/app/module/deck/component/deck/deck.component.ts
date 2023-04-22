@@ -70,7 +70,7 @@ export class DeckComponent implements OnInit {
     if(code) {
       switch(code) {
         case 'HOME':
-          this.router.navigate(['/home']);
+          this.router.navigate(['/home',{id:this.playerId!}]);
           break;
         case 'NEW':
           if(this.newDeck) {
