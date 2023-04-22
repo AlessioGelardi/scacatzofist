@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Button } from 'src/app/module/interface/button';
 import { Card, Deck } from 'src/app/module/interface/card';
 import { StateDeckService } from '../../services/state/state-deck.service';
@@ -15,9 +15,11 @@ export class DeckDetailComponent implements OnInit {
   buttons: Button[] = [];
 
   deckId: string | undefined;
+  playerId: string | undefined;
   deck: Deck | undefined;
 
   constructor(private router: Router,
+    private route: ActivatedRoute,
     private deckStateService: StateDeckService,
     private messageService: MessageService) {
     
@@ -37,7 +39,8 @@ export class DeckDetailComponent implements OnInit {
       }
     ];
 
-    this.deckId = '634ebd932a1bb2f2d4f921ef'; //this.route.snapshot.paramMap.get('id')!;
+    this.deckId = this.route.snapshot.paramMap.get('id')!;
+    this.playerId = this.route.snapshot.paramMap.get('playerId')!;
     this.deckStateService.getDeck(this.deckId).then((resp) => {
       this.deck = resp;
     });
@@ -51,10 +54,10 @@ export class DeckDetailComponent implements OnInit {
     if(code) {
       switch(code) {
         case 'BACK':
-          this.router.navigate(['/']);
+          this.router.navigate(['/deck']);
           break;
         case 'EDIT':
-          this.router.navigate(['/deckEdit',{id:this.deckId}]);
+          this.router.navigate(['/deckEdit',{id:this.deckId,playerId:this.playerId!}]);
           break;
       }
     }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Button } from 'src/app/module/interface/button';
 import { Card, Deck } from 'src/app/module/interface/card';
@@ -33,6 +33,7 @@ export class DeckEditComponent implements OnInit {
 
   constructor(private router: Router,
     private deckStateService: StateDeckService,
+    private route: ActivatedRoute,
     private playerStateService: StatePlayerService,
     private messageService: MessageService) { }
 
@@ -50,12 +51,12 @@ export class DeckEditComponent implements OnInit {
       }
     ];
 
-    this.deckId = '634ebd932a1bb2f2d4f921ef'; //this.route.snapshot.paramMap.get('id')!;
+    this.deckId = this.route.snapshot.paramMap.get('id')!;
     this.deckStateService.getDeck(this.deckId).then((resp) => {
       this.deck = resp;
     });
 
-    this.playerId = "63459b3a4b4c877f5a46f43e"; //this.route.snapshot.paramMap.get('playerId')
+    this.playerId = this.route.snapshot.paramMap.get('playerId')!;
 
     this.playerStateService.getZaino(this.playerId!).then((resp) => {
       if(resp) {

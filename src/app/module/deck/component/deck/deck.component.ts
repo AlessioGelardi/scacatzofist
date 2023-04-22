@@ -92,7 +92,7 @@ export class DeckComponent implements OnInit {
   }
 
   viewDeck(id:string) {
-    this.router.navigate(['/deckDetail',{id:id}]);
+    this.router.navigate(['/deckDetail',{id:id,playerId:this.playerId!}]);
   }
 
   doModifyDeckName(deckName: string) {
