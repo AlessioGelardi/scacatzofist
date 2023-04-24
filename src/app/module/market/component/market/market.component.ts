@@ -67,14 +67,20 @@ export class MarketComponent implements OnInit {
       confirmButtonText: 'Acquista'
     }).then((result) => {
       if(result.isConfirmed) {
-        this.marketStateService.buyCard(sellCard,this.player?._id!).then((resp) => {
-          if(resp) {
-            this.messageService.alert('Fatto!','Carta acquistata!','success');
-            this.takeMarketPlace();
-          } else {
-            this.messageService.alert('Errore','Qualcosa è andato storto durante acquisto della carta','error');
-          }
-        });
+        if(this.player!.coin!-Number(sellCard.prezzo)>=0) {
+          this.marketStateService.buyCard(sellCard,this.player?._id!).then((resp) => {
+            if(resp) {
+              this.player!.coin = this.player!.coin! - Number(sellCard.prezzo);
+              this.messageService.alert('Fatto!','Carta acquistata!','success');
+              this.takeMarketPlace();
+            } else {
+              this.messageService.alert('Errore','Qualcosa è andato storto durante acquisto della carta','error');
+            }
+          });
+        } else {
+          this.messageService.alert('Errore','Non hai abbastanza coin','error');
+        }
+
       }
     })
   }

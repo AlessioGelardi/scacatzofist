@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { SellCard } from 'src/app/module/interface/card';
+import { Pack, SellCard } from 'src/app/module/interface/card';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -10,6 +10,7 @@ import { environment } from 'src/environments/environment';
 export class MarketService {
 
   apiUrlMarketPlace: string = environment.baseUrlMarket + "marketplace";
+  apiUrlMarketEdicola: string =  environment.baseUrlMarket + "edicola";
   marketplaceById: string = environment.baseUrlMarket + "marketplaceById";
 
   constructor(private http: HttpClient) { }
@@ -49,6 +50,18 @@ export class MarketService {
 
     return this.http.put<boolean>(this.apiUrlMarketPlace+'?id='+sellCard.id,acquisto,this.generateOptions());
   }
+
+  acquistaPacchetti(playerId:string, level:number, typePack:number,taglia:number, quantity:number, prezzo:number, monster:boolean): Observable<Pack[]> {
+    let pack:any = {};
+    pack.type = typePack;
+    pack.level = level;
+    pack.taglia = taglia;
+    pack.quantity = quantity;
+    pack.prezzo = prezzo;
+    pack.playerId = playerId;
+    pack.monster = monster;
+    return this.http.put<Pack[]>(this.apiUrlMarketEdicola,pack,this.generateOptions());
+}
 
   private takeFormatToday() {
     var today = new Date();

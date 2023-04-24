@@ -6,6 +6,7 @@ import { Player } from 'src/app/module/interface/player';
 import { StatePlayerService } from 'src/app/module/player/services/state/state-player.service';
 import { MessageService } from 'src/app/module/swalAlert/message.service';
 import Swal from 'sweetalert2';
+import { StateMarketService } from '../../services/state/state-market.service';
 
 @Component({
   selector: 'app-market-edicola',
@@ -27,6 +28,7 @@ export class MarketEdicolaComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
     private router: Router,
+    private marketStateService: StateMarketService,
     private playerStateService: StatePlayerService,
     private messageService: MessageService) { }
 
@@ -242,30 +244,27 @@ export class MarketEdicolaComponent implements OnInit {
 
           let prezzo = this.calculatePrezzo(taglia,baseCost,result.value);
 
-          /*if(this.playerBudget!-prezzo>=0) {
-            
-            this.spinnerService.show();
-            this.viewCards = [];
-            this.httpPlayerService.acquistaPacchetti(this.playerId!,level, typePack,taglia,result.value,prezzo,monster).subscribe({
-              next: (result:Pack[]) => {
-                this.swalAlert('Fatto!','Acquistato!','success');
+          if(this.player!.credits!-prezzo>=0) {
+
+            this.marketStateService.buyPack(this.player!._id!,level, typePack,taglia,result.value,prezzo,monster).then((resp) => {
+              if(resp) {
+                this.player!.credits = this.player!.credits!-prezzo;
                 this.finishPurchase = true;
-                this.buttonFinishP.emit(this.finishPurchase)
-                this.newPacks = result;
-              }, // completeHandler
-              error: (error: any) => {
-                this.spinnerService.hide();
-                if(error.status===402) {
-                  this.swalAlert('Attenzione!','Problema durante l"acquisto','error');
+                this.newPacks = resp;
+              } else {
+                //TO-DO gestione degli errori
+                /*
+                if(resp.status===402) {
+                  this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
                 }
-              },
-              complete: () => {
-                this.spinnerService.hide();
+                */
+        
+                this.messageService.alert('Attenzione!','Problema durante l"acquisto del pacchetto','error');
               }
             });
           } else {
             this.messageService.alert('Budget non sufficente!','Il prezzo del pack è '+prezzo,'error');
-          }*/
+          }
         }
       })
     } else {
