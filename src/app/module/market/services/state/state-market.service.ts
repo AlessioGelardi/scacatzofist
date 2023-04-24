@@ -29,7 +29,11 @@ export class StateMarketService {
         this.spinnerService.hide();
       } catch (error:any) {
         this.spinnerService.hide();
-        this.messageService.alert('Errore','Qualcosa è andato storto durante il recupero del market','error');
+        if(error && error.status === 402) {
+          this.messageService.alert('Attenzione','Il MarketPlace attualmente è vuoto','info');
+        } else {
+          this.messageService.alert('Errore','Qualcosa è andato storto durante il recupero del market','error');
+        }
       }
     } else {
       this.spinnerService.hide();
@@ -84,6 +88,12 @@ export class StateMarketService {
 
     try {
       response = await firstValueFrom(this.marketService.deleteSellCard(sellCardId,cardId,playerId));
+      if(response) {
+        let cardsell = this.marketPlace!.find(i => i.id === cardId);
+        if(cardsell) {
+          this.sellHistory!.push(cardsell);
+        }
+      }
       this.spinnerService.hide();
     } catch (error: any) {
       /* TO-DO [WinError 3] Impossibile trovare il percorso specificato: 'deck\\\\Ingranaggio Antico1.ydk' -> 'deck\\\\Ingranaggio Antico.ydk'*/
@@ -101,6 +111,13 @@ export class StateMarketService {
 
     try {
       response = await firstValueFrom(this.marketService.acquistaCard(sellCard,playerIdAcquista));
+      if(response) {
+        let cardDelete = this.marketPlace!.find(i => i.id === sellCard.id);
+        if(cardDelete) {
+          const index = this.marketPlace!.indexOf(cardDelete, 0);
+          this.marketPlace!.splice(index,1);
+        }
+      }
       this.spinnerService.hide();
     } catch (error: any) {
       /* TO-DO [WinError 3] Impossibile trovare il percorso specificato: 'deck\\\\Ingranaggio Antico1.ydk' -> 'deck\\\\Ingranaggio Antico.ydk'*/

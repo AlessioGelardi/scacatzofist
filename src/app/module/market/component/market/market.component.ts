@@ -18,6 +18,7 @@ export class MarketComponent implements OnInit {
   buttons: Button[] = [];
 
   player:Player | undefined;
+  playerId: string | undefined;
   marketPlace: SellCard[] | undefined;
 
   constructor(private route: ActivatedRoute,
@@ -48,10 +49,9 @@ export class MarketComponent implements OnInit {
       }
     ];
 
-    const playerId = "63459b3a4b4c877f5a46f43e"; //this.route.snapshot.paramMap.get('id') 
-
-    this.takeMarketPlace();
-    this.takePlayer(playerId);
+    this.playerId = this.route.snapshot.paramMap.get('id')!;
+    
+    this.takePlayer(this.playerId!);
 
   }
 
@@ -70,6 +70,7 @@ export class MarketComponent implements OnInit {
         this.marketStateService.buyCard(sellCard,this.player?._id!).then((resp) => {
           if(resp) {
             this.messageService.alert('Fatto!','Carta acquistata!','success');
+            this.takeMarketPlace();
           } else {
             this.messageService.alert('Errore','Qualcosa è andato storto durante acquisto della carta','error');
           }
@@ -86,13 +87,13 @@ export class MarketComponent implements OnInit {
     if(code) {
       switch(code) {
         case 'HOME':
-          this.router.navigate(['/home']);
+          this.router.navigate(['/home',{id:this.playerId!}]);
           break;
         case 'SELL':
-          this.router.navigate(['/sell',{id:this.player?._id}]);
+          this.router.navigate(['/sell',{id:this.playerId!}]);
           break;
         case 'EDICOLA':
-          this.router.navigate(['/edicola']);
+          this.router.navigate(['/edicola',{id:this.playerId!}]);
           break;
       }
     }
@@ -108,6 +109,7 @@ export class MarketComponent implements OnInit {
     this.playerStateService.getPlayer(playerId).then((resp) => {
       if(resp) {
         this.player = resp;
+        this.takeMarketPlace();
       } else {
         //TO-DO gestione degli errori
         /*

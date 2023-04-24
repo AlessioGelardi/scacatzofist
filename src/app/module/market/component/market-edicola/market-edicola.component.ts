@@ -32,7 +32,7 @@ export class MarketEdicolaComponent implements OnInit {
 
   ngOnInit(): void {
 
-    const playerId = "63459b3a4b4c877f5a46f43e"; //this.route.snapshot.paramMap.get('id') 
+    const playerId = this.route.snapshot.paramMap.get('id')!;
 
     this.takePlayer(playerId);
 
@@ -59,13 +59,13 @@ export class MarketEdicolaComponent implements OnInit {
     if(code) {
       switch(code) {
         case 'BACK':
-          this.router.navigate(['/market']);
+          this.router.navigate(['/market',{id:this.player!._id!}]);
           break;
         /* case 'SELL':
           this.router.navigate(['/sell']);
           break; */
         case 'EDICOLA':
-          this.router.navigate(['/edicola']);
+          this.router.navigate(['/edicola',{id:this.player!._id!}]);
           break;
       }
     }

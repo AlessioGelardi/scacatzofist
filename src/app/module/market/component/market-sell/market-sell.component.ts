@@ -82,16 +82,14 @@ export class MarketSellComponent implements OnInit {
     if(code) {
       switch(code) {
         case 'BACK':
-          this.router.navigate(['/market']);
+          this.router.navigate(['/market',{id:this.playerId!}]);
           break;
         case 'SELL':
           this.viewCard = !this.viewCard;
-          this.marketStateService.getSellHistory(this.playerId!).then((resp) => {
-            this.history = resp!;
-          });
+          this.takeHistory();
           break;
         case 'EDICOLA':
-          this.router.navigate(['/edicola']);
+          this.router.navigate(['/edicola',{id:this.playerId!}]);
           break;
       }
     }
@@ -118,12 +116,23 @@ export class MarketSellComponent implements OnInit {
         this.marketStateService.venditaCard(this.playerId!,card.id,result.value).then((resp) => {
           if(resp === true) {
             this.messageService.alert('Fatto!','Vendita creata con successo!','success');
+
+            let cardDelete = this.zaino!.find(i => i.id === card.id);
+            if(cardDelete) {
+              const index = this.zaino!.indexOf(cardDelete, 0);
+              this.zaino!.splice(index,1);
+            }
+            this.takeHistory();
+
           } else {
             if(resp && resp.status !== 200) {
               if(resp.status === 403) {
-                this.messageService.alert('Attenzione','Carta presente nel deck','error');
+                let msg = "";
+                resp.error.forEach((z: any) => msg=z.name+" x"+z.count);
+                this.messageService.alert('Attenzione','Carta presente nel deck '+msg,'error');
+              } else {
+                this.messageService.alert('Errore','Qualcosa è andato storto durante la creazione della vendita','error');
               }
-              this.messageService.alert('Errore','Qualcosa è andato storto durante la creazione della vendita','error');
             }
           }
         });
@@ -155,6 +164,12 @@ export class MarketSellComponent implements OnInit {
   continueSlice() {
     this.sliceStart += this.slice;
     this.sliceEnd += this.slice;
+  }
+
+  private takeHistory() {
+    this.marketStateService.getSellHistory(this.playerId!).then((resp) => {
+      this.history = resp!;
+    });
   }
 
 }
