@@ -1,5 +1,6 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -19,27 +20,12 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 
-  isLogged = false;
-  id:string | undefined;
-
-  names: string[] = [];
-
-  isGenerating: boolean = false;
-
   constructor() {
-
-  }
-
-  login(id: string) {
-    if(id) {
-      this.isLogged = true;
-      this.id = id;
-      
-    }
+    
   }
 
   turnHome() {
-    //this.router.navigate(['/home',{id:this.id}]);
+    window.history.back();
   }
   
 }

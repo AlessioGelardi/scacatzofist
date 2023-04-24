@@ -79,6 +79,7 @@ export class PlayNowScontroComponent implements OnInit {
 
         this.notifierStateService.inviaRichiesta(request).then((resp) => {
           if(resp === true) {
+            this.notifierStateService.resetState();
             this.messageService.alert('Fatto!','Richiesta inviata!','success');
           } else {
             if(resp) {

@@ -70,6 +70,7 @@ export class NotifierComponent implements OnInit {
             request.status = newstatus;
             this.notifierStateService.updateRequest(request).then((resp) => {
               if(resp) {
+                this.notifierStateService.resetState();
                 req.status = newstatus;
                 this.messageService.alert('Aggiornato!','Richiesta aggiornata con successo! Torna più tardi per vedere gli aggiornamenti','success');
               } else {
@@ -125,6 +126,7 @@ export class NotifierComponent implements OnInit {
           request.status = 3;
           this.notifierStateService.updateRequest(request).then((resp) => {
             if(resp === true) {
+              this.notifierStateService.resetState();
               req.status = 3;
               req.vincitore = vincitore;
               this.messageService.alert('Partita Conclusa!','Richiesta aggiornata con successo!','success');

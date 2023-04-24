@@ -17,7 +17,11 @@ export class StateNotifierService {
 
    }
 
-  async inviaRichiesta(request:any) {
+   resetState() {
+    this.reqsResponse = undefined;
+  }
+  
+   async inviaRichiesta(request:any) {
     this.spinnerService.show();
     let response;
 
