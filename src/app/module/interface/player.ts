@@ -7,4 +7,5 @@ export interface Player {
     risposta?: string;
     coin?: number;
     credits?: number;
+    ruolo?: number;
 }

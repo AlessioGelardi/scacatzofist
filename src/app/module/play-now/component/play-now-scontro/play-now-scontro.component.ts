@@ -54,7 +54,7 @@ export class PlayNowScontroComponent implements OnInit {
           this.router.navigate(['/playnow']);
           break;
         case 'REQUEST':
-          this.router.navigate(['/request',{id:this.playerId,typeMode:TypeMod.SCONTRO}]);
+          this.router.navigate(['/request',{id:this.playerId,typeMode:TypeMod.SCONTRO, playerRole: this.player?.ruolo!}]);
           break;
       }
     }

@@ -19,6 +19,7 @@ export class NotifierComponent implements OnInit {
 
   playerId:string | undefined;
   typeMode:number | undefined;
+  playerRole:number | undefined;
 
   constructor(private route: ActivatedRoute,
     private messageService: MessageService,
@@ -27,6 +28,10 @@ export class NotifierComponent implements OnInit {
   ngOnInit(): void {
     this.playerId = this.route.snapshot.paramMap.get('id')!;
     this.typeMode = Number(this.route.snapshot.paramMap.get('typeMode')!);
+
+    if(this.route.snapshot.paramMap.get('playerRole') !== 'undefined') {
+      this.playerRole = Number(this.route.snapshot.paramMap.get('playerRole'));
+    }    
 
     this.takeReqs();
   }
@@ -124,6 +129,7 @@ export class NotifierComponent implements OnInit {
           request.playerIdperdente = playerIdperdente;
           request.perdente = perdente;
           request.status = 3;
+          request.role = this.playerRole;
           this.notifierStateService.updateRequest(request).then((resp) => {
             if(resp === true) {
               this.notifierStateService.resetState();
