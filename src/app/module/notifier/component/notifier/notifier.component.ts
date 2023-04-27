@@ -134,7 +134,7 @@ export class NotifierComponent implements OnInit {
               if(resp) {
                 const statusError = resp.status;
                 if(statusError === 404) {
-                  this.messageService.alert('Attenzione!','Non fare il furbo seleziona correttamente il vincitore... sporco ladro!','error');
+                  this.messageService.alert('Attenzione!','Non fare il furbo seleziona correttamente il vincitore... piccolo delinquente!','error');
                 } else {
                   this.messageService.alert('Attenzione!',"Problema durante l'aggiornamento della richiesta",'error');
                 }
