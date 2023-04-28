@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TypeMod } from 'src/app/module/play-now/enum/typeMod';
 import { Player } from 'src/app/module/interface/player';
+import { StateNotifierService } from 'src/app/module/notifier/services/state/state-notifier.service';
 
 @Component({
   selector: 'player-status',
@@ -14,7 +15,7 @@ export class PlayerStatusComponent implements OnInit {
 
   numberNotify:number | undefined;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private notifierStateService: StateNotifierService) { }
 
   ngOnInit(): void {
   }
@@ -24,6 +25,7 @@ export class PlayerStatusComponent implements OnInit {
   }
 
   logout() {
+    this.notifierStateService.resetState();
     this.router.navigate(['/']);
   }
 }

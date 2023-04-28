@@ -28,10 +28,7 @@ export class NotifierComponent implements OnInit {
   ngOnInit(): void {
     this.playerId = this.route.snapshot.paramMap.get('id')!;
     this.typeMode = Number(this.route.snapshot.paramMap.get('typeMode')!);
-
-    if(this.route.snapshot.paramMap.get('playerRole') !== 'undefined') {
-      this.playerRole = Number(this.route.snapshot.paramMap.get('playerRole'));
-    }    
+    this.playerRole = Number(this.route.snapshot.paramMap.get('playerRole')!);
 
     this.takeReqs();
   }

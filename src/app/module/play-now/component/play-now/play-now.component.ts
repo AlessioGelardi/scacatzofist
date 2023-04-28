@@ -4,6 +4,7 @@ import { Button } from 'src/app/module/interface/button';
 import { Player } from 'src/app/module/interface/player';
 import { StatePlayerService } from 'src/app/module/player/services/state/state-player.service';
 import { MessageService } from 'src/app/module/swalAlert/message.service';
+import { TypeMod } from '../../enum/typeMod';
 
 @Component({
   selector: 'app-play-now',
@@ -48,7 +49,7 @@ export class PlayNowComponent implements OnInit {
           this.router.navigate(['/home']);
           break;
         case 'REQUEST':
-          this.router.navigate(['/request']);
+          this.router.navigate(['/request',{id:this.player?._id!,typeMode:TypeMod.ALL}]);
           break;
       }
     }
