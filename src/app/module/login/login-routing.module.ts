@@ -6,6 +6,7 @@ import { SigninComponent } from './component/signin/signin.component';
 import { FortuneWheelComponent } from './component/fortune-wheel/fortune-wheel.component';
 
 export const loginRoutes: Routes = [
+  { path: 'scacatzofist', component: LoginComponent},
   { path: '', component: LoginComponent},
   { path: 'signin', component: SigninComponent},
   { path: 'recover', component: RecoverComponent},
