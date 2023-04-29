@@ -63,9 +63,9 @@ export class MarketEdicolaComponent implements OnInit {
         case 'BACK':
           this.router.navigate(['/market',{id:this.player!._id!}]);
           break;
-        /* case 'SELL':
-          this.router.navigate(['/sell']);
-          break; */
+        case 'SELL':
+          this.router.navigate(['/sell',{id:this.player!._id!}]);
+          break;
         case 'EDICOLA':
           this.router.navigate(['/edicola',{id:this.player!._id!}]);
           break;
