@@ -46,10 +46,16 @@ export class StatePlayerService {
   async getAllPlayers(id:string) {
     this.spinnerService.show();
 
-    if(!this.allplayers) {
+    if(!this.allplayers || this.allplayers.length===0) {
       try {
-        const response = await firstValueFrom(this.playerService.getAllPlayers(id));
-        this.allplayers = response;
+        this.allplayers = [];
+        const response = await firstValueFrom(this.playerService.getAllPlayers());
+        for(let player of response) {
+          if(player._id! !== id) {
+            this.allplayers.push(player);
+          }
+        } 
+        //const index = this.allplayers.indexOf(deck, 0);
         this.spinnerService.hide();
       } catch(error:any) {
         this.spinnerService.hide();
