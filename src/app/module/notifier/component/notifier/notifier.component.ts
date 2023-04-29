@@ -33,6 +33,11 @@ export class NotifierComponent implements OnInit {
     this.takeReqs();
   }
 
+  refresh() {
+    this.notifierStateService.resetState();
+    this.takeReqs();
+  }
+
   doDetail(req:Reqs) {
     const richiedente = req.playerRichiedente;
     const ricevente = req.playerRicevente;
