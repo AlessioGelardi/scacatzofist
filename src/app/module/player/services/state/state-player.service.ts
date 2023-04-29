@@ -54,8 +54,7 @@ export class StatePlayerService {
           if(player._id! !== id) {
             this.allplayers.push(player);
           }
-        } 
-        //const index = this.allplayers.indexOf(deck, 0);
+        }
         this.spinnerService.hide();
       } catch(error:any) {
         this.spinnerService.hide();
