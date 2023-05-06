@@ -79,14 +79,11 @@ export class MarketEdicolaComponent implements OnInit {
 
   setTypePack(typePack:number) {
     this.viewPack = !this.viewPack;
-    /*this.viewPack = !this.viewPack;
-    this.buttonTypePack.emit(this.viewPack)
-    this.typePack = typePack; */
     switch(typePack){
       case 1:
         this.packs = [{ 
           "name": "MOSTRO NORMALE Lv1-4",
-          "baseCost": 10,
+          "baseCost": 5,
           "level": [1,2,3,4],
           "type": [17,16401,20497,4113],
           "src": "assets/pack/monster.png",
@@ -135,7 +132,7 @@ export class MarketEdicolaComponent implements OnInit {
           "monster": true
         }, {
           "name": "MOSTRO RITUALE",
-          "baseCost": 45,
+          "baseCost": 40,
           "level": [0],
           "type": [129,161,673,2097313, 4257],
           "src": "assets/pack/monsterRitual.png",
@@ -166,7 +163,7 @@ export class MarketEdicolaComponent implements OnInit {
       case 2:
         this.packs = [{ 
           "name": "MAGIA NORMALE",
-          "baseCost": 5,
+          "baseCost": 10,
           "src": "assets/pack/magic.png",
           "type": 2,
           "monster": false
@@ -184,7 +181,7 @@ export class MarketEdicolaComponent implements OnInit {
           "monster": false
         }, {
           "name": "MAGIA RITUALE",
-          "baseCost": 10,
+          "baseCost": 5,
           "src": "assets/pack/magicRituale.png",
           "type": 130,
           "monster": false
@@ -205,7 +202,7 @@ export class MarketEdicolaComponent implements OnInit {
       case 3:
         this.packs = [{ 
           "name": "TRAPPOLA NORMALE",
-          "baseCost": 5,
+          "baseCost": 10,
           "src": "assets/pack/trap.png",
           "type": 4,
           "monster": false
