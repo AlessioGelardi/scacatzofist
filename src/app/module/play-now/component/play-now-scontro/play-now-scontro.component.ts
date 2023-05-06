@@ -86,8 +86,10 @@ export class PlayNowScontroComponent implements OnInit {
               const statusError = resp.status;
               if(statusError === 402) {
                 this.messageService.alert('Attenzione!','Richiesta gia inviata, controlla nelle tue richieste','error');
+              } else if(statusError === 401) {
+                this.messageService.alert('Attenzione!','User impegnato al momento! Riprova più tardi','error');
               } else {
-                this.messageService.alert('Errore','Richiesta gia inviata, controlla nelle tue richieste','error');
+                this.messageService.alert('Errore',"Errore durante l'invio della richiesta",'error');
               }
             }
           }
