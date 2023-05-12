@@ -4,6 +4,7 @@ import { Button } from 'src/app/module/interface/button';
 import Swal from 'sweetalert2';
 import { StateDeckService } from '../../services/state/state-deck.service';
 import { MessageService } from 'src/app/module/swalAlert/message.service';
+import { Deck } from 'src/app/module/interface/card';
 
 @Component({
   selector: 'app-deck',
@@ -78,7 +79,7 @@ export class DeckComponent implements OnInit {
             this.newDeckName = "";
           } else {
             this.newDeck = true;
-            this.newDeckName = "Nuovo Deck";
+            this.newDeckName = "NuovoDeck";
           }
           break;
         case 'EDIT':
@@ -104,9 +105,23 @@ export class DeckComponent implements OnInit {
   saveName() {
     if(this.newDeck) {
       if(!this.deckId && !this.checkExistDeck()) {
-        this.decks.push({"name":this.newDeckName,"id":"0"})
-        this.newDeckName="";
-        this.messageService.alert('Evvai','Il deck è stato aggiunto, ma ricordati di inserire le carte per confermare il salvataggio','success');
+
+        //TO-DO
+        let newDeck = {
+          playerId: this.playerId,
+          name: this.newDeckName
+        };
+
+        this.deckStateService.newDeck(newDeck).then((resp) => {
+          if(resp) {
+            this.newDeckName="";
+            this.messageService.alert('Evvai','Il deck è stato aggiunto, ma ricordati di inserire le carte per confermare il salvataggio','success');
+          } else {
+            this.messageService.alert('Errore','Qualcosa è andato storto durante il salvataggio del deck','error');
+          }
+        });
+
+        
       } else {
         this.messageService.alert('Attenzione','Deck gia presente con questo nome','error');
       }
@@ -118,7 +133,7 @@ export class DeckComponent implements OnInit {
         if(!this.newDeck && this.newDeckName) {
 
           this.deckStateService.saveName(this.oldDeckName!,this.newDeckName).then((resp) => {
-            if(resp && resp.status===200) {
+            if(resp) {
               this.takeDecks();
               this.newDeckName="";
               this.messageService.alert('Fatto!','Deck modificato con successo.','success');

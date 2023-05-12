@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { firstValueFrom, map } from 'rxjs';
-import { Deck } from 'src/app/module/interface/card';
+import { Card, Deck } from 'src/app/module/interface/card';
 import { DeckService } from '../httpservices/deck.service';
 import { MessageService } from 'src/app/module/swalAlert/message.service';
 
@@ -12,12 +12,15 @@ export class StateDeckService {
 
   private deck?: Deck;
   private playerDecks?: Deck[];
-  private lastName?: string;
 
   constructor(private spinnerService: NgxSpinnerService,
     private deckService: DeckService,
     private messageService: MessageService) {
 
+  }
+
+  resetDeck() {
+    this.deck=undefined;
   }
 
   async newDeck(deck:any) {

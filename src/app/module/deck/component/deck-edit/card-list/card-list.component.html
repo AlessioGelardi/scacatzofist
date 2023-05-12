@@ -9,6 +9,7 @@
             <th>Nome</th>
             <th>ATK</th>
             <th>DEF</th>
+            <th>Qnt</th>
             <th>&nbsp;</th>
         </tr>
     </thead>
@@ -17,6 +18,7 @@
             <td class="text-truncate" (click)="show(card)">{{card.name}}</td>
             <td>{{card.atk}}</td>
             <td>{{card.def}}</td>
+            <td>{{card.qnt}}</td>
             <td>
                 <button type="button" class="btn btn-outline-dark btn-sm" (click)="remove(card,typeDeck!)"><i class="fa fa-trash"></i></button>
             </td>
