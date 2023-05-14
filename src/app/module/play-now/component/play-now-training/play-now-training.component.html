@@ -1,0 +1,54 @@
+<div class="d-flex justify-content-center">
+    <div class="col-9">
+        <player-status [player]="player"></player-status>
+    </div>
+</div>
+
+<playnow-buttons [buttons]="buttons" (buttonOperation)="buttonOperationHandler($event)"></playnow-buttons>
+
+<div class="mt-4">
+    <div class="row">
+        <div class="col-12 d-flex justify-content-center">
+            <h3>MODALITÁ TRANING</h3>
+        </div>
+        <div class="col-12 d-flex justify-content-center" *ngIf="!finishTraning">
+            <label *ngIf="!start">Vuoi iniziare a collezionare <strong>coin</strong> e ottenere <strong>esperienza</strong> ? Premi il tasto <strong>INIZIA TRAINING</strong> e gioca con chi vuoi</label>
+            <label *ngIf="start">Il timer è iniziato. Comincia già da adesso a fare tutte le partite che vuoi, quando vuoi fermarti clicca il pulsante <strong>FINE TRAINING</strong></label>
+        </div>
+        <div class="col-12 d-flex justify-content-center" *ngIf="finishTraning">
+            <label>Complimenti! Sono state registrate <strong>{{countRec}}</strong> partite! Decreta il vincitore!</label>
+        </div>
+    </div>
+</div>
+
+<div class="mt-4">
+    <div *ngIf="!finishTraning">
+        <div class="row">
+            <div class="col-12 d-flex justify-content-center">
+                <button *ngIf="!start" class="col-7 m-2 btn btn-lg rounded grigino" (click)="startTraining()">INIZIA TRAINING</button>
+                <button *ngIf="start" class="col-7 m-2 btn btn-lg rounded grigino" (click)="fineTraining()">FINE TRAINING</button>
+            </div>
+        </div>
+        <div class="row" *ngIf="start">
+            <div class="col-12 d-flex justify-content-center">
+                <div class="timer">
+                    <span class="hours">{{hours}}</span>
+                    <span class="separator">:</span>
+                    <span class="minutes">{{minutes}}</span>
+                    <span class="separator">:</span>
+                    <span class="seconds">{{secondi}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="finishTraning">
+        <div class="row mt-3 d-flex justify-content-center text-center">
+            <div class="col-9"><h5>Partite Registrate</h5></div>
+            <div *ngFor="let duel of duelRecs">
+                <button class="col-7 m-2 btn btn-lg rounded grigino" (click)="doDetail(duel)">{{duel.name}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+

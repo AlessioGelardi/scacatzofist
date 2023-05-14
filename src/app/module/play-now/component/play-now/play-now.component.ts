@@ -59,6 +59,10 @@ export class PlayNowComponent implements OnInit {
     this.router.navigate(['/scontro',{id:this.player!._id}]);
   }
 
+  training() {
+    this.router.navigate(['/training',{id:this.player!._id}]);
+  }
+
   puntata() {
     this.messageService.alert('In progress...',"Questa funzionalità è ancora in sviluppo... Ci dispiace per l'inconveniente torna più tardi !!! ",'info');
   }

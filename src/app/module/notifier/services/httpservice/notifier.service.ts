@@ -12,6 +12,8 @@ export class NotifierService {
 
   apiUrlNotify:string = environment.baseUrlNotifier + "notify";
 
+  apiUrlDuelRec:string = environment.baseUrlNotifier + "duelrec";
+
   constructor(private http: HttpClient) { }
 
   newRequest(request:any):Observable<boolean> {
@@ -32,10 +34,14 @@ export class NotifierService {
       }
       return this.http.get<any>(this.apiUrlPlaynow,{params:req});
   }
-
+  
   getNumberNotify(id:string):Observable<number>{
       return this.http.get<number>(this.apiUrlNotify+'?id='+id);
   }
+
+  getDuelRec(id:string):Observable<any> {
+    return this.http.get<any>(this.apiUrlDuelRec+'?id='+id);
+}
 
   private takeFormatToday() {
     var today = new Date();

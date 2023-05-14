@@ -15,13 +15,13 @@ export class StateNotifierService {
     private notifierService: NotifierService,
     private messageService: MessageService) {
 
-   }
+  }
 
-   resetState() {
+  resetState() {
     this.reqsResponse = undefined;
   }
   
-   async inviaRichiesta(request:any) {
+  async inviaRichiesta(request:any) {
     this.spinnerService.show();
     let response;
 
@@ -76,6 +76,26 @@ export class StateNotifierService {
     }
 
     return this.reqsResponse;
+  }
+
+  async getDuelRec(id:string) {
+    this.spinnerService.show();
+
+    let duelRec;
+
+    try {
+      duelRec = await firstValueFrom(this.notifierService.getDuelRec(id));
+      this.spinnerService.hide();
+    } catch (error:any) {
+      this.spinnerService.hide();
+      if(error.status===402) {
+        this.messageService.alert('Attenzione!','Non sono riuscito a registrare i duelli durante il training','error');
+      } else {
+        this.messageService.alert('Errore','Qualcosa è andato storto durante il recupero dei duelli eseguite durante i training','error');
+      }
+    }
+
+    return duelRec;
   }
 
 }
