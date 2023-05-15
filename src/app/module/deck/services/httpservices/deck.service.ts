@@ -12,6 +12,7 @@ export class DeckService {
   apiUrlDecksById: string = environment.baseUrlDeck + "decksById"; //idplayer
   apiUrlDeckById: string = environment.baseUrlDeck + "deckById";
   apiUrlDeck: string = environment.baseUrlDeck + "deck";
+  apiUrlAddDeck: string = environment.baseUrlDeck + "addDeck";
   apiUrlSaveNameDeck: string= environment.baseUrlDeck + "savedeck";
 
   constructor(private http: HttpClient) { }
@@ -22,6 +23,10 @@ export class DeckService {
 
   getDeckById(id:string): Observable<Deck> {
     return this.http.get<Deck>(this.apiUrlDeckById+'?id='+id);
+  }
+
+  addDeck(deck:any): Observable<boolean> {
+    return this.http.post<boolean>(this.apiUrlAddDeck,deck,this.generateOptions());
   }
 
   newDeck(deck:any): Observable<boolean> {

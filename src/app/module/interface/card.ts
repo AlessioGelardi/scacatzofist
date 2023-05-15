@@ -18,6 +18,7 @@ export interface Deck {
     id: string,
     playerId: string,
     name: string,
+    new: boolean,
     main: Card[],
     extra: Card[],
     side: Card[]

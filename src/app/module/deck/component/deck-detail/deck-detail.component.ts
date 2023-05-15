@@ -16,6 +16,7 @@ export class DeckDetailComponent implements OnInit {
 
   deckId: string | undefined;
   playerId: string | undefined;
+  newNameDeck: string | undefined;
   showDeck: Deck | undefined;
 
   constructor(private router: Router,
@@ -41,7 +42,8 @@ export class DeckDetailComponent implements OnInit {
 
     this.playerId = this.route.snapshot.paramMap.get('playerId')!;
     this.deckId = this.route.snapshot.paramMap.get('id')!;
-    if(this.deckId==="0") {
+    this.newNameDeck = this.route.snapshot.paramMap.get('newNameDeck')!;
+    if(this.newNameDeck) {
       this.buttonOperationHandler('EDIT');
     } else {
       this.deckStateService.getDeck(this.deckId).then((resp) => {
@@ -54,7 +56,6 @@ export class DeckDetailComponent implements OnInit {
         }
       });
     }
-
   }
 
   showCard(card:Card) {
@@ -68,7 +69,11 @@ export class DeckDetailComponent implements OnInit {
           this.router.navigate(['/deck',{id:this.playerId!}]);
           break;
         case 'EDIT':
-          this.router.navigate(['/deckEdit',{id:this.deckId,playerId:this.playerId!}]);
+          if(this.newNameDeck !== "") {
+            this.router.navigate(['/deckEdit',{id:this.deckId,newNameDeck:this.newNameDeck,playerId:this.playerId!}]);
+          } else {
+            this.router.navigate(['/deckEdit',{id:this.deckId,playerId:this.playerId!}]);
+          }
           break;
       }
     }

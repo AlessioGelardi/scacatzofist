@@ -18,7 +18,7 @@
     </div>
     
     <div class="row d-flex justify-content-center" *ngFor="let deck of decks">
-        <button class="col-5 m-2 btn btn-lg rounded grigino" (click)="viewDeck(deck.id)">
+        <button class="col-5 m-2 btn btn-lg rounded grigino" (click)="viewDeck(deck.id,deck.new,deck.name)">
             {{deck.name}} 
         </button>
         <button class="col-1 m-2 btn btn-sm rounded grigino" *ngIf="modifyDeck" (click)="doModifyDeckName(deck.name)"><i class="fa fa-pencil"></i></button>

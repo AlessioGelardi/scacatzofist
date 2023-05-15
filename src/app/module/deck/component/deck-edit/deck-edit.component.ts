@@ -20,6 +20,7 @@ export class DeckEditComponent implements OnInit {
   deck: Deck | undefined;
   deckId: string | undefined;
   playerId: string | undefined;
+  newNameDeck: string | undefined;
 
   viewFilter = false;
   filterName:string | undefined;
@@ -58,6 +59,7 @@ export class DeckEditComponent implements OnInit {
 
     this.deckId = this.route.snapshot.paramMap.get('id')!;
     this.playerId = this.route.snapshot.paramMap.get('playerId')!;
+    this.newNameDeck = this.route.snapshot.paramMap.get('newNameDeck')!;
     this.takeDeck();
   }
 
@@ -74,8 +76,10 @@ export class DeckEditComponent implements OnInit {
           break;
         }
         case 'SAVE':
+          this.deck!.new=false;
           this.deckStateService.updateDeck(this.deck!,this.deckId!).then((resp) => {
             if(resp) {
+              this.deckStateService.resetPlayerDecks();
               this.messageService.alert('Fatto!','Deck salvato con successo.','success');
             } else {
               this.messageService.alert('Errore','Qualcosa è andato storto durante il salvataggio del deck','error');
@@ -210,7 +214,16 @@ export class DeckEditComponent implements OnInit {
   }
 
   private takeDeck() {
-    if(this.deckId==="0") {
+    if(this.newNameDeck!=="") {
+      this.deck = {
+        id: this.deckId!,
+        playerId: this.playerId!,
+        name: this.newNameDeck!,
+        new: false,
+        main: [],
+        extra: [],
+        side: []
+      }
       this.takeZaino();
     } else {
       this.deckStateService.getDeck(this.deckId!).then((resp) => {
