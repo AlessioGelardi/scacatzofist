@@ -16,14 +16,13 @@ export class MarketSellComponent implements OnInit {
 
   buttons: Button[] = [];
 
-  history: SellCard[] | undefined;
+  //history: SellCard[] | undefined;
 
   playerId:string | undefined;
 
   viewFilter = false;
   filterName:string | undefined;
 
-  viewCard: boolean = false;
   zaino: Card[]=[];
 
   sliceLimit: number | undefined;
@@ -46,11 +45,6 @@ export class MarketSellComponent implements OnInit {
         name: "BACK-BUTTON",
         code: "BACK",
         class: "fa fa-undo"
-      },
-      {
-        name: "SELL-BUTTON",
-        code: "SELL",
-        class: "fa fa-briefcase"
       },
       {
         name: "EDICOLA-BUTTON",
@@ -83,10 +77,6 @@ export class MarketSellComponent implements OnInit {
       switch(code) {
         case 'BACK':
           this.router.navigate(['/market',{id:this.playerId!}]);
-          break;
-        case 'SELL':
-          this.viewCard = !this.viewCard;
-          this.takeHistory();
           break;
         case 'EDICOLA':
           this.router.navigate(['/edicola',{id:this.playerId!}]);
@@ -122,7 +112,8 @@ export class MarketSellComponent implements OnInit {
               const index = this.zaino!.indexOf(cardDelete, 0);
               this.zaino!.splice(index,1);
             }
-            this.takeHistory();
+            this.marketStateService.resetState();
+            //this.takeHistory();
 
           } else {
             if(resp && resp.status !== 200) {
@@ -140,7 +131,7 @@ export class MarketSellComponent implements OnInit {
     })
   }
 
-  deleteSell(sellId:string,cardId:string) {
+  /* deleteSell(sellId:string,cardId:string) {
     this.marketStateService.deleteSellCard(sellId,cardId,this.playerId!).then((resp) => {
       if(resp === true) {
         this.messageService.alert('Fatto!','Vendita eliminata con successo!','success');
@@ -150,7 +141,7 @@ export class MarketSellComponent implements OnInit {
         }
       }
     });
-  }
+  } */
 
   doFilter() {
     this.viewFilter=!this.viewFilter;
@@ -166,10 +157,10 @@ export class MarketSellComponent implements OnInit {
     this.sliceEnd += this.slice;
   }
 
-  private takeHistory() {
+  /* private takeHistory() {
     this.marketStateService.getSellHistory(this.playerId!).then((resp) => {
       this.history = resp!;
     });
-  }
+  } */
 
 }

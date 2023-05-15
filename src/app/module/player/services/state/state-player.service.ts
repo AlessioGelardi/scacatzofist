@@ -19,6 +19,10 @@ export class StatePlayerService {
 
   }
 
+  resetZaino() {
+    this.zaino = undefined;
+  }
+
   resetState() {
     this.player = undefined;
     this.allplayers = undefined;

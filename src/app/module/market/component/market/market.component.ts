@@ -55,6 +55,11 @@ export class MarketComponent implements OnInit {
 
   }
 
+  refresh() {
+    this.marketStateService.resetState();
+    this.takeMarketPlace();
+  }
+
   async compraCard(sellCard:SellCard) {
     Swal.fire({
       title: sellCard.card.name,
@@ -81,6 +86,33 @@ export class MarketComponent implements OnInit {
           this.messageService.alert('Errore','Non hai abbastanza coin','error');
         }
 
+      }
+    })
+  }
+
+  deleteSell(sellId:string,cardId:string, cardName: string) {
+    Swal.fire({
+      title: cardName,
+      color: '#3e3d3c',
+      background: '#cdcccc',
+      html: '<label style="font-size:14px"> Sei sicur* di cancellare la vendita di <strong>'+cardName+'</strong> ?',
+      imageUrl: 'https://images.ygoprodeck.com/images/cards/'+cardId+'.jpg',
+      imageWidth: 160,
+      showCancelButton: true,
+      confirmButtonText: 'Togli la vendita'
+    }).then((result) => {
+      if(result.isConfirmed) {
+        this.marketStateService.deleteSellCard(sellId,cardId,this.playerId!).then((resp) => {
+          if(resp === true) {
+            this.messageService.alert('Fatto!','Vendita eliminata con successo!','success');
+            this.marketStateService.resetState();
+            this.takeMarketPlace();
+          } else {
+            if(resp && resp.status !== 200) {
+              this.messageService.alert('Errore','Qualcosa è andato storto durante la cancellazione della vendita','error');
+            }
+          }
+        });
       }
     })
   }

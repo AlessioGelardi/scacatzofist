@@ -22,6 +22,7 @@
             <thead>
                 <tr>
                     <th scope="col">&nbsp;</th>
+                    <th scope="col">Qnt</th>
                     <th scope="col">Nome</th>
                     <th scope="col">ATK</th>
                     <th scope="col">DEF</th>
@@ -32,6 +33,7 @@
                     <td>
                         <button type="button" class="btn btn-outline-dark btn-sm" (click)="addCard(card)"><i class="fa fa-arrow-left"></i></button>
                     </td>
+                    <td>{{card.qnt}}</td>
                     <td class="text-truncate" (click)="showCard(card)">{{card.name}}</td>
                     <td>{{card.atk}}</td>
                     <td>{{card.def}}</td>

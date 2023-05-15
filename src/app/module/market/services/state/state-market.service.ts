@@ -10,13 +10,17 @@ import { MessageService } from 'src/app/module/swalAlert/message.service';
 })
 export class StateMarketService {
 
-  private marketPlace?: SellCard[];
-  private sellHistory?: SellCard[];
+  private marketPlace?: SellCard[] | undefined;
+  //private sellHistory?: SellCard[];
 
   constructor(private spinnerService: NgxSpinnerService,
     private marketService: MarketService,
     private messageService: MessageService) {
 
+  }
+
+  resetState() {
+    this.marketPlace = undefined;
   }
 
   async getMarketPlace() {
@@ -42,6 +46,8 @@ export class StateMarketService {
     return this.marketPlace;    
   }
 
+  /*
+
   async getSellHistory(id:string) {
     this.spinnerService.show();
     
@@ -63,7 +69,7 @@ export class StateMarketService {
     }
 
     return this.sellHistory;    
-  }
+  }*/
 
   async venditaCard(playerId:string, cardId:string, prezzo:number) {
     this.spinnerService.show();
@@ -88,12 +94,6 @@ export class StateMarketService {
 
     try {
       response = await firstValueFrom(this.marketService.deleteSellCard(sellCardId,cardId,playerId));
-      if(response) {
-        let cardsell = this.marketPlace!.find(i => i.id === cardId);
-        if(cardsell) {
-          this.sellHistory!.push(cardsell);
-        }
-      }
       this.spinnerService.hide();
     } catch (error: any) {
       /* TO-DO [WinError 3] Impossibile trovare il percorso specificato: 'deck\\\\Ingranaggio Antico1.ydk' -> 'deck\\\\Ingranaggio Antico.ydk'*/

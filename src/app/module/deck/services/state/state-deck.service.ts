@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { firstValueFrom, map } from 'rxjs';
-import { Deck } from 'src/app/module/interface/card';
+import { Card, Deck } from 'src/app/module/interface/card';
 import { DeckService } from '../httpservices/deck.service';
 import { MessageService } from 'src/app/module/swalAlert/message.service';
 
@@ -12,12 +12,25 @@ export class StateDeckService {
 
   private deck?: Deck;
   private playerDecks?: Deck[];
-  private lastName?: string;
+  private actualDeck?: string;
 
   constructor(private spinnerService: NgxSpinnerService,
     private deckService: DeckService,
     private messageService: MessageService) {
 
+  }
+
+  resetState() {
+    this.resetDeck();
+    this.resetPlayerDecks();
+  }
+
+  resetDeck() {
+    this.deck=undefined;
+  }
+
+  resetPlayerDecks() {
+    this.playerDecks=undefined;
   }
 
   async newDeck(deck:any) {
@@ -26,6 +39,21 @@ export class StateDeckService {
 
     try {
       response = await firstValueFrom(this.deckService.newDeck(deck));
+      this.spinnerService.hide();
+    } catch (error: any) {
+      response = error;
+      this.spinnerService.hide();
+    }
+
+    return response
+  }
+
+  async addDeck(deck:any) {
+    this.spinnerService.show();
+    let response;
+
+    try {
+      response = await firstValueFrom(this.deckService.addDeck(deck));
       this.spinnerService.hide();
     } catch (error: any) {
       response = error;
@@ -62,7 +90,8 @@ export class StateDeckService {
   async getDeck(id:string) {
     this.spinnerService.show();
 
-    if (!this.deck) {
+    if (!this.deck || id != this.actualDeck) {
+      this.actualDeck = id;
       try {
         const response = await firstValueFrom(this.deckService.getDeckById(id));
         this.deck = response;
