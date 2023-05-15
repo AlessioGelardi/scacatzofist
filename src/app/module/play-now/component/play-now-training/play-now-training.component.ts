@@ -59,7 +59,7 @@ export class PlayNowTrainingComponent implements OnInit {
           this.router.navigate(['/playnow']);
           break;
         case 'REQUEST':
-          this.fineTraining();
+          this.stopTraining();
           //this.router.navigate(['/request',{id:this.playerId,typeMode:TypeMod.SCONTRO, playerRole: this.player?.ruolo!}]);
           break;
       }
@@ -97,14 +97,28 @@ export class PlayNowTrainingComponent implements OnInit {
     return this.seconds % 60;
   }
 
-  fineTraining() {
-    this.notifierStateService.getDuelRec(this.playerId!).then((resp) => {
+  stopTraining() {
+    let request: any = {};
+    request.typeMod = 2;
+    request.status = 1;
+
+    this.notifierStateService.createDuelRec(request).then((resp) => {
       if(resp) {
-        this.duelRecs = resp;
-        this.countRec = 3;
-        this.seconds=0;
-        this.finishTraning=true;
-        clearTimeout(this.intervalId);
+
+        this.notifierStateService.getDuelRec(request).then((resp) => {
+
+          if(resp) {
+            this.duelRecs = resp;
+            this.countRec = 3;
+            this.seconds=0;
+            this.finishTraning=true;
+            clearTimeout(this.intervalId);
+          } else {
+            this.messageService.alert('Attenzione!','Errore durante la chiamata getDuelRec','error');
+          }
+
+
+        });
       } else {
         //TO-DO gestione degli errori
         /*
@@ -113,7 +127,7 @@ export class PlayNowTrainingComponent implements OnInit {
         }
         */
 
-        this.messageService.alert('Attenzione!','Errore durante la chiamata getDuelRec','error');
+        this.messageService.alert('Attenzione!','Errore durante la chiamata createDuelRec','error');
       }
     });
   }

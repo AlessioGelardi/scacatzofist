@@ -16,7 +16,7 @@
             <label *ngIf="start">Il timer è iniziato. Comincia già da adesso a fare tutte le partite che vuoi, quando vuoi fermarti clicca il pulsante <strong>FINE TRAINING</strong></label>
         </div>
         <div class="col-12 d-flex justify-content-center" *ngIf="finishTraning">
-            <label>Complimenti! Sono state registrate <strong>{{countRec}}</strong> partite! Decreta il vincitore!</label>
+            <label>Complimenti! Sono state registrate <strong>{{countRec}}</strong> partite! Adesso decreta il vincitore e ricevi le ricompense!</label>
         </div>
     </div>
 </div>
@@ -26,7 +26,7 @@
         <div class="row">
             <div class="col-12 d-flex justify-content-center">
                 <button *ngIf="!start" class="col-7 m-2 btn btn-lg rounded grigino" (click)="startTraining()">INIZIA TRAINING</button>
-                <button *ngIf="start" class="col-7 m-2 btn btn-lg rounded grigino" (click)="fineTraining()">FINE TRAINING</button>
+                <button *ngIf="start" class="col-7 m-2 btn btn-lg rounded grigino" (click)="stopTraining()">FINE TRAINING</button>
             </div>
         </div>
         <div class="row" *ngIf="start">

@@ -22,26 +22,31 @@ export class NotifierService {
   }
 
   updateRequest(request:any) {
-      request.dataUpdate = this.takeFormatToday();
-      return this.http.put<boolean>(this.apiUrlPlaynow,request,this.generateOptions());
+    request.dataUpdate = this.takeFormatToday();
+    return this.http.put<boolean>(this.apiUrlPlaynow,request,this.generateOptions());
   }
 
   getReqs(id:string, typeMod?:number):Observable<any> {
-      let req:any = {};
-      req.id = id;
-      if(typeMod) {
-          req.typeMod = typeMod!;
-      }
-      return this.http.get<any>(this.apiUrlPlaynow,{params:req});
+    let req:any = {};
+    req.id = id;
+    if(typeMod) {
+        req.typeMod = typeMod!;
+    }
+    return this.http.get<any>(this.apiUrlPlaynow,{params:req});
   }
   
   getNumberNotify(id:string):Observable<number>{
-      return this.http.get<number>(this.apiUrlNotify+'?id='+id);
+    return this.http.get<number>(this.apiUrlNotify+'?id='+id);
+  }
+
+  createDuelRec(request:any):Observable<any> {
+    request.dataIns = this.takeFormatToday();
+    return this.http.post<boolean>(this.apiUrlDuelRec,request,this.generateOptions());
   }
 
   getDuelRec(id:string):Observable<any> {
     return this.http.get<any>(this.apiUrlDuelRec+'?id='+id);
-}
+  }
 
   private takeFormatToday() {
     var today = new Date();
