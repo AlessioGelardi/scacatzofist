@@ -17,12 +17,12 @@ export class NotifierService {
   constructor(private http: HttpClient) { }
 
   newRequest(request:any):Observable<boolean> {
-    request.dataIns = this.takeFormatToday();
+    request.dataIns = this.takeFormatToday(false);
     return this.http.post<boolean>(this.apiUrlPlaynow,request,this.generateOptions());
   }
 
   updateRequest(request:any) {
-    request.dataUpdate = this.takeFormatToday();
+    request.dataUpdate = this.takeFormatToday(false);
     return this.http.put<boolean>(this.apiUrlPlaynow,request,this.generateOptions());
   }
 
@@ -40,7 +40,7 @@ export class NotifierService {
   }
 
   createDuelRec(request:any):Observable<any> {
-    request.dataIns = this.takeFormatToday();
+    request.dataIns = this.takeFormatToday(true);
     return this.http.post<boolean>(this.apiUrlDuelRec,request,this.generateOptions());
   }
 
@@ -49,17 +49,19 @@ export class NotifierService {
   }
 
   updateDuelRec(request:any):Observable<any> {
-    request.dataUpdate = this.takeFormatToday();
+    request.dataUpdate = this.takeFormatToday(false);
     return this.http.put<boolean>(this.apiUrlDuelRec,request,this.generateOptions());
   }
 
-  private takeFormatToday() {
+  private takeFormatToday(time:boolean) {
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
     var yyyy = today.getFullYear();
 
-    return dd + '/' + mm + '/' + yyyy
+    var formatDate = dd + '/' + mm + '/' + yyyy;
+
+    return time ? formatDate+'-'+today.getHours()+':'+today.getMinutes()+':'+today.getSeconds() : formatDate;
   }
 
   private generateOptions() {

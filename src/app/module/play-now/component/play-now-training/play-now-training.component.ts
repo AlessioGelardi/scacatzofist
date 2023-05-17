@@ -77,7 +77,7 @@ export class PlayNowTrainingComponent implements OnInit {
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, inizia traning!'
+      confirmButtonText: 'Si, inizia training!'
     }).then((result) => {
       if (result.isConfirmed) {
         this.start=true;
@@ -101,31 +101,50 @@ export class PlayNowTrainingComponent implements OnInit {
   }
 
   stopTraining() {
-    let request: any = {};
-    request.playerIdReq = this.playerId!;
-    request.typeMod = 2;
-    request.status = 1;
-    request.playerName = this.player?.name;
-
-    this.notifierStateService.createDuelRec(request).then((resp) => {
-      if(resp == true) {
-        this.seconds=0;
-        this.finishTraning=true;
-        clearTimeout(this.intervalId);
-
-        this.takeDuelRec();
-
-      } else {
-        //TO-DO gestione degli errori
-        /*
-        if(resp.status===402) {
-          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+    if(this.minutes>10) { //TO-DO 
+      let request: any = {};
+      request.playerIdReq = this.playerId!;
+      request.typeMod = 2;
+      request.status = 1;
+      request.playerName = this.player?.name;
+      request.timer = this.seconds;
+  
+      this.notifierStateService.createDuelRec(request).then((resp) => {
+        if(resp == true) {
+          this.seconds=0;
+          this.finishTraning=true;
+          clearTimeout(this.intervalId);
+  
+          this.takeDuelRec();
+  
+        } else {
+          //TO-DO gestione degli errori
+          if(resp && resp.status===402) {
+            Swal.fire({
+              title: 'Sei sicuro?',
+              text: "Non sono state trovate partite registrate, sei sicuro di voler terminare il traning ?",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Si, finisci training!'
+            }).then((result) => {
+              if (result.isConfirmed) {
+                this.seconds=0;
+                clearTimeout(this.intervalId);
+                this.start=false;
+              }
+            })
+          } else {
+            this.messageService.alert('Attenzione!','Errore durante la chiamata createDuelRec','error');
+          }  
+          
         }
-        */
-
-        this.messageService.alert('Attenzione!','Errore durante la chiamata createDuelRec','error');
-      }
-    });
+      });
+    } else {
+      this.messageService.alert('Attenzione!','Devi terminare almeno 10 minuti di traning prima di poter confermare la fine','info');
+    }
+    
   }
 
   awardTraining() {
