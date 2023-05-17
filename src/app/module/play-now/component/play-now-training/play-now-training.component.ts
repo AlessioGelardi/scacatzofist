@@ -26,7 +26,7 @@ export class PlayNowTrainingComponent implements OnInit {
   finishTraning:boolean=false;
 
   duelRecs:any;
-  countRec:number = 0;
+  totalReward:number = 0;
 
   constructor(private route: ActivatedRoute,
     private router: Router,
@@ -39,7 +39,7 @@ export class PlayNowTrainingComponent implements OnInit {
       {
         name: "BACK-BUTTON",
         code: "BACK",
-        class: "fa fa-undo"
+        class: "fa fa-arrow-left"
       },
       {
         name: "REQUEST-BUTTON",
@@ -49,17 +49,20 @@ export class PlayNowTrainingComponent implements OnInit {
     ];
 
     this.playerId = this.route.snapshot.paramMap.get('id')!;
-    this.takePlayer(this.playerId);
+    this.takePlayer();
   }
 
   buttonOperationHandler(code: any) {
     if(code) {
       switch(code) {
         case 'BACK':
+          //check sul timer, conferma e poi stop traning prima di mostrare la history
           this.router.navigate(['/playnow']);
           break;
         case 'REQUEST':
-          this.stopTraining();
+          //check sul timer, conferma e poi stop traning prima di mostrare la history
+          this.finishTraning=true;
+          this.takeDuelRec();
           //this.router.navigate(['/request',{id:this.playerId,typeMode:TypeMod.SCONTRO, playerRole: this.player?.ruolo!}]);
           break;
       }
@@ -99,26 +102,19 @@ export class PlayNowTrainingComponent implements OnInit {
 
   stopTraining() {
     let request: any = {};
+    request.playerIdReq = this.playerId!;
     request.typeMod = 2;
     request.status = 1;
+    request.playerName = this.player?.name;
 
     this.notifierStateService.createDuelRec(request).then((resp) => {
-      if(resp) {
+      if(resp == true) {
+        this.seconds=0;
+        this.finishTraning=true;
+        clearTimeout(this.intervalId);
 
-        this.notifierStateService.getDuelRec(request).then((resp) => {
+        this.takeDuelRec();
 
-          if(resp) {
-            this.duelRecs = resp;
-            this.countRec = 3;
-            this.seconds=0;
-            this.finishTraning=true;
-            clearTimeout(this.intervalId);
-          } else {
-            this.messageService.alert('Attenzione!','Errore durante la chiamata getDuelRec','error');
-          }
-
-
-        });
       } else {
         //TO-DO gestione degli errori
         /*
@@ -132,15 +128,35 @@ export class PlayNowTrainingComponent implements OnInit {
     });
   }
 
-  doDetail(duel:any) {
-    console.log(duel)
-    if(duel.status===1) {
-      alert('evvai')
-    }
+  awardTraining() {
+    let request: any = {};
+    request.playerIdReq = this.playerId!;
+    request.typeMod = 2;
+    request.status = 2;
+
+    this.notifierStateService.updateDuelRec(request).then((resp) => {
+      if(resp == true) {
+
+        this.playerStateService.resetPlayerState();
+        this.takePlayer();
+
+        this.takeDuelRec();
+
+      } else {
+        //TO-DO gestione degli errori
+        /*
+        if(resp.status===402) {
+          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+        }
+        */
+
+        this.messageService.alert('Attenzione!','Errore durante la chiamata updateDuelRec','error');
+      }
+    });
   }
 
-  private takePlayer(playerId: string) {
-    this.playerStateService.getPlayer(playerId).then((resp) => {
+  private takePlayer() {
+    this.playerStateService.getPlayer(this.playerId!).then((resp) => {
       if(resp) {
         this.player = resp;
       } else {
@@ -152,6 +168,20 @@ export class PlayNowTrainingComponent implements OnInit {
         */
 
         this.messageService.alert('Attenzione!','Errore durante la chiamata getPlayer','error');
+      }
+    });
+  }
+
+  private takeDuelRec() {
+    this.notifierStateService.getDuelRec(this.playerId!).then((resp) => {
+      if(resp) {
+        this.duelRecs = resp;
+        this.totalReward = 0;
+        for(let duel of this.duelRecs) {
+          this.totalReward += duel.reward;
+        }
+      } else {
+        this.messageService.alert('Attenzione!','Errore durante la chiamata getDuelRec','error');
       }
     });
   }

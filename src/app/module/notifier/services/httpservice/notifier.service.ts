@@ -48,6 +48,11 @@ export class NotifierService {
     return this.http.get<any>(this.apiUrlDuelRec+'?id='+id);
   }
 
+  updateDuelRec(request:any):Observable<any> {
+    request.dataUpdate = this.takeFormatToday();
+    return this.http.put<boolean>(this.apiUrlDuelRec,request,this.generateOptions());
+  }
+
   private takeFormatToday() {
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
