@@ -1,0 +1,21 @@
+.grigino {
+    background-color: #8a8989;
+}
+
+.timer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3em;
+    font-weight: bold;
+    color: #333;
+}
+
+.separator {
+    margin: 0 0.2em;
+}
+
+.timer span:nth-child(even) {
+    opacity: 0.6;
+}
+  
