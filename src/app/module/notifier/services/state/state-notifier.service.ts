@@ -3,13 +3,15 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { firstValueFrom } from 'rxjs';
 import { NotifierService } from '../httpservice/notifier.service';
 import { MessageService } from 'src/app/module/swalAlert/message.service';
+import { Reqs } from 'src/app/module/interface/reqs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StateNotifierService {
 
-  reqsResponse:any | undefined;
+  reqs: Reqs[] | undefined;
+  myReqs: Reqs[] | undefined;
 
   constructor(private spinnerService: NgxSpinnerService,
     private notifierService: NotifierService,
@@ -18,7 +20,8 @@ export class StateNotifierService {
   }
 
   resetState() {
-    this.reqsResponse = undefined;
+    this.reqs = undefined;
+    this.myReqs = undefined;
   }
   
   async inviaRichiesta(request:any) {
@@ -55,13 +58,13 @@ export class StateNotifierService {
     return response;
   }
 
-  async getReqs(id:string) {
+  async getReqs(id:string, history:boolean = false) {
     this.spinnerService.show();
     
-    if(!this.reqsResponse) {
+    if(!this.reqs) {
       try {
-        const response = await firstValueFrom(this.notifierService.getReqs(id));
-        this.reqsResponse = response;
+        const response = await firstValueFrom(this.notifierService.getReqs(id, false, history));
+        this.reqs = response;
         this.spinnerService.hide();
       } catch (error:any) {
         this.spinnerService.hide();
@@ -75,7 +78,30 @@ export class StateNotifierService {
       this.spinnerService.hide();
     }
 
-    return this.reqsResponse;
+    return this.reqs;
+  }
+
+  async getMyReqs(id:string, history:boolean = false) {
+    this.spinnerService.show();
+    
+    if(!this.myReqs) {
+      try {
+        const response = await firstValueFrom(this.notifierService.getReqs(id,true, history));
+        this.myReqs = response;
+        this.spinnerService.hide();
+      } catch (error:any) {
+        this.spinnerService.hide();
+        if(error.status===402) {
+          this.messageService.alert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+        } else {
+          this.messageService.alert('Errore','Qualcosa è andato storto durante il recupero della history del market','error');
+        }
+      }
+    } else {
+      this.spinnerService.hide();
+    }
+
+    return this.myReqs;
   }
 
   async createDuelRec(request:any) {

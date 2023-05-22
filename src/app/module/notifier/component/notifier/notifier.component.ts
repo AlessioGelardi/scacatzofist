@@ -4,15 +4,19 @@ import { TypeMod } from 'src/app/module/play-now/enum/typeMod';
 import { Reqs } from 'src/app/module/interface/reqs';
 import Swal from 'sweetalert2';
 import { StateNotifierService } from '../../services/state/state-notifier.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'src/app/module/swalAlert/message.service';
+import { StatePlayerService } from 'src/app/module/player/services/state/state-player.service';
+import { Button } from 'src/app/module/interface/button';
 
 @Component({
   selector: 'app-notifier',
   templateUrl: './notifier.component.html',
-  styleUrls: ['./notifier.component.css']
+  styleUrls: ['../../styles/notifier.css','./notifier.component.css']
 })
 export class NotifierComponent implements OnInit {
+
+  buttons: Button[] = [];
 
   myReqs: Reqs[] = [];
   reqs: Reqs[] = [];
@@ -21,21 +25,60 @@ export class NotifierComponent implements OnInit {
   typeMode:number | undefined;
   playerRole:number | undefined;
 
+  history: boolean = false;
+
   constructor(private route: ActivatedRoute,
+    private router: Router,
     private messageService: MessageService,
+    private playerStateService: StatePlayerService,
     private notifierStateService: StateNotifierService) { }
 
   ngOnInit(): void {
+    this.buttons = [
+      {
+        name: "BACK-BUTTON",
+        code: "BACK",
+        class: "fa fa-arrow-left"
+      },
+      {
+        name: "REFRESH-BUTTON",
+        code: "REFRESH",
+        class: "fa fa-refresh"
+      },
+      {
+        name: "HISTORY-BUTTON",
+        code: "HISTORY",
+        class: "fa fa-list"
+      }
+    ];
+
+
+
     this.playerId = this.route.snapshot.paramMap.get('id')!;
     this.typeMode = Number(this.route.snapshot.paramMap.get('typeMode')!);
     this.playerRole = Number(this.route.snapshot.paramMap.get('playerRole')!);
 
-    this.takeReqs();
+    this.takeReqs(this.history);
   }
 
-  refresh() {
-    this.notifierStateService.resetState();
-    this.takeReqs();
+  buttonOperationHandler(code: any) {
+    if(code) {
+      switch(code) {
+        case 'BACK':
+          window.history.back();
+          break;
+        case 'HISTORY':
+          this.history=true;
+          this.notifierStateService.resetState();
+          this.takeReqs(this.history);
+          break;
+        case 'REFRESH':
+          this.history = false;
+          this.notifierStateService.resetState();
+          this.takeReqs(this.history);
+          break;
+      }
+    }
   }
 
   doDetail(req:Reqs) {
@@ -138,6 +181,7 @@ export class NotifierComponent implements OnInit {
               req.status = 3;
               req.vincitore = vincitore;
               this.messageService.alert('Partita Conclusa!','Richiesta aggiornata con successo!','success');
+              this.playerStateService.resetPlayerState();
             } else {
               if(resp) {
                 const statusError = resp.status;
@@ -169,12 +213,11 @@ export class NotifierComponent implements OnInit {
     return TypeMod; 
   }
 
-  private takeReqs() {
+  private takeReqs(history:boolean) {
 
-    this.notifierStateService.getReqs(this.playerId!).then((resp) => {
+    this.notifierStateService.getReqs(this.playerId!,history).then((resp) => {
       if(resp) {
-        this.myReqs = resp["myReqs"] as Reqs[];
-        this.reqs = resp["reqs"] as Reqs[];
+        this.reqs = resp;
       } else {
         //TO-DO gestione degli errori
         /*
@@ -184,6 +227,21 @@ export class NotifierComponent implements OnInit {
         */
 
         this.messageService.alert('Attenzione!','Errore durante la chiamata getReqs','error');
+      }
+    });
+
+    this.notifierStateService.getMyReqs(this.playerId!,history).then((resp) => {
+      if(resp) {
+        this.myReqs = resp;
+      } else {
+        //TO-DO gestione degli errori
+        /*
+        if(resp.status===402) {
+          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+        }
+        */
+
+        this.messageService.alert('Attenzione!','Errore durante la chiamata getMyReqs','error');
       }
     });
   }

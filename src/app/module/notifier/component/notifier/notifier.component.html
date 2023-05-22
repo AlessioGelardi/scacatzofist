@@ -1,8 +1,10 @@
-<div class="row d-flex justify-content-around mt-3">
+<!-- <div class="row d-flex justify-content-around mt-3">
     <button type="button" class="col-2 btn btn-lg rounded-pill grigino " (click)="refresh()"><i class='fa fa-refresh'></i></button>
-</div>
+</div> -->
 
-<div class="mt-3">
+<notifier-buttons [buttons]="buttons" (buttonOperation)="buttonOperationHandler($event)"></notifier-buttons>
+
+<div class="mt-4">
     <label>Le tue richieste ricevute</label>
     <table class="table table-hover mt-2 text-center">
         <thead>
@@ -14,11 +16,11 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let req of myReqs" (click)="doDetail(req)">
+            <tr *ngFor="let req of reqs" (click)="doDetail(req)">
                 <td>{{Status[req.status]}}</td>
                 <td>{{req.playerRichiedente}}</td>
                 <td>{{TypeMod[req.typeMod]}}</td>
-                <td>{{req.typeMod==1?req.dataIns:req.dataUpdate | date: 'dd/MM/yyyy'}}</td>
+                <td>{{req.dataUpdate}}</td>
             </tr>
         </tbody>
     </table>
@@ -36,11 +38,11 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let req of reqs" (click)="doDetail(req)">
+            <tr *ngFor="let req of myReqs" (click)="doDetail(req)">
                 <td>{{Status[req.status]}}</td>
                 <td>{{req.playerRicevente}}</td>
                 <td>{{TypeMod[req.typeMod]}}</td>
-                <td>{{req.typeMod==1?req.dataIns:req.dataUpdate | date: 'dd/MM/yyyy'}}</td>
+                <td>{{req.dataUpdate}}</td>
             </tr>
         </tbody>
     </table>
