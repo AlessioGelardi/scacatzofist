@@ -3,15 +3,14 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { firstValueFrom } from 'rxjs';
 import { NotifierService } from '../httpservice/notifier.service';
 import { MessageService } from 'src/app/module/swalAlert/message.service';
-import { Reqs } from 'src/app/module/interface/reqs';
+import { DictReqs, Reqs } from 'src/app/module/interface/reqs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StateNotifierService {
 
-  reqs: Reqs[] | undefined;
-  myReqs: Reqs[] | undefined;
+  //reqs: DictReqs | undefined;
 
   constructor(private spinnerService: NgxSpinnerService,
     private notifierService: NotifierService,
@@ -19,10 +18,9 @@ export class StateNotifierService {
 
   }
 
-  resetState() {
+  /* resetState() {
     this.reqs = undefined;
-    this.myReqs = undefined;
-  }
+  } */
   
   async inviaRichiesta(request:any) {
     this.spinnerService.show();
@@ -58,50 +56,48 @@ export class StateNotifierService {
     return response;
   }
 
-  async getReqs(id:string, history:boolean = false) {
+  async getReqs(id:string, history:boolean = false, myReqs:boolean = false) {
     this.spinnerService.show();
-    
-    if(!this.reqs) {
-      try {
-        const response = await firstValueFrom(this.notifierService.getReqs(id, false, history));
-        this.reqs = response;
-        this.spinnerService.hide();
-      } catch (error:any) {
-        this.spinnerService.hide();
-        if(error.status===402) {
-          this.messageService.alert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
-        } else {
-          this.messageService.alert('Errore','Qualcosa è andato storto durante il recupero della history del market','error');
+
+    let result: DictReqs = {};
+
+    const obj: { [key: string]: Reqs[] } = {};
+
+    const limit = 10;
+    let maxPageNum = 1;
+
+    let count = 0;
+
+    try {
+      do {
+
+        const response = await firstValueFrom(this.notifierService.getReqs(id, maxPageNum, limit, myReqs, history));
+
+        count = response.length;
+        obj[maxPageNum.toString()] = response;
+
+        if(count === 10) {
+          maxPageNum++;
         }
-      }
-    } else {
+
+      } while(count === 10);
+
+      result = {
+        page: maxPageNum,
+        reqs: obj
+      };
+
       this.spinnerService.hide();
+    } catch (error:any) {
+      this.spinnerService.hide();
+      if(error.status===402) {
+        this.messageService.alert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+      } else {
+        this.messageService.alert('Errore','Qualcosa è andato storto durante il recupero delle richieste','error');
+      }
     }
 
-    return this.reqs;
-  }
-
-  async getMyReqs(id:string, history:boolean = false) {
-    this.spinnerService.show();
-    
-    if(!this.myReqs) {
-      try {
-        const response = await firstValueFrom(this.notifierService.getReqs(id,true, history));
-        this.myReqs = response;
-        this.spinnerService.hide();
-      } catch (error:any) {
-        this.spinnerService.hide();
-        if(error.status===402) {
-          this.messageService.alert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
-        } else {
-          this.messageService.alert('Errore','Qualcosa è andato storto durante il recupero della history del market','error');
-        }
-      }
-    } else {
-      this.spinnerService.hide();
-    }
-
-    return this.myReqs;
+    return result;
   }
 
   async createDuelRec(request:any) {

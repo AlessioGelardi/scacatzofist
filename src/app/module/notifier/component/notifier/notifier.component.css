@@ -1,0 +1,8 @@
+.impagination {
+    font-weight: bold;
+}
+
+.impagination:hover {
+    display: inline-block;
+    box-shadow: 0px 5px #8a8989;
+}

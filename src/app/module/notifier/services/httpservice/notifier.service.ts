@@ -27,9 +27,11 @@ export class NotifierService {
     return this.http.put<boolean>(this.apiUrlPlaynow,request,this.generateOptions());
   }
 
-  getReqs(id:string, myReqs:boolean = false, history:boolean = false, typeMod?:number):Observable<any> {
+  getReqs(id:string, page:number, limit:number, myReqs:boolean = false, history:boolean = false, typeMod?:number):Observable<any> {
     let req:any = {};
     req.id = id;
+    req.page = page;
+    req.limit = limit;
     req.myReqs = myReqs;
     req.history = history;
     if(typeMod) {

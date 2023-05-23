@@ -14,3 +14,8 @@ export interface Reqs {
     perdita:any;
     vincitore?:string;
 }
+
+export interface DictReqs {
+    reqs?: { [key: string]: Reqs[] },
+    page?: number
+}

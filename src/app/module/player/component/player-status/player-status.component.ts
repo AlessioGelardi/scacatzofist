@@ -25,7 +25,7 @@ export class PlayerStatusComponent implements OnInit {
   }
 
   logout() {
-    this.notifierStateService.resetState();
+    //this.notifierStateService.resetState();
     this.router.navigate(['/']);
   }
 }
