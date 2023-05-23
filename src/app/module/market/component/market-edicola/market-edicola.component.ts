@@ -277,6 +277,34 @@ export class MarketEdicolaComponent implements OnInit {
     this.viewCards = pack.cards;
   }
 
+  exchangeCoin() {
+    Swal.fire({
+      title: 'Cambia i tuoi coin in crediti',
+      color: '#3e3d3c',
+      background: '#cdcccc',
+      html: '<input type="number" /> ',
+      showCancelButton: true,
+      confirmButtonText: 'Acquista'
+    }).then((result) => {
+      if(result.isConfirmed) {
+        /* if(this.player!.coin!-Number(sellCard.prezzo)>=0) {
+          this.marketStateService.buyCard(sellCard,this.player?._id!).then((resp) => {
+            if(resp) {
+              this.player!.coin = this.player!.coin! - Number(sellCard.prezzo);
+              this.messageService.alert('Fatto!','Carta acquistata!','success');
+              this.takeMarketPlace();
+            } else {
+              this.messageService.alert('Errore','Qualcosa è andato storto durante acquisto della carta','error');
+            }
+          });
+        } else {
+          this.messageService.alert('Errore','Non hai abbastanza coin','error');
+        }*/
+
+      }
+    })
+  }
+
   private takePlayer(playerId: string) {
     this.playerStateService.getPlayer(playerId).then((resp) => {
       if(resp) {
