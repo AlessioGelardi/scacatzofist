@@ -22,6 +22,9 @@ export class PlayNowScontroComponent implements OnInit {
 
   players: Player[] = [];
 
+  viewFilter = false;
+  filterName:string | undefined;
+
   constructor(private route: ActivatedRoute,
     private router: Router,
     private messageService: MessageService,
@@ -33,7 +36,7 @@ export class PlayNowScontroComponent implements OnInit {
       {
         name: "BACK-BUTTON",
         code: "BACK",
-        class: "fa fa-undo"
+        class: "fa fa-arrow-left"
       },
       {
         name: "REQUEST-BUTTON",
@@ -96,6 +99,10 @@ export class PlayNowScontroComponent implements OnInit {
         });
       }
     })
+  }
+
+  doFilter() {
+    this.viewFilter=!this.viewFilter;
   }
 
   private takePlayer(playerId: string) {
