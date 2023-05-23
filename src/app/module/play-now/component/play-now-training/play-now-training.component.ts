@@ -26,7 +26,7 @@ export class PlayNowTrainingComponent implements OnInit {
   finishTraning:boolean=false;
 
   duelRecs:any;
-  countRec:number = 0;
+  totalReward:number = 0;
 
   constructor(private route: ActivatedRoute,
     private router: Router,
@@ -39,7 +39,7 @@ export class PlayNowTrainingComponent implements OnInit {
       {
         name: "BACK-BUTTON",
         code: "BACK",
-        class: "fa fa-undo"
+        class: "fa fa-arrow-left"
       },
       {
         name: "REQUEST-BUTTON",
@@ -49,17 +49,20 @@ export class PlayNowTrainingComponent implements OnInit {
     ];
 
     this.playerId = this.route.snapshot.paramMap.get('id')!;
-    this.takePlayer(this.playerId);
+    this.takePlayer();
   }
 
   buttonOperationHandler(code: any) {
     if(code) {
       switch(code) {
         case 'BACK':
+          //check sul timer, conferma e poi stop traning prima di mostrare la history
           this.router.navigate(['/playnow']);
           break;
         case 'REQUEST':
-          this.stopTraining();
+          //check sul timer, conferma e poi stop traning prima di mostrare la history
+          this.finishTraning=true;
+          this.takeDuelRec();
           //this.router.navigate(['/request',{id:this.playerId,typeMode:TypeMod.SCONTRO, playerRole: this.player?.ruolo!}]);
           break;
       }
@@ -74,7 +77,7 @@ export class PlayNowTrainingComponent implements OnInit {
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, inizia traning!'
+      confirmButtonText: 'Si, inizia training!'
     }).then((result) => {
       if (result.isConfirmed) {
         this.start=true;
@@ -98,27 +101,66 @@ export class PlayNowTrainingComponent implements OnInit {
   }
 
   stopTraining() {
-    let request: any = {};
-    request.typeMod = 2;
-    request.status = 1;
-
-    this.notifierStateService.createDuelRec(request).then((resp) => {
-      if(resp) {
-
-        this.notifierStateService.getDuelRec(request).then((resp) => {
-
-          if(resp) {
-            this.duelRecs = resp;
-            this.countRec = 3;
-            this.seconds=0;
-            this.finishTraning=true;
-            clearTimeout(this.intervalId);
+    if(this.minutes>10) { //TO-DO 
+      let request: any = {};
+      request.playerIdReq = this.playerId!;
+      request.typeMod = 2;
+      request.status = 1;
+      request.playerName = this.player?.name;
+      request.timer = this.seconds;
+  
+      this.notifierStateService.createDuelRec(request).then((resp) => {
+        if(resp == true) {
+          this.seconds=0;
+          this.finishTraning=true;
+          clearTimeout(this.intervalId);
+  
+          this.takeDuelRec();
+  
+        } else {
+          //TO-DO gestione degli errori
+          if(resp && resp.status===402) {
+            Swal.fire({
+              title: 'Sei sicuro?',
+              text: "Non sono state trovate partite registrate, sei sicuro di voler terminare il traning ?",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Si, finisci training!'
+            }).then((result) => {
+              if (result.isConfirmed) {
+                this.seconds=0;
+                clearTimeout(this.intervalId);
+                this.start=false;
+              }
+            })
           } else {
-            this.messageService.alert('Attenzione!','Errore durante la chiamata getDuelRec','error');
-          }
+            this.messageService.alert('Attenzione!','Errore durante la chiamata createDuelRec','error');
+          }  
+          
+        }
+      });
+    } else {
+      this.messageService.alert('Attenzione!','Devi terminare almeno 10 minuti di traning prima di poter confermare la fine','info');
+    }
+    
+  }
 
+  awardTraining() {
+    let request: any = {};
+    request.playerIdReq = this.playerId!;
+    request.typeMod = 2;
+    request.status = 2;
 
-        });
+    this.notifierStateService.updateDuelRec(request).then((resp) => {
+      if(resp == true) {
+
+        this.playerStateService.resetPlayerState();
+        this.takePlayer();
+
+        this.takeDuelRec();
+
       } else {
         //TO-DO gestione degli errori
         /*
@@ -127,20 +169,13 @@ export class PlayNowTrainingComponent implements OnInit {
         }
         */
 
-        this.messageService.alert('Attenzione!','Errore durante la chiamata createDuelRec','error');
+        this.messageService.alert('Attenzione!','Errore durante la chiamata updateDuelRec','error');
       }
     });
   }
 
-  doDetail(duel:any) {
-    console.log(duel)
-    if(duel.status===1) {
-      alert('evvai')
-    }
-  }
-
-  private takePlayer(playerId: string) {
-    this.playerStateService.getPlayer(playerId).then((resp) => {
+  private takePlayer() {
+    this.playerStateService.getPlayer(this.playerId!).then((resp) => {
       if(resp) {
         this.player = resp;
       } else {
@@ -152,6 +187,20 @@ export class PlayNowTrainingComponent implements OnInit {
         */
 
         this.messageService.alert('Attenzione!','Errore durante la chiamata getPlayer','error');
+      }
+    });
+  }
+
+  private takeDuelRec() {
+    this.notifierStateService.getDuelRec(this.playerId!).then((resp) => {
+      if(resp) {
+        this.duelRecs = resp;
+        this.totalReward = 0;
+        for(let duel of this.duelRecs) {
+          this.totalReward += duel.reward;
+        }
+      } else {
+        this.messageService.alert('Attenzione!','Errore durante la chiamata getDuelRec','error');
       }
     });
   }

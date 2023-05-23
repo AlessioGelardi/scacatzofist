@@ -12,11 +12,11 @@
             <h3>MODALITÁ TRANING</h3>
         </div>
         <div class="col-12 d-flex justify-content-center" *ngIf="!finishTraning">
-            <label *ngIf="!start">Vuoi iniziare a collezionare <strong>coin</strong> e ottenere <strong>esperienza</strong> ? Premi il tasto <strong>INIZIA TRAINING</strong> e gioca con chi vuoi</label>
-            <label *ngIf="start">Il timer è iniziato. Comincia già da adesso a fare tutte le partite che vuoi, quando vuoi fermarti clicca il pulsante <strong>FINE TRAINING</strong></label>
+            <label *ngIf="!start">Desideri iniziare a collezionare <strong>coin</strong> e ottenere <strong>esperienza</strong> ? Premi il tasto <strong>INIZIA TRAINING</strong> e gioca con chi preferisci</label>
+            <label *ngIf="start">Il timer è iniziato. Comincia già da adesso a duellare, quando desideri fermare il tuo traning clicca il pulsante <strong>FINE TRAINING</strong></label>
         </div>
         <div class="col-12 d-flex justify-content-center" *ngIf="finishTraning">
-            <label>Complimenti! Sono state registrate <strong>{{countRec}}</strong> partite! Adesso decreta il vincitore e ricevi le ricompense!</label>
+            <label>Complimenti! Sono state registrate <strong>{{duelRecs ? duelRecs!.length : 0}}</strong> partite! Adesso conferma il traning per ricevere le ricompense!</label>
         </div>
     </div>
 </div>
@@ -32,11 +32,11 @@
         <div class="row" *ngIf="start">
             <div class="col-12 d-flex justify-content-center">
                 <div class="timer">
-                    <span class="hours">{{hours}}</span>
+                    <span class="hours">{{hours}} ore</span>
                     <span class="separator">:</span>
-                    <span class="minutes">{{minutes}}</span>
+                    <span class="minutes">{{minutes}} min</span>
                     <span class="separator">:</span>
-                    <span class="seconds">{{secondi}}</span>
+                    <span class="seconds">{{secondi}} sec</span>
                 </div>
             </div>
         </div>
@@ -45,9 +45,29 @@
     <div *ngIf="finishTraning">
         <div class="row mt-3 d-flex justify-content-center text-center">
             <div class="col-9"><h5>Partite Registrate</h5></div>
-            <div *ngFor="let duel of duelRecs">
-                <button class="col-7 m-2 btn btn-lg rounded grigino" (click)="doDetail(duel)">{{duel.name}}</button>
+
+            <div class="row pt-3">
+                <table class="table table-hover mt-3 text-center" >
+                    <thead>
+                        <tr>
+                            <th scope="col">Vincente</th>
+                            <th scope="col">Perdente</th>
+                            <th scope="col">Ricompensa</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let duel of duelRecs">
+                            <td>{{duel.winner}}</td>
+                            <td>{{duel.loser}}</td>
+                            <td><strong>+{{duel.reward}}</strong>&nbsp;<i class="fa fa fa-database"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="mt-4">
+                    <button class="col-5 btn btn-lg rounded grigino" (click)="awardTraining()">CONFERMA RICOMPENSA <strong>{{totalReward}} <i class="fa fa fa-database"></i></strong></button>
+                </div>
             </div>
+
         </div>
     </div>
 </div>

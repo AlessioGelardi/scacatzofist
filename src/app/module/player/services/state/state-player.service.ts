@@ -25,6 +25,10 @@ export class StatePlayerService {
     this.zaino = undefined;
   }
 
+  resetPlayerState() {
+    this.player = undefined;
+  }
+
   async getPlayer(id:string) {
     this.spinnerService.show();
 
