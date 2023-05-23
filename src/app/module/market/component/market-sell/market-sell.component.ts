@@ -102,46 +102,38 @@ export class MarketSellComponent implements OnInit {
       showLoaderOnConfirm: true
     }).then((result) => {
       if (result.isConfirmed) {
-
-        this.marketStateService.venditaCard(this.playerId!,card.id,result.value).then((resp) => {
-          if(resp === true) {
-            this.messageService.alert('Fatto!','Vendita creata con successo!','success');
-
-            let cardDelete = this.zaino!.find(i => i.id === card.id);
-            if(cardDelete) {
-              const index = this.zaino!.indexOf(cardDelete, 0);
-              this.zaino!.splice(index,1);
-            }
-            this.marketStateService.resetState();
-            //this.takeHistory();
-
-          } else {
-            if(resp && resp.status !== 200) {
-              if(resp.status === 403) {
-                let msg = "";
-                resp.error.forEach((z: any) => msg=z.name+" x"+z.count);
-                this.messageService.alert('Attenzione','Carta presente nel deck '+msg,'error');
-              } else {
-                this.messageService.alert('Errore','Qualcosa è andato storto durante la creazione della vendita','error');
+        if(result.value>0) {
+          this.marketStateService.venditaCard(this.playerId!,card.id,result.value).then((resp) => {
+            if(resp === true) {
+              this.messageService.alert('Fatto!','Vendita creata con successo!','success');
+  
+              let cardDelete = this.zaino!.find(i => i.id === card.id);
+              if(cardDelete) {
+                const index = this.zaino!.indexOf(cardDelete, 0);
+                this.zaino!.splice(index,1);
+              }
+              this.marketStateService.resetState();
+              //this.takeHistory();
+  
+            } else {
+              if(resp && resp.status !== 200) {
+                if(resp.status === 403) {
+                  let msg = "";
+                  resp.error.forEach((z: any) => msg+=z.name+" x"+z.count+" ");
+                  this.messageService.alert('Attenzione','Carta presente nel deck '+msg,'error');
+                } else {
+                  this.messageService.alert('Errore','Qualcosa è andato storto durante la creazione della vendita','error');
+                }
               }
             }
-          }
-        });
+          });
+        } else {
+          this.messageService.alert('Attenzione','Il prezzo deve essere almeno maggiore di 0','info');
+        }
+        
       }
     })
   }
-
-  /* deleteSell(sellId:string,cardId:string) {
-    this.marketStateService.deleteSellCard(sellId,cardId,this.playerId!).then((resp) => {
-      if(resp === true) {
-        this.messageService.alert('Fatto!','Vendita eliminata con successo!','success');
-      } else {
-        if(resp && resp.status !== 200) {
-          this.messageService.alert('Errore','Qualcosa è andato storto durante la cancellazione della vendita','error');
-        }
-      }
-    });
-  } */
 
   doFilter() {
     this.viewFilter=!this.viewFilter;
@@ -156,11 +148,5 @@ export class MarketSellComponent implements OnInit {
     this.sliceStart += this.slice;
     this.sliceEnd += this.slice;
   }
-
-  /* private takeHistory() {
-    this.marketStateService.getSellHistory(this.playerId!).then((resp) => {
-      this.history = resp!;
-    });
-  } */
 
 }
