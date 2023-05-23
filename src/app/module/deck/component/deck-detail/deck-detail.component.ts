@@ -69,7 +69,7 @@ export class DeckDetailComponent implements OnInit {
           this.router.navigate(['/deck',{id:this.playerId!}]);
           break;
         case 'EDIT':
-          if(this.newNameDeck !== "") {
+          if(this.newNameDeck) {
             this.router.navigate(['/deckEdit',{id:this.deckId,newNameDeck:this.newNameDeck,playerId:this.playerId!}]);
           } else {
             this.router.navigate(['/deckEdit',{id:this.deckId,playerId:this.playerId!}]);

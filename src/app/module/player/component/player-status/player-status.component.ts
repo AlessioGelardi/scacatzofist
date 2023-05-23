@@ -3,6 +3,9 @@ import { Router } from '@angular/router';
 import { TypeMod } from 'src/app/module/play-now/enum/typeMod';
 import { Player } from 'src/app/module/interface/player';
 import { StateNotifierService } from 'src/app/module/notifier/services/state/state-notifier.service';
+import { StateDeckService } from 'src/app/module/deck/services/state/state-deck.service';
+import { StateMarketService } from 'src/app/module/market/services/state/state-market.service';
+import { StatePlayerService } from '../../services/state/state-player.service';
 
 @Component({
   selector: 'player-status',
@@ -15,7 +18,10 @@ export class PlayerStatusComponent implements OnInit {
 
   numberNotify:number | undefined;
 
-  constructor(private router: Router, private notifierStateService: StateNotifierService) { }
+  constructor(private router: Router,
+    private deckStateService: StateDeckService,
+    private marketStateService: StateMarketService,
+    private playerStateService: StatePlayerService) { }
 
   ngOnInit(): void {
   }
@@ -25,7 +31,9 @@ export class PlayerStatusComponent implements OnInit {
   }
 
   logout() {
-    //this.notifierStateService.resetState();
+    this.deckStateService.resetState();
+    this.marketStateService.resetState();
+    this.playerStateService.resetState();
     this.router.navigate(['/']);
   }
 }
