@@ -26,6 +26,9 @@ export class MarketEdicolaComponent implements OnInit {
   viewPack: boolean = false;
   finishPurchase: boolean = false;
 
+  viewCurrencyExchange: boolean = false;
+  numberCredits: number = 0;
+
   constructor(private route: ActivatedRoute,
     private router: Router,
     private marketStateService: StateMarketService,
@@ -277,32 +280,63 @@ export class MarketEdicolaComponent implements OnInit {
     this.viewCards = pack.cards;
   }
 
-  exchangeCoin() {
-    Swal.fire({
-      title: 'Cambia i tuoi coin in crediti',
-      color: '#3e3d3c',
-      background: '#cdcccc',
-      html: '<input type="number" /> ',
-      showCancelButton: true,
-      confirmButtonText: 'Acquista'
-    }).then((result) => {
-      if(result.isConfirmed) {
-        /* if(this.player!.coin!-Number(sellCard.prezzo)>=0) {
-          this.marketStateService.buyCard(sellCard,this.player?._id!).then((resp) => {
-            if(resp) {
-              this.player!.coin = this.player!.coin! - Number(sellCard.prezzo);
-              this.messageService.alert('Fatto!','Carta acquistata!','success');
-              this.takeMarketPlace();
-            } else {
-              this.messageService.alert('Errore','Qualcosa è andato storto durante acquisto della carta','error');
-            }
-          });
-        } else {
-          this.messageService.alert('Errore','Non hai abbastanza coin','error');
-        }*/
+  viewExchange() {
+    this.viewCurrencyExchange = true;
+  }
 
+  buyCredits() {
+    if(this.numberCredits>0) {
+      if(this.player!.coin!>=(this.numberCredits*1000)) {
+        Swal.fire({
+          title: 'Sei sicuro?',
+          html: "Acquisterai <strong>"+this.numberCredits+" <i class='fa fa-diamond'></i></strong> al prezzo di <strong>"+this.numberCredits*1000+" <i class='fa fa-database'></i></strong>!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Si, acquista!',
+          cancelButtonText: 'Non acquistare!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+  
+            this.marketStateService.buyCredits(this.player!._id!,this.numberCredits).then((resp) => {
+              if(resp) {
+                this.player!.credits = Number(this.player!.credits!) + Number(this.numberCredits);
+                this.player!.coin = this.player!.coin!-(this.numberCredits*1000);
+                this.viewCurrencyExchange = false;
+              } else {
+                //TO-DO gestione degli errori
+                /*
+                if(resp.status===402) {
+                  this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+                }
+                */
+        
+                this.messageService.alert('Attenzione!','Problema durante l"acquisto dei crediti','error');
+              }
+            });
+    
+            /*
+    
+            this.deckStateService.deleteDeck(id).then((resp) => {
+              if(resp && resp.status===200) {
+                this.messageService.alert('Evviva','Il tuo deck è stato cancellato','success');
+              } else {
+                this.messageService.alert('Attenzione!','non ho trovato nulla con questo id, probabilmente il deck non esiste','error');
+              }
+            })
+    
+            */
+          }
+        })
+      } else {
+        this.messageService.alert('Attenzione!','Budget insufficente, i coin a disposizione non coprono la spesa','info');
       }
-    })
+      
+    } else {
+      this.messageService.alert('Attenzione!','I crediti da acquistare devono essere maggiori di 0','info');
+    }
+
   }
 
   private takePlayer(playerId: string) {

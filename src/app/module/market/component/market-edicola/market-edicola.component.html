@@ -31,10 +31,25 @@
             <label>Acquista i crediti tramite coin</label>
         </div>
     </div>
-     <div class="row mt-3">
+     <div class="row mt-3" *ngIf="!viewCurrencyExchange">
         <div *ngIf="!viewPack" class="d-flex justify-content-around mt-3">
-            <button type="button" class="col-3 btn btn-lg rounded-pill grigino" (click)="exchangeCoin()">CAMBIO VALUTA</button>
+            <button type="button" class="col-3 btn btn-lg rounded-pill grigino" (click)="viewExchange()">CAMBIO VALUTA</button>
         </div>
+    </div>
+    <div class="row" *ngIf="viewCurrencyExchange" class="d-flex justify-content-around mt-3">
+        <div class="col-5">
+            <label>Quanti crediti vuoi acquistare</label>
+            <input [(ngModel)]="numberCredits" type="number" class="form-control sfondino">
+        </div>
+    </div>
+    <div class="row" *ngIf="viewCurrencyExchange" class="d-flex justify-content-around mt-3">
+        <div class="col-5">
+            <strong><label>{{numberCredits*1000}} <i class="fa fa-database"></i></label>&nbsp;<i class="fa fa-arrow-right"></i>&nbsp;<label></label><label>{{numberCredits}} <i class="fa fa-diamond"></i></label></strong>
+            
+        </div>
+    </div>
+    <div class="row" *ngIf="viewCurrencyExchange" class="d-flex justify-content-around mt-3">
+        <button type="button" class="col-3 btn btn-lg grigino" (click)="buyCredits()">ACQUISTA</button>
     </div>
 </div>
 
