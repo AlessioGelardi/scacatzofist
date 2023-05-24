@@ -16,6 +16,7 @@ export class DeckDetailComponent implements OnInit {
 
   deckId: string | undefined;
   playerId: string | undefined;
+  permission: boolean = true;
   deck: Deck | undefined;
 
   constructor(private router: Router,
@@ -26,21 +27,34 @@ export class DeckDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.buttons = [
-      {
-        name: "BACK-BUTTON",
-        code: "BACK",
-        class: "fa fa-undo"
-      },
-      {
-        name: "EDIT-BUTTON",
-        code: "EDIT",
-        class: "fa fa-pencil"
-      }
-    ];
+    this.permission = this.route.snapshot.paramMap.get('permission')! === "true";
+
+    if(this.permission) {
+      this.buttons = [
+        {
+          name: "BACK-BUTTON",
+          code: "BACK",
+          class: "fa fa-undo"
+        },
+        {
+          name: "EDIT-BUTTON",
+          code: "EDIT",
+          class: "fa fa-pencil"
+        }
+      ];
+    } else {
+      this.buttons = [
+        {
+          name: "BACK-BUTTON",
+          code: "BACK",
+          class: "fa fa-undo"
+        }
+      ];
+    }
 
     this.deckId = this.route.snapshot.paramMap.get('id')!;
     this.playerId = this.route.snapshot.paramMap.get('playerId')!;
+    
     this.deckStateService.getDeck(this.deckId).then((resp) => {
       this.deck = resp;
     });
@@ -54,7 +68,7 @@ export class DeckDetailComponent implements OnInit {
     if(code) {
       switch(code) {
         case 'BACK':
-          this.router.navigate(['/deck',{id:this.playerId!}]);
+          this.router.navigate(['/deck',{id:this.playerId!, permission: this.permission}]);
           break;
         case 'EDIT':
           this.router.navigate(['/deckEdit',{id:this.deckId,playerId:this.playerId!}]);

@@ -62,7 +62,7 @@ export class StateDeckService {
   async getDeck(id:string) {
     this.spinnerService.show();
 
-    if (!this.deck) {
+    if (!this.deck || this.deck.id !== id) {
       try {
         const response = await firstValueFrom(this.deckService.getDeckById(id));
         this.deck = response;

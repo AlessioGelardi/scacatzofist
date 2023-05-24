@@ -5,13 +5,13 @@
         <div class="row pt-5">
             <div class="d-flex justify-content-around">
                 <button class="btn btn-lg" (click)="modificaDeck()">MODIFICA DECK</button>
-                <button class="btn btn-lg" (click)="marketPlace()">MARKET PLACE</button>
+                <button class="btn btn-lg" *ngIf="player?.ruolo !== 3" (click)="marketPlace()">MARKET PLACE</button>
             </div>
         </div>
 
         <div class="row pt-5">
             <div class="d-flex justify-content-around">
-                <button class="btn btn-lg" (click)="giocaAdesso()">GIOCA ADESSO</button>
+                <button class="btn btn-lg" *ngIf="player?.ruolo !== 3" (click)="giocaAdesso()">GIOCA ADESSO</button>
             </div>
         </div>
     </div>
