@@ -10,18 +10,12 @@ import { DictReqs, Reqs } from 'src/app/module/interface/reqs';
 })
 export class StateNotifierService {
 
-  //reqs: DictReqs | undefined;
-
   constructor(private spinnerService: NgxSpinnerService,
     private notifierService: NotifierService,
     private messageService: MessageService) {
 
   }
 
-  /* resetState() {
-    this.reqs = undefined;
-  } */
-  
   async inviaRichiesta(request:any) {
     this.spinnerService.show();
     let response;

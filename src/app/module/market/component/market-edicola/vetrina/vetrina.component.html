@@ -1,11 +1,11 @@
-<div class="col-11 d-flex justify-content-around text-center" *ngIf="!viewPrice">
-    <div class="row">
+<div class="col-12 d-flex justify-content-around text-center" *ngIf="!viewPrice">
+    <div class="row d-flex justify-content-around text-center">
         <div *ngFor="let pack of packs" class="col-3">
             <div class="row">
                 <label>{{pack.baseCost}} <i class="fa fa-diamond"></i> </label>
             </div>
         
-            <div class="row">
+            <div class="row mt-1 d-flex justify-content-around text-center">
                 <img src="{{pack.src}}" class="pack mb-3" (click)="show(pack)">
             </div>
         </div>
