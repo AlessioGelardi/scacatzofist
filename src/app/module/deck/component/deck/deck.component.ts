@@ -29,6 +29,7 @@ export class DeckComponent implements OnInit {
   oldDeckName: string | undefined;
 
   playerId: string | undefined;
+  permission: boolean = true;
 
   constructor(private route: ActivatedRoute,
     private router: Router,
@@ -38,31 +39,44 @@ export class DeckComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.buttons = [
-      {
-        name: "HOME-BUTTON",
-        code: "HOME",
-        class: "fa fa-home"
-      },
-      {
-        name: "NEW-BUTTON",
-        code: "NEW",
-        class: "fa fa-plus"
-      },
-      {
-        name: "EDIT-BUTTON",
-        code: "EDIT",
-        class: "fa fa-pencil"
-      }/*,
-      {
-        name: "IMPORT-BUTTON",
-        code: "IMPORT",
-        class: "fa fa-download"
-      }*/
-    ];
+    this.permission = this.route.snapshot.paramMap.get('permission') === "true";
+    if(this.permission) {
+      this.buttons = [
+        {
+          name: "HOME-BUTTON",
+          code: "HOME",
+          class: "fa fa-home"
+        },
+        {
+          name: "NEW-BUTTON",
+          code: "NEW",
+          class: "fa fa-plus"
+        },
+        {
+          name: "EDIT-BUTTON",
+          code: "EDIT",
+          class: "fa fa-pencil"
+        }/*,
+        {
+          name: "IMPORT-BUTTON",
+          code: "IMPORT",
+          class: "fa fa-download"
+        }*/
+      ];
+    } else {
+      this.buttons = [
+        {
+          name: "HOME-BUTTON",
+          code: "HOME",
+          class: "fa fa-home"
+        }
+      ];
+    }
+
 
     
     this.playerId = this.route.snapshot.paramMap.get('id')!;
+    
     this.takeDecks();
 
   }
@@ -94,11 +108,10 @@ export class DeckComponent implements OnInit {
 
   viewDeck(id:string, newDeck:boolean, newNameDeck:string) {
     if(newDeck) {
-      this.router.navigate(['/deckDetail',{id:id,newNameDeck:newNameDeck,playerId:this.playerId!}]);
+      this.router.navigate(['/deckDetail',{id:id,newNameDeck:newNameDeck,playerId:this.playerId!, permission: this.permission}]);
     } else {
-      this.router.navigate(['/deckDetail',{id:id,playerId:this.playerId!}]);
+      this.router.navigate(['/deckDetail',{id:id,playerId:this.playerId!, permission: this.permission}]);
     }
-    
   }
 
   doModifyDeckName(deckName: string) {
