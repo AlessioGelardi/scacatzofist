@@ -1,41 +1,98 @@
 import { Component, OnInit } from '@angular/core';
 import { Status } from 'src/app/module/notifier/enum/status';
 import { TypeMod } from 'src/app/module/play-now/enum/typeMod';
-import { Reqs } from 'src/app/module/interface/reqs';
+import { DictReqs, Reqs } from 'src/app/module/interface/reqs';
 import Swal from 'sweetalert2';
 import { StateNotifierService } from '../../services/state/state-notifier.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'src/app/module/swalAlert/message.service';
+import { StatePlayerService } from 'src/app/module/player/services/state/state-player.service';
+import { Button } from 'src/app/module/interface/button';
 
 @Component({
   selector: 'app-notifier',
   templateUrl: './notifier.component.html',
-  styleUrls: ['./notifier.component.css']
+  styleUrls: ['../../styles/notifier.css','./notifier.component.css']
 })
 export class NotifierComponent implements OnInit {
 
-  myReqs: Reqs[] = [];
-  reqs: Reqs[] = [];
+  buttons: Button[] = [];
 
   playerId:string | undefined;
   typeMode:number | undefined;
   playerRole:number | undefined;
 
+  history: boolean = false;
+  viewMyReqs: boolean = false;
+
+  maxPageNum: number = 1;
+  dictReqs: DictReqs | undefined;
+  pageSelected: string = "1";
+
   constructor(private route: ActivatedRoute,
+    private router: Router,
     private messageService: MessageService,
+    private playerStateService: StatePlayerService,
     private notifierStateService: StateNotifierService) { }
 
   ngOnInit(): void {
+    this.buttons = [
+      {
+        name: "BACK-BUTTON",
+        code: "BACK",
+        class: "fa fa-arrow-left"
+      },
+      {
+        name: "REFRESH-BUTTON",
+        code: "REFRESH",
+        class: "fa fa-refresh"
+      },
+      {
+        name: "MYREQS-BUTTON",
+        code: "MYREQS",
+        class: "fa fa-paper-plane"
+      },
+      {
+        name: "HISTORY-BUTTON",
+        code: "HISTORY",
+        class: "fa fa-list"
+      }
+    ];
+
     this.playerId = this.route.snapshot.paramMap.get('id')!;
     this.typeMode = Number(this.route.snapshot.paramMap.get('typeMode')!);
     this.playerRole = Number(this.route.snapshot.paramMap.get('playerRole')!);
 
-    this.takeReqs();
+    this.takeReqs(this.history);
   }
 
-  refresh() {
-    this.notifierStateService.resetState();
-    this.takeReqs();
+  buttonOperationHandler(code: any) {
+    if(code) {
+      switch(code) {
+        case 'BACK':
+          window.history.back();
+          break;
+        case 'HISTORY':
+          this.history=true;
+          //this.notifierStateService.resetState();
+          this.takeReqs(this.history, this.viewMyReqs);
+          break;
+        case 'MYREQS':
+          this.viewMyReqs = true;
+          this.takeReqs(this.history, this.viewMyReqs);
+          break;
+        case 'REFRESH':
+          this.history = false;
+          this.viewMyReqs = false;
+          //this.notifierStateService.resetState();
+          this.takeReqs(this.history);
+          break;
+      }
+    }
+  }
+
+  selectPage(page: number) {
+    this.pageSelected = page.toString();
   }
 
   doDetail(req:Reqs) {
@@ -77,7 +134,7 @@ export class NotifierComponent implements OnInit {
             request.status = newstatus;
             this.notifierStateService.updateRequest(request).then((resp) => {
               if(resp) {
-                this.notifierStateService.resetState();
+                //this.notifierStateService.resetState();
                 req.status = newstatus;
                 this.messageService.alert('Aggiornato!','Richiesta aggiornata con successo! Torna più tardi per vedere gli aggiornamenti','success');
               } else {
@@ -134,10 +191,11 @@ export class NotifierComponent implements OnInit {
           request.role = this.playerRole;
           this.notifierStateService.updateRequest(request).then((resp) => {
             if(resp === true) {
-              this.notifierStateService.resetState();
+              //this.notifierStateService.resetState();
               req.status = 3;
               req.vincitore = vincitore;
               this.messageService.alert('Partita Conclusa!','Richiesta aggiornata con successo!','success');
+              this.playerStateService.resetPlayerState();
             } else {
               if(resp) {
                 const statusError = resp.status;
@@ -169,12 +227,15 @@ export class NotifierComponent implements OnInit {
     return TypeMod; 
   }
 
-  private takeReqs() {
+  getNumberRange(n: number): number[] {
+    return Array.from({ length: n }, (_, index) => index + 1);
+  }
 
-    this.notifierStateService.getReqs(this.playerId!).then((resp) => {
+  private takeReqs(history:boolean, myReqs: boolean = false) {
+    this.pageSelected = "1";
+    this.notifierStateService.getReqs(this.playerId!,history,myReqs).then((resp) => {
       if(resp) {
-        this.myReqs = resp["myReqs"] as Reqs[];
-        this.reqs = resp["reqs"] as Reqs[];
+        this.dictReqs = resp;
       } else {
         //TO-DO gestione degli errori
         /*
@@ -186,6 +247,6 @@ export class NotifierComponent implements OnInit {
         this.messageService.alert('Attenzione!','Errore durante la chiamata getReqs','error');
       }
     });
-  }
+  } 
 
 }

@@ -67,7 +67,11 @@ export class DeckEditComponent implements OnInit {
     if(code) {
       switch(code) {
         case 'BACK':
-          this.router.navigate(['/deckDetail',{id:this.deckId}]);
+          if(this.newNameDeck) {
+            this.router.navigate(['/deck',{id:this.playerId!}]);
+          } else {
+            this.router.navigate(['/deckDetail',{id:this.deckId}]);
+          }
           break;
         case 'REFRESH': {
           this.deckStateService.resetDeck();
@@ -214,7 +218,7 @@ export class DeckEditComponent implements OnInit {
   }
 
   private takeDeck() {
-    if(this.newNameDeck!=="") {
+    if(this.newNameDeck) {
       this.deck = {
         id: this.deckId!,
         playerId: this.playerId!,

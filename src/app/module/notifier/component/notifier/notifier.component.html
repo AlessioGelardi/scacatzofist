@@ -1,29 +1,43 @@
-<div class="row d-flex justify-content-around mt-3">
+<!-- <div class="row d-flex justify-content-around mt-3">
     <button type="button" class="col-2 btn btn-lg rounded-pill grigino " (click)="refresh()"><i class='fa fa-refresh'></i></button>
-</div>
+</div> -->
 
-<div class="mt-3">
-    <label>Le tue richieste ricevute</label>
-    <table class="table table-hover mt-2 text-center">
+<notifier-buttons [buttons]="buttons" (buttonOperation)="buttonOperationHandler($event)"></notifier-buttons>
+
+<div class="mt-4">
+
+    <label *ngIf="!viewMyReqs">Le tue richieste ricevute <label *ngIf="history">history</label></label>
+    <label *ngIf="viewMyReqs">Le tue richieste inviate <label *ngIf="history">history</label></label>
+
+    <div class="mt-4" *ngIf="dictReqs?.page!>1">
+        <div class="row d-flex justify-content-around">
+            <button type="button" class="col btn impagination" (click)="selectPage(1)"><i class='fa fa-angle-left'></i></button>
+            <button *ngFor="let number of getNumberRange(dictReqs?.page!)" type="button" class="col btn impagination" (click)="selectPage(number)">{{number}}</button>
+            <button type="button" class="col btn impagination" (click)="selectPage(dictReqs?.page!)"><i class='fa fa-angle-right'></i></button>
+        </div>
+    </div>
+    <table class="table table-hover mt-4 text-center">
         <thead>
             <tr>
                 <th scope="col">Status</th>
-                <th scope="col">Player Richiedente</th> 
+                <th scope="col" *ngIf="!viewMyReqs">Player Richiedente</th>
+                <th scope="col" *ngIf="viewMyReqs">Player Ricevente</th>
                 <th scope="col">Modalità</th>
                 <th scope="col">Data</th>
             </tr>
         </thead>
-        <tbody>
-            <tr *ngFor="let req of myReqs" (click)="doDetail(req)">
+        <tbody *ngIf="dictReqs?.reqs">
+            <tr *ngFor="let req of dictReqs?.reqs![pageSelected]" (click)="doDetail(req)">
                 <td>{{Status[req.status]}}</td>
                 <td>{{req.playerRichiedente}}</td>
                 <td>{{TypeMod[req.typeMod]}}</td>
-                <td>{{req.typeMod==1?req.dataIns:req.dataUpdate | date: 'dd/MM/yyyy'}}</td>
+                <td>{{req.dataUpdate}}</td>
             </tr>
         </tbody>
     </table>
 </div>
 
+<!-- 
 <div class="mt-5">
     <label>Le tue richieste inviate</label>
     <table class="table table-hover mt-2 text-center">
@@ -36,12 +50,12 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let req of reqs" (click)="doDetail(req)">
+            <tr *ngFor="let req of myReqs" (click)="doDetail(req)">
                 <td>{{Status[req.status]}}</td>
                 <td>{{req.playerRicevente}}</td>
                 <td>{{TypeMod[req.typeMod]}}</td>
-                <td>{{req.typeMod==1?req.dataIns:req.dataUpdate | date: 'dd/MM/yyyy'}}</td>
+                <td>{{req.dataUpdate}}</td>
             </tr>
         </tbody>
     </table>
-</div>
+</div> -->

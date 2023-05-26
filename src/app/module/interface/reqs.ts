@@ -8,10 +8,14 @@ export interface Reqs {
     playerIdOppo: string;
     playerRichiedente: string;
     playerRicevente: string;
-    dataIns: Date;
-    dataUpdate?: Date;
+    dataUpdate: Date;
     status: Status;
     vincita:any;
     perdita:any;
     vincitore?:string;
+}
+
+export interface DictReqs {
+    reqs?: { [key: string]: Reqs[] },
+    page?: number
 }

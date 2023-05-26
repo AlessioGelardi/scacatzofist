@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Reqs } from 'src/app/module/interface/reqs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -17,7 +18,7 @@ export class NotifierService {
   constructor(private http: HttpClient) { }
 
   newRequest(request:any):Observable<boolean> {
-    request.dataIns = this.takeFormatToday(false);
+    request.dataUpdate = this.takeFormatToday(false);
     return this.http.post<boolean>(this.apiUrlPlaynow,request,this.generateOptions());
   }
 
@@ -26,13 +27,17 @@ export class NotifierService {
     return this.http.put<boolean>(this.apiUrlPlaynow,request,this.generateOptions());
   }
 
-  getReqs(id:string, typeMod?:number):Observable<any> {
+  getReqs(id:string, page:number, limit:number, myReqs:boolean = false, history:boolean = false, typeMod?:number):Observable<any> {
     let req:any = {};
     req.id = id;
+    req.page = page;
+    req.limit = limit;
+    req.myReqs = myReqs;
+    req.history = history;
     if(typeMod) {
-        req.typeMod = typeMod!;
+      req.typeMod = typeMod!;
     }
-    return this.http.get<any>(this.apiUrlPlaynow,{params:req});
+    return this.http.get<Reqs[]>(this.apiUrlPlaynow,{params:req});
   }
   
   getNumberNotify(id:string):Observable<number>{
@@ -40,7 +45,7 @@ export class NotifierService {
   }
 
   createDuelRec(request:any):Observable<any> {
-    request.dataIns = this.takeFormatToday(true);
+    request.dataUpdate = this.takeFormatToday(true);
     return this.http.post<boolean>(this.apiUrlDuelRec,request,this.generateOptions());
   }
 

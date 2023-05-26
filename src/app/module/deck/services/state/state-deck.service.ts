@@ -23,6 +23,7 @@ export class StateDeckService {
   resetState() {
     this.resetDeck();
     this.resetPlayerDecks();
+    this.resetActualDeck();
   }
 
   resetDeck() {
@@ -31,6 +32,10 @@ export class StateDeckService {
 
   resetPlayerDecks() {
     this.playerDecks=undefined;
+  }
+
+  resetActualDeck() {
+    this.actualDeck=undefined;
   }
 
   async newDeck(deck:any) {
@@ -90,8 +95,7 @@ export class StateDeckService {
   async getDeck(id:string) {
     this.spinnerService.show();
 
-    if (!this.deck || id != this.actualDeck) {
-      this.actualDeck = id;
+    if (!this.deck || this.deck.id !== id) {
       try {
         const response = await firstValueFrom(this.deckService.getDeckById(id));
         this.deck = response;

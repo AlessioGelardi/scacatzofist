@@ -4,7 +4,7 @@
     <market-buttons [buttons]="buttons" (buttonOperation)="buttonOperationHandler($event)"></market-buttons>
 </div>
 
-<div class="mt-4" *ngIf="!finishPurchase">
+<div class="mt-5" *ngIf="!finishPurchase">
     <div class="row" *ngIf="!viewPack">
         <div class="col-12 d-flex justify-content-center">
             <h3>BENVENUTO IN EDICOLA</h3>
@@ -13,7 +13,7 @@
             <label>Acquista il pack che preferisci</label>
         </div>
     </div>
-     <div class="row mt-5">
+     <div class="row mt-3">
         <div *ngIf="!viewPack" class="d-flex justify-content-around mt-3">
             <button type="button" class="col-3 btn btn-lg rounded-pill grigino" (click)="setTypePack(1)">MOSTRO</button>
             <button type="button" class="col-3 btn btn-lg rounded-pill grigino" (click)="setTypePack(2)">MAGIA</button>
@@ -22,6 +22,34 @@
         <div *ngIf="viewPack">
             <market-vetrina [packs]="packs" (confirmBuyEmitter)="acquista($event)"></market-vetrina>
         </div>
+    </div>
+</div>
+
+<div class="mt-5" *ngIf="!finishPurchase">
+    <div class="row" *ngIf="!viewPack">
+        <div class="col-12 d-flex justify-content-center">
+            <label>Acquista i crediti tramite coin</label>
+        </div>
+    </div>
+     <div class="row mt-3" *ngIf="!viewCurrencyExchange">
+        <div *ngIf="!viewPack" class="d-flex justify-content-around mt-3">
+            <button type="button" class="col-3 btn btn-lg rounded-pill grigino" (click)="viewExchange()">CAMBIO VALUTA</button>
+        </div>
+    </div>
+    <div class="row" *ngIf="viewCurrencyExchange" class="d-flex justify-content-around mt-3">
+        <div class="col-5">
+            <label>Quanti crediti vuoi acquistare</label>
+            <input [(ngModel)]="numberCredits" type="number" class="form-control sfondino">
+        </div>
+    </div>
+    <div class="row" *ngIf="viewCurrencyExchange" class="d-flex justify-content-around mt-3">
+        <div class="col-5">
+            <strong><label>{{numberCredits*1000}} <i class="fa fa-database"></i></label>&nbsp;<i class="fa fa-arrow-right"></i>&nbsp;<label></label><label>{{numberCredits}} <i class="fa fa-diamond"></i></label></strong>
+            
+        </div>
+    </div>
+    <div class="row" *ngIf="viewCurrencyExchange" class="d-flex justify-content-around mt-3">
+        <button type="button" class="col-3 btn btn-lg grigino" (click)="buyCredits()">ACQUISTA</button>
     </div>
 </div>
 

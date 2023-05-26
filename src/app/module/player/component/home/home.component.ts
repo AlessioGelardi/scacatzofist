@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit {
   }
 
   modificaDeck() {
-    this.router.navigate(['/deck',{id:this.player?._id}]);
+    this.router.navigate(['/deck',{id:this.player?._id, permission: !(this.player?.ruolo! === 3)}]);
   }
 
   marketPlace() {
