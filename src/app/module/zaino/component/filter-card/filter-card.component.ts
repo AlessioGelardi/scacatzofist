@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Attributi } from '../../enum/attribute';
+import { Razze } from '../../enum/races';
+import { Tipologie } from '../../enum/types';
+import { MessageService } from 'src/app/module/swalAlert/message.service';
 
 @Component({
   selector: 'filter-card',
@@ -9,26 +12,45 @@ import { Attributi } from '../../enum/attribute';
 })
 export class FilterCardComponent implements OnInit {
 
+  viewMoreFilter: boolean = false;
+
   filterCardForm = new FormGroup({
-    name: new FormControl('', Validators.required),
-    password: new FormControl('', Validators.required),
-    email: new FormControl('', Validators.required),
-    domanda: new FormControl('', Validators.required),
-    risposta: new FormControl('', Validators.required)
+    name: new FormControl('',[
+      Validators.minLength(5)
+    ]),
+    attribute: new FormControl(''),
+    type: new FormControl(''),
+    race: new FormControl(''),
+    level: new FormControl(0),
+    atk: new FormControl(0),
+    def: new FormControl(0),
   });
 
-  questions = Object.keys(Attributi).filter(key => isNaN(Number(key)));
+  attributes = Object.keys(Attributi).filter(key => isNaN(Number(key)));
+  races = Object.keys(Razze).filter(key => isNaN(Number(key)));
+  types = Object.keys(Tipologie).filter(key => isNaN(Number(key)));
 
-  constructor() {
-  }
+  constructor(private messageService: MessageService) { }
 
   ngOnInit(): void {
     
   }
 
+  doMoreFilter() {
+    this.viewMoreFilter = !this.viewMoreFilter;
+  }
+
   search() {
-    alert('soooca')
-    console.log(this.filterCardForm)
+    console.log(this.filterCardForm);
+    if (this.filterCardForm.valid) {
+    } else {
+      if(this.filterCardForm.controls['name'].errors) {
+        if (this.filterCardForm.controls['name'].errors['minlength']) {
+          this.messageService.alert('Attenzione!','Il nome minimo consentito è 5 lettere','info');
+        }
+      }
+      
+    }
   }
 
 }
