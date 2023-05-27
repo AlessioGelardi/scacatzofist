@@ -6,6 +6,7 @@ import { RecoverComponent } from './component/recover/recover.component';
 import { SigninComponent } from './component/signin/signin.component';
 import { LoginRoutingModule } from './login-routing.module';
 import { FortuneWheelComponent } from './component/fortune-wheel/fortune-wheel.component';
+import { ZainoModule } from '../zaino/zaino.module';
 
 
 
@@ -17,6 +18,7 @@ import { FortuneWheelComponent } from './component/fortune-wheel/fortune-wheel.c
     FortuneWheelComponent
   ],
   imports: [
+    ZainoModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,

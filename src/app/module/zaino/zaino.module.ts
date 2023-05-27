@@ -2,20 +2,26 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AutofocusDirective } from './directives/autofocus.directive';
 import { FilterZainoPipe } from './pipes/filter-zaino.pipe';
+import { FilterCardComponent } from './component/filter-card/filter-card.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
 @NgModule({
   declarations: [
     AutofocusDirective,
-    FilterZainoPipe
+    FilterZainoPipe,
+    FilterCardComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [
     AutofocusDirective,
-    FilterZainoPipe
+    FilterZainoPipe,
+    FilterCardComponent
   ],
 })
 export class ZainoModule { }

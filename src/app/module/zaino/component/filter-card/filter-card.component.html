@@ -1,0 +1,13 @@
+<form [formGroup]="filterCardForm" (ngSubmit)="search()">
+    <div class="mt-3">
+        <div class="input-group mb-3">
+            <label>Attributo</label>
+            <select class="form-control" id="domanda" formControlName="domanda">
+                <option value="" selected="true" [disabled]="true">Scegli Attributo</option>
+                <option *ngFor="let question of questions" value="{{question}}">{{question}}</option>
+            </select>
+            <button class="btn btn-sm rounded grigino"><i class="fa fa-filter"></i></button>
+        </div>
+    
+    </div>
+</form>
