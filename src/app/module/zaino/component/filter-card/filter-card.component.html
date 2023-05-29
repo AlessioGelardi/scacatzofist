@@ -1,17 +1,29 @@
-<form [formGroup]="filterCardForm" (ngSubmit)="search()">
+<form [formGroup]="filterCardForm">
     <div class="row d-flex justify-content-left">
-        <div class="col-10 m-2">
+        <div class="col-12 m-2">
+            <div class="row">
+                <label>Categoria</label>
+            </div>
+            <div class="row">
+                <select class="form-control" id="category" formControlName="category" (change)="changeCategory()">
+                    <option *ngFor="let category of categories" value="{{category}}">{{category}}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row d-flex justify-content-left">
+        <div class="col-12 m-2">
             <div class="row">
                 <label>Nome carta</label>
             </div>
             <div class="row">
-                <input class="col-5" id="name" formControlName="name" type="text" class="form-control sfondino" placeholder="Cerca carta">
+                <input class="col-5" id="name" formControlName="name" type="text" class="form-control sfondino" placeholder="Inserisci nome carta">
             </div>
         </div>
     </div>
     <button class="btn btn-sm rounded grigino" style="margin-right: 5px" (click)="doMoreFilter()"><i class="fa fa-bars"></i></button>
     <div *ngIf="viewMoreFilter" class="row d-flex justify-content-left">
-        <div class="col-3 m-2">
+        <div class="col-3 m-2" *ngIf="filterCardForm.value.category === 'MOSTRO'">
             <div class="row">
                 <label>Attributo</label>
             </div>
@@ -22,7 +34,7 @@
                 </select>
             </div>
         </div>
-        <div class="col-3 m-2">
+        <div class="col-3 m-2" *ngIf="filterCardForm.value.category === 'MOSTRO'">
             <div class="row">
                 <label>Razza</label>
             </div>
@@ -45,7 +57,7 @@
             </div>
         </div>
     </div>
-    <div *ngIf="viewMoreFilter" class="row d-flex justify-content-left">
+    <div *ngIf="viewMoreFilter && filterCardForm.value.category === 'MOSTRO'" class="row d-flex justify-content-left">
         <div class="col-3 m-2">
             <div class="row">
                 <label>Livello <strong *ngIf="this.filterCardForm.value.level!>0"><label>{{this.filterCardForm.value.level}}</label></strong></label>
@@ -71,6 +83,11 @@
             </div>
         </div>
     </div>
-    <button class="btn btn-sm rounded grigino"><i class="fa fa-filter"></i></button>
+    <button class="btn btn-sm rounded grigino" (click)="search()"><i class="fa fa-filter"></i></button>
 
 </form>
+
+
+<div class="mt-3" *ngIf="viewSearchResult">
+    <view-card [cards]="cards"></view-card>
+</div>

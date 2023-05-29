@@ -1,0 +1,30 @@
+<div *ngIf="cards.length>0">
+    <div class="row mb-2 p-4 border rounded text-center" *ngFor="let card of cards">
+        
+        <div class="col-3 d-flex justify-content-center">
+            <div>
+                <label class="col-12 mb-1 border rounded etichetta" [ngStyle]="{'background-color': card?.qnt!>0 ? '#44a344cc' : '#858585a1'}">
+                    {{card?.qnt!>0 ? 'IN POSSESSO': 'MANCANTE'}}
+                </label>
+                <img class="card " [src]="'https://images.ygoprodeck.com/images/cards/'+card?.id+'.jpg'">
+            </div>
+        </div>
+        <div class="col-9">
+            <div>
+                <h4 class="text-uppercase">{{card?.name}}</h4>
+                <label class="text-justify">{{card?.description}}</label>
+            </div>
+            <div class="d-flex justify-content-around" style="margin-top: 100px;">
+                <label>Livello: <strong>{{card?.level}}</strong></label>
+                <label>ATK: <strong>{{card?.atk}}</strong></label>
+                <label>DEF: <strong>{{card?.def}}</strong></label>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<div *ngIf="cards.length<=0">
+    NESSUNA CARTA TROVATA
+</div>

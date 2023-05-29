@@ -9,6 +9,7 @@ export const environment = {
   baseUrlDeck: 'http://localhost:5001/deck/',
   baseUrlMarket: 'http://localhost:5001/market/',
   baseUrlNotifier: 'http://localhost:5001/notifier/',
+  baseUrlDatabase: 'http://localhost:5001/database/',
 };
 
 /*

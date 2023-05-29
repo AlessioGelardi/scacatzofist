@@ -4,6 +4,7 @@ import { AutofocusDirective } from './directives/autofocus.directive';
 import { FilterZainoPipe } from './pipes/filter-zaino.pipe';
 import { FilterCardComponent } from './component/filter-card/filter-card.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ViewCardComponent } from './component/view-card/view-card.component';
 
 
 
@@ -11,7 +12,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   declarations: [
     AutofocusDirective,
     FilterZainoPipe,
-    FilterCardComponent
+    FilterCardComponent,
+    ViewCardComponent
   ],
   imports: [
     CommonModule,
