@@ -22,8 +22,25 @@ export class StateDatabaseService {
     this.cards=undefined;
   }
 
-  async getCards(formFilter:any) {
+  async getCards(formFilter:any,page: number) {
     this.spinnerService.show();
+
+    /*
+    console.log(formFilter);
+    console.log(formFilter.type);
+    if(formFilter.type==='') {
+      console.log(formFilter.category)
+      if(formFilter.category===1){
+        formFilter.type = [];
+      } else if (formFilter.category===2) {
+        formFilter.type = [];
+      } else {
+        formFilter.type = [];
+      }
+    } */
+
+    formFilter.page = page;
+    formFilter.limit = 20;
 
     try {
       const response = await firstValueFrom(this.databaseService.getCards(formFilter));
@@ -34,11 +51,15 @@ export class StateDatabaseService {
       if(error.status===402) {
         this.messageService.alert('Attenzione!','non ho trovato nulla con questo id, probabilmente non hai nessun deck','error');
       } else {
-        this.messageService.alert('Errore','Qualcosa è andato storto durante il recupero del deck','error');
+        this.messageService.alert('Errore','Qualcosa è andato storto durante il recupero delle carte da visualizzare','error');
       }
       return this.cards;
     }
 
     return this.cards;
+  }
+
+  getEnumValue(enumObject: any, key: string): number | undefined {
+    return enumObject[key];
   }
 }
