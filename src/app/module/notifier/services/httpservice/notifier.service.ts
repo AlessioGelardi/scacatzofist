@@ -45,7 +45,7 @@ export class NotifierService {
   }
 
   createDuelRec(request:any):Observable<any> {
-    request.dataUpdate = this.takeFormatToday(true);
+    request.dataIns = this.takeFormatToday(true);
     return this.http.post<boolean>(this.apiUrlDuelRec,request,this.generateOptions());
   }
 
