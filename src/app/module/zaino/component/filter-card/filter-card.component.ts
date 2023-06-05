@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Attributi } from '../../enum/attribute';
 import { Razze } from '../../enum/races';
-import { Tipologie, TipologieMagia, TipologieTrappola } from '../../enum/types';
+import { TipEff, TipFusEff, TipRitEff, TipSynchroEff, TipTunNorm, TipXYZEff, Tipologie, TipologieMagia, TipologieTrappola } from '../../enum/types';
 import { MessageService } from 'src/app/module/swalAlert/message.service';
 import { Categorie } from '../../enum/category';
 import { StateDatabaseService } from '../../services/state/state-database.service';
@@ -44,8 +44,7 @@ export class FilterCardComponent implements OnInit {
   page:number = 1;
 
   constructor(private messageService: MessageService, private databaseStateService: StateDatabaseService) {
-    this.types = Object.keys(Tipologie).filter(key => isNaN(Number(key)));
-    this.defaultTypes = [17,33,545,1057,2081,4129,5153,2097185,2101281,4194337,8388641];
+    this.defaultMonster();
   }
 
   ngOnInit(): void {
@@ -61,8 +60,7 @@ export class FilterCardComponent implements OnInit {
       const index = this.getEnumValue(Categorie, this.filterCardForm.value.category);
       switch(index) {
         case Categorie.MOSTRO:
-          this.types = Object.keys(Tipologie).filter(key => isNaN(Number(key)));
-          this.defaultTypes = [1,33,545,1057,2081,4129,5153,2097185,2101281,4194337];
+          this.defaultMonster();
           break;
         case Categorie.MAGIA:
           this.types = Object.keys(TipologieMagia).filter(key => isNaN(Number(key)));
@@ -98,6 +96,8 @@ export class FilterCardComponent implements OnInit {
 
     if (this.filterCardForm.valid) {
 
+      let searchFilter = {...this.filterCardForm.value }
+
       if(!this.filterCardForm.value.type || this.filterCardForm.value.type === "" ) {
         this.filterCardForm.value.type = this.defaultTypes;
       } else {
@@ -106,14 +106,48 @@ export class FilterCardComponent implements OnInit {
           typeSelected = [this.getEnumValue(TipologieMagia, this.filterCardForm.value.type!)];
         } else if (this.filterCardForm.value.category==="TRAPPOLA") {
           typeSelected = [this.getEnumValue(TipologieTrappola, this.filterCardForm.value.type!)];
+        } else {
+          if(this.filterCardForm.value.effect) {
+
+            const indexType = this.getEnumValue(Tipologie, this.filterCardForm.value.type);
+            switch(indexType) {
+              case Tipologie.NORMALE:
+                typeSelected = Object.values(TipEff).filter((value) => typeof value === 'number').map(Number);
+                break;
+              case Tipologie.FUSIONE:
+                typeSelected = Object.values(TipFusEff).filter((value) => typeof value === 'number').map(Number);
+                break;
+              case Tipologie.RITUALE:
+                typeSelected = Object.values(TipRitEff).filter((value) => typeof value === 'number').map(Number);
+                break;
+              case Tipologie.SYNCHRO:
+                typeSelected = Object.values(TipSynchroEff).filter((value) => typeof value === 'number').map(Number);
+                break;
+              case Tipologie.XYZ:
+                typeSelected = Object.values(TipXYZEff).filter((value) => typeof value === 'number').map(Number);
+                break;
+              default:
+                this.defaultMonster();
+                break;
+            }
+            
+          } else {
+            typeSelected = [this.getEnumValue(Tipologie, this.filterCardForm.value.type!)];
+
+            if(this.filterCardForm.value.type! === "FUSIONE") {
+              typeSelected.push(TipTunNorm.FUSIONE)
+            } else if (this.filterCardForm.value.type! === "NORMALE") {
+              typeSelected.push(TipTunNorm.TUNER)
+            }
+          }
         }
         
         if(typeSelected) {
-          this.filterCardForm.value.type = typeSelected;
+          searchFilter.type = typeSelected;
         }
       }
 
-      this.databaseStateService.getCards(this.filterCardForm.value,this.page).then((resp) => {
+      this.databaseStateService.getCards(searchFilter,this.page).then((resp) => {
         if(resp) {
           this.viewSearchResult = true; 
           this.cards=resp;
@@ -132,6 +166,18 @@ export class FilterCardComponent implements OnInit {
 
   private getEnumValue(enumObject: any, key: string): number | undefined {
     return enumObject[key];
+  }
+
+  private defaultMonster() {
+    this.types = Object.keys(Tipologie).filter(key => isNaN(Number(key)));
+
+    this.defaultTypes = [
+      ...Object.values(TipEff).filter((value) => typeof value === 'number').map(Number),
+      ...Object.values(TipFusEff).filter((value) => typeof value === 'number').map(Number),
+      ...Object.values(TipRitEff).filter((value) => typeof value === 'number').map(Number),
+      ...Object.values(TipSynchroEff).filter((value) => typeof value === 'number').map(Number),
+      ...Object.values(TipXYZEff).filter((value) => typeof value === 'number').map(Number)
+    ];
   }
 
 }

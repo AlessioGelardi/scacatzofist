@@ -3,7 +3,7 @@ export enum Tipologie {
     FUSIONE = 65,
     RITUALE = 129,
     SYNCHRO = 8193,
-    XYZ = 8388609 //8388641
+    XYZ = 8388609
 }
 
 export enum TipTunNorm {

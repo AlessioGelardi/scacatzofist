@@ -58,8 +58,4 @@ export class StateDatabaseService {
 
     return this.cards;
   }
-
-  getEnumValue(enumObject: any, key: string): number | undefined {
-    return enumObject[key];
-  }
 }
