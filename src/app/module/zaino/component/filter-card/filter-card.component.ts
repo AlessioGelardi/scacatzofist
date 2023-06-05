@@ -20,7 +20,7 @@ export class FilterCardComponent implements OnInit {
   filterCardForm = new FormGroup({
     category: new FormControl('MOSTRO'),
     name: new FormControl('',[
-      Validators.minLength(5)
+      Validators.minLength(4)
     ]),
     attribute: new FormControl(''),
     type: new FormControl(''),
@@ -52,6 +52,17 @@ export class FilterCardComponent implements OnInit {
   }
 
   doMoreFilter() {
+    if(this.viewMoreFilter) {
+      this.filterCardForm.patchValue({
+        attribute: '',
+        type: '',
+        race: '',
+        level: 0,
+        atk: 0,
+        def: 0,
+        effect: true
+      });
+    }
     this.viewMoreFilter = !this.viewMoreFilter;
   }
 
@@ -81,12 +92,12 @@ export class FilterCardComponent implements OnInit {
 
   back() {
     this.page--;
-    this.search(true);
+    this.search(false);
   }
 
   continue() {
     this.page++;
-    this.search(true);
+    this.search(false);
   }
 
   search(resetPage:boolean) {
@@ -99,7 +110,7 @@ export class FilterCardComponent implements OnInit {
       let searchFilter = {...this.filterCardForm.value }
 
       if(!this.filterCardForm.value.type || this.filterCardForm.value.type === "" ) {
-        this.filterCardForm.value.type = this.defaultTypes;
+        searchFilter.type = this.defaultTypes;
       } else {
         let typeSelected:any;
         if(this.filterCardForm.value.category==="MAGIA") {
@@ -147,6 +158,16 @@ export class FilterCardComponent implements OnInit {
         }
       }
 
+      if(this.filterCardForm.value.race) {
+        const raceSelected:any = this.getEnumValue(Razze, this.filterCardForm.value.race!);
+        searchFilter.race = raceSelected;
+      }
+
+      if(this.filterCardForm.value.attribute) {
+        const attributeSelected:any = this.getEnumValue(Attributi, this.filterCardForm.value.attribute!);
+        searchFilter.attribute = attributeSelected;
+      }
+
       this.databaseStateService.getCards(searchFilter,this.page).then((resp) => {
         if(resp) {
           this.viewSearchResult = true; 
@@ -157,7 +178,7 @@ export class FilterCardComponent implements OnInit {
     } else {
       if(this.filterCardForm.controls['name'].errors) {
         if (this.filterCardForm.controls['name'].errors['minlength']) {
-          this.messageService.alert('Attenzione!','Il nome minimo consentito è 5 lettere','info');
+          this.messageService.alert('Attenzione!','Il nome minimo consentito è 4 lettere','info');
         }
       }
       
@@ -172,6 +193,8 @@ export class FilterCardComponent implements OnInit {
     this.types = Object.keys(Tipologie).filter(key => isNaN(Number(key)));
 
     this.defaultTypes = [
+      ...Object.values(Tipologie).filter((value) => typeof value === 'number').map(Number),
+      ...Object.values(TipTunNorm).filter((value) => typeof value === 'number').map(Number),
       ...Object.values(TipEff).filter((value) => typeof value === 'number').map(Number),
       ...Object.values(TipFusEff).filter((value) => typeof value === 'number').map(Number),
       ...Object.values(TipRitEff).filter((value) => typeof value === 'number').map(Number),
