@@ -32,6 +32,10 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/deck',{id:this.player?._id, permission: !(this.player?.ruolo! === 3)}]);
   }
 
+  searchCard() {
+    this.router.navigate(['/database',{id:this.player?._id}]);
+  }
+
   marketPlace() {
     this.router.navigate(['/market',{id:this.player?._id}]);
   }

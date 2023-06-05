@@ -7,6 +7,7 @@ import { playerRoutes, PlayerRoutingModule } from './module/player/player-routin
 import { PlayNowRoutingModule, playNowRoutes } from './module/play-now/play-now-routing.module';
 import { notifierRoutes } from './module/notifier/notifier-routing.module';
 import { NotifierModule } from './module/notifier/notifier.module';
+import { ZainoRoutingModule } from './module/zaino/zaino-routing.module';
 
 const routes: Routes = [
   ...loginRoutes,
@@ -24,6 +25,7 @@ const routes: Routes = [
     MarketRoutingModule,
     PlayerRoutingModule,
     PlayNowRoutingModule,
+    ZainoRoutingModule,
     NotifierModule,
     RouterModule.forRoot(routes)
   ],

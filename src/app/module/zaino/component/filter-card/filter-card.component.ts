@@ -7,6 +7,9 @@ import { MessageService } from 'src/app/module/swalAlert/message.service';
 import { Categorie } from '../../enum/category';
 import { StateDatabaseService } from '../../services/state/state-database.service';
 import { Card } from 'src/app/module/interface/card';
+import { StatePlayerService } from 'src/app/module/player/services/state/state-player.service';
+import { Player } from 'src/app/module/interface/player';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'filter-card',
@@ -14,6 +17,11 @@ import { Card } from 'src/app/module/interface/card';
   styleUrls: ['./filter-card.component.css']
 })
 export class FilterCardComponent implements OnInit {
+
+  player:Player | undefined;
+  playerId: string | undefined;
+
+  zaino: Card[]=[];
 
   viewMoreFilter: boolean = false;
 
@@ -43,12 +51,18 @@ export class FilterCardComponent implements OnInit {
 
   page:number = 1;
 
-  constructor(private messageService: MessageService, private databaseStateService: StateDatabaseService) {
+  constructor(private route: ActivatedRoute,
+    private router: Router,
+    private messageService: MessageService,
+    private databaseStateService: StateDatabaseService,
+    private playerStateService: StatePlayerService) {
     this.defaultMonster();
   }
 
   ngOnInit(): void {
+    this.playerId = this.route.snapshot.paramMap.get('id')!;
     
+    this.takePlayer(this.playerId!);
   }
 
   doMoreFilter() {
@@ -88,6 +102,10 @@ export class FilterCardComponent implements OnInit {
     } else {
       this.messageService.alert('Attenzione!','La categoria deve essere scelta','info');
     }
+  }
+
+  home() {
+    this.router.navigate(['/home',{id:this.playerId!}]);
   }
 
   back() {
@@ -172,6 +190,16 @@ export class FilterCardComponent implements OnInit {
         if(resp) {
           this.viewSearchResult = true; 
           this.cards=resp;
+
+          //check qnt of zaino for posseduto o mancante
+          for(let card of this.zaino) {
+            let cardFind = this.cards.find(i => i.id === card.id!);
+
+            if(cardFind) {
+              cardFind.qnt!++;
+            }
+          }
+
         }
       });
       
@@ -203,4 +231,38 @@ export class FilterCardComponent implements OnInit {
     ];
   }
 
+  private takePlayer(playerId: string) {
+    this.playerStateService.getPlayer(playerId).then((resp) => {
+      if(resp) {
+        this.player = resp;
+        this.takeZaino();
+      } else {
+        //TO-DO gestione degli errori
+        /*
+        if(resp.status===402) {
+          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+        }
+        */
+
+        this.messageService.alert('Attenzione!','Errore durante la chiamata getPlayer','error');
+      }
+    });
+  }
+
+  private takeZaino() {
+    this.playerStateService.getZaino(this.playerId!).then((resp) => {
+      if(resp) {
+        this.zaino = resp;
+      } else {
+        //TO-DO gestione degli errori
+        /*
+        if(resp.status===402) {
+          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+        }
+        */
+  
+        this.messageService.alert('Attenzione!','Errore durante la chiamata getZaino','error');
+      }
+    });
+  }
 }
