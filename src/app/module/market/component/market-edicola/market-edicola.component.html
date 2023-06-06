@@ -19,9 +19,14 @@
             <button type="button" class="col-3 btn btn-lg rounded-pill grigino" (click)="setTypePack(2)">MAGIA</button>
             <button type="button" class="col-3 btn btn-lg rounded-pill grigino" (click)="setTypePack(3)">TRAPPOLA</button>
         </div>
-        <div *ngIf="viewPack">
-            <market-vetrina [packs]="packs" (confirmBuyEmitter)="acquista($event)"></market-vetrina>
+    </div>
+    <div class="row mt-3">
+        <div *ngIf="!viewPack" class="d-flex justify-content-around mt-3">
+            <button type="button" class="col-3 btn btn-lg rounded-pill grigino" (click)="setTypePack(4)">DAILY PACK</button>
         </div>
+    </div>
+    <div *ngIf="viewPack">
+        <market-vetrina [packs]="packs" (confirmBuyEmitter)="acquista($event)"></market-vetrina>
     </div>
 </div>
 
@@ -55,8 +60,8 @@
 
 <div class="mt-4" *ngIf="finishPurchase">
     <div class="row">
-        <div *ngFor="let pack of newPacks" class="col-2 d-flex justify-content-center">
-            <img src="assets/pack.png" class="pack mb-3" (click)="show(pack)" />
+        <div *ngFor="let pack of newPacks" class="col-3 d-flex justify-content-center">
+            <img src="{{buyPackSrc}}" class="pack mb-3" (click)="show(pack)" />
         </div>
         <div>
             <opening-pack [cards]="viewCards"></opening-pack>

@@ -29,6 +29,8 @@ export class MarketEdicolaComponent implements OnInit {
   viewCurrencyExchange: boolean = false;
   numberCredits: number = 0;
 
+  buyPackSrc: string | undefined;
+
   constructor(private route: ActivatedRoute,
     private router: Router,
     private marketStateService: StateMarketService,
@@ -64,11 +66,16 @@ export class MarketEdicolaComponent implements OnInit {
     if(code) {
       switch(code) {
         case 'BACK':
-          if(this.viewPack) {
-            this.viewPack = !this.viewPack;
+          if(this.finishPurchase) {
+            this.finishPurchase = !this.finishPurchase;
           } else {
-            this.router.navigate(['/market',{id:this.player!._id!}]);
+            if(this.viewPack) {
+              this.viewPack = !this.viewPack;
+            } else {
+              this.router.navigate(['/market',{id:this.player!._id!}]);
+            }
           }
+
           break;
         case 'SELL':
           this.router.navigate(['/sell',{id:this.player!._id!}]);
@@ -223,6 +230,13 @@ export class MarketEdicolaComponent implements OnInit {
           "monster": false
         }]
         break;
+      case 4:
+        this.packs = [{
+          "name": "DAILY PACK",
+          "src": "assets/pack/dailyPack.png",
+          "dailyPack": true
+        }]
+        break;
     }
   }
 
@@ -232,27 +246,27 @@ export class MarketEdicolaComponent implements OnInit {
     let typePack = objectAcquista.typePack;
     let level = objectAcquista.level;
     let monster = objectAcquista.monster;
-    if(typePack !== 0 && taglia !== 0 && baseCost !== 0) {
-
+    let dailyPack = objectAcquista.dailyPack;
+    this.buyPackSrc = objectAcquista.src;
+    
+    if(dailyPack) {
       Swal.fire({
-        title: 'Acquista il tuo pack',
-        text: 'Scegli il numero di pack da acquistare',
-        input: 'number',
-        inputAttributes: {
-          autocapitalize: 'off'
-        },
+        title: 'Sei sicuro?',
+        html: "Acquisterai il daily pack alla modica cifra di <strong> 35 <i class='fa fa-diamond'></i></strong>!",
+        icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: 'Acquista'
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, acquista!',
+        cancelButtonText: 'Non acquistare!'
       }).then((result) => {
         if (result.isConfirmed) {
 
-          let prezzo = this.calculatePrezzo(taglia,baseCost,result.value);
+          if(this.player!.credits!-35>=0) {
 
-          if(this.player!.credits!-prezzo>=0) {
-
-            this.marketStateService.buyPack(this.player!._id!,level, typePack,taglia,result.value,prezzo,monster).then((resp) => {
+            this.marketStateService.buyDailyPack(this.player!._id!).then((resp) => {
               if(resp) {
-                this.player!.credits = this.player!.credits!-prezzo;
+                this.player!.credits = Number(this.player!.credits!) - 35;
                 this.finishPurchase = true;
                 this.newPacks = resp;
               } else {
@@ -263,17 +277,59 @@ export class MarketEdicolaComponent implements OnInit {
                 }
                 */
         
-                this.messageService.alert('Attenzione!','Problema durante l"acquisto del pacchetto','error');
+                this.messageService.alert('Attenzione!','Problema durante l"acquisto del daily pack','error');
               }
             });
           } else {
-            this.messageService.alert('Budget non sufficente!','Il prezzo del pack è '+prezzo,'error');
+            this.messageService.alert('Budget non sufficente!','Il prezzo del pack è 35', 'error');
           }
         }
       })
     } else {
-      this.messageService.alert('Attenzione!','Scegliere il pack e la taglia','error');
+      if(typePack !== 0 && taglia !== 0 && baseCost !== 0) {
+
+        Swal.fire({
+          title: 'Acquista il tuo pack',
+          text: 'Scegli il numero di pack da acquistare',
+          input: 'number',
+          inputAttributes: {
+            autocapitalize: 'off'
+          },
+          showCancelButton: true,
+          confirmButtonText: 'Acquista'
+        }).then((result) => {
+          if (result.isConfirmed) {
+  
+            let prezzo = this.calculatePrezzo(taglia,baseCost,result.value);
+  
+            if(this.player!.credits!-prezzo>=0) {
+  
+              this.marketStateService.buyPack(this.player!._id!,level, typePack,taglia,result.value,prezzo,monster).then((resp) => {
+                if(resp) {
+                  this.player!.credits = this.player!.credits!-prezzo;
+                  this.finishPurchase = true;
+                  this.newPacks = resp;
+                } else {
+                  //TO-DO gestione degli errori
+                  /*
+                  if(resp.status===402) {
+                    this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+                  }
+                  */
+          
+                  this.messageService.alert('Attenzione!','Problema durante l"acquisto del pacchetto','error');
+                }
+              });
+            } else {
+              this.messageService.alert('Budget non sufficente!','Il prezzo del pack è '+prezzo,'error');
+            }
+          }
+        })
+      } else {
+        this.messageService.alert('Attenzione!','Scegliere il pack e la taglia','error');
+      }
     }
+    
   }
 
   show(pack:Pack) {

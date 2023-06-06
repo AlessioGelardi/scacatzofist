@@ -14,9 +14,16 @@ export class VetrinaComponent implements OnInit {
   viewPrice: boolean = false;
   selectPack: any | undefined;
 
+  dailyPack: boolean = false;
+
   constructor() { }
 
   ngOnInit(): void {
+    if(this.packs[0].dailyPack) {
+      this.dailyPack = true;
+    } else {
+      this.dailyPack = false;
+    }
   }
 
   show(pack:any) {
@@ -24,8 +31,12 @@ export class VetrinaComponent implements OnInit {
     this.selectPack = pack;
   }
 
-  acquista(taglia:number, baseCost:number, type:number, monster:boolean, level:number) {
-    this.confirmBuyEmitter.emit({"taglia":taglia,"baseCost":baseCost, "typePack":type, "monster":monster, "level":level});
+  acquista(taglia:number, baseCost:number, type:number, monster:boolean, level:number, src:string) {
+    if(this.dailyPack) {
+      this.confirmBuyEmitter.emit({"dailyPack":true, "src":src});
+    } else {
+      this.confirmBuyEmitter.emit({"taglia":taglia,"baseCost":baseCost, "typePack":type, "monster":monster, "level":level, "src":src});
+    }
   }
 
   calculatePrezzo(taglia:number, baseCost:number):number {
