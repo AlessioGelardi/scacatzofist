@@ -83,9 +83,9 @@ export class DeckDetailComponent implements OnInit {
           break;
         case 'EDIT':
           if(this.newNameDeck) {
-            this.router.navigate(['/deckEdit',{id:this.deckId,newNameDeck:this.newNameDeck,playerId:this.playerId!}]);
+            this.router.navigate(['/deckEdit',{id:this.deckId,newNameDeck:this.newNameDeck,playerId:this.playerId!, permission: this.permission}]);
           } else {
-            this.router.navigate(['/deckEdit',{id:this.deckId,playerId:this.playerId!}]);
+            this.router.navigate(['/deckEdit',{id:this.deckId,playerId:this.playerId!, permission: this.permission}]);
           }
           break;
       }

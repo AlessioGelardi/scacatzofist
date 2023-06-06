@@ -32,6 +32,8 @@ export class DeckEditComponent implements OnInit {
   sliceEnd: number = 60;
   slice: number = 60;
 
+  permission: boolean = true;
+
   constructor(private router: Router,
     private deckStateService: StateDeckService,
     private route: ActivatedRoute,
@@ -39,6 +41,7 @@ export class DeckEditComponent implements OnInit {
     private messageService: MessageService) { }
 
   ngOnInit(): void {
+    this.permission = this.route.snapshot.paramMap.get('permission')! === "true";
     this.buttons = [
       {
         name: "BACK-BUTTON",
@@ -68,9 +71,9 @@ export class DeckEditComponent implements OnInit {
       switch(code) {
         case 'BACK':
           if(this.newNameDeck) {
-            this.router.navigate(['/deck',{id:this.playerId!}]);
+            this.router.navigate(['/deck',{id:this.playerId!, permission: this.permission}]);
           } else {
-            this.router.navigate(['/deckDetail',{id:this.deckId}]);
+            this.router.navigate(['/deckDetail',{id:this.deckId, permission: this.permission}]);
           }
           break;
         case 'REFRESH': {
