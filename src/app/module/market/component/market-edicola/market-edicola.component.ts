@@ -88,6 +88,7 @@ export class MarketEdicolaComponent implements OnInit {
   }
 
   setTypePack(typePack:number) {
+    this.viewCurrencyExchange = false;
     this.viewPack = !this.viewPack;
     switch(typePack){
       case 1:
@@ -248,7 +249,7 @@ export class MarketEdicolaComponent implements OnInit {
     let monster = objectAcquista.monster;
     let dailyPack = objectAcquista.dailyPack;
     this.buyPackSrc = objectAcquista.src;
-    
+
     if(dailyPack) {
       Swal.fire({
         title: 'Sei sicuro?',
