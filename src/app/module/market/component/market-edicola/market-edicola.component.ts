@@ -267,18 +267,20 @@ export class MarketEdicolaComponent implements OnInit {
 
             this.marketStateService.buyDailyPack(this.player!._id!).then((resp) => {
               if(resp) {
-                this.player!.credits = Number(this.player!.credits!) - 35;
-                this.finishPurchase = true;
-                this.newPacks = resp;
-              } else {
-                //TO-DO gestione degli errori
-                /*
-                if(resp.status===402) {
-                  this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+                
+                //TO-DO gestire errori
+                if(!resp.status) {
+                  this.player!.credits = Number(this.player!.credits!) - 35;
+                  this.finishPurchase = true;
+                  this.newPacks = resp;
+                  this.viewCards = [];
+                } else {
+                  if(resp.status === 403) {
+                    this.messageService.alert('Attenzione!','Hai già acquistato il daily pack oggi!!','error');
+                  } else {
+                    this.messageService.alert('Attenzione!','Problema durante l"acquisto del daily pack','error');
+                  }
                 }
-                */
-        
-                this.messageService.alert('Attenzione!','Problema durante l"acquisto del daily pack','error');
               }
             });
           } else {

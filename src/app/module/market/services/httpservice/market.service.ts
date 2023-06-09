@@ -72,12 +72,12 @@ export class MarketService {
     return this.http.put<boolean>(this.apiUrlMarketCredits,request,this.generateOptions());
   }
 
-  acquistaDaily(playerId:string): Observable<boolean> {
+  acquistaDaily(playerId:string): Observable<Pack> {
     let request:any = {};
     request.playerId = playerId;
     request.prezzo = 35;
     request.dataUpdate = this.takeFormatToday();
-    return this.http.put<boolean>(this.apiUrlMarketDailyPack,request,this.generateOptions());
+    return this.http.put<Pack>(this.apiUrlMarketDailyPack,request,this.generateOptions());
   }
 
   private takeFormatToday() {
