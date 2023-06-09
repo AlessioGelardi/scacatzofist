@@ -21,7 +21,7 @@ export class MarketEdicolaComponent implements OnInit {
 
   packs: any[] = [];
   newPacks: Pack[] = [];
-  viewCards: Card[] = []
+  viewCards: Card[] = [];
 
   viewPack: boolean = false;
   finishPurchase: boolean = false;
@@ -310,6 +310,7 @@ export class MarketEdicolaComponent implements OnInit {
                   this.player!.credits = this.player!.credits!-prezzo;
                   this.finishPurchase = true;
                   this.newPacks = resp;
+                  this.viewCards = [];
                 } else {
                   //TO-DO gestione degli errori
                   /*
