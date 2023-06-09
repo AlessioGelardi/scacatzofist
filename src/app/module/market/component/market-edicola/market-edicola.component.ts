@@ -94,77 +94,77 @@ export class MarketEdicolaComponent implements OnInit {
       case 1:
         this.packs = [{ 
           "name": "MOSTRO NORMALE Lv1-4",
-          "baseCost": 5,
+          "baseCost": 2,
           "level": [1,2,3,4],
           "type": [17,4113],
           "src": "assets/pack/monster.png",
           "monster": true
         }, {
           "name": "MOSTRO CON EFFETTO Lv1-4",
-          "baseCost": 15,
+          "baseCost": 7,
           "level": [1,2,3,4],
           "type": [33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561,2097185,2101281],
           "src": "assets/pack/monsterEffect.png",
           "monster": true
         }, {
           "name": "MOSTRO NORMALE Lv5-6",
-          "baseCost": 15,
+          "baseCost": 5,
           "level": [5,6],
           "type": [17,4113],
           "src": "assets/pack/monster1.png",
           "monster": true
         }, {
           "name": "MOSTRO CON EFFETTO Lv5-6",
-          "baseCost": 20,
+          "baseCost": 12,
           "level": [5,6],
           "type": [33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561,2097185,2101281],
           "src": "assets/pack/monster1Effect.png",
           "monster": true
         }, {
           "name": "MOSTRO NORMALE Lv7-9",
-          "baseCost": 25,
+          "baseCost": 9,
           "level": [7,9],
           "type": [17,4113],
           "src": "assets/pack/monster2.png",
           "monster": true
         }, {
           "name": "MOSTRO CON EFFETTO Lv7-9",
-          "baseCost": 30,
+          "baseCost": 15,
           "level": [7,9],
           "type": [33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561,2097185,2101281],
           "src": "assets/pack/monster2Effect.png",
           "monster": true
         }, {
           "name": "MOSTRO CON EFFETTO Lv10+",
-          "baseCost": 35,
+          "baseCost": 17,
           "level": [10],
           "type": [33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561,2097185,2101281],
           "src": "assets/pack/monster3.png",
           "monster": true
         }, {
           "name": "MOSTRO RITUALE",
-          "baseCost": 40,
+          "baseCost": 17,
           "level": [0],
           "type": [129,161,673,2097313, 4257],
           "src": "assets/pack/monsterRitual.png",
           "monster": true
         },{
           "name": "MOSTRO FUSIONE",
-          "baseCost": 50,
+          "baseCost": 20,
           "level": [0],
           "type": [97,65,4161,4193],
           "src": "assets/pack/monsterFusion.png",
           "monster": true
         }, {
           "name": "MOSTRO SYNCHRO",
-          "baseCost": 50,
+          "baseCost": 22,
           "level": [0],
           "type": [8225,12321,8193],
           "src": "assets/pack/monsterSynchro.png",
           "monster": true
         }, {
           "name": "MOSTRO XYZ",
-          "baseCost": 55,
+          "baseCost": 25,
           "level": [0],
           "type": [8388641,8388609],
           "src": "assets/pack/monsterXYZ.png",
@@ -174,37 +174,37 @@ export class MarketEdicolaComponent implements OnInit {
       case 2:
         this.packs = [{ 
           "name": "MAGIA NORMALE",
-          "baseCost": 10,
+          "baseCost": 5,
           "src": "assets/pack/magic.png",
           "type": 2,
           "monster": false
         }, {
           "name": "MAGIA RAPIDA",
-          "baseCost": 15,
+          "baseCost": 6,
           "src": "assets/pack/magicFast.png",
           "type": 65538,
           "monster": false
         }, {
           "name": "MAGIA CONTINUA",
-          "baseCost": 15,
+          "baseCost": 6,
           "src": "assets/pack/magicContinua.png",
           "type": 131074,
           "monster": false
         }, {
           "name": "MAGIA RITUALE",
-          "baseCost": 5,
+          "baseCost": 2,
           "src": "assets/pack/magicRituale.png",
           "type": 130,
           "monster": false
         }, {
           "name": "MAGIA EQUIPAGGIAMENTO",
-          "baseCost": 15,
+          "baseCost": 4,
           "src": "assets/pack/magicEquip.png",
           "type": 262146,
           "monster": false
         }, {
           "name": "MAGIA TERRENO",
-          "baseCost": 10,
+          "baseCost": 5,
           "src": "assets/pack/magicTerreno.png",
           "type": 524290,
           "monster": false
@@ -213,19 +213,19 @@ export class MarketEdicolaComponent implements OnInit {
       case 3:
         this.packs = [{ 
           "name": "TRAPPOLA NORMALE",
-          "baseCost": 10,
+          "baseCost": 5,
           "src": "assets/pack/trap.png",
           "type": 4,
           "monster": false
         }, {
           "name": "TRAPPOLA CONTINUA",
-          "baseCost": 15,
+          "baseCost": 6,
           "src": "assets/pack/trapContinua.png",
           "type": 131076,
           "monster": false
         }, {
           "name": "TRAPPOLA CONTRO",
-          "baseCost": 15,
+          "baseCost": 6,
           "src": "assets/pack/trapContro.png",
           "type": 1048580,
           "monster": false
