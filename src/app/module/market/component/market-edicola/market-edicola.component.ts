@@ -96,7 +96,7 @@ export class MarketEdicolaComponent implements OnInit {
           "name": "MOSTRO NORMALE Lv1-4",
           "baseCost": 5,
           "level": [1,2,3,4],
-          "type": [17,16401,20497,4113],
+          "type": [17,4113],
           "src": "assets/pack/monster.png",
           "monster": true
         }, {
@@ -110,7 +110,7 @@ export class MarketEdicolaComponent implements OnInit {
           "name": "MOSTRO NORMALE Lv5-6",
           "baseCost": 15,
           "level": [5,6],
-          "type": [17,16401,20497,4113],
+          "type": [17,4113],
           "src": "assets/pack/monster1.png",
           "monster": true
         }, {
@@ -124,7 +124,7 @@ export class MarketEdicolaComponent implements OnInit {
           "name": "MOSTRO NORMALE Lv7-9",
           "baseCost": 25,
           "level": [7,9],
-          "type": [17,16401,20497,4113],
+          "type": [17,4113],
           "src": "assets/pack/monster2.png",
           "monster": true
         }, {
