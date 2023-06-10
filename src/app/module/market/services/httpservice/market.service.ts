@@ -12,6 +12,7 @@ export class MarketService {
   apiUrlMarketPlace: string = environment.baseUrlMarket + "marketplace";
   apiUrlMarketEdicola: string =  environment.baseUrlMarket + "edicola";
   apiUrlMarketCredits: string =  environment.baseUrlMarket + "credits";
+  apiUrlMarketDailyPack: string =  environment.baseUrlMarket + "dailypack";
   marketplaceById: string = environment.baseUrlMarket + "marketplaceById";
 
   constructor(private http: HttpClient) { }
@@ -69,6 +70,14 @@ export class MarketService {
     request.playerId = playerId;
     request.credits = numCredits;
     return this.http.put<boolean>(this.apiUrlMarketCredits,request,this.generateOptions());
+  }
+
+  acquistaDaily(playerId:string): Observable<Pack> {
+    let request:any = {};
+    request.playerId = playerId;
+    request.prezzo = 35;
+    request.dataUpdate = this.takeFormatToday();
+    return this.http.put<Pack>(this.apiUrlMarketDailyPack,request,this.generateOptions());
   }
 
   private takeFormatToday() {
