@@ -34,8 +34,8 @@ export class FilterCardComponent implements OnInit {
     type: new FormControl(''),
     race: new FormControl(''),
     level: new FormControl(0),
-    atk: new FormControl(0),
-    def: new FormControl(0),
+    atk: new FormControl(-50),
+    def: new FormControl(-50),
     effect: new FormControl(true)
   });
 
@@ -72,8 +72,8 @@ export class FilterCardComponent implements OnInit {
         type: '',
         race: '',
         level: 0,
-        atk: 0,
-        def: 0,
+        atk: -50,
+        def: -50,
         effect: true
       });
     }

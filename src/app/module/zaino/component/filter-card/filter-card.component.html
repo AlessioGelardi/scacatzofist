@@ -37,7 +37,7 @@
                     </div>
                     <div class="row">
                         <select class="form-control" id="type" formControlName="type">
-                            <option value="" selected="true" [disabled]="true">Scegli Tipologia</option>
+                            <option value="" selected="true">Scegli Tipologia</option>
                             <option *ngFor="let type of types" value="{{type}}">{{type}}</option>
                         </select>
                     </div>
@@ -48,7 +48,7 @@
                     </div>
                     <div class="row">
                         <select class="form-control" id="attribute" formControlName="attribute">
-                            <option value="" selected="true" [disabled]="true">Scegli Attributo</option>
+                            <option value="" selected="true">Scegli Attributo</option>
                             <option *ngFor="let attributo of attributes" value="{{attributo}}">{{attributo}}</option>
                         </select>
                     </div>
@@ -59,7 +59,7 @@
                     </div>
                     <div class="row">
                         <select class="form-control" id="race" formControlName="race">
-                            <option value="" selected="true" [disabled]="true">Scegli Razza</option>
+                            <option value="" selected="true">Scegli Razza</option>
                             <option *ngFor="let race of races" value="{{race}}">{{race}}</option>
                         </select>
                     </div>
@@ -86,18 +86,18 @@
                 </div>
                 <div class="col-3 m-2">
                     <div class="row">
-                        <label>ATK <strong *ngIf="this.filterCardForm.value.atk!>0"><label>{{this.filterCardForm.value.atk}}</label></strong></label>
+                        <label>ATK <strong *ngIf="this.filterCardForm.value.atk!>=0"><label>{{this.filterCardForm.value.atk}}</label></strong></label>
                     </div>
                     <div class="row">
-                        <input type="range" class="form-control" id="atk" formControlName="atk" step="50" max="5000">
+                        <input type="range" class="form-control" id="atk" formControlName="atk" min="-50" step="50" max="5000">
                     </div>
                 </div>
                 <div class="col-3 m-2">
                     <div class="row">
-                        <label>DEF <strong *ngIf="this.filterCardForm.value.def!>0"><label>{{this.filterCardForm.value.def}}</label></strong></label>
+                        <label>DEF <strong *ngIf="this.filterCardForm.value.def!>=0"><label>{{this.filterCardForm.value.def}}</label></strong></label>
                     </div>
                     <div class="row">
-                        <input type="range" class="form-control" id="def" formControlName="def" step="50" max="5000">
+                        <input type="range" class="form-control" id="def" formControlName="def" min="-50" step="50" max="5000">
                     </div>
                 </div>
             </div>
