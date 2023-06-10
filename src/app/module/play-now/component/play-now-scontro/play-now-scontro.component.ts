@@ -54,7 +54,7 @@ export class PlayNowScontroComponent implements OnInit {
     if(code) {
       switch(code) {
         case 'BACK':
-          this.router.navigate(['/playnow',{id:this.player?._id}]);
+          this.router.navigate(['/playnow',{id:this.playerId}]);
           break;
         case 'REQUEST':
           this.router.navigate(['/request',{id:this.playerId,typeMode:TypeMod.SCONTRO, playerRole: this.player?.ruolo!}]);

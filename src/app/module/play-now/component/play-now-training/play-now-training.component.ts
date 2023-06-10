@@ -57,7 +57,7 @@ export class PlayNowTrainingComponent implements OnInit {
       switch(code) {
         case 'BACK':
           //check sul timer, conferma e poi stop traning prima di mostrare la history
-          this.router.navigate(['/playnow']);
+          this.router.navigate(['/playnow',{id:this.playerId}]);
           break;
         case 'REQUEST':
           //check sul timer, conferma e poi stop traning prima di mostrare la history
