@@ -26,8 +26,8 @@ export class PlayerStatusComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  readNotify() {
-    this.router.navigate(['/request',{id:this.player?._id!,typeMode:TypeMod.ALL}]);
+  readInventory() {
+    this.router.navigate(['/inventory',{id:this.player?._id!}]);
   }
 
   logout() {

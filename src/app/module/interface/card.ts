@@ -11,6 +11,7 @@ export interface Card {
 }
 
 export interface Pack {
+    id:string;
     cards: Card[];
 }
 

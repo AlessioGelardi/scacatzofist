@@ -13,6 +13,7 @@ export class MarketService {
   apiUrlMarketEdicola: string =  environment.baseUrlMarket + "edicola";
   apiUrlMarketCredits: string =  environment.baseUrlMarket + "credits";
   apiUrlMarketDailyPack: string =  environment.baseUrlMarket + "dailypack";
+  apiUrlMarketOpenPack: string =  environment.baseUrlMarket + "openpack";
   marketplaceById: string = environment.baseUrlMarket + "marketplaceById";
 
   constructor(private http: HttpClient) { }
@@ -78,6 +79,13 @@ export class MarketService {
     request.prezzo = 35;
     request.dataUpdate = this.takeFormatToday();
     return this.http.put<Pack>(this.apiUrlMarketDailyPack,request,this.generateOptions());
+  }
+
+  apriPack(packId:string) {
+    let request:any = {};
+    request.playerId = packId;
+    request.dataUpdate = this.takeFormatToday();
+    return this.http.post<boolean>(this.apiUrlMarketOpenPack,request,this.generateOptions());
   }
 
   private takeFormatToday() {

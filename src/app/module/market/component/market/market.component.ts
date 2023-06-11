@@ -40,7 +40,7 @@ export class MarketComponent implements OnInit {
       {
         name: "SELL-BUTTON",
         code: "SELL",
-        class: "fa fa-briefcase"
+        class: "fa fa-suitcase"
       },
       {
         name: "EDICOLA-BUTTON",

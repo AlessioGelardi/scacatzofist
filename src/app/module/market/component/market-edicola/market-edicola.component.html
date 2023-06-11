@@ -63,8 +63,13 @@
         <div *ngFor="let pack of newPacks" class="col-3 d-flex justify-content-center">
             <img src="{{buyPackSrc}}" class="pack mb-3" (click)="show(pack)" />
         </div>
-        <div>
-            <opening-pack [cards]="viewCards"></opening-pack>
+    </div>
+    <div class="row">
+        <div *ngFor="let pack of newPacks" class="col-3 d-flex justify-content-center">
+            <button type="button" class="col-3 btn btn-sm btn-success" (click)="openPack(pack.id)"><i class="fa fa-envelope-open" aria-hidden="true"></i></button>
         </div>
+    </div>
+    <div>
+        <opening-pack [cards]="viewCards"></opening-pack>
     </div>
 </div>

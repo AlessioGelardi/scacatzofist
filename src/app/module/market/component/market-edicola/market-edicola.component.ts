@@ -396,7 +396,25 @@ export class MarketEdicolaComponent implements OnInit {
     } else {
       this.messageService.alert('Attenzione!','I crediti da acquistare devono essere maggiori di 0','info');
     }
+  }
 
+  openPack(packId: string) {
+    this.marketStateService.openPack(packId).then((resp) => {
+      if(resp === true) {
+        this.player!.credits = Number(this.player!.credits!) + Number(this.numberCredits);
+        this.player!.coin = this.player!.coin!-(this.numberCredits*1000);
+        this.viewCurrencyExchange = false;
+      } else {
+        //TO-DO gestione degli errori
+        /*
+        if(resp.status===402) {
+          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+        }
+        */
+
+        this.messageService.alert('Attenzione!','Problema durante l"acquisto dei crediti','error');
+      }
+    });
   }
 
   private takePlayer(playerId: string) {
