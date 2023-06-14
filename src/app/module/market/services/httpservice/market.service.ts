@@ -34,7 +34,7 @@ export class MarketService {
 
     vendita.today = this.takeFormatToday();
     return this.http.post<boolean>(this.apiUrlMarketPlace,vendita,this.generateOptions());
-}
+  }
 
   deleteSellCard(sellCardId:string, cardId: string, playerId:string): Observable<SellCard[]> {
     return this.http.delete<SellCard[]>(this.apiUrlMarketPlace+'?id='+sellCardId+';'+cardId+';'+playerId);
@@ -86,6 +86,16 @@ export class MarketService {
     request.playerId = packId;
     request.dataUpdate = this.takeFormatToday();
     return this.http.post<boolean>(this.apiUrlMarketOpenPack,request,this.generateOptions());
+  }
+
+  venditaPack(playerId:string, packId:string, prezzo:number) {
+    let vendita:any = {};
+    vendita.playerId = playerId;
+    vendita.packId = packId;
+    vendita.prezzo = prezzo;
+
+    vendita.today = this.takeFormatToday();
+    return this.http.post<boolean>(this.apiUrlMarketPlace,vendita,this.generateOptions());
   }
 
   private takeFormatToday() {

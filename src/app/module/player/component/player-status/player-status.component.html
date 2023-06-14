@@ -1,7 +1,7 @@
 <div class="row">
     <div class="card">
         <div class="position-absolute top-50 start-0 translate-middle-y px-3">
-            <img src="assets/player/boy.png" style="max-width:50px"/>
+            <img src="assets/player/boy.png" style="max-width:50px; cursor:pointer;" (click)="readNotify()"/>
         </div>
         <div class="card-body d-flex justify-content-around">
             <p>{{player?.name}}</p>
@@ -17,7 +17,3 @@
         </button>
     </div>
 </div>
-
-<!-- <div class="row">
-    <app-notifier *ngIf="viewNotify" [playerId]="player!._id" [typeMod]="typeMod"></app-notifier>
-</div> -->

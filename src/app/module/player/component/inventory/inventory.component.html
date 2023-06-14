@@ -1,0 +1,14 @@
+<player-status [player]="player"></player-status>
+
+<div class="mt-4">
+    <div class="row">
+        <div *ngFor="let pack of inventory" class="col-3 d-flex justify-content-center pb-5">
+            <div class="position-relative">
+                <img src="assets/pack/monster3.png" class="pack mb-3" />
+                <div class="position-absolute bottom-10 start-50 translate-middle-x">
+                    <button type="button" class="btn btn-sm btn-outline-success" style="width: 100px;" (click)="sellPack(pack.id)"><i class="fa fa-dollar"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

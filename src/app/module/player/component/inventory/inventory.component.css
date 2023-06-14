@@ -1,0 +1,7 @@
+.pack {
+    width: 220px;
+}
+
+.pack:hover {
+    opacity: 0.7;
+}

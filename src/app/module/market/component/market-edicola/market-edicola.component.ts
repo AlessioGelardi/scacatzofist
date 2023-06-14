@@ -375,18 +375,6 @@ export class MarketEdicolaComponent implements OnInit {
                 this.messageService.alert('Attenzione!','Problema durante l"acquisto dei crediti','error');
               }
             });
-    
-            /*
-    
-            this.deckStateService.deleteDeck(id).then((resp) => {
-              if(resp && resp.status===200) {
-                this.messageService.alert('Evviva','Il tuo deck è stato cancellato','success');
-              } else {
-                this.messageService.alert('Attenzione!','non ho trovato nulla con questo id, probabilmente il deck non esiste','error');
-              }
-            })
-    
-            */
           }
         })
       } else {
@@ -399,22 +387,79 @@ export class MarketEdicolaComponent implements OnInit {
   }
 
   openPack(packId: string) {
-    this.marketStateService.openPack(packId).then((resp) => {
-      if(resp === true) {
-        this.player!.credits = Number(this.player!.credits!) + Number(this.numberCredits);
-        this.player!.coin = this.player!.coin!-(this.numberCredits*1000);
-        this.viewCurrencyExchange = false;
-      } else {
-        //TO-DO gestione degli errori
-        /*
-        if(resp.status===402) {
-          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
-        }
-        */
-
-        this.messageService.alert('Attenzione!','Problema durante l"acquisto dei crediti','error');
+    Swal.fire({
+      title: 'Sei sicuro?',
+      html: "Una volta aperto il pack non può essere più venduto, e verrà rimosso dall'inventario!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, apri!',
+      cancelButtonText: 'Non aprire!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.marketStateService.openPack(packId).then((resp) => {
+          if(resp === true) {
+            this.player!.credits = Number(this.player!.credits!) + Number(this.numberCredits);
+            this.player!.coin = this.player!.coin!-(this.numberCredits*1000);
+            this.viewCurrencyExchange = false;
+          } else {
+            //TO-DO gestione degli errori
+            /*
+            if(resp.status===402) {
+              this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+            }
+            */
+    
+            this.messageService.alert('Attenzione!','Problema durante l"acquisto dei crediti','error');
+          }
+        });
       }
-    });
+    })
+
+  }
+
+  sellPack(packId: string) {
+    Swal.fire({
+      title: 'Vendi il tuo pack',
+      text: 'Scegli il prezzo',
+      input: 'number',
+      inputAttributes: {
+        autocapitalize: 'off'
+      },
+      showCancelButton: true,
+      confirmButtonText: 'Vendi',
+      showLoaderOnConfirm: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if(result.value>0) {
+          this.marketStateService.venditaPack(this.player!._id!,packId,result.value).then((resp) => {
+            if(resp === true) {
+              this.messageService.alert('Fatto!','Vendita creata con successo!','success');
+
+              //cancellazione dall'inventario
+              /*
+  
+              let cardDelete = this.zaino!.find(i => i.id === card.id);
+              if(cardDelete) {
+                const index = this.zaino!.indexOf(cardDelete, 0);
+                this.zaino!.splice(index,1);
+              }
+              this.marketStateService.resetState();
+              //this.takeHistory();*/
+  
+            } else {
+              if(resp && resp.status !== 200) {
+                this.messageService.alert('Errore','Qualcosa è andato storto durante la creazione della vendita del pack','error');
+              }
+            }
+          });
+        } else {
+          this.messageService.alert('Attenzione','Il prezzo deve essere almeno maggiore di 0','info');
+        }
+        
+      }
+    })
   }
 
   private takePlayer(playerId: string) {
