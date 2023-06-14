@@ -54,14 +54,8 @@ export class InventoryComponent implements OnInit {
         this.marketStateService.openPack(packId).then((resp) => {
           if(resp === true) {
             this.packOpening = resp;
+            this.deletePack(packId);
           } else {
-            //TO-DO gestione degli errori
-            /*
-            if(resp.status===402) {
-              this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
-            }
-            */
-    
             this.messageService.alert('Attenzione!','Problema durante l"acquisto dei crediti','error');
           }
         });
@@ -86,14 +80,7 @@ export class InventoryComponent implements OnInit {
           this.marketStateService.venditaPack(this.player!._id!,packId,result.value).then((resp) => {
             if(resp === true) {
               this.messageService.alert('Fatto!','Vendita creata con successo!','success');
-              
-              let cardDelete = this.inventory!.find(i => i.id === packId);
-              if(cardDelete) {
-                const index = this.inventory!.indexOf(cardDelete, 0);
-                this.inventory!.splice(index,1);
-              }
-              this.playerStateService.resetInventory();
-  
+              this.deletePack(packId);  
             } else {
               if(resp && resp.status !== 200) {
                 this.messageService.alert('Errore','Qualcosa è andato storto durante la creazione della vendita del pack','error');
@@ -106,6 +93,15 @@ export class InventoryComponent implements OnInit {
         
       }
     })
+  }
+
+  private deletePack(packId: string) {
+    let cardDelete = this.inventory!.find(i => i.id === packId);
+    if(cardDelete) {
+      const index = this.inventory!.indexOf(cardDelete, 0);
+      this.inventory!.splice(index,1);
+    }
+    this.playerStateService.resetInventory();
   }
 
 

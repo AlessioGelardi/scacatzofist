@@ -416,7 +416,6 @@ export class MarketEdicolaComponent implements OnInit {
         });
       }
     })
-
   }
 
   sellPack(packId: string) {
