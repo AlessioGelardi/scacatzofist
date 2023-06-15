@@ -63,7 +63,7 @@ export class InventoryComponent implements OnInit {
     })
   }
 
-  sellPack(packId: string) {
+  sellPack(pack: Pack) {
     Swal.fire({
       title: 'Vendi il tuo pack',
       text: 'Scegli il prezzo',
@@ -77,10 +77,19 @@ export class InventoryComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         if(result.value>0) {
-          this.marketStateService.venditaPack(this.player!._id!,packId,result.value).then((resp) => {
+          let request:any = {};
+          request.playerId = this.player!._id!;
+          request.packId = pack.id;
+          request.prezzo = result.value;
+          request.isPack = true;
+          request.taglia = pack.taglia;
+          request.src = pack.src;
+          request.name = pack.name;
+          
+          this.marketStateService.venditaPack(request).then((resp) => {
             if(resp === true) {
               this.messageService.alert('Fatto!','Vendita creata con successo!','success');
-              this.deletePack(packId);  
+              this.deletePack(pack.id);  
             } else {
               if(resp && resp.status !== 200) {
                 this.messageService.alert('Errore','Qualcosa è andato storto durante la creazione della vendita del pack','error');

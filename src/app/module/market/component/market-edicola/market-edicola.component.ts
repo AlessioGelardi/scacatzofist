@@ -45,6 +45,11 @@ export class MarketEdicolaComponent implements OnInit {
 
     this.buttons = [
       {
+        name: "HOME-BUTTON",
+        code: "HOME",
+        class: "fa fa-home"
+      },
+      {
         name: "BACK-BUTTON",
         code: "BACK",
         class: "fa fa-undo"
@@ -52,19 +57,17 @@ export class MarketEdicolaComponent implements OnInit {
       {
         name: "SELL-BUTTON",
         code: "SELL",
-        class: "fa fa-briefcase"
+        class: "fa fa-suitcase"
       },
-      {
-        name: "EDICOLA-BUTTON",
-        code: "EDICOLA",
-        class: "fa fa-diamond"
-      }
     ];
   }
 
   buttonOperationHandler(code: any) {
     if(code) {
       switch(code) {
+        case 'HOME':
+          this.router.navigate(['/home',{id:this.player!._id!}]);
+          break;
         case 'BACK':
           if(this.finishPurchase) {
             this.finishPurchase = !this.finishPurchase;
@@ -177,36 +180,42 @@ export class MarketEdicolaComponent implements OnInit {
           "baseCost": 5,
           "src": "assets/pack/magic.png",
           "type": 2,
+          "level": [0],
           "monster": false
         }, {
           "name": "MAGIA RAPIDA",
           "baseCost": 6,
           "src": "assets/pack/magicFast.png",
           "type": 65538,
+          "level": [0],
           "monster": false
         }, {
           "name": "MAGIA CONTINUA",
           "baseCost": 6,
           "src": "assets/pack/magicContinua.png",
           "type": 131074,
+          "level": [0],
           "monster": false
         }, {
           "name": "MAGIA RITUALE",
           "baseCost": 2,
           "src": "assets/pack/magicRituale.png",
           "type": 130,
+          "level": [0],
           "monster": false
         }, {
           "name": "MAGIA EQUIPAGGIAMENTO",
           "baseCost": 4,
           "src": "assets/pack/magicEquip.png",
           "type": 262146,
+          "level": [0],
           "monster": false
         }, {
           "name": "MAGIA TERRENO",
           "baseCost": 5,
           "src": "assets/pack/magicTerreno.png",
           "type": 524290,
+          "level": [0],
           "monster": false
         }]
         break;
@@ -216,18 +225,21 @@ export class MarketEdicolaComponent implements OnInit {
           "baseCost": 5,
           "src": "assets/pack/trap.png",
           "type": 4,
+          "level": [0],
           "monster": false
         }, {
           "name": "TRAPPOLA CONTINUA",
           "baseCost": 6,
           "src": "assets/pack/trapContinua.png",
           "type": 131076,
+          "level": [0],
           "monster": false
         }, {
           "name": "TRAPPOLA CONTRO",
           "baseCost": 6,
           "src": "assets/pack/trapContro.png",
           "type": 1048580,
+          "level": [0],
           "monster": false
         }]
         break;
@@ -242,6 +254,7 @@ export class MarketEdicolaComponent implements OnInit {
   }
 
   acquista(objectAcquista:any) {
+    let name = objectAcquista.name;
     let taglia = objectAcquista.taglia;
     let baseCost = objectAcquista.baseCost;
     let typePack = objectAcquista.typePack;
@@ -265,7 +278,19 @@ export class MarketEdicolaComponent implements OnInit {
 
           if(this.player!.credits!-35>=0) {
 
-            this.marketStateService.buyDailyPack(this.player!._id!).then((resp) => {
+            let request:any = {};
+            request.playerId = this.player!._id!;
+            request.prezzo = 35;
+            request.taglia = 12;
+            request.level = 0;
+            request.type = 0;
+            request.quantity = 1;
+            request.monster = false;
+            request.src = this.buyPackSrc;
+            request.name = name;
+            request.isDaily = true;
+
+            this.marketStateService.buyPack(request).then((resp) => {
               if(resp) {
                 
                 //TO-DO gestire errori
@@ -306,8 +331,20 @@ export class MarketEdicolaComponent implements OnInit {
             let prezzo = this.calculatePrezzo(taglia,baseCost,result.value);
   
             if(this.player!.credits!-prezzo>=0) {
+
+              let request:any = {};
+              request.name = name;
+              request.type = typePack;
+              request.level = level;
+              request.taglia = taglia;
+              request.quantity = result.value;
+              request.prezzo = prezzo;
+              request.playerId = this.player!._id!;
+              request.monster = monster;
+              request.src = this.buyPackSrc;
+              request.isDaily = false;
   
-              this.marketStateService.buyPack(this.player!._id!,level, typePack,taglia,result.value,prezzo,monster).then((resp) => {
+              this.marketStateService.buyPack(request).then((resp) => {
                 if(resp) {
                   this.player!.credits = this.player!.credits!-prezzo;
                   this.finishPurchase = true;
@@ -418,7 +455,7 @@ export class MarketEdicolaComponent implements OnInit {
     })
   }
 
-  sellPack(packId: string) {
+  sellPack(pack: Pack) {
     Swal.fire({
       title: 'Vendi il tuo pack',
       text: 'Scegli il prezzo',
@@ -432,7 +469,15 @@ export class MarketEdicolaComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         if(result.value>0) {
-          this.marketStateService.venditaPack(this.player!._id!,packId,result.value).then((resp) => {
+          let request:any = {};
+          request.playerId = this.player!._id!;
+          request.packId = pack.id;
+          request.prezzo = result.value;
+          request.isPack = true;
+          request.taglia = pack.taglia;
+          request.src = pack.src;
+          request.name = pack.name;
+          this.marketStateService.venditaPack(request).then((resp) => {
             if(resp === true) {
               this.messageService.alert('Fatto!','Vendita creata con successo!','success');
 

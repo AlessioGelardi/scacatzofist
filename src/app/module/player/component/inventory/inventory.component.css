@@ -5,3 +5,10 @@
 .pack:hover {
     opacity: 0.7;
 }
+
+.numcard {
+    border: 5px solid red;
+    border-radius: 100%;
+    background: red;
+    padding: 0 10px;
+}

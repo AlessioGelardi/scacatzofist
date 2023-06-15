@@ -103,7 +103,14 @@ export class MarketSellComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         if(result.value>0) {
-          this.marketStateService.venditaCard(this.playerId!,card.id,result.value).then((resp) => {
+          let request:any = {};
+          request.playerId = this.playerId!;
+          request.cardId = card.id;
+          request.prezzo = result.value;
+          request.isPack = false;
+          request.name = card.name;
+
+          this.marketStateService.venditaCard(request).then((resp) => {
             if(resp === true) {
               this.messageService.alert('Fatto!','Vendita creata con successo!','success');
   

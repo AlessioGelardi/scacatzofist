@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { firstValueFrom } from 'rxjs';
-import { SellCard } from 'src/app/module/interface/card';
+import { SellCard, SellPack } from 'src/app/module/interface/card';
 import { MarketService } from '../httpservice/market.service';
 import { MessageService } from 'src/app/module/swalAlert/message.service';
 
@@ -11,6 +11,7 @@ import { MessageService } from 'src/app/module/swalAlert/message.service';
 export class StateMarketService {
 
   private marketPlace?: SellCard[] | undefined;
+  private marketPack?: SellPack[] | undefined;
 
   constructor(private spinnerService: NgxSpinnerService,
     private marketService: MarketService,
@@ -20,6 +21,7 @@ export class StateMarketService {
 
   resetState() {
     this.marketPlace = undefined;
+    this.marketPack = undefined;
   }
 
   async getMarketPlace() {
@@ -43,6 +45,29 @@ export class StateMarketService {
     }
 
     return this.marketPlace;    
+  }
+
+  async getMarketPack() {
+    this.spinnerService.show();
+    
+    if(!this.marketPack) {
+      try {
+        const response = await firstValueFrom(this.marketService.getMarketpack());
+        this.marketPack = response;
+        this.spinnerService.hide();
+      } catch (error:any) {
+        this.spinnerService.hide();
+        if(error && error.status === 402) {
+          this.messageService.alert('Attenzione','Il MarketPlace attualmente è vuoto','info');
+        } else {
+          this.messageService.alert('Errore','Qualcosa è andato storto durante il recupero del market','error');
+        }
+      }
+    } else {
+      this.spinnerService.hide();
+    }
+
+    return this.marketPack;    
   }
 
   /*
@@ -70,12 +95,12 @@ export class StateMarketService {
     return this.sellHistory;    
   }*/
 
-  async venditaCard(playerId:string, cardId:string, prezzo:number) {
+  async venditaCard(request:any) {
     this.spinnerService.show();
     let response;
 
     try {
-      response = await firstValueFrom(this.marketService.venditaCard(playerId,cardId,prezzo));
+      response = await firstValueFrom(this.marketService.venditaCard(request));
       this.spinnerService.hide();
     } catch (error: any) {
       /* TO-DO [WinError 3] Impossibile trovare il percorso specificato: 'deck\\\\Ingranaggio Antico1.ydk' -> 'deck\\\\Ingranaggio Antico.ydk'*/
@@ -128,12 +153,12 @@ export class StateMarketService {
     return response;
   }
 
-  async buyPack(playerId:string, level:number, typePack:number,taglia:number, quantity:number, prezzo:number, monster:boolean) {
+  async buyPack(request: any) {
     this.spinnerService.show();
     let response;
 
     try {
-      response = await firstValueFrom(this.marketService.acquistaPacchetti(playerId,level,typePack,taglia,quantity,prezzo,monster));
+      response = await firstValueFrom(this.marketService.acquistaPacchetti(request));
       this.spinnerService.hide();
     } catch (error: any) {
       /* TO-DO [WinError 3] Impossibile trovare il percorso specificato: 'deck\\\\Ingranaggio Antico1.ydk' -> 'deck\\\\Ingranaggio Antico.ydk'*/
@@ -162,12 +187,12 @@ export class StateMarketService {
     return response;
   }
 
-  async buyDailyPack(playerId:string) {
+  async buyDailyPack(request: any) {
     this.spinnerService.show();
     let response;
 
     try {
-      response = await firstValueFrom(this.marketService.acquistaDaily(playerId));
+      response = await firstValueFrom(this.marketService.acquistaDaily(request));
       this.spinnerService.hide();
     } catch (error: any) {
       /* TO-DO [WinError 3] Impossibile trovare il percorso specificato: 'deck\\\\Ingranaggio Antico1.ydk' -> 'deck\\\\Ingranaggio Antico.ydk'*/
@@ -196,12 +221,12 @@ export class StateMarketService {
     return response;
   }
 
-  async venditaPack(playerId:string, packId:string, prezzo:number) {
+  async venditaPack(request:any) {
     this.spinnerService.show();
     let response;
 
     try {
-      response = await firstValueFrom(this.marketService.venditaPack(playerId,packId,prezzo));
+      response = await firstValueFrom(this.marketService.venditaPack(request));
       this.spinnerService.hide();
     } catch (error: any) {
       /* TO-DO [WinError 3] Impossibile trovare il percorso specificato: 'deck\\\\Ingranaggio Antico1.ydk' -> 'deck\\\\Ingranaggio Antico.ydk'*/

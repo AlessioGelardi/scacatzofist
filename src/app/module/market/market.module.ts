@@ -12,7 +12,6 @@ import { ZainoModule } from '../zaino/zaino.module';
 import { FormsModule } from '@angular/forms';
 
 
-
 @NgModule({
   declarations: [
     MarketComponent,

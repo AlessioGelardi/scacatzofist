@@ -10,16 +10,20 @@
             <table class="table table-hover mt-3 text-center" >
                 <thead>
                     <tr>
-                        <th scope="col"><button type="button" class="btn btn-outline-dark btn-sm" (click)="refresh()"><i class="fa fa-refresh"></i></button></th>
+                        <th scope="col">
+                            <button type="button" class="btn btn-outline-dark btn-sm" (click)="doShowPack()"><i class="fa fa-inbox"></i></button>&nbsp;
+                            <button type="button" class="btn btn-outline-dark btn-sm" (click)="refresh()"><i class="fa fa-refresh"></i></button>
+                        </th>
                         <th scope="col">Costo</th>
                         <th scope="col">Nome</th>
-                        <th scope="col">ATK</th>
-                        <th scope="col">DEF</th>
+                        <th scope="col" *ngIf="!showPack">ATK</th>
+                        <th scope="col" *ngIf="!showPack">DEF</th>
+                        <th scope="col" *ngIf="showPack">Taglia</th>
                         <th scope="col">Player</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr *ngFor="let sc of marketPlace">
+                <tbody *ngIf="!showPack">
+                    <tr *ngFor="let sc of marketPlace" >
                         <td *ngIf="sc.playerId!==player?._id">
                             <button type="button" class="btn btn-outline-dark btn-sm" (click)="compraCard(sc)"><i class="fa fa-shopping-cart"></i></button>
                         </td>
@@ -31,6 +35,20 @@
                         <td>{{sc.card.atk}}</td>
                         <td>{{sc.card.def}}</td>
                         <td>{{sc.playerName}}</td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="showPack">
+                    <tr *ngFor="let pack of marketPack">
+                        <td *ngIf="pack.playerId!==player?._id">
+                            <button type="button" class="btn btn-outline-dark btn-sm" (click)="compraPack(pack)"><i class="fa fa-shopping-cart"></i></button>
+                        </td>
+                        <td *ngIf="pack.playerId===player?._id">
+                            <button type="button" class="btn btn-outline-dark btn-sm" (click)="deleteSellPack(pack)"><i class="fa fa-trash"></i></button>
+                        </td>
+                        <td>{{pack.prezzo}}</td>
+                        <td class="text-truncate">{{pack.name}}</td>
+                        <td>{{pack.taglia}}</td>
+                        <td>{{pack.playerName}}</td>
                     </tr>
                 </tbody>
             </table>

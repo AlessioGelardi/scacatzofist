@@ -31,11 +31,11 @@ export class VetrinaComponent implements OnInit {
     this.selectPack = pack;
   }
 
-  acquista(taglia:number, baseCost:number, type:number, monster:boolean, level:number, src:string) {
+  acquista(name:string, taglia:number, baseCost:number, type:number, monster:boolean, level:number, src:string) {
     if(this.dailyPack) {
-      this.confirmBuyEmitter.emit({"dailyPack":true, "src":src});
+      this.confirmBuyEmitter.emit({"name":name,"dailyPack":true, "src":src});
     } else {
-      this.confirmBuyEmitter.emit({"taglia":taglia,"baseCost":baseCost, "typePack":type, "monster":monster, "level":level, "src":src});
+      this.confirmBuyEmitter.emit({"name":name,"taglia":taglia,"baseCost":baseCost, "typePack":type, "monster":monster, "level":level, "src":src});
     }
   }
 
