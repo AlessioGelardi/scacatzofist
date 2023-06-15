@@ -15,9 +15,19 @@ export class StatePlayerService {
   private zaino?: Card[];
   private inventory?: Pack[];
 
+  private bonus: boolean = false;
+
   constructor(private spinnerService: NgxSpinnerService,
     private playerService: PlayerService) {
 
+  }
+
+  setBonus(bonus:boolean) {
+    this.bonus = bonus;
+  }
+
+  getBonus() {
+    return this.bonus;
   }
 
   resetZaino() {

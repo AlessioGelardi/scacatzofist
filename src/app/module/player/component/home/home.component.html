@@ -2,6 +2,14 @@
     <div class="col-9">
         <player-status [player]="player"></player-status>
 
+        <div class="row pt-5" *ngIf="bonus">
+            <div class="d-flex justify-content-around">
+                <div class="outline">
+                    <label>Oggi è il weekend dei guadagni bonus, tutte le ricompense saranno moltiplicate</label>
+                </div>
+            </div>
+        </div>
+
         <div class="row pt-5">
             <div class="d-flex justify-content-around">
                 <button class="btn btn-lg" (click)="modificaDeck()">MODIFICA DECK</button>
