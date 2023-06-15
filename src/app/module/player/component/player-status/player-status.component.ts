@@ -4,6 +4,7 @@ import { Player } from 'src/app/module/interface/player';
 import { StateDeckService } from 'src/app/module/deck/services/state/state-deck.service';
 import { StateMarketService } from 'src/app/module/market/services/state/state-market.service';
 import { StatePlayerService } from '../../services/state/state-player.service';
+import { TypeMod } from 'src/app/module/play-now/enum/typeMod';
 
 @Component({
   selector: 'player-status',
