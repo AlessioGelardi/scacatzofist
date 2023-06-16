@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Button } from 'src/app/module/interface/button';
 import { Card, Pack } from 'src/app/module/interface/card';
 import { Player } from 'src/app/module/interface/player';
 import { StateMarketService } from 'src/app/module/market/services/state/state-market.service';
@@ -18,6 +19,8 @@ export class InventoryComponent implements OnInit {
 
   playerId:string | undefined;
 
+  buttons: Button[] = [];
+
   inventory: Pack[] = [];
 
   viewCards: Card[] = [];
@@ -32,10 +35,44 @@ export class InventoryComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.buttons = [
+      {
+        name: "HOME-BUTTON",
+        code: "HOME",
+        class: "fa fa-home"
+      },
+      {
+        name: "CARD-BUTTON",
+        code: "CARD",
+        class: "fa fa-suitcase"
+      },
+      {
+        name: "EDICOLA-BUTTON",
+        code: "EDICOLA",
+        class: "fa fa-diamond"
+      },
+    ];
+
     this.playerId = this.route.snapshot.paramMap.get('id')!;
 
     this.takePlayer();
     this.takeInventory();
+  }
+  
+  action(code:string) {
+    if(code) {
+      switch(code) {
+        case 'HOME':
+          this.router.navigate(['/home',{id:this.player!._id!}]);
+          break;
+        case 'CARD':
+          this.router.navigate(['/sell',{id:this.player!._id!}]);
+          break;
+        case 'EDICOLA':
+          this.router.navigate(['/edicola',{id:this.player!._id!}]);
+          break;
+      }
+    }
   }
 
   openPack(packId: string) {

@@ -47,6 +47,11 @@ export class MarketSellComponent implements OnInit {
         class: "fa fa-undo"
       },
       {
+        name: "INVENTORY-BUTTON",
+        code: "INVENTORY",
+        class: "fa fa-briefcase"
+      },
+      {
         name: "EDICOLA-BUTTON",
         code: "EDICOLA",
         class: "fa fa-diamond"
@@ -76,7 +81,10 @@ export class MarketSellComponent implements OnInit {
     if(code) {
       switch(code) {
         case 'BACK':
-          this.router.navigate(['/market',{id:this.playerId!}]);
+          window.history.back();
+          break;
+        case 'INVENTORY':
+          this.router.navigate(['/inventory',{id:this.playerId!}]);
           break;
         case 'EDICOLA':
           this.router.navigate(['/edicola',{id:this.playerId!}]);

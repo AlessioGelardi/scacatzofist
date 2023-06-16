@@ -442,7 +442,8 @@ export class MarketEdicolaComponent implements OnInit {
           if(resp) {
             this.viewCards=resp;
             this.viewCurrencyExchange = false;
-            this.deletePack(packId)
+            this.deletePack(packId);
+            this.playerStateService.resetZaino();
           } else {
             //TO-DO gestione degli errori
             /*
