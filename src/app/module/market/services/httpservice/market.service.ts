@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Pack, SellCard } from 'src/app/module/interface/card';
+import { Pack, SellCard, SellPack } from 'src/app/module/interface/card';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -10,9 +10,11 @@ import { environment } from 'src/environments/environment';
 export class MarketService {
 
   apiUrlMarketPlace: string = environment.baseUrlMarket + "marketplace";
+  apiUrlMarketPack: string = environment.baseUrlMarket + "marketpack";
   apiUrlMarketEdicola: string =  environment.baseUrlMarket + "edicola";
   apiUrlMarketCredits: string =  environment.baseUrlMarket + "credits";
   apiUrlMarketDailyPack: string =  environment.baseUrlMarket + "dailypack";
+  apiUrlMarketOpenPack: string =  environment.baseUrlMarket + "openpack";
   marketplaceById: string = environment.baseUrlMarket + "marketplaceById";
 
   constructor(private http: HttpClient) { }
@@ -21,19 +23,18 @@ export class MarketService {
     return this.http.get<SellCard[]>(this.apiUrlMarketPlace);
   }
 
+  getMarketpack(): Observable<SellPack[]> {
+    return this.http.get<SellPack[]>(this.apiUrlMarketPack);
+  }
+
   getMarketPlaceById(playerId:string) { //To-DO verificare se si può fare un percorso unico tra getMarketPlace e getmarketplacebyid
     return this.http.get<SellCard[]>(this.marketplaceById+'?id='+playerId);
   }
 
-  venditaCard(playerId:string, cardId:string, prezzo:number) {
-    let vendita:any = {};
-    vendita.playerId = playerId;
-    vendita.cardId = cardId;
-    vendita.prezzo = prezzo;
-
-    vendita.today = this.takeFormatToday();
-    return this.http.post<boolean>(this.apiUrlMarketPlace,vendita,this.generateOptions());
-}
+  venditaCard(request:any) {
+    request.today = this.takeFormatToday();
+    return this.http.post<boolean>(this.apiUrlMarketPlace,request,this.generateOptions());
+  }
 
   deleteSellCard(sellCardId:string, cardId: string, playerId:string): Observable<SellCard[]> {
     return this.http.delete<SellCard[]>(this.apiUrlMarketPlace+'?id='+sellCardId+';'+cardId+';'+playerId);
@@ -53,16 +54,9 @@ export class MarketService {
     return this.http.put<boolean>(this.apiUrlMarketPlace+'?id='+sellCard.id,acquisto,this.generateOptions());
   }
 
-  acquistaPacchetti(playerId:string, level:number, typePack:number,taglia:number, quantity:number, prezzo:number, monster:boolean): Observable<Pack[]> {
-    let pack:any = {};
-    pack.type = typePack;
-    pack.level = level;
-    pack.taglia = taglia;
-    pack.quantity = quantity;
-    pack.prezzo = prezzo;
-    pack.playerId = playerId;
-    pack.monster = monster;
-    return this.http.put<Pack[]>(this.apiUrlMarketEdicola,pack,this.generateOptions());
+  acquistaPacchetti(request:any): Observable<Pack[]> {
+    request.dataUpdate = this.takeFormatToday();
+    return this.http.put<Pack[]>(this.apiUrlMarketEdicola,request,this.generateOptions());
   }
 
   acquistaCrediti(playerId:string, numCredits:number): Observable<boolean> {
@@ -72,12 +66,19 @@ export class MarketService {
     return this.http.put<boolean>(this.apiUrlMarketCredits,request,this.generateOptions());
   }
 
-  acquistaDaily(playerId:string): Observable<Pack> {
-    let request:any = {};
-    request.playerId = playerId;
-    request.prezzo = 35;
+  acquistaDaily(request: any): Observable<Pack> {
     request.dataUpdate = this.takeFormatToday();
     return this.http.put<Pack>(this.apiUrlMarketDailyPack,request,this.generateOptions());
+  }
+
+  apriPack(request:any) {
+    request.dataUpdate = this.takeFormatToday();
+    return this.http.put<boolean>(this.apiUrlMarketOpenPack,request,this.generateOptions());
+  }
+
+  venditaPack(request:any) {
+    request.today = this.takeFormatToday();
+    return this.http.post<boolean>(this.apiUrlMarketPlace,request,this.generateOptions());
   }
 
   private takeFormatToday() {

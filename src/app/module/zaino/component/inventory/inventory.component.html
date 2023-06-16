@@ -1,0 +1,33 @@
+<player-status [player]="player"></player-status>
+
+<div class="row">
+    <div class="row d-flex justify-content-around mt-4">
+        <button *ngFor="let button of buttons" type="button" class="col-2 btn btn-lg rounded-pill grigino" (click)="action(button.code)"><i class='{{button.class}}'></i></button>
+    </div>
+</div>
+
+
+<div class="mt-4 text-center">
+    <label>INVENTARIO</label>
+</div>
+<div class="mt-4">
+    <div class="row" *ngIf="viewCards.length>0">
+        <div class="d-flex justify-content-center pb-5">
+            <opening-pack [cards]="viewCards"></opening-pack>
+        </div>
+    </div>
+
+    <div class="row">
+        <div *ngFor="let pack of inventory" class="col-3 d-flex justify-content-center pb-5">
+            <div class="mt-3 position-relative">
+                <div class="position-absolute pb-3 top-0 start-50 translate-middle">
+                    <label><strong>{{pack.taglia}}</strong></label>
+                </div>
+                <img src="{{pack.src}}" class="pack mb-3" (click)="openPack(pack.id)" />
+                <div class="position-absolute bottom-10 start-50 translate-middle-x">
+                    <button type="button" class="btn btn-sm btn-outline-success" style="width: 100px;" (click)="sellPack(pack)"><i class="fa fa-dollar"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

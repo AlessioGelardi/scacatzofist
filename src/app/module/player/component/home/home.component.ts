@@ -14,6 +14,8 @@ export class HomeComponent implements OnInit {
   player:Player | undefined;
   numberNotify:number | undefined;
 
+  bonus:boolean = false;
+
   constructor(private route: ActivatedRoute,
     private playerStateService: StatePlayerService,
     private messageService: MessageService,
@@ -26,6 +28,11 @@ export class HomeComponent implements OnInit {
 
     this.takePlayer(playerId);
     this.takeNumberNotify(playerId);
+
+    const oggi: Date = new Date();
+    if(oggi.getDay() === 6 || oggi.getDay() === 0) {
+      this.bonus = true;
+    }
   }
 
   modificaDeck() {
@@ -41,7 +48,7 @@ export class HomeComponent implements OnInit {
   }
 
   giocaAdesso() {
-    this.router.navigate(['/playnow',{id:this.player?._id}]);
+    this.router.navigate(['/playnow',{id:this.player?._id, bonus:this.bonus}]);
   }
 
   private takePlayer(playerId: string) {

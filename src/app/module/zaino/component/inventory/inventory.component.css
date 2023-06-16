@@ -1,0 +1,23 @@
+.pack {
+    width: 220px;
+}
+
+.pack:hover {
+    opacity: 0.7;
+}
+
+.numcard {
+    border: 5px solid red;
+    border-radius: 100%;
+    background: red;
+    padding: 0 10px;
+}
+
+.grigino {
+    background-color: #8a8989;
+}
+
+.grigino:hover {
+    background-color:#737170;
+    box-shadow: #8a8989;
+}

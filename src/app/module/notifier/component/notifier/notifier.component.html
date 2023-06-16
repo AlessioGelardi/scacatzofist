@@ -29,7 +29,8 @@
         <tbody *ngIf="dictReqs?.reqs">
             <tr *ngFor="let req of dictReqs?.reqs![pageSelected]" (click)="doDetail(req)">
                 <td>{{Status[req.status]}}</td>
-                <td>{{req.playerRichiedente}}</td>
+                <td *ngIf="!viewMyReqs">{{req.playerRichiedente}}</td>
+                <td *ngIf="viewMyReqs">{{req.playerRicevente}}</td>
                 <td>{{TypeMod[req.typeMod]}}</td>
                 <td>{{req.dataUpdate}}</td>
             </tr>

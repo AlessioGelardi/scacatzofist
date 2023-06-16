@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { firstValueFrom } from 'rxjs';
-import { Card } from 'src/app/module/interface/card';
+import { Card, Pack } from 'src/app/module/interface/card';
 import { Player } from 'src/app/module/interface/player';
 import { PlayerService } from '../httpservices/player.service';
 
@@ -13,24 +13,40 @@ export class StatePlayerService {
   private player?: Player;
   private allplayers?: Player[];
   private zaino?: Card[];
+  private inventory?: Pack[];
+
+  private bonus: boolean = false;
 
   constructor(private spinnerService: NgxSpinnerService,
     private playerService: PlayerService) {
 
   }
 
+  setBonus(bonus:boolean) {
+    this.bonus = bonus;
+  }
+
+  getBonus() {
+    return this.bonus;
+  }
+
   resetZaino() {
     this.zaino = undefined;
+  }
+
+  resetPlayerState() {
+    this.player = undefined;
+  }
+
+  resetInventory() {
+    this.inventory = undefined;
   }
 
   resetState() {
     this.player = undefined;
     this.allplayers = undefined;
     this.zaino = undefined;
-  }
-
-  resetPlayerState() {
-    this.player = undefined;
+    this.inventory = undefined;
   }
 
   async getPlayer(id:string) {
@@ -90,5 +106,23 @@ export class StatePlayerService {
     }
 
     return this.zaino;
+  }
+
+  async getInventory(id:string) {
+    this.spinnerService.show();
+
+    if(!this.inventory) {
+      try {
+        const response = await firstValueFrom(this.playerService.getInventory(id));
+        this.inventory = response;
+        this.spinnerService.hide();
+      } catch(error:any) {
+        this.spinnerService.hide();
+      }
+    } else {
+      this.spinnerService.hide();
+    }
+
+    return this.inventory;
   }
 }

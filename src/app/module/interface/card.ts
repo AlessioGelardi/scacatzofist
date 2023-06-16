@@ -11,7 +11,12 @@ export interface Card {
 }
 
 export interface Pack {
+    id:string;
+    name: string;
+    src:string;
+    taglia:number;
     cards: Card[];
+    isDaily:boolean;
 }
 
 export interface Deck {
@@ -27,6 +32,16 @@ export interface Deck {
 export interface SellCard {
     id: string,
     card: Card,
+    prezzo?: string;
+    playerId?: string;
+    playerName?: string;
+}
+
+export interface SellPack {
+    id: string,
+    name:string,
+    taglia: number;
+    src:string;
     prezzo?: string;
     playerId?: string;
     playerName?: string;

@@ -79,6 +79,7 @@ export class PlayNowScontroComponent implements OnInit {
         request.playerIdReq = this.playerId;
         request.playerIdOppo = playerId;
         request.status = 1;
+        request.bonus = this.playerStateService.getBonus();
 
         this.notifierStateService.inviaRichiesta(request).then((resp) => {
           if(resp === true) {

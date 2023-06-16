@@ -8,3 +8,27 @@ button:hover {
     border-radius: 10x;
     box-shadow: 5px 10px #df0032;
 }
+
+label {
+    font-size: 20px;
+    font-family: 'Fantasy';
+}
+
+.outline {
+    animation: outlineAnimation 3s infinite;
+}
+
+@keyframes outlineAnimation {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}

@@ -12,7 +12,7 @@
         <input [(ngModel)]="filterName" type="text" class="mt-3 form-control sfondino" placeholder="Cerca user" autofocus>
     </div>
     
-    <div *ngIf="players.length<5" class="mt-3">
+    <div class="mt-3">
         <div *ngFor="let player of players | filterPlayer: filterName!">
             <button class="col-7 m-2 btn btn-lg rounded grigino" (click)="inviaRichiesta(player._id!,player.name)">{{player.name}}</button>
         </div>

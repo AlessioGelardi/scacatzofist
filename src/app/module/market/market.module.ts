@@ -6,11 +6,9 @@ import { MarketButtonsComponent } from './component/market-buttons/market-button
 import { MarketSellComponent } from './component/market-sell/market-sell.component';
 import { MarketEdicolaComponent } from './component/market-edicola/market-edicola.component';
 import { VetrinaComponent } from './component/market-edicola/vetrina/vetrina.component';
-import { OpeningPackComponent } from './component/market-edicola/opening-pack/opening-pack.component';
 import { PlayerModule } from '../player/player.module';
 import { ZainoModule } from '../zaino/zaino.module';
 import { FormsModule } from '@angular/forms';
-
 
 
 @NgModule({
@@ -19,8 +17,7 @@ import { FormsModule } from '@angular/forms';
     MarketButtonsComponent,
     MarketSellComponent,
     MarketEdicolaComponent,
-    VetrinaComponent,
-    OpeningPackComponent
+    VetrinaComponent
   ],
   imports: [
     CommonModule,

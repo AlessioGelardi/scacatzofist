@@ -101,13 +101,14 @@ export class PlayNowTrainingComponent implements OnInit {
   }
 
   stopTraining() {
-    if(this.minutes>10) { //TO-DO 
+    if(this.minutes>=10) { //TO-DO 
       let request: any = {};
       request.playerIdReq = this.playerId!;
       request.typeMod = 2;
       request.status = 1;
       request.playerName = this.player?.name;
       request.timer = this.seconds;
+      request.bonus = this.playerStateService.getBonus();
   
       this.notifierStateService.createDuelRec(request).then((resp) => {
         if(resp == true) {
