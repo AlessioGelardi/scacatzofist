@@ -71,9 +71,7 @@ export class MarketService {
     return this.http.put<Pack>(this.apiUrlMarketDailyPack,request,this.generateOptions());
   }
 
-  apriPack(packId:string) {
-    let request:any = {};
-    request.playerId = packId;
+  apriPack(request:any) {
     request.dataUpdate = this.takeFormatToday();
     return this.http.put<boolean>(this.apiUrlMarketOpenPack,request,this.generateOptions());
   }

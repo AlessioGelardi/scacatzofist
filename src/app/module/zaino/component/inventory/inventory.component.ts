@@ -20,7 +20,7 @@ export class InventoryComponent implements OnInit {
 
   inventory: Pack[] = [];
 
-  packOpening: Card[] = [];
+  viewCards: Card[] = [];
 
   constructor(private route: ActivatedRoute,
     private router: Router,
@@ -50,13 +50,16 @@ export class InventoryComponent implements OnInit {
       cancelButtonText: 'Non aprire!'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.packOpening = [];
-        this.marketStateService.openPack(packId).then((resp) => {
-          if(resp === true) {
-            this.packOpening = resp;
+        this.viewCards = [];
+        let request:any = {};
+        request.playerId = this.player?._id!;
+        request.packId = packId;
+        this.marketStateService.openPack(request).then((resp) => {
+          if(resp) {
+            this.viewCards = resp;
             this.deletePack(packId);
           } else {
-            this.messageService.alert('Attenzione!','Problema durante l"acquisto dei crediti','error');
+            this.messageService.alert('Attenzione!',"Problema durante l'apertura del pack",'error');
           }
         });
       }

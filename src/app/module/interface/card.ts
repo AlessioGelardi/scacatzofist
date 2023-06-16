@@ -16,6 +16,7 @@ export interface Pack {
     src:string;
     taglia:number;
     cards: Card[];
+    isDaily:boolean;
 }
 
 export interface Deck {

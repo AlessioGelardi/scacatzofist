@@ -435,11 +435,14 @@ export class MarketEdicolaComponent implements OnInit {
       cancelButtonText: 'Non aprire!'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.marketStateService.openPack(packId).then((resp) => {
-          if(resp === true) {
-            this.player!.credits = Number(this.player!.credits!) + Number(this.numberCredits);
-            this.player!.coin = this.player!.coin!-(this.numberCredits*1000);
+        let request:any = {};
+        request.playerId = this.player?._id!;
+        request.packId = packId;
+        this.marketStateService.openPack(request).then((resp) => {
+          if(resp) {
+            this.viewCards=resp;
             this.viewCurrencyExchange = false;
+            this.deletePack(packId)
           } else {
             //TO-DO gestione degli errori
             /*
@@ -448,7 +451,7 @@ export class MarketEdicolaComponent implements OnInit {
             }
             */
     
-            this.messageService.alert('Attenzione!','Problema durante l"acquisto dei crediti','error');
+            this.messageService.alert('Attenzione!',"Problema durante l'apertura del pack",'error');
           }
         });
       }
@@ -504,6 +507,15 @@ export class MarketEdicolaComponent implements OnInit {
         
       }
     })
+  }
+
+  private deletePack(packId: string) {
+    let cardDelete = this.newPacks!.find(i => i.id === packId);
+    if(cardDelete) {
+      const index = this.newPacks!.indexOf(cardDelete, 0);
+      this.newPacks!.splice(index,1);
+    }
+    this.playerStateService.resetInventory();
   }
 
   private takePlayer(playerId: string) {
