@@ -30,7 +30,7 @@ export class HomeComponent implements OnInit {
     this.takeNumberNotify(playerId);
 
     const oggi: Date = new Date();
-    if(oggi.getDay() === 5 || oggi.getDay() === 6 || oggi.getDay() === 0) {
+    if(oggi.getDay() === 6 || oggi.getDay() === 0) {
       this.bonus = true;
     }
   }
