@@ -8,6 +8,8 @@ import { DeckDetailComponent } from './component/deck-detail/deck-detail.compone
 import { DeckEditComponent } from './component/deck-edit/deck-edit.component';
 import { CardListComponent } from './component/deck-edit/card-list/card-list.component';
 import { ZainoModule } from '../zaino/zaino.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 
 
@@ -20,6 +22,8 @@ import { ZainoModule } from '../zaino/zaino.module';
     CardListComponent
   ],
   imports: [
+    BrowserAnimationsModule,
+    DragDropModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
