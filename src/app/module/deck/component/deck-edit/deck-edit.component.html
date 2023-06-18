@@ -45,7 +45,7 @@
         <div *ngIf="dragDrop" class="mt-3">
             <div class="row">
                 <div *ngFor="let card of zaino | filterZaino: filterName! | slice:sliceStart:sliceEnd; let i=index" class="col-1">
-                    <img class="deckcard" src="{{'https://images.ygoprodeck.com/images/cards/'+card?.id+'.jpg'}}" (click)="showCard(card)"/>
+                    <img class="deckcard" src="{{'https://images.ygoprodeck.com/images/cards/'+card?.id+'.jpg'}}" (click)="showCard(card)" cdkDrag/>
                 </div>
             </div>
         </div>

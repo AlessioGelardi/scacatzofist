@@ -7,6 +7,7 @@ import { StateDeckService } from '../../services/state/state-deck.service';
 import Swal from 'sweetalert2';
 import { StatePlayerService } from 'src/app/module/player/services/state/state-player.service';
 import { MessageService } from 'src/app/module/swalAlert/message.service';
+import { CdkDragEnd } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-deck-edit',
@@ -71,6 +72,11 @@ export class DeckEditComponent implements OnInit {
     this.playerId = this.route.snapshot.paramMap.get('playerId')!;
     this.newNameDeck = this.route.snapshot.paramMap.get('newNameDeck')!;
     this.takeDeck();
+  }
+
+  onDragEnded(event: CdkDragEnd) {
+    // Handle drag end event
+    console.log('Drag ended', event.source.element.nativeElement);
   }
 
   buttonOperationHandler(code: any) {
