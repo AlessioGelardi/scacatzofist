@@ -11,7 +11,7 @@ import { MessageService } from 'src/app/module/swalAlert/message.service';
 @Component({
   selector: 'app-deck-edit',
   templateUrl: './deck-edit.component.html',
-  styleUrls: ['./deck-edit.component.css']
+  styleUrls: ['../../styles/deck.css','./deck-edit.component.css']
 })
 export class DeckEditComponent implements OnInit {
 
@@ -34,6 +34,8 @@ export class DeckEditComponent implements OnInit {
 
   permission: boolean = true;
 
+  dragDrop:boolean = true;
+
   constructor(private router: Router,
     private deckStateService: StateDeckService,
     private route: ActivatedRoute,
@@ -52,6 +54,11 @@ export class DeckEditComponent implements OnInit {
         name: "REFRESH-BUTTON",
         code: "REFRESH",
         class: "fa fa-refresh"
+      },
+      {
+        name: "SWITCH-BUTTON",
+        code: "SWITCH",
+        class: "fa-solid fa-image"
       },
       {
         name: "SAVE-BUTTON",
@@ -80,6 +87,18 @@ export class DeckEditComponent implements OnInit {
           this.deckStateService.resetDeck();
           this.playerStateService.resetZaino();
           this.takeDeck();
+          break;
+        }
+        case 'SWITCH': {
+          this.dragDrop=!this.dragDrop;
+
+          if(this.dragDrop) {
+            this.sliceEnd = 120;
+            this.slice = 120;
+          } else {
+            this.sliceEnd = 60;
+            this.slice = 60;
+          }
           break;
         }
         case 'SAVE':
