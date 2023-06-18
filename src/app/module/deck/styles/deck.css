@@ -6,3 +6,13 @@
     background-color:#737170;
     box-shadow: #8a8989;
 }
+
+.deckcard {
+    max-width: 80px;
+}
+
+.deckcard:hover {
+    max-width: 240px;
+    z-index: 1;
+    position: absolute;
+}

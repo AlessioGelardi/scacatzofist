@@ -8,7 +8,7 @@ import { MessageService } from 'src/app/module/swalAlert/message.service';
 @Component({
   selector: 'app-deck-detail',
   templateUrl: './deck-detail.component.html',
-  styleUrls: ['./deck-detail.component.css']
+  styleUrls: ['../../styles/deck.css','./deck-detail.component.css']
 })
 export class DeckDetailComponent implements OnInit {
 

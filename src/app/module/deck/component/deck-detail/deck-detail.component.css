@@ -1,13 +1,3 @@
-.deckcard {
-    max-width: 80px;
-}
-
-.deckcard:hover {
-    max-width: 240px;
-    z-index: 1;
-    position: absolute;
-}
-
 .card {
     background-color: #cdcccc;
     color: #3e3d3c !important;
