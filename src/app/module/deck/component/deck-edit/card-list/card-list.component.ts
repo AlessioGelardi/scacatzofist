@@ -1,4 +1,4 @@
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Card } from 'src/app/module/interface/card';
 
@@ -18,11 +18,25 @@ export class CardListComponent implements OnInit {
   @Output() showCard: EventEmitter<Card> = new EventEmitter();
   @Output() removeCard: EventEmitter<any> = new EventEmitter();
 
+  kindDeck: string | undefined;
+
   constructor() { }
 
   ngOnInit(): void {
 
-
+    switch(this.typeDeck) {
+      case 1:
+        this.kindDeck='main';
+        break;
+      case 2:
+        this.kindDeck='extra';
+        break;
+      case 3:
+        this.kindDeck='side';
+        break;
+      default:
+        break;
+    }
   }
 
   onDragStart(): void {
@@ -36,7 +50,6 @@ export class CardListComponent implements OnInit {
   }
 
   onDrop(event: CdkDragDrop<Card[]>) {
-    console.log(event)
     if(event.previousContainer === event.container) {
       moveItemInArray(event.container.data,event.previousIndex,event.currentIndex)
     } else {

@@ -1,7 +1,5 @@
 <div class="d-flex justify-content-center mt-4">
-    <h5 *ngIf="typeDeck===1">MAIN</h5>
-    <h5 *ngIf="typeDeck===2">EXTRA</h5>
-    <h5 *ngIf="typeDeck===3">SIDE</h5>
+    <h5>{{kindDeck!.toUpperCase()}}</h5>
 </div>
 <table class="table table-hover mt-3 text-center" style="margin-left:-40px" *ngIf="!dragDrop">
     <thead>
@@ -26,18 +24,14 @@
     </tbody>
 </table>
 <div *ngIf="dragDrop" class="mt-3" style="padding-right:80px">
-    <div class="row" cdkDropList (cdkDropListDropped)="onDrop($event)" [cdkDropListData]="cards" [cdkDropListConnectedTo]="connectedTo">
+    <div class="row" cdkDropList (cdkDropListDropped)="onDrop($event)" [cdkDropListData]="cards" [cdkDropListConnectedTo]="connectedTo" id="{{kindDeck}}">
         <div *ngFor="let card of cards" class="col-1" cdkDrag>
             <img
               class="deckcard" src="{{'https://images.ygoprodeck.com/images/cards/'+card?.id+'.jpg'}}"
-              
               (cdkDragStarted)="onDragStart()"
               (cdkDragEnded)="onDragEnd()"
               (click)="show(card)"
             />
         </div>
-        <div class="deckcard drop-area" *ngIf="dragging">
-        </div>
-
     </div>
 </div>

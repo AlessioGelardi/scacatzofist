@@ -7,7 +7,7 @@ import { StateDeckService } from '../../services/state/state-deck.service';
 import Swal from 'sweetalert2';
 import { StatePlayerService } from 'src/app/module/player/services/state/state-player.service';
 import { MessageService } from 'src/app/module/swalAlert/message.service';
-import { CdkDragDrop, CdkDragEnd, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDragDrop, CdkDragEnd, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-deck-edit',
@@ -37,6 +37,8 @@ export class DeckEditComponent implements OnInit {
 
   dragDrop:boolean = true;
   dragging:boolean = false;
+
+  typeExtra = [65, 129, 8193, 8388609, 4161, 97, 4193, 637, 161, 4257, 2097313, 8225, 12321, 8388641];
 
   constructor(private router: Router,
     private deckStateService: StateDeckService,
@@ -110,6 +112,23 @@ export class DeckEditComponent implements OnInit {
         }
         case 'SAVE':
           this.deck!.new=false;
+
+          const extraIntoMain = this.checkExtraIntoMain();
+          const mainIntoExtra = this.checkMainIntoExtra();
+
+          if(!extraIntoMain && !mainIntoExtra) {
+            console.log(this.deck!)
+          } else {
+            if(extraIntoMain) {
+              this.messageService.alert('Errore',"Il main deck non deve contenere carte di tipo fusione,synchro o xyz, per favore spostale nell'extra deck",'error');
+            }
+
+            if(mainIntoExtra) {
+              this.messageService.alert('Errore',"L'extra deck deve contenere carte solo di tipo fusione,synchro o xyz, per favore sposta il resto delle carte nel main deck",'error');
+            }
+          }
+
+          /*
           this.deckStateService.updateDeck(this.deck!,this.deckId!).then((resp) => {
             if(resp) {
               this.deckStateService.resetPlayerDecks();
@@ -117,7 +136,7 @@ export class DeckEditComponent implements OnInit {
             } else {
               this.messageService.alert('Errore','Qualcosa è andato storto durante il salvataggio del deck','error');
             }
-          });
+          });*/
           break;
       }
     }
@@ -193,7 +212,6 @@ export class DeckEditComponent implements OnInit {
   }
 
   onDrop(event: CdkDragDrop<Card[]>) {
-    console.log(event)
     if(event.previousContainer === event.container) {
       moveItemInArray(event.container.data,event.previousIndex,event.currentIndex)
     } else {
@@ -207,7 +225,7 @@ export class DeckEditComponent implements OnInit {
   }
 
   addCard(card:Card) {
-    if(card && card.type == 8388641 || card.type === 97 || card.type === 8225) { //TO-DO
+    if(card && this.typeExtra.includes(card.type)) { //TO-DO
 
       this.deleteCardZaino(card);
 
@@ -300,7 +318,7 @@ export class DeckEditComponent implements OnInit {
         this.zaino = [];
         for(let card of resp) {
 
-          if(card && card.type == 8388641 || card.type === 97 || card.type === 8225) { //TO-DO
+          if(card && this.typeExtra.includes(card.type)) { //TO-DO
 
             //check extra
             let cardIntoExtra = this.deck?.extra.find(i => i.id === card.id);
@@ -378,6 +396,16 @@ export class DeckEditComponent implements OnInit {
       newCard.qnt=1;
       this.zaino.push(newCard);
     }
+  }
+
+  private checkExtraIntoMain(): boolean {
+    let cardIntoMain = this.deck!.main.find(i => this.typeExtra.includes(i.type));
+    return cardIntoMain ? true:false;
+  }
+
+  private checkMainIntoExtra(): boolean {
+    let cardIntoExtra = this.deck!.extra.find(i => !this.typeExtra.includes(i.type));
+    return cardIntoExtra ? true:false;
   }
 
 }
