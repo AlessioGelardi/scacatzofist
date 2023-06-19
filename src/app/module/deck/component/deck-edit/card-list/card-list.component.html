@@ -26,9 +26,18 @@
     </tbody>
 </table>
 <div *ngIf="dragDrop" class="mt-3" style="padding-right:80px">
-    <div class="row">
-        <div *ngFor="let card of cards" class="col-1">
-            <img class="deckcard" src="{{'https://images.ygoprodeck.com/images/cards/'+card?.id+'.jpg'}}" (click)="show(card)"/>
+    <div class="row" cdkDropList (cdkDropListDropped)="onDrop($event)" [cdkDropListData]="cards" [cdkDropListConnectedTo]="connectedTo">
+        <div *ngFor="let card of cards" class="col-1" cdkDrag>
+            <img
+              class="deckcard" src="{{'https://images.ygoprodeck.com/images/cards/'+card?.id+'.jpg'}}"
+              
+              (cdkDragStarted)="onDragStart()"
+              (cdkDragEnded)="onDragEnd()"
+              (click)="show(card)"
+            />
         </div>
+        <div class="deckcard drop-area" *ngIf="dragging">
+        </div>
+
     </div>
 </div>

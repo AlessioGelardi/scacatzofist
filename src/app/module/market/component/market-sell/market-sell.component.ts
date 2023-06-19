@@ -81,7 +81,7 @@ export class MarketSellComponent implements OnInit {
     if(code) {
       switch(code) {
         case 'BACK':
-          window.history.back();
+          this.router.navigate(['/market',{id:this.playerId!}]);
           break;
         case 'INVENTORY':
           this.router.navigate(['/inventory',{id:this.playerId!}]);
