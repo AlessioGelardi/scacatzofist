@@ -7,7 +7,7 @@ import { StateDeckService } from '../../services/state/state-deck.service';
 import Swal from 'sweetalert2';
 import { StatePlayerService } from 'src/app/module/player/services/state/state-player.service';
 import { MessageService } from 'src/app/module/swalAlert/message.service';
-import { CdkDragEnd } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, CdkDragEnd, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-deck-edit',
@@ -36,6 +36,7 @@ export class DeckEditComponent implements OnInit {
   permission: boolean = true;
 
   dragDrop:boolean = true;
+  dragging:boolean = false;
 
   constructor(private router: Router,
     private deckStateService: StateDeckService,
@@ -176,7 +177,33 @@ export class DeckEditComponent implements OnInit {
   }
   
   showCard(card:Card) {
-    this.messageService.showDetailCard(card);
+    if(!this.dragging) {
+      this.messageService.showDetailCard(card);
+    }
+  }
+
+  onDragStart(): void {
+    this.dragging = true;
+  }
+  
+  onDragEnd(): void {
+    setTimeout(() => {
+      this.dragging = false;
+    }, 10);
+  }
+
+  onDrop(event: CdkDragDrop<Card[]>) {
+    console.log(event)
+    if(event.previousContainer === event.container) {
+      moveItemInArray(event.container.data,event.previousIndex,event.currentIndex)
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      )
+    }
   }
 
   addCard(card:Card) {
