@@ -7,3 +7,7 @@ label {
 .grigino {
     background-color: #8a8989;
 }
+
+table tr td, table tr th{
+    background-color: transparent !important;
+}

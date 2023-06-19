@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { Button } from 'src/app/module/interface/button';
 import { Card, Deck } from 'src/app/module/interface/card';
 import { StateDeckService } from '../../services/state/state-deck.service';
 import Swal from 'sweetalert2';
 import { StatePlayerService } from 'src/app/module/player/services/state/state-player.service';
 import { MessageService } from 'src/app/module/swalAlert/message.service';
-import { CdkDrag, CdkDragDrop, CdkDragEnd, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, CdkDragEnd, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-deck-edit',
@@ -35,7 +34,7 @@ export class DeckEditComponent implements OnInit {
 
   permission: boolean = true;
 
-  dragDrop:boolean = true;
+  dragDrop:boolean = false;
   dragging:boolean = false;
 
   typeExtra = [65, 129, 8193, 8388609, 4161, 97, 4193, 637, 161, 4257, 2097313, 8225, 12321, 8388641];
@@ -77,11 +76,6 @@ export class DeckEditComponent implements OnInit {
     this.takeDeck();
   }
 
-  onDragEnded(event: CdkDragEnd) {
-    // Handle drag end event
-    console.log('Drag ended', event.source.element.nativeElement);
-  }
-
   buttonOperationHandler(code: any) {
     if(code) {
       switch(code) {
@@ -117,7 +111,14 @@ export class DeckEditComponent implements OnInit {
           const mainIntoExtra = this.checkMainIntoExtra();
 
           if(!extraIntoMain && !mainIntoExtra) {
-            console.log(this.deck!)
+            this.deckStateService.updateDeck(this.deck!,this.deckId!).then((resp) => {
+              if(resp) {
+                this.deckStateService.resetPlayerDecks();
+                this.messageService.alert('Fatto!','Deck salvato con successo.','success');
+              } else {
+                this.messageService.alert('Errore','Qualcosa è andato storto durante il salvataggio del deck','error');
+              }
+            });
           } else {
             if(extraIntoMain) {
               this.messageService.alert('Errore',"Il main deck non deve contenere carte di tipo fusione,synchro o xyz, per favore spostale nell'extra deck",'error');
@@ -127,16 +128,6 @@ export class DeckEditComponent implements OnInit {
               this.messageService.alert('Errore',"L'extra deck deve contenere carte solo di tipo fusione,synchro o xyz, per favore sposta il resto delle carte nel main deck",'error');
             }
           }
-
-          /*
-          this.deckStateService.updateDeck(this.deck!,this.deckId!).then((resp) => {
-            if(resp) {
-              this.deckStateService.resetPlayerDecks();
-              this.messageService.alert('Fatto!','Deck salvato con successo.','success');
-            } else {
-              this.messageService.alert('Errore','Qualcosa è andato storto durante il salvataggio del deck','error');
-            }
-          });*/
           break;
       }
     }
