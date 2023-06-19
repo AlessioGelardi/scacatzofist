@@ -11,7 +11,7 @@ import { MessageService } from 'src/app/module/swalAlert/message.service';
 @Component({
   selector: 'app-market',
   templateUrl: './market.component.html',
-  styleUrls: ['./market.component.css']
+  styleUrls: ['../../styles/market.css','./market.component.css']
 })
 export class MarketComponent implements OnInit {
 
