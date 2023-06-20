@@ -50,7 +50,7 @@ export class StateNotifierService {
     return response;
   }
 
-  async getReqs(id:string, history:boolean = false, myReqs:boolean = false) {
+  async getReqs(id:string, history:boolean = false, myReqs:boolean = false, typeMode:number) {
     this.spinnerService.show();
 
     let result: DictReqs = {};
@@ -65,7 +65,7 @@ export class StateNotifierService {
     try {
       do {
 
-        const response = await firstValueFrom(this.notifierService.getReqs(id, maxPageNum, limit, myReqs, history));
+        const response = await firstValueFrom(this.notifierService.getReqs(id, maxPageNum, limit, myReqs, history,typeMode));
 
         count = response.length;
         obj[maxPageNum.toString()] = response;

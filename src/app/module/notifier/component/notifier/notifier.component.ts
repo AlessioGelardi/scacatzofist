@@ -233,7 +233,7 @@ export class NotifierComponent implements OnInit {
 
   private takeReqs(history:boolean, myReqs: boolean = false) {
     this.pageSelected = "1";
-    this.notifierStateService.getReqs(this.playerId!,history,myReqs).then((resp) => {
+    this.notifierStateService.getReqs(this.playerId!,history,myReqs,this.typeMode!).then((resp) => {
       if(resp) {
         this.dictReqs = resp;
       } else {

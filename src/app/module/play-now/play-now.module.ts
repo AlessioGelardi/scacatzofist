@@ -5,7 +5,7 @@ import { PlayerModule } from '../player/player.module';
 import { PlayNowButtonsComponent } from './component/play-now-buttons/play-now-buttons.component';
 import { PlayNowScontroComponent } from './component/play-now-scontro/play-now-scontro.component';
 import { PlayNowTrainingComponent } from './component/play-now-training/play-now-training.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FilterPlayerPipe } from './pipe/filter-player.pipe';
 import { PlayNowPuntataComponent } from './component/play-now-puntata/play-now-puntata.component';
 import { PlayNowPlayersComponent } from './component/play-now-players/play-now-players.component';
@@ -25,6 +25,7 @@ import { PlayNowPlayersComponent } from './component/play-now-players/play-now-p
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     PlayerModule
   ]
 })

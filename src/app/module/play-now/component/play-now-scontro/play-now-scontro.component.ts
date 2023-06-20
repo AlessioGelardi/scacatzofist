@@ -20,6 +20,9 @@ export class PlayNowScontroComponent implements OnInit {
 
   viewFilter = false;
 
+  vincita:any;
+  perdita:any;
+
   constructor(private route: ActivatedRoute,
     private router: Router,
     private messageService: MessageService,
@@ -41,6 +44,15 @@ export class PlayNowScontroComponent implements OnInit {
 
     this.playerId = this.route.snapshot.paramMap.get('id')!;
     this.takePlayer(this.playerId);
+
+    this.perdita = {
+      "credits": 5,
+      "coin": 200
+    }
+    this.vincita = {
+      "credits": 2,
+      "coin": 100
+    }
   }
 
   buttonOperationHandler(code: any) {
