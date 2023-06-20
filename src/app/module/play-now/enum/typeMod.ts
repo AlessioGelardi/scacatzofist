@@ -1,5 +1,6 @@
 export enum TypeMod {
     ALL = 0,
     SCONTRO = 1,
-    PUNTATA = 2
+    TRAINING = 2,
+    PUNTATA = 3
 }

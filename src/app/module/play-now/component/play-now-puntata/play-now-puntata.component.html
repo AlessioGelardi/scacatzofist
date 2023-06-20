@@ -6,4 +6,42 @@
 
 <playnow-buttons [buttons]="buttons" (buttonOperation)="buttonOperationHandler($event)"></playnow-buttons>
 
-<play-now-players [playerId]="playerId!" [typeMode]="TypeMod.PUNTATA"></play-now-players>
+<div class="row mt-3 d-flex justify-content-center text-center">
+    <div class="col-5">
+        <label>Decidi la puntata</label>
+    </div>
+</div>
+<div class="row mt-3">
+    <form [formGroup]="puntataForm" class="d-flex justify-content-center text-center">
+        <div class="col-3 m-2 p-3">
+            <div class="row">
+                <label>Coin <strong *ngIf="this.puntataForm.value.coin!>=0"><label>{{this.puntataForm.value.coin}}</label></strong></label>
+            </div>
+            <div class="row">
+                <input type="range" class="form-control" id="coin" formControlName="coin" min="0" max={{player!.coin}}>
+            </div>
+        </div>
+        <div class="col-3 m-2 p-3">
+            <div class="row">
+                <label>Credits <strong *ngIf="this.puntataForm.value.credits!>=0"><label>{{this.puntataForm.value.credits}}</label></strong></label>
+            </div>
+            <div class="row">
+                <input type="range" class="form-control" id="credits" formControlName="credits" min="0" max={{player!.credits}}>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="row">
+    <div class="d-flex justify-content-center">
+        <button class="btn btn-lg rounded grigino" style="margin-right: 5px" (click)="confirmPuntata()">CONFERMA PUNTATA</button>
+    </div>
+</div>
+
+
+<play-now-players *ngIf="viewPlayers"
+    [playerId]="playerId!"
+    [typeMode]="TypeMod.PUNTATA"
+    [rewardVincita]="vincita"
+    [rewardPerdita]="perdita">
+</play-now-players>

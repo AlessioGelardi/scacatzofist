@@ -9,12 +9,14 @@ import { TypeMod } from '../../enum/typeMod';
 @Component({
   selector: 'play-now-players',
   templateUrl: './play-now-players.component.html',
-  styleUrls: ['./play-now-players.component.css']
+  styleUrls: ['../../styles/play-now.css','./play-now-players.component.css']
 })
 export class PlayNowPlayersComponent {
 
   @Input() playerId!: string;
   @Input() typeMode!: number;
+  @Input() rewardVincita: any;
+  @Input() rewardPerdita: any;
 
   players: Player[] = [];
 
@@ -31,18 +33,19 @@ export class PlayNowPlayersComponent {
   }
 
   inviaRichiesta(playerId:string,playerName:string) {
-    if(this.typeMode===TypeMod.PUNTATA) {
-      
-    } else {
-      this.sendPlayRequest(playerId, playerName);
+    let playName = "";
+    switch(this.typeMode) {
+      case TypeMod.SCONTRO:
+        playName = 'Scontro'
+        break;
+      case TypeMod.PUNTATA:
+        playName = 'Puntata'
+        break;
     }
-    
-  }
 
-  private sendPlayRequest(playerId:string,playerName:string) {
     Swal.fire({
       title: 'Sei sicuro?',
-      text: "Confermando invierai la richiesta di modalità 'Scontro' a "+playerName+"!",
+      text: "Confermando invierai la richiesta di modalità "+ playName +" a "+playerName+"!",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -56,6 +59,8 @@ export class PlayNowPlayersComponent {
         request.playerIdOppo = playerId;
         request.status = 1;
         request.bonus = this.playerStateService.getBonus() && this.typeMode===1;
+        request.vincita = this.rewardVincita;
+        request.perdita = this.rewardPerdita;
 
         this.notifierStateService.inviaRichiesta(request).then((resp) => {
           if(resp === true) {
