@@ -18,4 +18,7 @@
 .timer span:nth-child(even) {
     opacity: 0.6;
 }
-  
+
+table tr td, table tr th{
+    background-color: transparent !important;
+}
