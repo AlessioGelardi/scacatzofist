@@ -1,34 +1,36 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Button } from 'src/app/module/interface/button';
 import { Player } from 'src/app/module/interface/player';
+import { StateNotifierService } from 'src/app/module/notifier/services/state/state-notifier.service';
 import { StatePlayerService } from 'src/app/module/player/services/state/state-player.service';
 import { MessageService } from 'src/app/module/swalAlert/message.service';
 import { TypeMod } from '../../enum/typeMod';
 
 @Component({
-  selector: 'app-play-now',
-  templateUrl: './play-now.component.html',
-  styleUrls: ['./play-now.component.css']
+  selector: 'app-play-now-puntata',
+  templateUrl: './play-now-puntata.component.html',
+  styleUrls: ['./play-now-puntata.component.css']
 })
-export class PlayNowComponent implements OnInit {
+export class PlayNowPuntataComponent {
 
   buttons: Button[] = [];
 
   player:Player | undefined;
+  playerId: string | undefined;
 
   constructor(private route: ActivatedRoute,
     private router: Router,
     private messageService: MessageService,
+    private notifierStateService: StateNotifierService,
     private playerStateService: StatePlayerService) { }
 
   ngOnInit(): void {
-
     this.buttons = [
       {
-        name: "HOME-BUTTON",
-        code: "HOME",
-        class: "fa fa-home"
+        name: "BACK-BUTTON",
+        code: "BACK",
+        class: "fa fa-arrow-left"
       },
       {
         name: "REQUEST-BUTTON",
@@ -37,44 +39,25 @@ export class PlayNowComponent implements OnInit {
       }
     ];
 
-    const playerId = this.route.snapshot.paramMap.get('id')!; 
-    this.takePlayer(playerId);
-
-    const bonus:boolean = this.route.snapshot.paramMap.get('bonus') === "true";
-    this.playerStateService.setBonus(bonus);
+    this.playerId = this.route.snapshot.paramMap.get('id')!;
+    this.takePlayer(this.playerId);
   }
 
   buttonOperationHandler(code: any) {
     if(code) {
       switch(code) {
-        case 'HOME':
-          this.router.navigate(['/home']);
+        case 'BACK':
+          this.router.navigate(['/playnow',{id:this.playerId}]);
           break;
         case 'REQUEST':
-          this.router.navigate(['/request',{id:this.player?._id!,typeMode:TypeMod.ALL}]);
+          this.router.navigate(['/request',{id:this.playerId,typeMode:TypeMod.SCONTRO, playerRole: this.player?.ruolo!}]);
           break;
       }
     }
   }
 
-  scontro() {
-    this.router.navigate(['/scontro',{id:this.player!._id}]);
-  }
-
-  training() {
-    this.router.navigate(['/training',{id:this.player!._id}]);
-  }
-
-  puntata() {
-    this.router.navigate(['/puntata',{id:this.player!._id}]);
-  }
-
-  cardbettle() {
-    this.messageService.alert('In progress...',"Questa funzionalità è ancora in sviluppo... Ci dispiace per l'inconveniente torna più tardi !!! ",'info');
-  }
-
-  torneo() {
-    this.messageService.alert('In progress...',"Questa funzionalità è ancora in sviluppo... Ci dispiace per l'inconveniente torna più tardi !!! ",'info');
+  public get TypeMod() {
+    return TypeMod; 
   }
 
   private takePlayer(playerId: string) {
