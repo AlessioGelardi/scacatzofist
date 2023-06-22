@@ -1,7 +1,3 @@
-<!-- <div class="row d-flex justify-content-around mt-3">
-    <button type="button" class="col-2 btn btn-lg rounded-pill grigino " (click)="refresh()"><i class='fa fa-refresh'></i></button>
-</div> -->
-
 <notifier-buttons [buttons]="buttons" (buttonOperation)="buttonOperationHandler($event)"></notifier-buttons>
 
 <div class="mt-4">
@@ -37,26 +33,3 @@
         </tbody>
     </table>
 </div>
-
-<!-- 
-<div class="mt-5">
-    <label>Le tue richieste inviate</label>
-    <table class="table table-hover mt-2 text-center">
-        <thead>
-            <tr>
-                <th scope="col">Status</th>
-                <th scope="col">Player Ricevente</th>
-                <th scope="col">Modalità</th>
-                <th scope="col">Data</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let req of myReqs" (click)="doDetail(req)">
-                <td>{{Status[req.status]}}</td>
-                <td>{{req.playerRicevente}}</td>
-                <td>{{TypeMod[req.typeMod]}}</td>
-                <td>{{req.dataUpdate}}</td>
-            </tr>
-        </tbody>
-    </table>
-</div> -->

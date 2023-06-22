@@ -82,7 +82,7 @@ export class NotifierComponent implements OnInit {
           this.takeReqs(this.history, this.viewMyReqs);
           break;
         case 'REFRESH':
-          this.history = false;
+          //this.history = false;
           this.viewMyReqs = false;
           //this.notifierStateService.resetState();
           this.takeReqs(this.history);
@@ -105,6 +105,11 @@ export class NotifierComponent implements OnInit {
     
     if(req.status === 1) {
 
+      let nota="";
+      if(typeMod===TypeMod.SCONTRO) {
+        nota = 'Se non è presente il "-" davanti la sconfitta significa che se perdi, il tuo credito verrà comunque incrementato, in questo caso di <strong>'+perdita.coin+' <i class="fa fa fa-database"></i> '+perdita.credits+' <i class="fa fa fa-diamond"></i> </strong><br><br>';
+      }
+
       if(req.playerIdReq !== this.playerId) {
         Swal.fire({
           title: 'Dettaglio Richiesta',
@@ -112,8 +117,7 @@ export class NotifierComponent implements OnInit {
           html:
           '<strong>'+richiedente+'</strong> ti ha invitato in Modalità <strong>'+TypeMod[typeMod]+'</strong> <br><br>'+
           'Vincita: <strong>'+vincita.coin+' <i class="fa fa fa-database"></i> '+vincita.credits+' <i class="fa fa fa-diamond"></i></strong><br>'+
-          'Sconfitta: <strong>'+perdita.coin+' <i class="fa fa fa-database"></i> '+perdita.credits+' <i class="fa fa fa-diamond"></i></strong><br><br>'+
-          'Se non è presente il "-" davanti la sconfitta significa che se perdi, il tuo credito verrà comunque incrementato, in questo caso di <strong>'+perdita.coin+' <i class="fa fa fa-database"></i> '+perdita.credits+' <i class="fa fa fa-diamond"></i> </strong><br><br>',
+          'Sconfitta: <strong>'+perdita.coin+' <i class="fa fa fa-database"></i> '+perdita.credits+' <i class="fa fa fa-diamond"></i></strong><br><br>'+nota,
           showDenyButton: true,
           confirmButtonText:
             '<i class="fa fa-check"></i> Accetta!',
@@ -123,6 +127,28 @@ export class NotifierComponent implements OnInit {
           let newstatus = 0;
           if (result.isConfirmed) {
             newstatus = 2;
+            if(typeMod===TypeMod.PUNTATA) {
+             
+              this.playerStateService.getPlayer(this.playerId!).then((resp) => {
+                if(resp) {
+                  const player = resp;
+
+                  if(vincita.credits > player.credits! || vincita.coin > player.coin!) {
+                    newstatus = 4;
+                    this.messageService.alert('Attenzione!','Non hai abbastanza coin o crediti per accettare questa richiesta, per questo motivo verrà RIFIUTATA','info');
+                  }
+                } else {
+                  //TO-DO gestione degli errori
+                  /*
+                  if(resp.status===402) {
+                    this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+                  }
+                  */
+          
+                  this.messageService.alert('Attenzione!','Errore durante la chiamata getPlayer','error');
+                }
+              });
+            }
           } else if (result.isDenied) {
             newstatus = 4;
           }
@@ -214,7 +240,7 @@ export class NotifierComponent implements OnInit {
         this.messageService.alert('Info',"Partita conclusa! <br> Il vincitore: <strong>"+vincitore+'</strong><br><br>' + 'Vincita: <strong>'+vincita.coin+' <i class="fa fa fa-database"></i> '+vincita.credits+' <i class="fa fa fa-diamond"></i></strong>','info');
       }
     }else {
-      this.messageService.alert('Info',"Questa richiesta è stata annullata, creane una nuova!",'info');
+      this.messageService.alert('Info',"Questa richiesta è stata rifiutata, creane una nuova!",'info');
     }
     
   }
