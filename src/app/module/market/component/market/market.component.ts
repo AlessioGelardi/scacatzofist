@@ -118,6 +118,8 @@ export class MarketComponent implements OnInit {
           if(resp === true) {
             this.messageService.alert('Fatto!','Vendita eliminata con successo!','success');
             this.marketStateService.resetState();
+            this.playerStateService.resetZaino();
+            this.playerStateService.resetInventory();
             this.takeMarketPlace();
           } else {
             if(resp && resp.status !== 200) {
