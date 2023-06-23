@@ -108,6 +108,22 @@ export class StatePlayerService {
     return this.zaino;
   }
 
+  async getZainoNoCache(id:string) {
+    this.spinnerService.show();
+
+    let zaino: Card[] = []
+
+    try {
+      const response = await firstValueFrom(this.playerService.getZaino(id));
+      zaino = response;
+      this.spinnerService.hide();
+    } catch(error:any) {
+      this.spinnerService.hide();
+    }
+
+    return zaino;
+  }
+
   async getInventory(id:string) {
     this.spinnerService.show();
 

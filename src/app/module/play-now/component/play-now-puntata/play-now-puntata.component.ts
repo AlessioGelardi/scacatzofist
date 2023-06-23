@@ -25,11 +25,13 @@ export class PlayNowPuntataComponent {
   perdita: any;
 
   viewPlayers = false;
+  viewCardBet = false;
 
   puntataForm = new FormGroup({
     coin: new FormControl(0),
     credits: new FormControl(0),
-    cards: new FormControl([]), 
+    cards: new FormControl([]),
+    iscards: new FormControl(false)
   });
 
   constructor(private route: ActivatedRoute,
@@ -56,29 +58,33 @@ export class PlayNowPuntataComponent {
   }
 
   confirmPuntata() {
-    Swal.fire({
-      title: 'Sei sicuro?',
-      text: "Confermando metterai in palio "+ this.puntataForm.value.coin +" coin "+ this.puntataForm.value.credits +" credits!",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, conferma puntata!'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.vincita = {
-          "coin": this.puntataForm.value.coin,
-          "credits": this.puntataForm.value.credits,
-          "cards": this.puntataForm.value.cards
+    if(this.puntataForm.value.coin !== 0 || this.puntataForm.value.credits !== 0 || this.puntataForm.value.iscards !== false) {
+      Swal.fire({
+        title: 'Sei sicuro?',
+        text: "Confermando metterai in palio "+ this.puntataForm.value.coin +" coin "+ this.puntataForm.value.credits +" credits!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, conferma puntata!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.vincita = {
+            "coin": this.puntataForm.value.coin,
+            "credits": this.puntataForm.value.credits
+          }
+          this.perdita = {
+            "coin": -(this.vincita.coin),
+            "credits": -(this.vincita.credits)
+          };
+          this.viewPlayers = true;
+          this.viewCardBet = this.puntataForm.value.iscards!;
         }
-        this.perdita = {
-          "coin": -(this.vincita.coin),
-          "credits": -(this.vincita.credits),
-          "cards": this.puntataForm.value.cards
-        };
-        this.viewPlayers = true;
-      }
-    })
+      })
+    } else {
+      this.messageService.alert('Attenzione!','Devi mettere in puntata qualcosa!','error');
+    }
+    
   }
 
   buttonOperationHandler(code: any) {

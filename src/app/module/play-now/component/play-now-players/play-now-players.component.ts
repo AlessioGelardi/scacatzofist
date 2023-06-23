@@ -5,6 +5,8 @@ import { StatePlayerService } from 'src/app/module/player/services/state/state-p
 import { MessageService } from 'src/app/module/swalAlert/message.service';
 import Swal from 'sweetalert2';
 import { TypeMod } from '../../enum/typeMod';
+import { Card } from 'src/app/module/interface/card';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'play-now-players',
@@ -15,12 +17,23 @@ export class PlayNowPlayersComponent {
 
   @Input() playerId!: string;
   @Input() typeMode!: number;
-  @Input() rewardVincita: any;
   @Input() rewardPerdita: any;
+  @Input() rewardVincita: any;
+  @Input() viewCardBet: boolean = false;
 
   players: Player[] = [];
+  oppoPlayerId: string | undefined;
+  oppoPlayerName:string | undefined;
 
   filterName:string | undefined;
+
+  showZaini:boolean = false;
+  myZaino: Card[] = [];
+  oppoZaino: Card[] = [];
+  myPlate: Card[] = [];
+  oppoPlate: Card[] = [];
+
+  dragging:boolean = false;
 
   constructor(private messageService: MessageService,
     private notifierStateService: StateNotifierService,
@@ -58,9 +71,25 @@ export class PlayNowPlayersComponent {
         request.playerIdReq = this.playerId;
         request.playerIdOppo = playerId;
         request.status = 1;
-        request.bonus = this.playerStateService.getBonus() && this.typeMode===1;
+        request.bonus = this.playerStateService.getBonus() && this.typeMode===TypeMod.SCONTRO;
         request.vincita = this.rewardVincita;
         request.perdita = this.rewardPerdita;
+
+        if(this.typeMode===TypeMod.PUNTATA) {
+          if(this.myPlate.length>0) {
+            request.plateReq = []
+            for(let card of this.myPlate) {
+              request.plateReq.push(card.id)
+            }
+          }
+
+          if(this.oppoPlate.length>0) {
+            request.plateOppo = []
+            for(let card of this.oppoPlate) {
+              request.plateOppo.push(card.id)
+            }
+          }
+        }
 
         this.notifierStateService.inviaRichiesta(request).then((resp) => {
           if(resp === true) {
@@ -82,6 +111,49 @@ export class PlayNowPlayersComponent {
     })
   }
 
+  public get TypeMod() {
+    return TypeMod; 
+  }
+
+  viewZaini(oppoPlayerId:string,playerName:string) {
+    this.showZaini=true;
+
+    this.oppoPlayerId = oppoPlayerId;
+    this.oppoPlayerName = playerName;
+
+    this.takeZaino(this.oppoPlayerId);
+    this.takeZaino(this.playerId);
+  }
+
+  showCard(card:Card) {
+    if(!this.dragging) {
+      this.messageService.showDetailCard(card);
+    }
+  }
+
+  onDragStart(): void {
+    this.dragging = true;
+  }
+  
+  onDragEnd(): void {
+    setTimeout(() => {
+      this.dragging = false;
+    }, 10);
+  }
+
+  onDrop(event: CdkDragDrop<Card[]>) {
+    if(event.previousContainer === event.container) {
+      moveItemInArray(event.container.data,event.previousIndex,event.currentIndex)
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      )
+    }
+  }
+
   private takeAllPlayers(id:string) {
     
     this.playerStateService.getAllPlayers(id).then((resp) => {
@@ -98,6 +170,41 @@ export class PlayNowPlayersComponent {
         this.messageService.alert('Attenzione!','Errore durante la chiamata getAllPlayers','error');
       }
     });
+  }
+
+  private takeZaino(playerId:string) {
+    if(this.playerId === playerId) {
+      this.playerStateService.getZaino(playerId).then((resp) => {
+        if(resp) {
+          this.myZaino=resp
+        } else {
+          //TO-DO gestione degli errori
+          /*
+          if(resp.status===402) {
+            this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+          }
+          */
+  
+          this.messageService.alert('Attenzione!','Errore durante la chiamata getZaino','error');
+        }
+      });
+    } else {
+      this.playerStateService.getZainoNoCache(playerId).then((resp) => {
+        if(resp) {
+          this.oppoZaino=resp
+        } else {
+          //TO-DO gestione degli errori
+          /*
+          if(resp.status===402) {
+            this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+          }
+          */
+  
+          this.messageService.alert('Attenzione!','Errore durante la chiamata getZaino','error');
+        }
+      });
+    }
+
   }
 
 }

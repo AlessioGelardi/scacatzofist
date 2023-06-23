@@ -1,4 +1,4 @@
-<div class="row mt-3 d-flex justify-content-center text-center">
+<div class="row mt-3 d-flex justify-content-center text-center" *ngIf="!showZaini">
     <div class="col-5">
         <label>Decidi con chi duellare</label>
         <input [(ngModel)]="filterName" type="text" class="mt-3 form-control sfondino" placeholder="Cerca user" autofocus>
@@ -6,7 +6,53 @@
     
     <div class="mt-3">
         <div *ngFor="let player of players | filterPlayer: filterName!">
-            <button class="col-7 m-2 btn btn-lg rounded grigino" (click)="inviaRichiesta(player._id!,player.name)">{{player.name}}</button>
+            <button *ngIf="!viewCardBet" class="col-7 m-2 btn btn-lg rounded grigino" (click)="inviaRichiesta(player._id!,player.name)">{{player.name}}</button>
+            <button *ngIf="viewCardBet" class="col-7 m-2 btn btn-lg rounded grigino" (click)="viewZaini(player._id!,player.name)">{{player.name}}</button>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4 d-flex justify-content-center text-center" *ngIf="showZaini">
+    <button class="col-7 m-2 btn btn-lg rounded grigino" (click)="inviaRichiesta(oppoPlayerId!,oppoPlayerName!)">INVIA RICHIESTA</button>
+</div>
+
+<div class="row mt-3" *ngIf="showZaini">
+    <div class="col-3" style="padding-right:80px">
+        <label>LE MIE CARTE</label>
+        <div *ngIf="myZaino.length>0" class="row mt-2" cdkDropList (cdkDropListDropped)="onDrop($event)" [cdkDropListData]="myZaino" id="myZaino" [cdkDropListConnectedTo]="['myPlate']">
+            <div *ngFor="let card of myZaino" class="col-3" cdkDrag (click)="showCard(card)" (cdkDragStarted)="onDragStart()" (cdkDragEnded)="onDragEnd()">
+                <img class="deckcard" src="{{'https://images.ygoprodeck.com/images/cards/'+card?.id+'.jpg'}}"  />
+            </div>
+        </div>
+    </div>
+    <div class="col-3" style="padding-right:80px">
+        <label>MIA PUNTATA</label>
+        <div *ngIf="myPlate.length>0" class="row mt-2" cdkDropList (cdkDropListDropped)="onDrop($event)" [cdkDropListData]="myPlate" id="myPlate" [cdkDropListConnectedTo]="['myZaino']">
+            <div *ngFor="let card of myPlate" class="col-3" cdkDrag (click)="showCard(card)" (cdkDragStarted)="onDragStart()" (cdkDragEnded)="onDragEnd()">
+                <img class="deckcard" src="{{'https://images.ygoprodeck.com/images/cards/'+card?.id+'.jpg'}}"  />
+            </div>
+        </div>
+        <div *ngIf="myPlate.length<=0" cdkDropList (cdkDropListDropped)="onDrop($event)" [cdkDropListData]="myPlate" id="myPlate" [cdkDropListConnectedTo]="['myZaino']" >
+            <div class="area-drop mt-2"></div>
+        </div>
+    </div>
+    <div class="col-3" style="padding-right:80px">
+        <label>PUNTATA AVVERSARIO</label>
+        <div *ngIf="oppoPlate.length>0" class="row mt-2" cdkDropList (cdkDropListDropped)="onDrop($event)" [cdkDropListData]="oppoPlate" id="oppoPlate" [cdkDropListConnectedTo]="['oppoZaino']">
+            <div *ngFor="let card of oppoPlate" class="col-3" cdkDrag (click)="showCard(card)" (cdkDragStarted)="onDragStart()" (cdkDragEnded)="onDragEnd()">
+                <img class="deckcard" src="{{'https://images.ygoprodeck.com/images/cards/'+card?.id+'.jpg'}}"  />
+            </div>
+        </div>
+        <div *ngIf="oppoPlate.length<=0" cdkDropList (cdkDropListDropped)="onDrop($event)" [cdkDropListData]="oppoPlate" id="oppoPlate" [cdkDropListConnectedTo]="['oppoZaino']" >
+            <div class="area-drop mt-2"></div>
+        </div>
+    </div>
+    <div class="col-3" style="padding-right:80px">
+        <label>CARTE AVVERSARIO</label>
+        <div *ngIf="oppoZaino.length>0" class="row mt-2" cdkDropList (cdkDropListDropped)="onDrop($event)" [cdkDropListData]="oppoZaino" id="oppoZaino" [cdkDropListConnectedTo]="['oppoPlate']">
+            <div *ngFor="let card of oppoZaino" class="col-3" cdkDrag (click)="showCard(card)" (cdkDragStarted)="onDragStart()" (cdkDragEnded)="onDragEnd()"> 
+                <img class="deckcard" src="{{'https://images.ygoprodeck.com/images/cards/'+card?.id+'.jpg'}}"  />
+            </div>
         </div>
     </div>
 </div>
