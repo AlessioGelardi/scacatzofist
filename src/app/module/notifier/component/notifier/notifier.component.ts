@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'src/app/module/swalAlert/message.service';
 import { StatePlayerService } from 'src/app/module/player/services/state/state-player.service';
 import { Button } from 'src/app/module/interface/button';
+import { Card } from 'src/app/module/interface/card';
 
 @Component({
   selector: 'app-notifier',
@@ -103,21 +104,50 @@ export class NotifierComponent implements OnInit {
     const perdita = req.perdita;
     const vincitore = req.vincitore;
     
+    let myPlate = req.plateReq;
+    let oppoPlate =  req.plateOppo;
+
+    let nota="";
+    if(typeMod===TypeMod.SCONTRO) {
+      nota = 'Se non è presente il "-" davanti la sconfitta significa che se perdi, il tuo credito verrà comunque incrementato, in questo caso di <strong>'+perdita.coin+' <i class="fa fa fa-database"></i> '+perdita.credits+' <i class="fa fa fa-diamond"></i> </strong><br><br>';
+    }
+    
     if(req.status === 1) {
 
-      let nota="";
-      if(typeMod===TypeMod.SCONTRO) {
-        nota = 'Se non è presente il "-" davanti la sconfitta significa che se perdi, il tuo credito verrà comunque incrementato, in questo caso di <strong>'+perdita.coin+' <i class="fa fa fa-database"></i> '+perdita.credits+' <i class="fa fa fa-diamond"></i> </strong><br><br>';
-      }
-
       if(req.playerIdReq !== this.playerId) {
+
+        let showMyPlate = "";
+        let showOppoPlate = "";
+        if(typeMod===TypeMod.PUNTATA) {
+          if(myPlate!.length>0) {
+            showMyPlate="<div id=\"myplate\">"
+            showMyPlate += "<label>CARTE IN PALIO DA PARTE DI <strong>"+richiedente+"</strong></label><br><br>"
+            for(let card of myPlate!) {
+              showMyPlate += "<img style=\"max-width:100px\" src=\"https://images.ygoprodeck.com/images/cards/"+card+".jpg\" \/\>";
+            }
+            showMyPlate += "</div><br><br>"
+          }
+          if(oppoPlate!.length>0) {
+            showOppoPlate="<div id=\"myplate\">"
+            showOppoPlate += "<label>CARTE IN PALIO DA PARTE DI <strong>"+ricevente+"</strong></label><br><br>"
+            for(let card of oppoPlate!) {
+              showOppoPlate += "<img style=\"max-width:100px\" src=\"https://images.ygoprodeck.com/images/cards/"+card+".jpg\" \/\>";
+            }
+            showOppoPlate += "</div><br><br>"
+          }
+        }
+
+
         Swal.fire({
           title: 'Dettaglio Richiesta',
           icon: 'info',
           html:
-          '<strong>'+richiedente+'</strong> ti ha invitato in Modalità <strong>'+TypeMod[typeMod]+'</strong> <br><br>'+
-          'Vincita: <strong>'+vincita.coin+' <i class="fa fa fa-database"></i> '+vincita.credits+' <i class="fa fa fa-diamond"></i></strong><br>'+
-          'Sconfitta: <strong>'+perdita.coin+' <i class="fa fa fa-database"></i> '+perdita.credits+' <i class="fa fa fa-diamond"></i></strong><br><br>'+nota,
+          '<label>'+richiedente+'<strong> VS </strong>'+ricevente+' <br><br>'+
+          'Vincita: <strong>'+vincita.coin+' <i class="fa fa fa-database"></i> '+vincita.credits+' <i class="fa fa fa-diamond"></i></strong><br><br>'+
+          'Sconfitta: <strong>'+perdita.coin+' <i class="fa fa fa-database"></i> '+perdita.credits+' <i class="fa fa fa-diamond"></i></strong><br><br>'+
+          showMyPlate+
+          showOppoPlate+
+          '<br>'+nota,
           showDenyButton: true,
           confirmButtonText:
             '<i class="fa fa-check"></i> Accetta!',
@@ -179,9 +209,11 @@ export class NotifierComponent implements OnInit {
         icon: 'info',
         html:
         '<label>'+richiedente+'<strong> VS </strong>'+ricevente+' <br><br>'+
-        'Vincita: <strong>'+vincita.coin+' <i class="fa fa fa-database"></i> '+vincita.credits+' <i class="fa fa fa-diamond"></i></strong><br>'+
+        'Vincita: <strong>'+vincita.coin+' <i class="fa fa fa-database"></i> '+vincita.credits+' <i class="fa fa fa-diamond"></i></strong><br><br>'+
+
         'Sconfitta: <strong>'+perdita.coin+' <i class="fa fa fa-database"></i> '+perdita.credits+' <i class="fa fa fa-diamond"></i></strong><br><br>'+
-        'Se non è presente il "-" davanti la sconfitta significa che se perdi, il tuo credito verrà comunque incrementato, in questo caso di <strong>'+perdita.coin+' <i class="fa fa fa-database"></i> '+perdita.credits+' <i class="fa fa fa-diamond"></i> </strong><br><br>',
+
+        '<br>'+nota,
         showDenyButton: true,
         confirmButtonColor: '#46a9c9',
         denyButtonColor: '#46a9c9',

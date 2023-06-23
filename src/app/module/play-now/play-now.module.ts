@@ -9,6 +9,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FilterPlayerPipe } from './pipe/filter-player.pipe';
 import { PlayNowPuntataComponent } from './component/play-now-puntata/play-now-puntata.component';
 import { PlayNowPlayersComponent } from './component/play-now-players/play-now-players.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -25,6 +27,8 @@ import { PlayNowPlayersComponent } from './component/play-now-players/play-now-p
   imports: [
     CommonModule,
     FormsModule,
+    DragDropModule,
+    BrowserAnimationsModule,
     ReactiveFormsModule,
     PlayerModule
   ]

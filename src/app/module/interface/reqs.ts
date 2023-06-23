@@ -13,6 +13,8 @@ export interface Reqs {
     vincita:any;
     perdita:any;
     vincitore?:string;
+    plateReq?:number[];
+    plateOppo?:number[];
 }
 
 export interface DictReqs {
