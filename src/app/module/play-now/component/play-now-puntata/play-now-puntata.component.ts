@@ -94,7 +94,7 @@ export class PlayNowPuntataComponent {
           this.router.navigate(['/playnow',{id:this.playerId}]);
           break;
         case 'REQUEST':
-          this.router.navigate(['/request',{id:this.playerId,typeMode:TypeMod.SCONTRO, playerRole: this.player?.ruolo!}]);
+          this.router.navigate(['/request',{id:this.playerId,typeMode:TypeMod.PUNTATA, playerRole: this.player?.ruolo!}]);
           break;
       }
     }

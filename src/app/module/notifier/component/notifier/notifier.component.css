@@ -8,5 +8,9 @@
 }
 
 .minicard {
-    height: 500px;
+    height: 220px;
+}
+
+p {
+    font-size: 18px;
 }

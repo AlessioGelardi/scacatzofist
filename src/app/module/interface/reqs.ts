@@ -1,5 +1,6 @@
 import { Status } from "../notifier/enum/status";
 import { TypeMod } from "../play-now/enum/typeMod";
+import { Card } from "./card";
 
 export interface Reqs {
     id: string,
@@ -13,8 +14,8 @@ export interface Reqs {
     vincita:any;
     perdita:any;
     vincitore?:string;
-    plateReq?:number[];
-    plateOppo?:number[];
+    plateReq?:Card[];
+    plateOppo?:Card[];
 }
 
 export interface DictReqs {
