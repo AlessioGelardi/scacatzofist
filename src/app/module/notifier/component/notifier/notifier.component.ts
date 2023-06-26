@@ -154,37 +154,15 @@ export class NotifierComponent implements OnInit {
     let nota="";
     if(typeMod===TypeMod.SCONTRO) {
       nota = 'Se non è presente il "-" davanti la sconfitta significa che se perdi, il tuo credito verrà comunque incrementato, in questo caso di <strong>'+perdita.coin+' <i class="fa fa fa-database"></i> '+perdita.credits+' <i class="fa fa fa-diamond"></i> </strong><br><br>';
+    } else if(typeMod===TypeMod.PUNTATA) {
+      nota = 'Comprese le carte messe in palio e accettate in richiesta!'
     }
 
-    if(typeMod===TypeMod.PUNTATA) {
-      this.showMoreDetail = true;
-    } else {
-      if(req.status === 1) {
-        if(req.playerIdReq !== this.playerId) {
-          /*
-  
-          let showMyPlate = "";
-          let showOppoPlate = "";
-          if(typeMod===TypeMod.PUNTATA) {
-            if(myPlate!.length>0) {
-              showMyPlate="<div id=\"myplate\">"
-              showMyPlate += "<label>CARTE IN PALIO DA PARTE DI <strong>"+richiedente+"</strong></label><br><br>"
-              for(let card of myPlate!) {
-                showMyPlate += "<img style=\"max-width:100px\" src=\"https://images.ygoprodeck.com/images/cards/"+card+".jpg\" \/\>";
-              }
-              showMyPlate += "</div><br><br>"
-            }
-            if(oppoPlate!.length>0) {
-              showOppoPlate="<div id=\"myplate\">"
-              showOppoPlate += "<label>CARTE IN PALIO DA PARTE DI <strong>"+ricevente+"</strong></label><br><br>"
-              for(let card of oppoPlate!) {
-                showOppoPlate += "<img style=\"max-width:100px\" src=\"https://images.ygoprodeck.com/images/cards/"+card+".jpg\" \/\>";
-              }
-              showOppoPlate += "</div><br><br>"
-            }
-          }*/
-  
-  
+    if(req.status === Status.INVIATO) {
+      if(req.playerIdReq !== this.playerId) {
+        if(typeMod===TypeMod.PUNTATA) {
+          this.showMoreDetail = true;
+        } else {
           Swal.fire({
             title: 'Dettaglio Richiesta',
             icon: 'info',
@@ -207,78 +185,78 @@ export class NotifierComponent implements OnInit {
       
             this.updateReqs(req,newstatus); 
           })
-        } else {
-          this.messageService.alert('Info',"In attesa di risposta da parte di "+ricevente,'info');
+        } 
+      } else {
+        this.messageService.alert('Info',"In attesa di risposta da parte di "+ricevente,'info');
+      }
+      
+    } else if (req.status === Status.ACCETTATO) {
+      Swal.fire({
+        title: 'Decreta il vincitore',
+        icon: 'info',
+        html:
+        '<label>'+richiedente+'<strong> VS </strong>'+ricevente+' <br><br>'+
+        'Vincita: <strong>'+vincita.coin+' <i class="fa fa fa-database"></i> '+vincita.credits+' <i class="fa fa fa-diamond"></i></strong><br><br>'+
+        'Sconfitta: <strong>'+perdita.coin+' <i class="fa fa fa-database"></i> '+perdita.credits+' <i class="fa fa fa-diamond"></i></strong><br><br>'+nota,
+        showDenyButton: true,
+        confirmButtonColor: '#46a9c9',
+        denyButtonColor: '#46a9c9',
+        confirmButtonText:
+          richiedente,
+        denyButtonText:
+          ricevente
+      }).then((result) => {
+        let playerIdvincitore = "";
+        let playerIdperdente = "";
+        let vincitore = "";
+        let perdente = "";
+        if (result.isConfirmed) {
+          playerIdvincitore = req.playerIdReq;
+          vincitore = richiedente;
+          playerIdperdente = req.playerIdOppo;
+          perdente = ricevente;
+        } else if (result.isDenied) {
+          playerIdvincitore = req.playerIdOppo;
+          vincitore = ricevente;
+          playerIdperdente = req.playerIdReq;
+          perdente = richiedente;
         }
-        
-      } else if (req.status === 2) {
-        Swal.fire({
-          title: 'Decreta il vincitore',
-          icon: 'info',
-          html:
-          '<label>'+richiedente+'<strong> VS </strong>'+ricevente+' <br><br>'+
-          'Vincita: <strong>'+vincita.coin+' <i class="fa fa fa-database"></i> '+vincita.credits+' <i class="fa fa fa-diamond"></i></strong><br><br>'+
-          'Sconfitta: <strong>'+perdita.coin+' <i class="fa fa fa-database"></i> '+perdita.credits+' <i class="fa fa fa-diamond"></i></strong><br><br>'+nota,
-          showDenyButton: true,
-          confirmButtonColor: '#46a9c9',
-          denyButtonColor: '#46a9c9',
-          confirmButtonText:
-            richiedente,
-          denyButtonText:
-            ricevente
-        }).then((result) => {
-          let playerIdvincitore = "";
-          let playerIdperdente = "";
-          let vincitore = "";
-          let perdente = "";
-          if (result.isConfirmed) {
-            playerIdvincitore = req.playerIdReq;
-            vincitore = richiedente;
-            playerIdperdente = req.playerIdOppo;
-            perdente = ricevente;
-          } else if (result.isDenied) {
-            playerIdvincitore = req.playerIdOppo;
-            vincitore = ricevente;
-            playerIdperdente = req.playerIdReq;
-            perdente = richiedente;
-          }
-    
-          if(vincitore !== "") {
-            let request:any = {}
-            request.requestId = req.id;
-            request.playerIdvincitore = playerIdvincitore;
-            request.vincitore = vincitore;
-            request.playerIdperdente = playerIdperdente;
-            request.perdente = perdente;
-            request.status = 3;
-            request.role = this.playerRole;
-            this.notifierStateService.updateRequest(request).then((resp) => {
-              if(resp === true) {
-                //this.notifierStateService.resetState();
-                req.status = 3;
-                req.vincitore = vincitore;
-                this.messageService.alert('Partita Conclusa!','Richiesta aggiornata con successo!','success');
-                this.playerStateService.resetPlayerState();
-              } else {
-                if(resp) {
-                  const statusError = resp.status;
-                  if(statusError === 404) {
-                    this.messageService.alert('Attenzione!','Non fare il furbo seleziona correttamente il vincitore... piccolo delinquente!','error');
-                  } else {
-                    this.messageService.alert('Attenzione!',"Problema durante l'aggiornamento della richiesta",'error');
-                  }
+  
+        if(vincitore !== "") {
+          let request:any = {}
+          request.requestId = req.id;
+          request.playerIdvincitore = playerIdvincitore;
+          request.vincitore = vincitore;
+          request.playerIdperdente = playerIdperdente;
+          request.perdente = perdente;
+          request.status = 3;
+          request.role = this.playerRole;
+          this.notifierStateService.updateRequest(request).then((resp) => {
+            if(resp === true) {
+              //this.notifierStateService.resetState();
+              req.status = 3;
+              req.vincitore = vincitore;
+              this.messageService.alert('Partita Conclusa!','Richiesta aggiornata con successo!','success');
+              this.playerStateService.resetPlayerState();
+            } else {
+              if(resp) {
+                const statusError = resp.status;
+                if(statusError === 404) {
+                  this.messageService.alert('Attenzione!','Non fare il furbo seleziona correttamente il vincitore... piccolo delinquente!','error');
+                } else {
+                  this.messageService.alert('Attenzione!',"Problema durante l'aggiornamento della richiesta",'error');
                 }
               }
-            });
-          }
-        })
-      } else if(req.status === 3) {
-        if(vincitore!) {
-          this.messageService.alert('Info',"Partita conclusa! <br> Il vincitore: <strong>"+vincitore+'</strong><br><br>' + 'Vincita: <strong>'+vincita.coin+' <i class="fa fa fa-database"></i> '+vincita.credits+' <i class="fa fa fa-diamond"></i></strong>','info');
+            }
+          });
         }
-      }else {
-        this.messageService.alert('Info',"Questa richiesta è stata rifiutata, creane una nuova!",'info');
+      })
+    } else if(req.status === Status.COMPLETATO) {
+      if(vincitore!) {
+        this.messageService.alert('Info',"Partita conclusa! <br> Il vincitore: <strong>"+vincitore+'</strong><br><br>' + 'Vincita: <strong>'+vincita.coin+' <i class="fa fa fa-database"></i> '+vincita.credits+' <i class="fa fa fa-diamond"></i></strong>','info');
       }
+    }else {
+      this.messageService.alert('Info',"Questa richiesta è stata rifiutata, creane una nuova!",'info');
     }
   }
 
@@ -304,11 +282,16 @@ export class NotifierComponent implements OnInit {
           //this.notifierStateService.resetState();
           req.status = newstatus;
           this.messageService.alert('Aggiornato!','Richiesta aggiornata con successo! Torna più tardi per vedere gli aggiornamenti','success');
+          this.showMoreDetail = false;
         } else {
           this.messageService.alert('Errore',"Qualcosa è andato storto durante l'aggiornamento della richiesta",'error');
         }
       });
     }
+  }
+
+  showCard(card:Card) {
+    this.messageService.showDetailCard(card);
   }
 
   private takeReqs(history:boolean, myReqs: boolean = false) {
