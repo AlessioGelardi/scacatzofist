@@ -1,6 +1,6 @@
 <notifier-buttons [buttons]="buttons" (buttonOperation)="buttonOperationHandler($event)"></notifier-buttons>
 
-<div class="mt-4">
+<div class="mt-4" *ngIf="!showMoreDetail">
 
     <label *ngIf="!viewMyReqs">Le tue richieste ricevute <label *ngIf="history">history</label></label>
     <label *ngIf="viewMyReqs">Le tue richieste inviate <label *ngIf="history">history</label></label>
@@ -32,4 +32,18 @@
             </tr>
         </tbody>
     </table>
+</div>
+
+<div class="mt-4" *ngIf="showMoreDetail">
+    <div class="row mt-5 text-center">
+        <h3>Dettaglio Richiesta</h3>
+        <p>{{selectReq!.playerRichiedente!}}<strong> VS </strong>{{selectReq!.playerRicevente!}}<br><br>
+            Vincita: <strong> {{selectReq!.vincita.coin!}} <i class="fa fa fa-database"></i> {{selectReq!.vincita.credits!}} <i class="fa fa fa-diamond"></i></strong><br><br>
+            Sconfitta: <strong> {{selectReq!.perdita.coin!}} <i class="fa fa fa-database"></i> {{selectReq!.perdita.coin!}} <i class="fa fa fa-diamond"></i></strong><br><br>
+        </p>
+    </div>
+    <div class="row d-flex justify-content-around">
+        <button type="button" class="col-3 btn btn-primary" (click)="confirm()"><i class="fa fa-check"></i> Accetta!</button>
+        <button type="button" class="col-3 btn btn-danger" (click)="rifiuting()"><i class="fa fa-times-circle"></i> Rifiuta!</button>
+    </div>
 </div>

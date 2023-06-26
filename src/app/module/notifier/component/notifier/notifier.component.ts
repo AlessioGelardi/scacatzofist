@@ -30,6 +30,9 @@ export class NotifierComponent implements OnInit {
   dictReqs: DictReqs | undefined;
   pageSelected: string = "1";
 
+  showMoreDetail: boolean = false;
+  selectReq: Reqs | undefined;
+
   constructor(private route: ActivatedRoute,
     private router: Router,
     private messageService: MessageService,
@@ -71,18 +74,26 @@ export class NotifierComponent implements OnInit {
     if(code) {
       switch(code) {
         case 'BACK':
-          window.history.back();
+          if(this.showMoreDetail) {
+            this.showMoreDetail = false;
+          } else {
+            window.history.back();
+          }
+          
           break;
         case 'HISTORY':
+          this.showMoreDetail = false;
           this.history=true;
           //this.notifierStateService.resetState();
           this.takeReqs(this.history, this.viewMyReqs);
           break;
         case 'MYREQS':
+          this.showMoreDetail = false;
           this.viewMyReqs = true;
           this.takeReqs(this.history, this.viewMyReqs);
           break;
         case 'REFRESH':
+          this.showMoreDetail = false;
           //this.history = false;
           this.viewMyReqs = false;
           //this.notifierStateService.resetState();
@@ -92,11 +103,44 @@ export class NotifierComponent implements OnInit {
     }
   }
 
+  confirm() {
+    let newstatus = 0;
+    this.playerStateService.getPlayer(this.playerId!).then((resp) => {
+      if(resp) {
+        const player = resp;
+
+        if(this.selectReq!.vincita.credits > player.credits! || this.selectReq!.vincita.coin > player.coin!) {
+          newstatus = 4;
+          this.messageService.alert('Attenzione!','Non hai abbastanza coin o crediti per accettare questa richiesta, per questo motivo verrà RIFIUTATA','info');
+        } else {
+          newstatus = 2;
+          this.updateReqs(this.selectReq!,newstatus);
+        }
+      } else {
+        //TO-DO gestione degli errori
+        /*
+        if(resp.status===402) {
+          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+        }
+        */
+
+        this.messageService.alert('Attenzione!','Errore durante la chiamata getPlayer','error');
+      }
+    });
+  }
+
+  rifiuting() {
+    this.updateReqs(this.selectReq!,4);
+  }
+
   selectPage(page: number) {
     this.pageSelected = page.toString();
   }
 
   doDetail(req:Reqs) {
+
+    this.selectReq = req;
+    
     const richiedente = req.playerRichiedente;
     const ricevente = req.playerRicevente;
     const typeMod = req.typeMod;
@@ -104,177 +148,138 @@ export class NotifierComponent implements OnInit {
     const perdita = req.perdita;
     const vincitore = req.vincitore;
     
-    let myPlate = req.plateReq;
-    let oppoPlate =  req.plateOppo;
+    const myPlate = req.plateReq;
+    const oppoPlate =  req.plateOppo;
 
     let nota="";
     if(typeMod===TypeMod.SCONTRO) {
       nota = 'Se non è presente il "-" davanti la sconfitta significa che se perdi, il tuo credito verrà comunque incrementato, in questo caso di <strong>'+perdita.coin+' <i class="fa fa fa-database"></i> '+perdita.credits+' <i class="fa fa fa-diamond"></i> </strong><br><br>';
     }
-    
-    if(req.status === 1) {
 
-      if(req.playerIdReq !== this.playerId) {
-
-        let showMyPlate = "";
-        let showOppoPlate = "";
-        if(typeMod===TypeMod.PUNTATA) {
-          if(myPlate!.length>0) {
-            showMyPlate="<div id=\"myplate\">"
-            showMyPlate += "<label>CARTE IN PALIO DA PARTE DI <strong>"+richiedente+"</strong></label><br><br>"
-            for(let card of myPlate!) {
-              showMyPlate += "<img style=\"max-width:100px\" src=\"https://images.ygoprodeck.com/images/cards/"+card+".jpg\" \/\>";
+    if(typeMod===TypeMod.PUNTATA) {
+      this.showMoreDetail = true;
+    } else {
+      if(req.status === 1) {
+        if(req.playerIdReq !== this.playerId) {
+          /*
+  
+          let showMyPlate = "";
+          let showOppoPlate = "";
+          if(typeMod===TypeMod.PUNTATA) {
+            if(myPlate!.length>0) {
+              showMyPlate="<div id=\"myplate\">"
+              showMyPlate += "<label>CARTE IN PALIO DA PARTE DI <strong>"+richiedente+"</strong></label><br><br>"
+              for(let card of myPlate!) {
+                showMyPlate += "<img style=\"max-width:100px\" src=\"https://images.ygoprodeck.com/images/cards/"+card+".jpg\" \/\>";
+              }
+              showMyPlate += "</div><br><br>"
             }
-            showMyPlate += "</div><br><br>"
-          }
-          if(oppoPlate!.length>0) {
-            showOppoPlate="<div id=\"myplate\">"
-            showOppoPlate += "<label>CARTE IN PALIO DA PARTE DI <strong>"+ricevente+"</strong></label><br><br>"
-            for(let card of oppoPlate!) {
-              showOppoPlate += "<img style=\"max-width:100px\" src=\"https://images.ygoprodeck.com/images/cards/"+card+".jpg\" \/\>";
+            if(oppoPlate!.length>0) {
+              showOppoPlate="<div id=\"myplate\">"
+              showOppoPlate += "<label>CARTE IN PALIO DA PARTE DI <strong>"+ricevente+"</strong></label><br><br>"
+              for(let card of oppoPlate!) {
+                showOppoPlate += "<img style=\"max-width:100px\" src=\"https://images.ygoprodeck.com/images/cards/"+card+".jpg\" \/\>";
+              }
+              showOppoPlate += "</div><br><br>"
             }
-            showOppoPlate += "</div><br><br>"
-          }
+          }*/
+  
+  
+          Swal.fire({
+            title: 'Dettaglio Richiesta',
+            icon: 'info',
+            html:
+            '<label>'+richiedente+'<strong> VS </strong>'+ricevente+' <br><br>'+
+            'Vincita: <strong>'+vincita.coin+' <i class="fa fa fa-database"></i> '+vincita.credits+' <i class="fa fa fa-diamond"></i></strong><br><br>'+
+            'Sconfitta: <strong>'+perdita.coin+' <i class="fa fa fa-database"></i> '+perdita.credits+' <i class="fa fa fa-diamond"></i></strong><br><br>'+nota,
+            showDenyButton: true,
+            confirmButtonText:
+              '<i class="fa fa-check"></i> Accetta!',
+            denyButtonText:
+            '<i class="fa fa-times-circle"></i> Rifiuta!'
+          }).then((result) => {
+            let newstatus = 0;
+            if (result.isConfirmed) {
+              newstatus = 2;
+            } else if (result.isDenied) {
+              newstatus = 4;
+            }
+      
+            this.updateReqs(req,newstatus); 
+          })
+        } else {
+          this.messageService.alert('Info',"In attesa di risposta da parte di "+ricevente,'info');
         }
-
-
+        
+      } else if (req.status === 2) {
         Swal.fire({
-          title: 'Dettaglio Richiesta',
+          title: 'Decreta il vincitore',
           icon: 'info',
           html:
           '<label>'+richiedente+'<strong> VS </strong>'+ricevente+' <br><br>'+
           'Vincita: <strong>'+vincita.coin+' <i class="fa fa fa-database"></i> '+vincita.credits+' <i class="fa fa fa-diamond"></i></strong><br><br>'+
-          'Sconfitta: <strong>'+perdita.coin+' <i class="fa fa fa-database"></i> '+perdita.credits+' <i class="fa fa fa-diamond"></i></strong><br><br>'+
-          showMyPlate+
-          showOppoPlate+
-          '<br>'+nota,
+          'Sconfitta: <strong>'+perdita.coin+' <i class="fa fa fa-database"></i> '+perdita.credits+' <i class="fa fa fa-diamond"></i></strong><br><br>'+nota,
           showDenyButton: true,
+          confirmButtonColor: '#46a9c9',
+          denyButtonColor: '#46a9c9',
           confirmButtonText:
-            '<i class="fa fa-check"></i> Accetta!',
+            richiedente,
           denyButtonText:
-          '<i class="fa fa-times-circle"></i> Rifiuta!'
+            ricevente
         }).then((result) => {
-          let newstatus = 0;
+          let playerIdvincitore = "";
+          let playerIdperdente = "";
+          let vincitore = "";
+          let perdente = "";
           if (result.isConfirmed) {
-            newstatus = 2;
-            if(typeMod===TypeMod.PUNTATA) {
-             
-              this.playerStateService.getPlayer(this.playerId!).then((resp) => {
-                if(resp) {
-                  const player = resp;
-
-                  if(vincita.credits > player.credits! || vincita.coin > player.coin!) {
-                    newstatus = 4;
-                    this.messageService.alert('Attenzione!','Non hai abbastanza coin o crediti per accettare questa richiesta, per questo motivo verrà RIFIUTATA','info');
-                  }
-                } else {
-                  //TO-DO gestione degli errori
-                  /*
-                  if(resp.status===402) {
-                    this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
-                  }
-                  */
-          
-                  this.messageService.alert('Attenzione!','Errore durante la chiamata getPlayer','error');
-                }
-              });
-            }
+            playerIdvincitore = req.playerIdReq;
+            vincitore = richiedente;
+            playerIdperdente = req.playerIdOppo;
+            perdente = ricevente;
           } else if (result.isDenied) {
-            newstatus = 4;
+            playerIdvincitore = req.playerIdOppo;
+            vincitore = ricevente;
+            playerIdperdente = req.playerIdReq;
+            perdente = richiedente;
           }
     
-          if(newstatus !== 0) {
-
+          if(vincitore !== "") {
             let request:any = {}
             request.requestId = req.id;
-            request.status = newstatus;
+            request.playerIdvincitore = playerIdvincitore;
+            request.vincitore = vincitore;
+            request.playerIdperdente = playerIdperdente;
+            request.perdente = perdente;
+            request.status = 3;
+            request.role = this.playerRole;
             this.notifierStateService.updateRequest(request).then((resp) => {
-              if(resp) {
+              if(resp === true) {
                 //this.notifierStateService.resetState();
-                req.status = newstatus;
-                this.messageService.alert('Aggiornato!','Richiesta aggiornata con successo! Torna più tardi per vedere gli aggiornamenti','success');
+                req.status = 3;
+                req.vincitore = vincitore;
+                this.messageService.alert('Partita Conclusa!','Richiesta aggiornata con successo!','success');
+                this.playerStateService.resetPlayerState();
               } else {
-                this.messageService.alert('Errore',"Qualcosa è andato storto durante l'aggiornamento della richiesta",'error');
+                if(resp) {
+                  const statusError = resp.status;
+                  if(statusError === 404) {
+                    this.messageService.alert('Attenzione!','Non fare il furbo seleziona correttamente il vincitore... piccolo delinquente!','error');
+                  } else {
+                    this.messageService.alert('Attenzione!',"Problema durante l'aggiornamento della richiesta",'error');
+                  }
+                }
               }
             });
           }
         })
-      } else {
-        this.messageService.alert('Info',"In attesa di risposta da parte di "+ricevente,'info');
-      }
-      
-    } else if (req.status === 2) {
-      Swal.fire({
-        title: 'Decreta il vincitore',
-        icon: 'info',
-        html:
-        '<label>'+richiedente+'<strong> VS </strong>'+ricevente+' <br><br>'+
-        'Vincita: <strong>'+vincita.coin+' <i class="fa fa fa-database"></i> '+vincita.credits+' <i class="fa fa fa-diamond"></i></strong><br><br>'+
-
-        'Sconfitta: <strong>'+perdita.coin+' <i class="fa fa fa-database"></i> '+perdita.credits+' <i class="fa fa fa-diamond"></i></strong><br><br>'+
-
-        '<br>'+nota,
-        showDenyButton: true,
-        confirmButtonColor: '#46a9c9',
-        denyButtonColor: '#46a9c9',
-        confirmButtonText:
-          richiedente,
-        denyButtonText:
-          ricevente
-      }).then((result) => {
-        let playerIdvincitore = "";
-        let playerIdperdente = "";
-        let vincitore = "";
-        let perdente = "";
-        if (result.isConfirmed) {
-          playerIdvincitore = req.playerIdReq;
-          vincitore = richiedente;
-          playerIdperdente = req.playerIdOppo;
-          perdente = ricevente;
-        } else if (result.isDenied) {
-          playerIdvincitore = req.playerIdOppo;
-          vincitore = ricevente;
-          playerIdperdente = req.playerIdReq;
-          perdente = richiedente;
+      } else if(req.status === 3) {
+        if(vincitore!) {
+          this.messageService.alert('Info',"Partita conclusa! <br> Il vincitore: <strong>"+vincitore+'</strong><br><br>' + 'Vincita: <strong>'+vincita.coin+' <i class="fa fa fa-database"></i> '+vincita.credits+' <i class="fa fa fa-diamond"></i></strong>','info');
         }
-  
-        if(vincitore !== "") {
-          let request:any = {}
-          request.requestId = req.id;
-          request.playerIdvincitore = playerIdvincitore;
-          request.vincitore = vincitore;
-          request.playerIdperdente = playerIdperdente;
-          request.perdente = perdente;
-          request.status = 3;
-          request.role = this.playerRole;
-          this.notifierStateService.updateRequest(request).then((resp) => {
-            if(resp === true) {
-              //this.notifierStateService.resetState();
-              req.status = 3;
-              req.vincitore = vincitore;
-              this.messageService.alert('Partita Conclusa!','Richiesta aggiornata con successo!','success');
-              this.playerStateService.resetPlayerState();
-            } else {
-              if(resp) {
-                const statusError = resp.status;
-                if(statusError === 404) {
-                  this.messageService.alert('Attenzione!','Non fare il furbo seleziona correttamente il vincitore... piccolo delinquente!','error');
-                } else {
-                  this.messageService.alert('Attenzione!',"Problema durante l'aggiornamento della richiesta",'error');
-                }
-              }
-            }
-          });
-        }
-      })
-    } else if(req.status === 3) {
-      if(vincitore!) {
-        this.messageService.alert('Info',"Partita conclusa! <br> Il vincitore: <strong>"+vincitore+'</strong><br><br>' + 'Vincita: <strong>'+vincita.coin+' <i class="fa fa fa-database"></i> '+vincita.credits+' <i class="fa fa fa-diamond"></i></strong>','info');
+      }else {
+        this.messageService.alert('Info',"Questa richiesta è stata rifiutata, creane una nuova!",'info');
       }
-    }else {
-      this.messageService.alert('Info',"Questa richiesta è stata rifiutata, creane una nuova!",'info');
     }
-    
   }
 
   public get Status() {
@@ -287,6 +292,23 @@ export class NotifierComponent implements OnInit {
 
   getNumberRange(n: number): number[] {
     return Array.from({ length: n }, (_, index) => index + 1);
+  }
+
+  private updateReqs(req: Reqs, newstatus: number) {
+    if(newstatus !== 0) {
+      let request:any = {}
+      request.requestId = req.id;
+      request.status = newstatus;
+      this.notifierStateService.updateRequest(request).then((resp) => {
+        if(resp) {
+          //this.notifierStateService.resetState();
+          req.status = newstatus;
+          this.messageService.alert('Aggiornato!','Richiesta aggiornata con successo! Torna più tardi per vedere gli aggiornamenti','success');
+        } else {
+          this.messageService.alert('Errore',"Qualcosa è andato storto durante l'aggiornamento della richiesta",'error');
+        }
+      });
+    }
   }
 
   private takeReqs(history:boolean, myReqs: boolean = false) {
