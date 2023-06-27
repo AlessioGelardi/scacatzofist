@@ -25,10 +25,10 @@
         <div class="d-flex justify-content-center">
             <h5>HAI SCELTO IL PACK <strong>{{selectPack.name}}</strong></h5>
         </div>
-        <div class="col-12 d-flex justify-content-center">
+        <div class="col-12 d-flex justify-content-center" *ngIf="!isDeck">
             <label>Scegli la taglia</label>
         </div>
-        <div class="d-flex justify-content-around mt-3" *ngIf="!dailyPack">
+        <div class="d-flex justify-content-around mt-3" *ngIf="!dailyPack && !isDeck">
             <label>{{calculatePrezzo(3,selectPack.baseCost)}} <i class="fa fa-diamond"></i></label>
             <label>{{calculatePrezzo(7,selectPack.baseCost)}} <i class="fa fa-diamond"></i></label>
             <label>{{calculatePrezzo(12,selectPack.baseCost)}} <i class="fa fa-diamond"></i></label>
@@ -37,11 +37,15 @@
         <div class="d-flex justify-content-around mt-3" *ngIf="dailyPack">
             <label>35 <i class="fa fa-diamond"></i></label>
         </div>
+        <div class="d-flex justify-content-around mt-3" *ngIf="isDeck">
+            <label>{{selectPack.baseCost}} <i class="fa fa-diamond"></i></label>
+        </div>
         <div class="d-flex justify-content-around mt-3">
-            <button class="btn btn-lg rounded buttonSelect" *ngIf="!dailyPack" (click)="acquista(selectPack.name,3,selectPack.baseCost,selectPack.type,selectPack.monster,selectPack.level,selectPack.src)">3</button>
-            <button class="btn btn-lg rounded buttonSelect" *ngIf="!dailyPack" (click)="acquista(selectPack.name,7,selectPack.baseCost,selectPack.type,selectPack.monster,selectPack.level,selectPack.src)">7</button>
-            <button class="btn btn-lg rounded buttonSelect" (click)="acquista(selectPack.name,12,selectPack.baseCost,selectPack.type,selectPack.monster,selectPack.level,selectPack.src)">12</button>
-            <button class="btn btn-lg rounded buttonSelect" *ngIf="!dailyPack" (click)="acquista(selectPack.name,15,selectPack.baseCost,selectPack.type,selectPack.monster,selectPack.level,selectPack.src)">15</button>
+            <button class="btn btn-lg rounded buttonSelect" *ngIf="!dailyPack && !isDeck" (click)="acquista(selectPack.name,3,selectPack.baseCost,selectPack.type,selectPack.monster,selectPack.level,selectPack.src)">3</button>
+            <button class="btn btn-lg rounded buttonSelect" *ngIf="!dailyPack && !isDeck" (click)="acquista(selectPack.name,7,selectPack.baseCost,selectPack.type,selectPack.monster,selectPack.level,selectPack.src)">7</button>
+            <button class="btn btn-lg rounded buttonSelect" *ngIf="!isDeck" (click)="acquista(selectPack.name,12,selectPack.baseCost,selectPack.type,selectPack.monster,selectPack.level,selectPack.src)">12</button>
+            <button class="btn btn-lg rounded buttonSelect" *ngIf="isDeck" (click)="acquistaDeck(selectPack.name,selectPack.baseCost,selectPack.src, selectPack.id)">ACQUISTA DECK</button>
+            <button class="btn btn-lg rounded buttonSelect" *ngIf="!dailyPack && !isDeck" (click)="acquista(selectPack.name,15,selectPack.baseCost,selectPack.type,selectPack.monster,selectPack.level,selectPack.src)">15</button>
         </div>
     </div>
 </div>
