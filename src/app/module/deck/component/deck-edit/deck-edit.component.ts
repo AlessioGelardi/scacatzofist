@@ -49,6 +49,11 @@ export class DeckEditComponent implements OnInit {
     this.permission = this.route.snapshot.paramMap.get('permission')! === "true";
     this.buttons = [
       {
+        name: "HOME-BUTTON",
+        code: "HOME",
+        class: "fa fa-home"
+      },
+      {
         name: "BACK-BUTTON",
         code: "BACK",
         class: "fa fa-arrow-left"
@@ -79,6 +84,9 @@ export class DeckEditComponent implements OnInit {
   buttonOperationHandler(code: any) {
     if(code) {
       switch(code) {
+        case 'HOME':
+          this.router.navigate(['/home',{id:this.playerId!}]);
+          break;
         case 'BACK':
           if(this.newNameDeck) {
             this.router.navigate(['/deck',{id:this.playerId!, permission: this.permission}]);
@@ -271,7 +279,7 @@ export class DeckEditComponent implements OnInit {
         for (const card of resp) {
           let checkId = card.id
           let inUse = false;
-          
+
           if (this.deck?.main.concat(this.deck?.extra, this.deck?.side).some(obj => obj.id === checkId)) {
             inUse = true;
           }

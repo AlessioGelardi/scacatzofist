@@ -42,6 +42,11 @@ export class MarketSellComponent implements OnInit {
 
     this.buttons = [
       {
+        name: "HOME-BUTTON",
+        code: "HOME",
+        class: "fa fa-home"
+      },
+      {
         name: "BACK-BUTTON",
         code: "BACK",
         class: "fa fa-undo"
@@ -80,6 +85,9 @@ export class MarketSellComponent implements OnInit {
   buttonOperationHandler(code: any) {
     if(code) {
       switch(code) {
+        case 'HOME':
+          this.router.navigate(['/home',{id:this.playerId!}]);
+          break;
         case 'BACK':
           this.router.navigate(['/market',{id:this.playerId!}]);
           break;

@@ -33,6 +33,11 @@ export class DeckDetailComponent implements OnInit {
     if(this.permission) {
       this.buttons = [
         {
+          name: "HOME-BUTTON",
+          code: "HOME",
+          class: "fa fa-home"
+        },
+        {
           name: "BACK-BUTTON",
           code: "BACK",
           class: "fa fa-arrow-left"
@@ -72,6 +77,9 @@ export class DeckDetailComponent implements OnInit {
   buttonOperationHandler(code: any) {
     if(code) {
       switch(code) {
+        case 'HOME':
+          this.router.navigate(['/home',{id:this.playerId!}]);
+          break;
         case 'BACK':
           this.router.navigate(['/deck',{id:this.playerId!, permission: this.permission}]);
           break;

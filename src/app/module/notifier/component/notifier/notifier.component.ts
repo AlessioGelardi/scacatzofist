@@ -42,6 +42,11 @@ export class NotifierComponent implements OnInit {
   ngOnInit(): void {
     this.buttons = [
       {
+        name: "HOME-BUTTON",
+        code: "HOME",
+        class: "fa fa-home"
+      },
+      {
         name: "BACK-BUTTON",
         code: "BACK",
         class: "fa fa-arrow-left"
@@ -73,6 +78,9 @@ export class NotifierComponent implements OnInit {
   buttonOperationHandler(code: any) {
     if(code) {
       switch(code) {
+        case 'HOME':
+          this.router.navigate(['/home',{id:this.playerId!}]);
+          break;
         case 'BACK':
           if(this.showMoreDetail) {
             this.showMoreDetail = false;
