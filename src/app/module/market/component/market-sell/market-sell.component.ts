@@ -30,6 +30,8 @@ export class MarketSellComponent implements OnInit {
   sliceEnd: number = 60;
   slice: number = 60;
 
+  viewCard: boolean = false;
+
   constructor(private route: ActivatedRoute,
     private router: Router,
     private marketStateService: StateMarketService,
@@ -55,6 +57,11 @@ export class MarketSellComponent implements OnInit {
         name: "INVENTORY-BUTTON",
         code: "INVENTORY",
         class: "fa fa-briefcase"
+      },
+      {
+        name: "SWITCH-BUTTON",
+        code: "SWITCH",
+        class: "fa-solid fa-image"
       },
       {
         name: "EDICOLA-BUTTON",
@@ -93,6 +100,9 @@ export class MarketSellComponent implements OnInit {
           break;
         case 'INVENTORY':
           this.router.navigate(['/inventory',{id:this.playerId!}]);
+          break;
+        case 'SWITCH': 
+          this.viewCard = !this.viewCard;
           break;
         case 'EDICOLA':
           this.router.navigate(['/edicola',{id:this.playerId!}]);

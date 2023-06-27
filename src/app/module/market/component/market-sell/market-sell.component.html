@@ -13,7 +13,7 @@
     <input *ngIf="viewFilter" [(ngModel)]="filterName" type="text" class="form-control sfondino" placeholder="Cerca carta" autofocus>
 </div>
 
-<div>
+<div class="mt-2" *ngIf="!viewCard">
     <table class="table table-hover mt-2 text-center">
         <thead>
             <tr>
@@ -38,6 +38,16 @@
         <div class="d-flex justify-content-between mt-1">
             <button class="btn btn-outline-dark btn-sm px-3" *ngIf="sliceStart>0" (click)="backSlice()"><i class="fa fa-arrow-left"></i></button>
             <button class="btn btn-outline-dark btn-sm px-3" *ngIf="sliceLimit! >= sliceEnd" (click)="continueSlice()"><i class="fa fa-arrow-right"></i></button>
+        </div>
+    </div>
+</div>
+
+<div class="mt-2" *ngIf="viewCard">
+    <div class="col-11">
+        <div class="row">
+            <div *ngFor="let card of zaino | filterZaino: filterName!" class="col-1" (click)="showCard(card)">
+                <img class="deckcard" src="{{'https://images.ygoprodeck.com/images/cards/'+card?.id+'.jpg'}}"  />
+            </div>
         </div>
     </div>
 </div>
