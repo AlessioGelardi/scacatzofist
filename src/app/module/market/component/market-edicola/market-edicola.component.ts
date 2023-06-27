@@ -7,6 +7,7 @@ import { StatePlayerService } from 'src/app/module/player/services/state/state-p
 import { MessageService } from 'src/app/module/swalAlert/message.service';
 import Swal from 'sweetalert2';
 import { StateMarketService } from '../../services/state/state-market.service';
+import { LoginService } from 'src/app/module/login/httpservices/login.service';
 
 @Component({
   selector: 'app-market-edicola',
@@ -30,6 +31,8 @@ export class MarketEdicolaComponent implements OnInit {
   numberCredits: number = 0;
 
   buyPackSrc: string | undefined;
+
+  viewStarterDeck: boolean = false;
 
   constructor(private route: ActivatedRoute,
     private router: Router,
@@ -250,6 +253,171 @@ export class MarketEdicolaComponent implements OnInit {
           "dailyPack": true
         }]
         break;
+      case 5:
+        this.packs = [{
+          "id": "64289146c6b53689fe3b48c2",
+          "name": "gogogo",
+          "baseCost": 700,
+          "src": "assets/deck/gogogo.png",
+          "deck": true
+        },{
+          "id": "64289203c6b53689fe3b48c3",
+          "name": "pianta",
+          "baseCost": 670,
+          "src": "assets/deck/pianta.png",
+          "deck": true
+        },{
+          "id": "64289315c6b53689fe3b48c4",
+          "name": "amazoness",
+          "baseCost": 500,
+          "src": "assets/deck/amazoness.png",
+          "deck": true
+        },{
+          "id": "642893fcc6b53689fe3b48c5",
+          "name": "eroeElementale",
+          "baseCost": 460,
+          "src": "assets/deck/eroeElementale.png",
+          "deck": true
+        },{
+          "id": "64289494c6b53689fe3b48c6",
+          "name": "fata",
+          "baseCost": 480,
+          "src": "assets/deck/fata.png",
+          "deck": true
+        },{
+          "id": "6428966dc6b53689fe3b48c8",
+          "name": "ingranaggioAntico",
+          "baseCost": 500,
+          "src": "assets/deck/ingranaggioAntico.png",
+          "deck": true
+        },{
+          "id": "642896ddc6b53689fe3b48c9",
+          "name": "yugi",
+          "baseCost": 290,
+          "src": "assets/deck/yugi.png",
+          "deck": true
+        },{
+          "id": "642897dbc6b53689fe3b48ca",
+          "name": "zombie",
+          "baseCost": 360,
+          "src": "assets/deck/zombie.png",
+          "deck": true
+        },{
+          "id": "64289844c6b53689fe3b48cb",
+          "name": "drago",
+          "baseCost": 490,
+          "src": "assets/deck/drago.png",
+          "deck": true
+        },{
+          "id": "642898cdc6b53689fe3b48cc",
+          "name": "fuoco",
+          "baseCost": 550,
+          "src": "assets/deck/fuoco.png",
+          "deck": true
+        },{
+          "id": "6428995dc6b53689fe3b48cd",
+          "name": "luce",
+          "baseCost": 510,
+          "src": "assets/deck/luce.png",
+          "deck": true
+        },{
+          "id": "64289a6bc6b53689fe3b48cf",
+          "name": "palude",
+          "baseCost": 420,
+          "src": "assets/deck/palude.png",
+          "deck": true
+        },{
+          "id": "64289ad4c6b53689fe3b48d0",
+          "name": "reattore",
+          "baseCost": 530,
+          "src": "assets/deck/reattore.png",
+          "deck": true
+        },{
+          "id": "64289b4fc6b53689fe3b48d1",
+          "name": "samurai",
+          "baseCost": 550,
+          "src": "assets/deck/samurai.png",
+          "deck": true
+        },{
+          "id": "64289bd0c6b53689fe3b48d2",
+          "name": "gladiatore",
+          "baseCost": 360,
+          "src": "assets/deck/gladiatore.png",
+          "deck": true
+        },{
+          "id": "64289cc5c6b53689fe3b48d4",
+          "name": "monarca",
+          "baseCost": 330,
+          "src": "assets/deck/monarca.png",
+          "deck": true
+        },{
+          "id": "64289d29c6b53689fe3b48d5",
+          "name": "nordic",
+          "baseCost": 410,
+          "src": "assets/deck/nordic.png",
+          "deck": true
+        },{
+          "id": "64289d9fc6b53689fe3b48d6",
+          "name": "sfinge",
+          "baseCost": 500,
+          "src": "assets/deck/sfinge.png",
+          "deck": true
+        },{
+          "id": "6428a07cc6b53689fe3b48d7",
+          "name": "trappola",
+          "baseCost": 250,
+          "src": "assets/deck/trappola.png",
+          "deck": true
+        },{
+          "id": "6428a0e9c6b53689fe3b48d8",
+          "name": "warrior",
+          "baseCost": 390,
+          "src": "assets/deck/warrior.png",
+          "deck": true
+        },{
+          "id": "6428a5e0c6b53689fe3b48d9",
+          "name": "acqua",
+          "baseCost": 300,
+          "src": "assets/deck/acqua.png",
+          "deck": true
+        },{
+          "id": "6428a639c6b53689fe3b48da",
+          "name": "goblin",
+          "baseCost": 250,
+          "src": "assets/deck/goblin.png",
+          "deck": true
+        },{
+          "id": "6428a68ec6b53689fe3b48db",
+          "name": "insetto",
+          "baseCost": 200,
+          "src": "assets/deck/insetto.png",
+          "deck": true
+        },{
+          "id": "6428a6f1c6b53689fe3b48dc",
+          "name": "jinzo",
+          "baseCost": 220,
+          "src": "assets/deck/jinzo.png",
+          "deck": true
+        },{
+          "id": "6428a74fc6b53689fe3b48dd",
+          "name": "oscurita",
+          "baseCost": 250,
+          "src": "assets/deck/oscurita.png",
+          "deck": true
+        },{
+          "id": "6428a79ec6b53689fe3b48de",
+          "name": "vampiro",
+          "baseCost": 330,
+          "src": "assets/deck/vampiro.png",
+          "deck": true
+        },{
+          "id": "6428a7e8c6b53689fe3b48df",
+          "name": "vento",
+          "baseCost": 210,
+          "src": "assets/deck/vento.png",
+          "deck": true
+        }]
+        break;
     }
   }
 
@@ -262,6 +430,8 @@ export class MarketEdicolaComponent implements OnInit {
     let monster = objectAcquista.monster;
     let dailyPack = objectAcquista.dailyPack;
     this.buyPackSrc = objectAcquista.src;
+    const isDeck = objectAcquista.deck;
+    const deckId = objectAcquista.deckId;
 
     if(dailyPack) {
       Swal.fire({
@@ -310,6 +480,54 @@ export class MarketEdicolaComponent implements OnInit {
             });
           } else {
             this.messageService.alert('Budget non sufficente!','Il prezzo del pack è 35', 'error');
+          }
+        }
+      })
+    } else if(isDeck){
+      Swal.fire({
+        title: 'Sei sicuro?',
+        html: "Acquisterai il deck alla modica cifra di <strong>"+ baseCost +"<i class='fa fa-diamond'></i></strong>!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, acquista!',
+        cancelButtonText: 'Non acquistare!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+
+          if(this.player!.credits!-baseCost>=0) {
+
+            let request:any = {};
+            request.playerId = this.player!._id!;
+            request.prezzo = baseCost;
+            request.taglia = 1;
+            request.level = 0;
+            request.type = 0;
+            request.quantity = 1;
+            request.monster = false;
+            request.src = this.buyPackSrc;
+            request.name = name;
+            request.isDaily = false;
+            request.isDeck = true;
+            request.deckId = deckId;
+
+            this.marketStateService.buyPack(request).then((resp) => {
+              if(resp) {
+                
+                //TO-DO gestire errori
+                if(!resp.status) {
+                  this.player!.credits = Number(this.player!.credits!) - 35;
+                  this.finishPurchase = true;
+                  this.newPacks = resp;
+                  this.viewCards = [];
+                } else {
+                  this.messageService.alert('Attenzione!','Problema durante l"acquisto del deck','error');
+                }
+              }
+            });
+          } else {
+            this.messageService.alert('Budget non sufficente!','Il prezzo del pack è '+baseCost, 'error');
           }
         }
       })
