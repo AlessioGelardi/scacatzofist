@@ -37,6 +37,11 @@ export class PlayNowTrainingComponent implements OnInit {
   ngOnInit(): void {
     this.buttons = [
       {
+        name: "HOME-BUTTON",
+        code: "HOME",
+        class: "fa fa-home"
+      },
+      {
         name: "BACK-BUTTON",
         code: "BACK",
         class: "fa fa-arrow-left"
@@ -55,6 +60,9 @@ export class PlayNowTrainingComponent implements OnInit {
   buttonOperationHandler(code: any) {
     if(code) {
       switch(code) {
+        case 'HOME':
+          this.router.navigate(['/home']);
+          break;
         case 'BACK':
           //check sul timer, conferma e poi stop traning prima di mostrare la history
           this.router.navigate(['/playnow',{id:this.playerId}]);
