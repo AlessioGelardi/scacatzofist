@@ -7,7 +7,6 @@ export interface Card {
     atk: number;
     def: number;
     state?: string;
-    qnt?:number;
 }
 
 export interface Pack {

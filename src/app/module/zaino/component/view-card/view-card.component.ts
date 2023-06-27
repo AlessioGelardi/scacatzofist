@@ -9,10 +9,15 @@ import { Card } from 'src/app/module/interface/card';
 export class ViewCardComponent implements OnInit {
 
   @Input() cards: Card[] = [];
+  @Input() zaino: Card[] = [];
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  checkExist(card:Card) {
+    return this.zaino.includes(card)
   }
 
 }

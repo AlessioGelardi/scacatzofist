@@ -2,8 +2,8 @@
     <div class="row mb-2 p-4 border rounded text-center" *ngFor="let card of cards">
         <div class="col-3 d-flex justify-content-center">
             <div>
-                <label class="col-12 mb-1 border rounded etichetta" [ngStyle]="{'background-color': card?.qnt!>0 ? '#44a344cc' : '#858585a1'}">
-                    {{card?.qnt!>0 ? 'IN POSSESSO': 'MANCANTE'}}
+                <label class="col-12 mb-1 border rounded etichetta" [ngStyle]="{'background-color': checkExist(card) ? '#44a344cc' : '#858585a1'}">
+                    {{checkExist(card) ? 'IN POSSESSO': 'MANCANTE'}}
                 </label>
                 <img class="card " [src]="'https://images.ygoprodeck.com/images/cards/'+card?.id+'.jpg'">
             </div>
