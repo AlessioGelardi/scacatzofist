@@ -141,44 +141,29 @@ export class DeckEditComponent implements OnInit {
       let indice = -1;
       switch(type) {
         case 1:
-          if(card.qnt>1) {
-            let cardIntoMain = this.deck?.main.find(i => i.id === card.id);
-            cardIntoMain!.qnt!--;
-          } else {
-            indice = this.deck?.main.indexOf(card, 0)!;
-            if (indice !== undefined && indice > -1) {
-              this.deck?.main.splice(indice, 1);
-            }
+          indice = this.deck?.main.indexOf(card, 0)!;
+          if (indice !== undefined && indice > -1) {
+            this.deck?.main.splice(indice, 1);
           }
 
           break;
         case 2:
-          if(card.qnt>1) {
-            let cardIntoExtra = this.deck?.extra.find(i => i.id === card.id);
-            cardIntoExtra!.qnt!--;
-          } else {
-            indice = this.deck?.extra.indexOf(card, 0)!;
-            if (indice !== undefined && indice > -1) {
-              this.deck?.extra.splice(indice, 1);
-            }
+          indice = this.deck?.extra.indexOf(card, 0)!;
+          if (indice !== undefined && indice > -1) {
+            this.deck?.extra.splice(indice, 1);
           }
 
           break;
         case 3:
-          if(card.qnt>1) {
-            let cardIntoSide = this.deck?.side.find(i => i.id === card.id);
-            cardIntoSide!.qnt!--;
-          } else {
-            indice = this.deck?.side.indexOf(card, 0)!;
-            if (indice !== undefined && indice > -1) {
-              this.deck?.side.splice(indice, 1);
-            }
+          indice = this.deck?.side.indexOf(card, 0)!;
+          if (indice !== undefined && indice > -1) {
+            this.deck?.side.splice(indice, 1);
           }
 
           break;
       }
 
-      this.addCardZaino(card);
+      this.zaino.push(card);
     }
   }
 
@@ -216,19 +201,10 @@ export class DeckEditComponent implements OnInit {
   }
 
   addCard(card:Card) {
-    if(card && this.typeExtra.includes(card.type)) { //TO-DO
-
+    if(card && this.typeExtra.includes(card.type)) {
+      this.deck?.extra.push(card);
       this.deleteCardZaino(card);
-
-      //verifico se la carta che sto aggiungendo nel main è già presente almeno una volta
-      let cardIntoExtra = this.deck?.extra.find(i => i.id === card.id);
-      if(cardIntoExtra) {
-        cardIntoExtra!.qnt!++;
-      } else {
-        let newCard = {...card }
-        newCard.qnt=1
-        this.deck?.extra.push(newCard);
-      }
+      
     } else if (card) {
       Swal.fire({
         title: 'Dove vuoi aggiungere questa carta?',
@@ -240,30 +216,14 @@ export class DeckEditComponent implements OnInit {
       }).then((result) => {
         if (result.isConfirmed) {
 
+          this.deck?.main.push(card)
           this.deleteCardZaino(card);
 
-          //verifico se la carta che sto aggiungendo nel main è già presente almeno una volta
-          let cardIntoMain = this.deck?.main.find(i => i.id === card.id);
-          if(cardIntoMain) {
-            cardIntoMain!.qnt!++;
-          } else {
-            let newCard = {...card }
-            newCard.qnt=1
-            this.deck?.main.push(newCard);
-          }
         } else if (result.isDenied) {
 
+          this.deck?.side.push(card)
           this.deleteCardZaino(card);
 
-          //verifico se la carta che sto aggiungendo nel side è già presente almeno una volta
-          let cardIntoSide = this.deck?.side.find(i => i.id === card.id);
-          if(cardIntoSide) {
-            cardIntoSide!.qnt!++;
-          } else {
-            let newCard = {...card }
-            newCard.qnt=1;
-            this.deck?.side.push(newCard);
-          }
         }
       })
       
@@ -304,52 +264,20 @@ export class DeckEditComponent implements OnInit {
   }
 
   private takeZaino() {
+    this.zaino = []
     this.playerStateService.getZaino(this.playerId!).then((resp) => {
       if(resp) {
-        this.zaino = [];
-        for(let card of resp) {
+        
+        for (const card of resp) {
+          let checkId = card.id
+          let inUse = false;
+          
+          if (this.deck?.main.concat(this.deck?.extra, this.deck?.side).some(obj => obj.id === checkId)) {
+            inUse = true;
+          }
 
-          if(card && this.typeExtra.includes(card.type)) { //TO-DO
-
-            //check extra
-            let cardIntoExtra = this.deck?.extra.find(i => i.id === card.id);
-            if(cardIntoExtra) {
-              let cardIntoZaino = this.zaino.find(i => i.id === card.id);
-              if(!cardIntoZaino) {
-                if(card.qnt!>cardIntoExtra.qnt!) {
-                  card.qnt=card.qnt!-cardIntoExtra.qnt!;
-                  this.zaino.push(card)
-                }
-              }
-            } else {
-              this.zaino.push(card)
-            }
-          } else {
-
-            //check main
-            let cardIntoMain = this.deck?.main.find(i => i.id === card.id);
-            let cardIntoSide = this.deck?.side.find(i => i.id === card.id);
-            if(cardIntoMain || cardIntoSide) {
-              let cardIntoZaino = this.zaino.find(i => i.id === card.id);
-              if(!cardIntoZaino) {
-
-                if(cardIntoMain) {
-                  if(card.qnt!>cardIntoMain.qnt!) {
-                    card.qnt=card.qnt!-cardIntoMain.qnt!;
-                    this.zaino.push(card)
-                  }
-                }
-
-                if(cardIntoSide) {
-                  if(card.qnt!>cardIntoSide.qnt!) {
-                    card.qnt=card.qnt!-cardIntoSide.qnt!;
-                    this.zaino.push(card)
-                  }
-                }
-              }
-            } else {
-              this.zaino.push(card)
-            }
+          if(!inUse) {
+            this.zaino.push(card)
           }
         }
         this.sliceLimit = this.zaino.length;
@@ -367,26 +295,10 @@ export class DeckEditComponent implements OnInit {
   }
 
   private deleteCardZaino(card: Card) {
-    //verifico se la carta che ho nell'inventario ha più di una quantità
-    if(card.qnt!>1) {
-      card.qnt!--;
-    } else {
       let indice = this.zaino.indexOf(card, 0)!;
       if (indice !== undefined && indice > -1) {
         this.zaino.splice(indice, 1);
       }
-    }
-  }
-
-  private addCardZaino(card: Card) {
-    let cardIntoZaino = this.zaino.find(i => i.id === card.id);
-    if(cardIntoZaino) {
-      cardIntoZaino.qnt!++;
-    } else {
-      let newCard = {...card }
-      newCard.qnt=1;
-      this.zaino.push(newCard);
-    }
   }
 
   private checkExtraIntoMain(): boolean {

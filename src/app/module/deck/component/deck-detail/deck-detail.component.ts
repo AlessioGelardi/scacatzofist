@@ -18,7 +18,7 @@ export class DeckDetailComponent implements OnInit {
   playerId: string | undefined;
   permission: boolean = true;
   newNameDeck: string | undefined;
-  showDeck: Deck | undefined;
+  deck: Deck | undefined;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -60,13 +60,7 @@ export class DeckDetailComponent implements OnInit {
       this.buttonOperationHandler('EDIT');
     } else {
       this.deckStateService.getDeck(this.deckId).then((resp) => {
-        if(resp) {
-          const copyResp = { ...resp }
-          this.showDeck = copyResp;
-          this.showDeck.main = this.fillShowCard(resp.main);
-          this.showDeck.extra = this.fillShowCard(resp.extra);
-          this.showDeck.side = this.fillShowCard(resp.side);
-        }
+        this.deck = resp;
       });
     }
   }
@@ -90,18 +84,6 @@ export class DeckDetailComponent implements OnInit {
           break;
       }
     }
-  }
-
-  private fillShowCard(cards: Card[]): Card[] {
-    let showCards: Card[] = [];
-
-    for(let card of cards) {
-      for(let x of [].constructor(card.qnt)) {
-        showCards.push(card);
-      }
-    }
-
-    return showCards;
   }
 
 }
