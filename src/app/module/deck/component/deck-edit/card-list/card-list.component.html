@@ -10,9 +10,9 @@
             <th>&nbsp;</th>
         </tr>
     </thead>
-    <tbody>
-        <tr *ngFor="let card of cards">
-            <td class="text-truncate" (click)="show(card)">{{card.name}}</td>
+    <tbody cdkDropList (cdkDropListDropped)="onDrop($event)" [cdkDropListData]="cards" [cdkDropListConnectedTo]="connectedTo" id="{{kindDeck}}">
+        <tr *ngFor="let card of cards" cdkDrag>
+            <td class="text-truncate" (click)="show(card)" (cdkDragStarted)="onDragStart()" (cdkDragEnded)="onDragEnd()">{{card.name}}</td>
             <td>{{card.atk}}</td>
             <td>{{card.def}}</td>
             <td>
