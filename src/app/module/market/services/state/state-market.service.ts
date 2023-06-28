@@ -21,6 +21,10 @@ export class StateMarketService {
 
   }
 
+  resetDailyShopState() {
+    this.dailyShop = undefined;
+  }
+
   resetState() {
     this.marketPlace = undefined;
     this.marketPack = undefined;
@@ -38,7 +42,7 @@ export class StateMarketService {
       } catch (error:any) {
         this.spinnerService.hide();
         if(error && error.status === 402) {
-          this.messageService.alert('Attenzione','Il MarketPlace attualmente è vuoto','info');
+          //this.messageService.alert('Attenzione','Il MarketPlace attualmente è vuoto','info');
         } else {
           this.messageService.alert('Errore','Qualcosa è andato storto durante il recupero del market','error');
         }
@@ -168,6 +172,23 @@ export class StateMarketService {
           this.marketPlace!.splice(index,1);
         }
       }
+      this.spinnerService.hide();
+    } catch (error: any) {
+      /* TO-DO [WinError 3] Impossibile trovare il percorso specificato: 'deck\\\\Ingranaggio Antico1.ydk' -> 'deck\\\\Ingranaggio Antico.ydk'*/
+      response = error;
+      this.spinnerService.hide();
+    }
+
+
+    return response;
+  }
+
+  async buyCardDailyShop(request:any) {
+    this.spinnerService.show();
+    let response;
+
+    try {
+      response = await firstValueFrom(this.marketService.acquistaCardDailyShop(request));
       this.spinnerService.hide();
     } catch (error: any) {
       /* TO-DO [WinError 3] Impossibile trovare il percorso specificato: 'deck\\\\Ingranaggio Antico1.ydk' -> 'deck\\\\Ingranaggio Antico.ydk'*/
