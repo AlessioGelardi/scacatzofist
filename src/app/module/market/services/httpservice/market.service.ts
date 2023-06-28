@@ -59,6 +59,10 @@ export class MarketService {
     return this.http.put<boolean>(this.apiUrlMarketPlace+'?id='+sellCard.id,acquisto,this.generateOptions());
   }
 
+  acquistaCardDailyShop(request:any): Observable<boolean> {
+    return this.http.post<boolean>(this.apiUrlMarketDailyShop,request,this.generateOptions());
+  }
+
   acquistaPacchetti(request:any): Observable<Pack[]> {
     request.dataUpdate = this.takeFormatToday();
     return this.http.put<Pack[]>(this.apiUrlMarketEdicola,request,this.generateOptions());
