@@ -15,6 +15,7 @@ export class MarketService {
   apiUrlMarketCredits: string =  environment.baseUrlMarket + "credits";
   apiUrlMarketOpenPack: string =  environment.baseUrlMarket + "openpack";
   marketplaceById: string = environment.baseUrlMarket + "marketplaceById";
+  apiUrlMarketDailyShop: string =  environment.baseUrlMarket + "dailyshop";
 
   constructor(private http: HttpClient) { }
 
@@ -24,6 +25,11 @@ export class MarketService {
 
   getMarketpack(): Observable<SellPack[]> {
     return this.http.get<SellPack[]>(this.apiUrlMarketPack);
+  }
+
+  getDailyShop(request:any): Observable<SellCard[]> {
+    request.dataUpdate = this.takeFormatToday();
+    return this.http.put<SellCard[]>(this.apiUrlMarketDailyShop,request,this.generateOptions());
   }
 
   getMarketPlaceById(playerId:string) { //To-DO verificare se si può fare un percorso unico tra getMarketPlace e getmarketplacebyid

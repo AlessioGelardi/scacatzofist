@@ -13,6 +13,8 @@ export class StateMarketService {
   private marketPlace?: SellCard[] | undefined;
   private marketPack?: SellPack[] | undefined;
 
+  private dailyShop?: SellCard[] | undefined;
+
   constructor(private spinnerService: NgxSpinnerService,
     private marketService: MarketService,
     private messageService: MessageService) {
@@ -22,6 +24,7 @@ export class StateMarketService {
   resetState() {
     this.marketPlace = undefined;
     this.marketPack = undefined;
+    this.dailyShop = undefined;
   }
 
   async getMarketPlace() {
@@ -69,6 +72,29 @@ export class StateMarketService {
 
     return this.marketPack;    
   }
+
+  async getDailyShop(playerId:string) {
+    this.spinnerService.show();
+    
+    if(!this.dailyShop) {
+      try {
+        let request: any = {}
+        request.playerId = playerId;
+        const response = await firstValueFrom(this.marketService.getDailyShop(request));
+        this.dailyShop = response;
+        this.spinnerService.hide();
+      } catch (error:any) {
+        this.spinnerService.hide();
+        this.messageService.alert('Errore','Qualcosa è andato storto durante il recupero del dailyshop','error');
+      }
+    } else {
+      this.spinnerService.hide();
+    }
+
+    return this.dailyShop;    
+  }
+
+  
 
   /*
 
