@@ -17,3 +17,7 @@
 table tr td, table tr th{
     background-color: transparent !important;
 }
+
+.deckcard {
+    max-width: 180px;
+}
