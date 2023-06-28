@@ -29,8 +29,8 @@
                     <th scope="col">DEF</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr *ngFor="let card of zaino | filterZaino: filterName! | slice:sliceStart:sliceEnd; let i=index">
+            <tbody cdkDropList (cdkDropListDropped)="onDrop($event)" [cdkDropListData]="zaino" id="zaino" [cdkDropListConnectedTo]="['main','extra','side']">
+                <tr *ngFor="let card of zaino | filterZaino: filterName! | slice:sliceStart:sliceEnd; let i=index" cdkDrag (click)="showCard(card)" (cdkDragStarted)="onDragStart()" (cdkDragEnded)="onDragEnd()">
                     <td>
                         <button type="button" class="btn btn-outline-dark btn-sm" (click)="addCard(card)"><i class="fa fa-arrow-left"></i></button>
                     </td>
