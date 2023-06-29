@@ -26,7 +26,7 @@ export class PlayerStatusComponent implements OnInit {
   }
 
   readNotify() {
-    this.router.navigate(['/request',{id:this.player?._id!,typeMode:TypeMod.ALL}]);
+    this.router.navigate(['/request',{id:this.player?._id!,typeMode:TypeMod.ALL, playerRole: this.player?.ruolo!}]);
   }
 
   readInventory() {

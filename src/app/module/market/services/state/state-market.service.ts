@@ -13,15 +13,22 @@ export class StateMarketService {
   private marketPlace?: SellCard[] | undefined;
   private marketPack?: SellPack[] | undefined;
 
+  private dailyShop?: SellCard[] | undefined;
+
   constructor(private spinnerService: NgxSpinnerService,
     private marketService: MarketService,
     private messageService: MessageService) {
 
   }
 
+  resetDailyShopState() {
+    this.dailyShop = undefined;
+  }
+
   resetState() {
     this.marketPlace = undefined;
     this.marketPack = undefined;
+    this.dailyShop = undefined;
   }
 
   async getMarketPlace() {
@@ -35,7 +42,7 @@ export class StateMarketService {
       } catch (error:any) {
         this.spinnerService.hide();
         if(error && error.status === 402) {
-          this.messageService.alert('Attenzione','Il MarketPlace attualmente è vuoto','info');
+          //this.messageService.alert('Attenzione','Il MarketPlace attualmente è vuoto','info');
         } else {
           this.messageService.alert('Errore','Qualcosa è andato storto durante il recupero del market','error');
         }
@@ -70,30 +77,26 @@ export class StateMarketService {
     return this.marketPack;    
   }
 
-  /*
-
-  async getSellHistory(id:string) {
+  async getDailyShop(playerId:string) {
     this.spinnerService.show();
     
-    if(!this.sellHistory) {
+    if(!this.dailyShop) {
       try {
-        const response = await firstValueFrom(this.marketService.getMarketPlaceById(id));
-        this.sellHistory = response;
+        let request: any = {}
+        request.playerId = playerId;
+        const response = await firstValueFrom(this.marketService.getDailyShop(request));
+        this.dailyShop = response;
         this.spinnerService.hide();
       } catch (error:any) {
         this.spinnerService.hide();
-        if(error.status===402) {
-          this.messageService.alert('Attenzione!','Nessuna carta in vendita al momento','info');
-        } else {
-          this.messageService.alert('Errore','Qualcosa è andato storto durante il recupero della history del market','error');
-        }
+        this.messageService.alert('Errore','Qualcosa è andato storto durante il recupero del dailyshop','error');
       }
     } else {
       this.spinnerService.hide();
     }
 
-    return this.sellHistory;    
-  }*/
+    return this.dailyShop;    
+  }
 
   async venditaCard(request:any) {
     this.spinnerService.show();
@@ -153,6 +156,23 @@ export class StateMarketService {
     return response;
   }
 
+  async buyCardDailyShop(request:any) {
+    this.spinnerService.show();
+    let response;
+
+    try {
+      response = await firstValueFrom(this.marketService.acquistaCardDailyShop(request));
+      this.spinnerService.hide();
+    } catch (error: any) {
+      /* TO-DO [WinError 3] Impossibile trovare il percorso specificato: 'deck\\\\Ingranaggio Antico1.ydk' -> 'deck\\\\Ingranaggio Antico.ydk'*/
+      response = error;
+      this.spinnerService.hide();
+    }
+
+
+    return response;
+  }
+
   async buyPack(request: any) {
     this.spinnerService.show();
     let response;
@@ -168,7 +188,7 @@ export class StateMarketService {
 
 
     return response;
-  }
+  }  
 
   async buyCredits(playerId:string, numCredits:number) {
     this.spinnerService.show();
@@ -176,23 +196,6 @@ export class StateMarketService {
 
     try {
       response = await firstValueFrom(this.marketService.acquistaCrediti(playerId,numCredits));
-      this.spinnerService.hide();
-    } catch (error: any) {
-      /* TO-DO [WinError 3] Impossibile trovare il percorso specificato: 'deck\\\\Ingranaggio Antico1.ydk' -> 'deck\\\\Ingranaggio Antico.ydk'*/
-      response = error;
-      this.spinnerService.hide();
-    }
-
-
-    return response;
-  }
-
-  async buyDailyPack(request: any) {
-    this.spinnerService.show();
-    let response;
-
-    try {
-      response = await firstValueFrom(this.marketService.acquistaDaily(request));
       this.spinnerService.hide();
     } catch (error: any) {
       /* TO-DO [WinError 3] Impossibile trovare il percorso specificato: 'deck\\\\Ingranaggio Antico1.ydk' -> 'deck\\\\Ingranaggio Antico.ydk'*/

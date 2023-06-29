@@ -51,7 +51,7 @@ export class PlayNowComponent implements OnInit {
           this.router.navigate(['/home']);
           break;
         case 'REQUEST':
-          this.router.navigate(['/request',{id:this.player?._id!,typeMode:TypeMod.ALL}]);
+          this.router.navigate(['/request',{id:this.player?._id!,typeMode:TypeMod.ALL, playerRole: this.player?.ruolo!}]);
           break;
       }
     }
@@ -66,7 +66,7 @@ export class PlayNowComponent implements OnInit {
   }
 
   puntata() {
-    this.messageService.alert('In progress...',"Questa funzionalità è ancora in sviluppo... Ci dispiace per l'inconveniente torna più tardi !!! ",'info');
+    this.router.navigate(['/puntata',{id:this.player!._id, playerRole: this.player?.ruolo!}]);
   }
 
   cardbettle() {

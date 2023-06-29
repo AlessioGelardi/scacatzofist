@@ -6,3 +6,11 @@
     display: inline-block;
     box-shadow: 0px 5px #8a8989;
 }
+
+.minicard {
+    height: 220px;
+}
+
+p {
+    font-size: 18px;
+}

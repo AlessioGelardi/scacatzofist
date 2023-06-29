@@ -1,7 +1,3 @@
-.deckcard {
-    max-width: 80px;
-}
-
 .deckcard:hover {
     max-width: 240px;
     z-index: 1;

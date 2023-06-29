@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'src/app/module/swalAlert/message.service';
 import { StatePlayerService } from 'src/app/module/player/services/state/state-player.service';
 import { Button } from 'src/app/module/interface/button';
+import { Card } from 'src/app/module/interface/card';
 
 @Component({
   selector: 'app-notifier',
@@ -29,6 +30,9 @@ export class NotifierComponent implements OnInit {
   dictReqs: DictReqs | undefined;
   pageSelected: string = "1";
 
+  showMoreDetail: boolean = false;
+  selectReq: Reqs | undefined;
+
   constructor(private route: ActivatedRoute,
     private router: Router,
     private messageService: MessageService,
@@ -37,6 +41,11 @@ export class NotifierComponent implements OnInit {
 
   ngOnInit(): void {
     this.buttons = [
+      {
+        name: "HOME-BUTTON",
+        code: "HOME",
+        class: "fa fa-home"
+      },
       {
         name: "BACK-BUTTON",
         code: "BACK",
@@ -69,20 +78,31 @@ export class NotifierComponent implements OnInit {
   buttonOperationHandler(code: any) {
     if(code) {
       switch(code) {
+        case 'HOME':
+          this.router.navigate(['/home',{id:this.playerId!}]);
+          break;
         case 'BACK':
-          window.history.back();
+          if(this.showMoreDetail) {
+            this.showMoreDetail = false;
+          } else {
+            window.history.back();
+          }
+          
           break;
         case 'HISTORY':
+          this.showMoreDetail = false;
           this.history=true;
           //this.notifierStateService.resetState();
           this.takeReqs(this.history, this.viewMyReqs);
           break;
         case 'MYREQS':
+          this.showMoreDetail = false;
           this.viewMyReqs = true;
           this.takeReqs(this.history, this.viewMyReqs);
           break;
         case 'REFRESH':
-          this.history = false;
+          this.showMoreDetail = false;
+          //this.history = false;
           this.viewMyReqs = false;
           //this.notifierStateService.resetState();
           this.takeReqs(this.history);
@@ -91,11 +111,44 @@ export class NotifierComponent implements OnInit {
     }
   }
 
+  confirm() {
+    let newstatus = 0;
+    this.playerStateService.getPlayer(this.playerId!).then((resp) => {
+      if(resp) {
+        const player = resp;
+
+        if(this.selectReq!.vincita.credits > player.credits! || this.selectReq!.vincita.coin > player.coin!) {
+          newstatus = 4;
+          this.messageService.alert('Attenzione!','Non hai abbastanza coin o crediti per accettare questa richiesta, per questo motivo verrà RIFIUTATA','info');
+        } else {
+          newstatus = 2;
+          this.updateReqs(this.selectReq!,newstatus);
+        }
+      } else {
+        //TO-DO gestione degli errori
+        /*
+        if(resp.status===402) {
+          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+        }
+        */
+
+        this.messageService.alert('Attenzione!','Errore durante la chiamata getPlayer','error');
+      }
+    });
+  }
+
+  rifiuting() {
+    this.updateReqs(this.selectReq!,4);
+  }
+
   selectPage(page: number) {
     this.pageSelected = page.toString();
   }
 
   doDetail(req:Reqs) {
+
+    this.selectReq = req;
+    
     const richiedente = req.playerRichiedente;
     const ricevente = req.playerRicevente;
     const typeMod = req.typeMod;
@@ -103,59 +156,56 @@ export class NotifierComponent implements OnInit {
     const perdita = req.perdita;
     const vincitore = req.vincitore;
     
-    if(req.status === 1) {
+    const myPlate = req.plateReq;
+    const oppoPlate =  req.plateOppo;
 
+    let nota="";
+    if(typeMod===TypeMod.SCONTRO) {
+      nota = 'Se non è presente il "-" davanti la sconfitta significa che se perdi, il tuo credito verrà comunque incrementato, in questo caso di <strong>'+perdita.coin+' <i class="fa fa fa-database"></i> '+perdita.credits+' <i class="fa fa fa-diamond"></i> </strong><br><br>';
+    } else if(typeMod===TypeMod.PUNTATA) {
+      nota = 'Comprese le carte messe in palio e accettate in richiesta!'
+    }
+
+    if(req.status === Status.INVIATO) {
       if(req.playerIdReq !== this.playerId) {
-        Swal.fire({
-          title: 'Dettaglio Richiesta',
-          icon: 'info',
-          html:
-          '<strong>'+richiedente+'</strong> ti ha invitato in Modalità <strong>'+TypeMod[typeMod]+'</strong> <br><br>'+
-          'Vincita: <strong>'+vincita.coin+' <i class="fa fa fa-database"></i> '+vincita.credits+' <i class="fa fa fa-diamond"></i></strong><br>'+
-          'Sconfitta: <strong>'+perdita.coin+' <i class="fa fa fa-database"></i> '+perdita.credits+' <i class="fa fa fa-diamond"></i></strong><br><br>'+
-          'Se non è presente il "-" davanti la sconfitta significa che se perdi, il tuo credito verrà comunque incrementato, in questo caso di <strong>'+perdita.coin+' <i class="fa fa fa-database"></i> '+perdita.credits+' <i class="fa fa fa-diamond"></i> </strong><br><br>',
-          showDenyButton: true,
-          confirmButtonText:
-            '<i class="fa fa-check"></i> Accetta!',
-          denyButtonText:
-          '<i class="fa fa-times-circle"></i> Rifiuta!'
-        }).then((result) => {
-          let newstatus = 0;
-          if (result.isConfirmed) {
-            newstatus = 2;
-          } else if (result.isDenied) {
-            newstatus = 4;
-          }
-    
-          if(newstatus !== 0) {
-
-            let request:any = {}
-            request.requestId = req.id;
-            request.status = newstatus;
-            this.notifierStateService.updateRequest(request).then((resp) => {
-              if(resp) {
-                //this.notifierStateService.resetState();
-                req.status = newstatus;
-                this.messageService.alert('Aggiornato!','Richiesta aggiornata con successo! Torna più tardi per vedere gli aggiornamenti','success');
-              } else {
-                this.messageService.alert('Errore',"Qualcosa è andato storto durante l'aggiornamento della richiesta",'error');
-              }
-            });
-          }
-        })
+        if(typeMod===TypeMod.PUNTATA) {
+          this.showMoreDetail = true;
+        } else {
+          Swal.fire({
+            title: 'Dettaglio Richiesta',
+            icon: 'info',
+            html:
+            '<label>'+richiedente+'<strong> VS </strong>'+ricevente+' <br><br>'+
+            'Vincita: <strong>'+vincita.coin+' <i class="fa fa fa-database"></i> '+vincita.credits+' <i class="fa fa fa-diamond"></i></strong><br><br>'+
+            'Sconfitta: <strong>'+perdita.coin+' <i class="fa fa fa-database"></i> '+perdita.credits+' <i class="fa fa fa-diamond"></i></strong><br><br>'+nota,
+            showDenyButton: true,
+            confirmButtonText:
+              '<i class="fa fa-check"></i> Accetta!',
+            denyButtonText:
+            '<i class="fa fa-times-circle"></i> Rifiuta!'
+          }).then((result) => {
+            let newstatus = 0;
+            if (result.isConfirmed) {
+              newstatus = 2;
+            } else if (result.isDenied) {
+              newstatus = 4;
+            }
+      
+            this.updateReqs(req,newstatus); 
+          })
+        } 
       } else {
         this.messageService.alert('Info',"In attesa di risposta da parte di "+ricevente,'info');
       }
       
-    } else if (req.status === 2) {
+    } else if (req.status === Status.ACCETTATO) {
       Swal.fire({
         title: 'Decreta il vincitore',
         icon: 'info',
         html:
         '<label>'+richiedente+'<strong> VS </strong>'+ricevente+' <br><br>'+
-        'Vincita: <strong>'+vincita.coin+' <i class="fa fa fa-database"></i> '+vincita.credits+' <i class="fa fa fa-diamond"></i></strong><br>'+
-        'Sconfitta: <strong>'+perdita.coin+' <i class="fa fa fa-database"></i> '+perdita.credits+' <i class="fa fa fa-diamond"></i></strong><br><br>'+
-        'Se non è presente il "-" davanti la sconfitta significa che se perdi, il tuo credito verrà comunque incrementato, in questo caso di <strong>'+perdita.coin+' <i class="fa fa fa-database"></i> '+perdita.credits+' <i class="fa fa fa-diamond"></i> </strong><br><br>',
+        'Vincita: <strong>'+vincita.coin+' <i class="fa fa fa-database"></i> '+vincita.credits+' <i class="fa fa fa-diamond"></i></strong><br><br>'+
+        'Sconfitta: <strong>'+perdita.coin+' <i class="fa fa fa-database"></i> '+perdita.credits+' <i class="fa fa fa-diamond"></i></strong><br><br>'+nota,
         showDenyButton: true,
         confirmButtonColor: '#46a9c9',
         denyButtonColor: '#46a9c9',
@@ -209,14 +259,13 @@ export class NotifierComponent implements OnInit {
           });
         }
       })
-    } else if(req.status === 3) {
+    } else if(req.status === Status.COMPLETATO) {
       if(vincitore!) {
         this.messageService.alert('Info',"Partita conclusa! <br> Il vincitore: <strong>"+vincitore+'</strong><br><br>' + 'Vincita: <strong>'+vincita.coin+' <i class="fa fa fa-database"></i> '+vincita.credits+' <i class="fa fa fa-diamond"></i></strong>','info');
       }
     }else {
-      this.messageService.alert('Info',"Questa richiesta è stata annullata, creane una nuova!",'info');
+      this.messageService.alert('Info',"Questa richiesta è stata rifiutata, creane una nuova!",'info');
     }
-    
   }
 
   public get Status() {
@@ -231,9 +280,31 @@ export class NotifierComponent implements OnInit {
     return Array.from({ length: n }, (_, index) => index + 1);
   }
 
+  private updateReqs(req: Reqs, newstatus: number) {
+    if(newstatus !== 0) {
+      let request:any = {}
+      request.requestId = req.id;
+      request.status = newstatus;
+      this.notifierStateService.updateRequest(request).then((resp) => {
+        if(resp) {
+          //this.notifierStateService.resetState();
+          req.status = newstatus;
+          this.messageService.alert('Aggiornato!','Richiesta aggiornata con successo! Torna più tardi per vedere gli aggiornamenti','success');
+          this.showMoreDetail = false;
+        } else {
+          this.messageService.alert('Errore',"Qualcosa è andato storto durante l'aggiornamento della richiesta",'error');
+        }
+      });
+    }
+  }
+
+  showCard(card:Card) {
+    this.messageService.showDetailCard(card);
+  }
+
   private takeReqs(history:boolean, myReqs: boolean = false) {
     this.pageSelected = "1";
-    this.notifierStateService.getReqs(this.playerId!,history,myReqs).then((resp) => {
+    this.notifierStateService.getReqs(this.playerId!,history,myReqs,this.typeMode!).then((resp) => {
       if(resp) {
         this.dictReqs = resp;
       } else {

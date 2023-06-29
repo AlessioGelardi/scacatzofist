@@ -190,16 +190,6 @@ export class FilterCardComponent implements OnInit {
         if(resp) {
           this.viewSearchResult = true; 
           this.cards=resp;
-
-          //check qnt of zaino for posseduto o mancante
-          for(let card of this.zaino) {
-            let cardFind = this.cards.find(i => i.id === card.id!);
-
-            if(cardFind) {
-              cardFind.qnt!++;
-            }
-          }
-
         }
       });
       

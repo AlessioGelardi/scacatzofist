@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { Button } from 'src/app/module/interface/button';
 import { Card, Deck } from 'src/app/module/interface/card';
 import { StateDeckService } from '../../services/state/state-deck.service';
 import Swal from 'sweetalert2';
 import { StatePlayerService } from 'src/app/module/player/services/state/state-player.service';
 import { MessageService } from 'src/app/module/swalAlert/message.service';
+import { CdkDragDrop, CdkDragEnd, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-deck-edit',
   templateUrl: './deck-edit.component.html',
-  styleUrls: ['./deck-edit.component.css']
+  styleUrls: ['../../styles/deck.css','./deck-edit.component.css']
 })
 export class DeckEditComponent implements OnInit {
 
@@ -34,6 +34,11 @@ export class DeckEditComponent implements OnInit {
 
   permission: boolean = true;
 
+  dragDrop:boolean = false;
+  dragging:boolean = false;
+
+  typeExtra = [65, 129, 8193, 8388609, 4161, 97, 4193, 637, 161, 4257, 2097313, 8225, 12321, 8388641];
+
   constructor(private router: Router,
     private deckStateService: StateDeckService,
     private route: ActivatedRoute,
@@ -44,6 +49,11 @@ export class DeckEditComponent implements OnInit {
     this.permission = this.route.snapshot.paramMap.get('permission')! === "true";
     this.buttons = [
       {
+        name: "HOME-BUTTON",
+        code: "HOME",
+        class: "fa fa-home"
+      },
+      {
         name: "BACK-BUTTON",
         code: "BACK",
         class: "fa fa-arrow-left"
@@ -52,6 +62,11 @@ export class DeckEditComponent implements OnInit {
         name: "REFRESH-BUTTON",
         code: "REFRESH",
         class: "fa fa-refresh"
+      },
+      {
+        name: "SWITCH-BUTTON",
+        code: "SWITCH",
+        class: "fa-solid fa-image"
       },
       {
         name: "SAVE-BUTTON",
@@ -69,6 +84,9 @@ export class DeckEditComponent implements OnInit {
   buttonOperationHandler(code: any) {
     if(code) {
       switch(code) {
+        case 'HOME':
+          this.router.navigate(['/home',{id:this.playerId!}]);
+          break;
         case 'BACK':
           if(this.newNameDeck) {
             this.router.navigate(['/deck',{id:this.playerId!, permission: this.permission}]);
@@ -82,16 +100,42 @@ export class DeckEditComponent implements OnInit {
           this.takeDeck();
           break;
         }
+        case 'SWITCH': {
+          this.dragDrop=!this.dragDrop;
+
+          if(this.dragDrop) {
+            this.sliceEnd = 120;
+            this.slice = 120;
+          } else {
+            this.sliceEnd = 60;
+            this.slice = 60;
+          }
+          break;
+        }
         case 'SAVE':
           this.deck!.new=false;
-          this.deckStateService.updateDeck(this.deck!,this.deckId!).then((resp) => {
-            if(resp) {
-              this.deckStateService.resetPlayerDecks();
-              this.messageService.alert('Fatto!','Deck salvato con successo.','success');
-            } else {
-              this.messageService.alert('Errore','Qualcosa è andato storto durante il salvataggio del deck','error');
+
+          const extraIntoMain = this.checkExtraIntoMain();
+          const mainIntoExtra = this.checkMainIntoExtra();
+
+          if(!extraIntoMain && !mainIntoExtra) {
+            this.deckStateService.updateDeck(this.deck!,this.deckId!).then((resp) => {
+              if(resp) {
+                this.deckStateService.resetPlayerDecks();
+                this.messageService.alert('Fatto!','Deck salvato con successo.','success');
+              } else {
+                this.messageService.alert('Errore','Qualcosa è andato storto durante il salvataggio del deck','error');
+              }
+            });
+          } else {
+            if(extraIntoMain) {
+              this.messageService.alert('Errore',"Il main deck non deve contenere carte di tipo fusione,synchro o xyz, per favore spostale nell'extra deck",'error');
             }
-          });
+
+            if(mainIntoExtra) {
+              this.messageService.alert('Errore',"L'extra deck deve contenere carte solo di tipo fusione,synchro o xyz, per favore sposta il resto delle carte nel main deck",'error');
+            }
+          }
           break;
       }
     }
@@ -105,44 +149,29 @@ export class DeckEditComponent implements OnInit {
       let indice = -1;
       switch(type) {
         case 1:
-          if(card.qnt>1) {
-            let cardIntoMain = this.deck?.main.find(i => i.id === card.id);
-            cardIntoMain!.qnt!--;
-          } else {
-            indice = this.deck?.main.indexOf(card, 0)!;
-            if (indice !== undefined && indice > -1) {
-              this.deck?.main.splice(indice, 1);
-            }
+          indice = this.deck?.main.indexOf(card, 0)!;
+          if (indice !== undefined && indice > -1) {
+            this.deck?.main.splice(indice, 1);
           }
 
           break;
         case 2:
-          if(card.qnt>1) {
-            let cardIntoExtra = this.deck?.extra.find(i => i.id === card.id);
-            cardIntoExtra!.qnt!--;
-          } else {
-            indice = this.deck?.extra.indexOf(card, 0)!;
-            if (indice !== undefined && indice > -1) {
-              this.deck?.extra.splice(indice, 1);
-            }
+          indice = this.deck?.extra.indexOf(card, 0)!;
+          if (indice !== undefined && indice > -1) {
+            this.deck?.extra.splice(indice, 1);
           }
 
           break;
         case 3:
-          if(card.qnt>1) {
-            let cardIntoSide = this.deck?.side.find(i => i.id === card.id);
-            cardIntoSide!.qnt!--;
-          } else {
-            indice = this.deck?.side.indexOf(card, 0)!;
-            if (indice !== undefined && indice > -1) {
-              this.deck?.side.splice(indice, 1);
-            }
+          indice = this.deck?.side.indexOf(card, 0)!;
+          if (indice !== undefined && indice > -1) {
+            this.deck?.side.splice(indice, 1);
           }
 
           break;
       }
 
-      this.addCardZaino(card);
+      this.zaino.push(card);
     }
   }
 
@@ -151,23 +180,39 @@ export class DeckEditComponent implements OnInit {
   }
   
   showCard(card:Card) {
-    this.messageService.showDetailCard(card);
+    if(!this.dragging) {
+      this.messageService.showDetailCard(card);
+    }
+  }
+
+  onDragStart(): void {
+    this.dragging = true;
+  }
+  
+  onDragEnd(): void {
+    setTimeout(() => {
+      this.dragging = false;
+    }, 10);
+  }
+
+  onDrop(event: CdkDragDrop<Card[]>) {
+    if(event.previousContainer === event.container) {
+      moveItemInArray(event.container.data,event.previousIndex,event.currentIndex)
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      )
+    }
   }
 
   addCard(card:Card) {
-    if(card && card.type == 8388641 || card.type === 97 || card.type === 8225) { //TO-DO
-
+    if(card && this.typeExtra.includes(card.type)) {
+      this.deck?.extra.push(card);
       this.deleteCardZaino(card);
-
-      //verifico se la carta che sto aggiungendo nel main è già presente almeno una volta
-      let cardIntoExtra = this.deck?.extra.find(i => i.id === card.id);
-      if(cardIntoExtra) {
-        cardIntoExtra!.qnt!++;
-      } else {
-        let newCard = {...card }
-        newCard.qnt=1
-        this.deck?.extra.push(newCard);
-      }
+      
     } else if (card) {
       Swal.fire({
         title: 'Dove vuoi aggiungere questa carta?',
@@ -179,30 +224,14 @@ export class DeckEditComponent implements OnInit {
       }).then((result) => {
         if (result.isConfirmed) {
 
+          this.deck?.main.push(card)
           this.deleteCardZaino(card);
 
-          //verifico se la carta che sto aggiungendo nel main è già presente almeno una volta
-          let cardIntoMain = this.deck?.main.find(i => i.id === card.id);
-          if(cardIntoMain) {
-            cardIntoMain!.qnt!++;
-          } else {
-            let newCard = {...card }
-            newCard.qnt=1
-            this.deck?.main.push(newCard);
-          }
         } else if (result.isDenied) {
 
+          this.deck?.side.push(card)
           this.deleteCardZaino(card);
 
-          //verifico se la carta che sto aggiungendo nel side è già presente almeno una volta
-          let cardIntoSide = this.deck?.side.find(i => i.id === card.id);
-          if(cardIntoSide) {
-            cardIntoSide!.qnt!++;
-          } else {
-            let newCard = {...card }
-            newCard.qnt=1;
-            this.deck?.side.push(newCard);
-          }
         }
       })
       
@@ -243,52 +272,20 @@ export class DeckEditComponent implements OnInit {
   }
 
   private takeZaino() {
+    this.zaino = []
     this.playerStateService.getZaino(this.playerId!).then((resp) => {
       if(resp) {
-        this.zaino = [];
-        for(let card of resp) {
+        
+        for (const card of resp) {
+          let checkId = card.id
+          let inUse = false;
 
-          if(card && card.type == 8388641 || card.type === 97 || card.type === 8225) { //TO-DO
+          if (this.deck?.main.concat(this.deck?.extra, this.deck?.side).some(obj => obj.id === checkId)) {
+            inUse = true;
+          }
 
-            //check extra
-            let cardIntoExtra = this.deck?.extra.find(i => i.id === card.id);
-            if(cardIntoExtra) {
-              let cardIntoZaino = this.zaino.find(i => i.id === card.id);
-              if(!cardIntoZaino) {
-                if(card.qnt!>cardIntoExtra.qnt!) {
-                  card.qnt=card.qnt!-cardIntoExtra.qnt!;
-                  this.zaino.push(card)
-                }
-              }
-            } else {
-              this.zaino.push(card)
-            }
-          } else {
-
-            //check main
-            let cardIntoMain = this.deck?.main.find(i => i.id === card.id);
-            let cardIntoSide = this.deck?.side.find(i => i.id === card.id);
-            if(cardIntoMain || cardIntoSide) {
-              let cardIntoZaino = this.zaino.find(i => i.id === card.id);
-              if(!cardIntoZaino) {
-
-                if(cardIntoMain) {
-                  if(card.qnt!>cardIntoMain.qnt!) {
-                    card.qnt=card.qnt!-cardIntoMain.qnt!;
-                    this.zaino.push(card)
-                  }
-                }
-
-                if(cardIntoSide) {
-                  if(card.qnt!>cardIntoSide.qnt!) {
-                    card.qnt=card.qnt!-cardIntoSide.qnt!;
-                    this.zaino.push(card)
-                  }
-                }
-              }
-            } else {
-              this.zaino.push(card)
-            }
+          if(!inUse) {
+            this.zaino.push(card)
           }
         }
         this.sliceLimit = this.zaino.length;
@@ -306,26 +303,20 @@ export class DeckEditComponent implements OnInit {
   }
 
   private deleteCardZaino(card: Card) {
-    //verifico se la carta che ho nell'inventario ha più di una quantità
-    if(card.qnt!>1) {
-      card.qnt!--;
-    } else {
       let indice = this.zaino.indexOf(card, 0)!;
       if (indice !== undefined && indice > -1) {
         this.zaino.splice(indice, 1);
       }
-    }
   }
 
-  private addCardZaino(card: Card) {
-    let cardIntoZaino = this.zaino.find(i => i.id === card.id);
-    if(cardIntoZaino) {
-      cardIntoZaino.qnt!++;
-    } else {
-      let newCard = {...card }
-      newCard.qnt=1;
-      this.zaino.push(newCard);
-    }
+  private checkExtraIntoMain(): boolean {
+    let cardIntoMain = this.deck!.main.find(i => this.typeExtra.includes(i.type));
+    return cardIntoMain ? true:false;
+  }
+
+  private checkMainIntoExtra(): boolean {
+    let cardIntoExtra = this.deck!.extra.find(i => !this.typeExtra.includes(i.type));
+    return cardIntoExtra ? true:false;
   }
 
 }

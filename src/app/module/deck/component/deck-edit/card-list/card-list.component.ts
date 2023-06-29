@@ -1,32 +1,74 @@
+import { CdkDrag, CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Card } from 'src/app/module/interface/card';
 
 @Component({
   selector: 'card-list',
   templateUrl: './card-list.component.html',
-  styleUrls: ['./card-list.component.css']
+  styleUrls: ['../../../styles/deck.css','./card-list.component.css']
 })
 export class CardListComponent implements OnInit {
 
   @Input() typeDeck!: number;
   @Input() cards!: Card[];
+  @Input() dragDrop: boolean = false;
+  @Input() dragging: boolean = false;
+  @Input('connectedTo') connectedTo!: string[];
 
   @Output() showCard: EventEmitter<Card> = new EventEmitter();
   @Output() removeCard: EventEmitter<any> = new EventEmitter();
+
+  kindDeck: string | undefined;
 
   constructor() { }
 
   ngOnInit(): void {
 
+    switch(this.typeDeck) {
+      case 1:
+        this.kindDeck='main';
+        break;
+      case 2:
+        this.kindDeck='extra';
+        break;
+      case 3:
+        this.kindDeck='side';
+        break;
+      default:
+        break;
+    }
+  }
 
+  onDragStart(): void {
+    this.dragging = true;
+  }
+  
+  onDragEnd(): void {
+    setTimeout(() => {
+      this.dragging = false;
+    }, 10);
+  }
+
+  onDrop(event: CdkDragDrop<Card[]>) {
+    if(event.previousContainer === event.container) {
+      moveItemInArray(event.container.data,event.previousIndex,event.currentIndex)
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      )
+    }
   }
 
   show(card: Card) {
-    this.showCard.emit(card);
+    if(!this.dragging) {
+      this.showCard.emit(card);
+    }
   }
 
   remove(card: Card,type:number) {
     this.removeCard.emit({"card":card,"type":type});
   }
-
 }

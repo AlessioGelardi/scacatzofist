@@ -7,7 +7,6 @@ export interface Card {
     atk: number;
     def: number;
     state?: string;
-    qnt?:number;
 }
 
 export interface Pack {
@@ -35,6 +34,7 @@ export interface SellCard {
     prezzo?: string;
     playerId?: string;
     playerName?: string;
+    dailyShop?: boolean;
 }
 
 export interface SellPack {

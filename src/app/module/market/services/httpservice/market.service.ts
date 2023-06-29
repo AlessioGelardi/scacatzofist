@@ -13,9 +13,9 @@ export class MarketService {
   apiUrlMarketPack: string = environment.baseUrlMarket + "marketpack";
   apiUrlMarketEdicola: string =  environment.baseUrlMarket + "edicola";
   apiUrlMarketCredits: string =  environment.baseUrlMarket + "credits";
-  apiUrlMarketDailyPack: string =  environment.baseUrlMarket + "dailypack";
   apiUrlMarketOpenPack: string =  environment.baseUrlMarket + "openpack";
   marketplaceById: string = environment.baseUrlMarket + "marketplaceById";
+  apiUrlMarketDailyShop: string =  environment.baseUrlMarket + "dailyshop";
 
   constructor(private http: HttpClient) { }
 
@@ -25,6 +25,11 @@ export class MarketService {
 
   getMarketpack(): Observable<SellPack[]> {
     return this.http.get<SellPack[]>(this.apiUrlMarketPack);
+  }
+
+  getDailyShop(request:any): Observable<SellCard[]> {
+    request.dataUpdate = this.takeFormatToday();
+    return this.http.put<SellCard[]>(this.apiUrlMarketDailyShop,request,this.generateOptions());
   }
 
   getMarketPlaceById(playerId:string) { //To-DO verificare se si può fare un percorso unico tra getMarketPlace e getmarketplacebyid
@@ -54,6 +59,10 @@ export class MarketService {
     return this.http.put<boolean>(this.apiUrlMarketPlace+'?id='+sellCard.id,acquisto,this.generateOptions());
   }
 
+  acquistaCardDailyShop(request:any): Observable<boolean> {
+    return this.http.post<boolean>(this.apiUrlMarketDailyShop,request,this.generateOptions());
+  }
+
   acquistaPacchetti(request:any): Observable<Pack[]> {
     request.dataUpdate = this.takeFormatToday();
     return this.http.put<Pack[]>(this.apiUrlMarketEdicola,request,this.generateOptions());
@@ -64,11 +73,6 @@ export class MarketService {
     request.playerId = playerId;
     request.credits = numCredits;
     return this.http.put<boolean>(this.apiUrlMarketCredits,request,this.generateOptions());
-  }
-
-  acquistaDaily(request: any): Observable<Pack> {
-    request.dataUpdate = this.takeFormatToday();
-    return this.http.put<Pack>(this.apiUrlMarketDailyPack,request,this.generateOptions());
   }
 
   apriPack(request:any) {

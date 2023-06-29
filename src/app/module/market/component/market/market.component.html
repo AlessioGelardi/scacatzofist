@@ -6,6 +6,23 @@
             <market-buttons [buttons]="buttons" (buttonOperation)="buttonOperationHandler($event)"></market-buttons>
         </div>
 
+        <div class="row mt-4 text-center">
+            <h3>DAILY SHOP</h3>
+        </div>
+        <div class="row">
+            <div *ngFor="let ds of dailyshop" class="col-3 d-flex justify-content-center pb-5">
+                <div class="mt-3 position-relative">
+                    <img src="{{'https://images.ygoprodeck.com/images/cards/'+ds.card.id+'.jpg'}}" class="deckcard mb-3" (click)="showCard(ds.card)" />
+                    <div class="position-absolute bottom-10 start-50 translate-middle-x">
+                        <button type="button" class="btn btn-sm btn-outline-success" style="width: 100px;" (click)="compraCard(ds)">{{ds.prezzo}} <i class="fa fa-database"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4 text-center">
+            <h3>MARKET</h3>
+        </div>
         <div class="row pt-3">
             <table class="table table-hover mt-3 text-center" >
                 <thead>

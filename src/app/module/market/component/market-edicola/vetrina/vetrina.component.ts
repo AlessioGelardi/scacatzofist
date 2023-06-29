@@ -15,14 +15,19 @@ export class VetrinaComponent implements OnInit {
   selectPack: any | undefined;
 
   dailyPack: boolean = false;
+  isDeck: boolean = false;
 
   constructor() { }
 
   ngOnInit(): void {
     if(this.packs[0].dailyPack) {
       this.dailyPack = true;
+    } else if(this.packs[0].deck) {
+      this.dailyPack = false;
+      this.isDeck = true;
     } else {
       this.dailyPack = false;
+      this.isDeck = false;
     }
   }
 
@@ -37,6 +42,10 @@ export class VetrinaComponent implements OnInit {
     } else {
       this.confirmBuyEmitter.emit({"name":name,"taglia":taglia,"baseCost":baseCost, "typePack":type, "monster":monster, "level":level, "src":src});
     }
+  }
+
+  acquistaDeck(name:string, baseCost:number, src:string, id:string) {
+    this.confirmBuyEmitter.emit({"name":name,"deck":true, "baseCost":baseCost, "src":src, "deckId": id});
   }
 
   calculatePrezzo(taglia:number, baseCost:number):number {

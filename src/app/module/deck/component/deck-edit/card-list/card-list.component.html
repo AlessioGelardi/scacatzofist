@@ -1,27 +1,38 @@
 <div class="d-flex justify-content-center mt-4">
-    <h5 *ngIf="typeDeck===1">MAIN</h5>
-    <h5 *ngIf="typeDeck===2">EXTRA</h5>
-    <h5 *ngIf="typeDeck===3">SIDE</h5>
+    <h5>{{kindDeck!.toUpperCase()}}</h5>
 </div>
-<table class="table table-hover mt-3 text-center" style="margin-left:-40px">
+<table class="table table-hover mt-3 text-center" style="margin-left:-40px" *ngIf="!dragDrop">
     <thead>
         <tr>
             <th>Nome</th>
             <th>ATK</th>
             <th>DEF</th>
-            <th>Qnt</th>
             <th>&nbsp;</th>
         </tr>
     </thead>
-    <tbody>
-        <tr *ngFor="let card of cards">
-            <td class="text-truncate" (click)="show(card)">{{card.name}}</td>
+    <tbody cdkDropList (cdkDropListDropped)="onDrop($event)" [cdkDropListData]="cards" [cdkDropListConnectedTo]="connectedTo" id="{{kindDeck}}">
+        <tr *ngFor="let card of cards" cdkDrag>
+            <td class="text-truncate" (click)="show(card)" (cdkDragStarted)="onDragStart()" (cdkDragEnded)="onDragEnd()">{{card.name}}</td>
             <td>{{card.atk}}</td>
             <td>{{card.def}}</td>
-            <td>{{card.qnt}}</td>
             <td>
                 <button type="button" class="btn btn-outline-dark btn-sm" (click)="remove(card,typeDeck!)"><i class="fa fa-trash"></i></button>
             </td>
         </tr>
     </tbody>
 </table>
+<div *ngIf="dragDrop" class="mt-3" style="padding-right:80px">
+    <div *ngIf="cards.length>0" class="row" cdkDropList (cdkDropListDropped)="onDrop($event)" [cdkDropListData]="cards" [cdkDropListConnectedTo]="connectedTo" id="{{kindDeck}}">
+        <div *ngFor="let card of cards" class="col-1" cdkDrag>
+            <img
+              class="deckcard" src="{{'https://images.ygoprodeck.com/images/cards/'+card?.id+'.jpg'}}"
+              (cdkDragStarted)="onDragStart()"
+              (cdkDragEnded)="onDragEnd()"
+              (click)="show(card)"
+            />
+        </div>
+    </div>
+    <div *ngIf="cards.length<=0" cdkDropList (cdkDropListDropped)="onDrop($event)" [cdkDropListData]="cards" [cdkDropListConnectedTo]="connectedTo" id="{{kindDeck}}">
+        <div class="area-drop"></div>
+    </div>
+</div>

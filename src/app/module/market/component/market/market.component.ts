@@ -11,7 +11,7 @@ import { MessageService } from 'src/app/module/swalAlert/message.service';
 @Component({
   selector: 'app-market',
   templateUrl: './market.component.html',
-  styleUrls: ['./market.component.css']
+  styleUrls: ['../../styles/market.css','./market.component.css']
 })
 export class MarketComponent implements OnInit {
 
@@ -23,6 +23,8 @@ export class MarketComponent implements OnInit {
 
   showPack:boolean = false;
   marketPack: SellPack[] | undefined;
+
+  dailyshop: SellCard[] | undefined;
 
   constructor(private route: ActivatedRoute,
     private router: Router,
@@ -54,7 +56,8 @@ export class MarketComponent implements OnInit {
 
     this.playerId = this.route.snapshot.paramMap.get('id')!;
     
-    this.takePlayer(this.playerId!);
+    this.takePlayer();
+    this.takeDailyShop();
 
   }
 
@@ -85,15 +88,35 @@ export class MarketComponent implements OnInit {
     }).then((result) => {
       if(result.isConfirmed) {
         if(this.player!.coin!-Number(sellCard.prezzo)>=0) {
-          this.marketStateService.buyCard(sellCard,this.player?._id!).then((resp) => {
-            if(resp) {
-              this.player!.coin = this.player!.coin! - Number(sellCard.prezzo);
-              this.messageService.alert('Fatto!','Carta acquistata!','success');
-              this.takeMarketPlace();
-            } else {
-              this.messageService.alert('Errore','Qualcosa è andato storto durante acquisto della carta','error');
-            }
-          });
+          if(sellCard.dailyShop) {
+            let request:any = {}
+            request.sellId = sellCard.id;
+            request.cardId = sellCard.card.id;
+            request.prezzo = sellCard.prezzo;
+            request.playerId = this.playerId;
+            this.marketStateService.buyCardDailyShop(request).then((resp) => {
+              if(resp) {
+                this.player!.coin = this.player!.coin! - Number(sellCard.prezzo);
+                this.messageService.alert('Fatto!','Carta acquistata!','success');
+                this.marketStateService.resetDailyShopState();
+                this.playerStateService.resetZaino();
+                this.takeDailyShop();
+              } else {
+                this.messageService.alert('Errore','Qualcosa è andato storto durante acquisto della carta','error');
+              }
+            });
+          } else {
+            this.marketStateService.buyCard(sellCard,this.player?._id!).then((resp) => {
+              if(resp) {
+                this.player!.coin = this.player!.coin! - Number(sellCard.prezzo);
+                this.messageService.alert('Fatto!','Carta acquistata!','success');
+                this.takeMarketPlace();
+              } else {
+                this.messageService.alert('Errore','Qualcosa è andato storto durante acquisto della carta','error');
+              }
+            });
+          }
+
         } else {
           this.messageService.alert('Errore','Non hai abbastanza coin','error');
         }
@@ -222,8 +245,8 @@ export class MarketComponent implements OnInit {
     });
   }
 
-  private takePlayer(playerId: string) {
-    this.playerStateService.getPlayer(playerId).then((resp) => {
+  private takePlayer() {
+    this.playerStateService.getPlayer(this.playerId!).then((resp) => {
       if(resp) {
         this.player = resp;
         this.takeMarketPlace();
@@ -237,6 +260,12 @@ export class MarketComponent implements OnInit {
 
         this.messageService.alert('Attenzione!','Errore durante la chiamata getPlayer','error');
       }
+    });
+  }
+
+  private takeDailyShop() {
+    this.marketStateService.getDailyShop(this.playerId!).then((resp) => {
+      this.dailyshop = resp!;
     });
   }
 

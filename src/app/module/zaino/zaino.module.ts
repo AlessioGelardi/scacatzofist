@@ -8,6 +8,7 @@ import { ViewCardComponent } from './component/view-card/view-card.component';
 import { InventoryComponent } from './component/inventory/inventory.component';
 import { OpeningPackComponent } from './component/inventory/opening-pack/opening-pack.component';
 import { PlayerModule } from '../player/player.module';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { PlayerModule } from '../player/player.module';
   imports: [
     CommonModule,
     FormsModule,
+    DragDropModule,
     ReactiveFormsModule,
     PlayerModule,
   ],
