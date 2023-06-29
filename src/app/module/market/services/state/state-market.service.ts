@@ -98,33 +98,6 @@ export class StateMarketService {
     return this.dailyShop;    
   }
 
-  
-
-  /*
-
-  async getSellHistory(id:string) {
-    this.spinnerService.show();
-    
-    if(!this.sellHistory) {
-      try {
-        const response = await firstValueFrom(this.marketService.getMarketPlaceById(id));
-        this.sellHistory = response;
-        this.spinnerService.hide();
-      } catch (error:any) {
-        this.spinnerService.hide();
-        if(error.status===402) {
-          this.messageService.alert('Attenzione!','Nessuna carta in vendita al momento','info');
-        } else {
-          this.messageService.alert('Errore','Qualcosa è andato storto durante il recupero della history del market','error');
-        }
-      }
-    } else {
-      this.spinnerService.hide();
-    }
-
-    return this.sellHistory;    
-  }*/
-
   async venditaCard(request:any) {
     this.spinnerService.show();
     let response;

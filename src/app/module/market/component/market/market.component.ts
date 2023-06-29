@@ -99,6 +99,7 @@ export class MarketComponent implements OnInit {
                 this.player!.coin = this.player!.coin! - Number(sellCard.prezzo);
                 this.messageService.alert('Fatto!','Carta acquistata!','success');
                 this.marketStateService.resetDailyShopState();
+                this.playerStateService.resetZaino();
                 this.takeDailyShop();
               } else {
                 this.messageService.alert('Errore','Qualcosa è andato storto durante acquisto della carta','error');
