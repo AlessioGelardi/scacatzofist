@@ -17,7 +17,7 @@ export class ViewCardComponent implements OnInit {
   }
 
   checkExist(card:Card) {
-    return this.zaino.includes(card)
+    return this.zaino.some(item => item.id === card.id);
   }
 
 }
