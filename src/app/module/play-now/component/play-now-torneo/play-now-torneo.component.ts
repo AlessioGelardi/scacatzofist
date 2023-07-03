@@ -1,21 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Button } from 'src/app/module/interface/button';
 import { Player } from 'src/app/module/interface/player';
 import { StatePlayerService } from 'src/app/module/player/services/state/state-player.service';
 import { MessageService } from 'src/app/module/swalAlert/message.service';
 import { TypeMod } from '../../enum/typeMod';
+import { Tournament } from 'src/app/module/interface/tournament';
 
 @Component({
-  selector: 'app-play-now',
-  templateUrl: './play-now.component.html',
-  styleUrls: ['./play-now.component.css']
+  selector: 'app-play-now-torneo',
+  templateUrl: './play-now-torneo.component.html',
+  styleUrls: ['./play-now-torneo.component.css']
 })
-export class PlayNowComponent implements OnInit {
-
+export class PlayNowTorneoComponent {
   buttons: Button[] = [];
 
   player:Player | undefined;
+  playerId: string | undefined;
+
+  tournaments: Tournament[] = [];
 
   constructor(private route: ActivatedRoute,
     private router: Router,
@@ -23,12 +26,16 @@ export class PlayNowComponent implements OnInit {
     private playerStateService: StatePlayerService) { }
 
   ngOnInit(): void {
-
     this.buttons = [
       {
         name: "HOME-BUTTON",
         code: "HOME",
         class: "fa fa-home"
+      },
+      {
+        name: "BACK-BUTTON",
+        code: "BACK",
+        class: "fa fa-arrow-left"
       },
       {
         name: "REQUEST-BUTTON",
@@ -37,11 +44,21 @@ export class PlayNowComponent implements OnInit {
       }
     ];
 
-    const playerId = this.route.snapshot.paramMap.get('id')!; 
-    this.takePlayer(playerId);
+    this.playerId = this.route.snapshot.paramMap.get('id')!;
+    this.takePlayer(this.playerId);
+    this.takeTournaments();
+  }
 
-    const bonus:boolean = this.route.snapshot.paramMap.get('bonus') === "true";
-    this.playerStateService.setBonus(bonus);
+  refresh() {
+    this.takeTournaments();
+  }
+
+  addTournaments() {
+    //TO-DO
+  }
+
+  showTournaments(tourn: Tournament) {
+    //TO-DO
   }
 
   buttonOperationHandler(code: any) {
@@ -50,31 +67,14 @@ export class PlayNowComponent implements OnInit {
         case 'HOME':
           this.router.navigate(['/home']);
           break;
+        case 'BACK':
+          this.router.navigate(['/playnow',{id:this.playerId}]);
+          break;
         case 'REQUEST':
-          this.router.navigate(['/request',{id:this.player?._id!,typeMode:TypeMod.ALL, playerRole: this.player?.ruolo!}]);
+          this.router.navigate(['/request',{id:this.playerId,typeMode:TypeMod.TORNEO}]);
           break;
       }
     }
-  }
-
-  singlePlayer() {
-    this.messageService.alert('In progress...',"Questa funzionalità è ancora in sviluppo... Ci dispiace per l'inconveniente torna più tardi !!! ",'info');
-  }
-
-  scontro() {
-    this.router.navigate(['/scontro',{id:this.player!._id}]);
-  }
-
-  training() {
-    this.router.navigate(['/training',{id:this.player!._id}]);
-  }
-
-  puntata() {
-    this.router.navigate(['/puntata',{id:this.player!._id, playerRole: this.player?.ruolo!}]);
-  }
-
-  torneo() {
-    this.router.navigate(['/torneo',{id:this.player!._id}]);
   }
 
   private takePlayer(playerId: string) {
@@ -94,4 +94,7 @@ export class PlayNowComponent implements OnInit {
     });
   }
 
+  private takeTournaments() {
+    //TO-DO
+  }
 }
