@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Card } from 'src/app/module/interface/card';
+import { Card, SellPack } from 'src/app/module/interface/card';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
 
 @Injectable({
@@ -25,4 +25,16 @@ export class MessageService {
       imageWidth: 160
     })
   }
+
+  public showDetailPack(pack:SellPack) {
+    Swal.fire({
+      title: pack.name,
+      color: '#3e3d3c',
+      background: '#cdcccc',
+      html: '<label style="font-size:14px"> PACK '+pack.name+' contenente '+pack.taglia+' carte!'+'</label>',
+      imageUrl: pack.src,
+      imageWidth: 160
+    })
+  }
+
 }

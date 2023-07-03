@@ -125,6 +125,12 @@ export class InventoryComponent implements OnInit {
           request.taglia = pack.taglia;
           request.src = pack.src;
           request.name = pack.name;
+          request.type = pack.type;
+          request.level = pack.level;
+          request.monster = pack.monster;
+          request.isDaily = pack.isDaily;
+          request.isDeck = pack.isDeck;
+          request.deckId = pack.deckId;
           
           this.marketStateService.venditaPack(request).then((resp) => {
             if(resp === true) {

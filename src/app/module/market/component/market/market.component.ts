@@ -62,8 +62,14 @@ export class MarketComponent implements OnInit {
   }
 
   refresh() {
-    this.marketStateService.resetState();
-    this.takeMarketPlace();
+    if(!this.showPack) {
+      this.marketStateService.resetMarketPlace();
+      this.takeMarketPlace();
+    } else {
+      this.marketStateService.resetMarketPack();
+      this.takeMarketPack();
+    }
+
   }
 
   doShowPack() {
@@ -197,24 +203,29 @@ export class MarketComponent implements OnInit {
       confirmButtonText: 'Togli la vendita'
     }).then((result) => {
       if(result.isConfirmed) {
-        /*
-        this.marketStateService.deleteSellPack(sellPack.id,this.playerId!).then((resp) => {
+        
+        this.marketStateService.deleteSellPack(sellPack.id).then((resp) => {
           if(resp === true) {
             this.messageService.alert('Fatto!','Vendita eliminata con successo!','success');
-            this.marketStateService.resetState();
-            this.takeMarketPlace();
+            this.marketStateService.resetMarketPack();
+            this.playerStateService.resetInventory();
+            this.takeMarketPack();
           } else {
             if(resp && resp.status !== 200) {
               this.messageService.alert('Errore','Qualcosa è andato storto durante la cancellazione della vendita','error');
             }
           }
-        });*/
+        });
       }
     })
   }
 
   showCard(card:Card) {
     this.messageService.showDetailCard(card);
+  }
+
+  clickShowPack(pack:SellPack) {
+    this.messageService.showDetailPack(pack);
   }
 
   buttonOperationHandler(code: any) {

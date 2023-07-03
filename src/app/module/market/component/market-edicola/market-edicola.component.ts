@@ -182,28 +182,28 @@ export class MarketEdicolaComponent implements OnInit {
           "name": "MAGIA NORMALE",
           "baseCost": 5,
           "src": "assets/pack/magic.png",
-          "type": 2,
+          "type": [2],
           "level": [0],
           "monster": false
         }, {
           "name": "MAGIA RAPIDA",
           "baseCost": 6,
           "src": "assets/pack/magicFast.png",
-          "type": 65538,
+          "type": [65538],
           "level": [0],
           "monster": false
         }, {
           "name": "MAGIA CONTINUA",
           "baseCost": 6,
           "src": "assets/pack/magicContinua.png",
-          "type": 131074,
+          "type": [131074],
           "level": [0],
           "monster": false
         }, {
           "name": "MAGIA RITUALE",
           "baseCost": 2,
           "src": "assets/pack/magicRituale.png",
-          "type": 130,
+          "type": [130],
           "level": [0],
           "monster": false
         }, {
@@ -217,7 +217,7 @@ export class MarketEdicolaComponent implements OnInit {
           "name": "MAGIA TERRENO",
           "baseCost": 5,
           "src": "assets/pack/magicTerreno.png",
-          "type": 524290,
+          "type": [524290],
           "level": [0],
           "monster": false
         }]
@@ -227,21 +227,21 @@ export class MarketEdicolaComponent implements OnInit {
           "name": "TRAPPOLA NORMALE",
           "baseCost": 5,
           "src": "assets/pack/trap.png",
-          "type": 4,
+          "type": [4],
           "level": [0],
           "monster": false
         }, {
           "name": "TRAPPOLA CONTINUA",
           "baseCost": 6,
           "src": "assets/pack/trapContinua.png",
-          "type": 131076,
+          "type": [131076],
           "level": [0],
           "monster": false
         }, {
           "name": "TRAPPOLA CONTRO",
           "baseCost": 6,
           "src": "assets/pack/trapContro.png",
-          "type": 1048580,
+          "type": [1048580],
           "level": [0],
           "monster": false
         }]

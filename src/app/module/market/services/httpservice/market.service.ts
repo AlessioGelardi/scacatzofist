@@ -45,6 +45,10 @@ export class MarketService {
     return this.http.delete<SellCard[]>(this.apiUrlMarketPlace+'?id='+sellCardId+';'+cardId+';'+playerId);
   }
 
+  deleteSellPack(sellCardId:string): Observable<SellCard[]> {
+    return this.http.delete<SellCard[]>(this.apiUrlMarketPack+'?id='+sellCardId);
+  }
+
   acquistaCard(sellCard:SellCard, playerIdAcquista:string): Observable<boolean> {
     let acquisto:any = {};
     acquisto.card = {}
