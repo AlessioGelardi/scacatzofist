@@ -173,16 +173,36 @@ export class MarketComponent implements OnInit {
     }).then((result) => {
       if(result.isConfirmed) {
         if(this.player!.coin!-Number(pack.prezzo)>=0) {
-          /*
-          this.marketStateService.buyCard(sellCard,this.player?._id!).then((resp) => {
-            if(resp) {
-              this.player!.coin = this.player!.coin! - Number(sellCard.prezzo);
-              this.messageService.alert('Fatto!','Carta acquistata!','success');
-              this.takeMarketPlace();
+
+          let request:any = {};
+          request.id = pack.id;
+          request.packId = pack.packId;
+          request.playerId = pack.playerId;
+          request.playerIdAcquista = this.player!._id!;
+          request.prezzo = pack.prezzo;
+          request.taglia = pack.taglia;
+          request.level = pack.level;
+          request.type = pack.type;
+          request.monster = pack.monster;
+          request.src = pack.src;
+          request.name = pack.name;
+          request.isDaily = pack.isDeck;
+          request.isDeck = pack.isDeck;
+          request.deckId = pack.deckId;
+
+          this.marketStateService.buyPack(request,true).then((resp) => {
+            if(resp === true) {
+              //TO-DO gestire errori
+              this.player!.coin = Number(this.player!.coin!) - Number(pack.prezzo);
+              this.messageService.alert('Fatto!','Pack acquistato!','success');
+              this.playerStateService.resetPlayerState();
+              this.playerStateService.resetInventory();
+              this.marketStateService.resetMarketPack();
+              this.takeMarketPack();
             } else {
-              this.messageService.alert('Errore','Qualcosa è andato storto durante acquisto della carta','error');
+              this.messageService.alert('Attenzione!','Problema durante l"acquisto del deck','error');
             }
-          });*/
+          });
         } else {
           this.messageService.alert('Errore','Non hai abbastanza coin','error');
         }

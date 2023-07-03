@@ -51,4 +51,10 @@ export interface SellPack {
     prezzo?: string;
     playerId?: string;
     playerName?: string;
+    type: number[];
+    level: number[];
+    isDaily:boolean;
+    isDeck: boolean;
+    deckId?: string;
+    monster:boolean;
 }

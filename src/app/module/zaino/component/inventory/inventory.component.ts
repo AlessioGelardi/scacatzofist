@@ -135,7 +135,7 @@ export class InventoryComponent implements OnInit {
           this.marketStateService.venditaPack(request).then((resp) => {
             if(resp === true) {
               this.messageService.alert('Fatto!','Vendita creata con successo!','success');
-              this.deletePack(pack.id);  
+              this.deletePack(pack.id);
             } else {
               if(resp && resp.status !== 200) {
                 this.messageService.alert('Errore','Qualcosa è andato storto durante la creazione della vendita del pack','error');

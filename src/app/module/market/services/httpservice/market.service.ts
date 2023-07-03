@@ -89,6 +89,11 @@ export class MarketService {
     return this.http.post<boolean>(this.apiUrlMarketPlace,request,this.generateOptions());
   }
 
+  acquistoPack(request:any) {
+    request.dataUpdate = this.takeFormatToday();
+    return this.http.put<boolean>(this.apiUrlMarketPack,request,this.generateOptions());
+  }
+
   private takeFormatToday() {
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');

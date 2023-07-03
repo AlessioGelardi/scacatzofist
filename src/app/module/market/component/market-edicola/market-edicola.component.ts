@@ -460,7 +460,7 @@ export class MarketEdicolaComponent implements OnInit {
             request.name = name;
             request.isDaily = true;
 
-            this.marketStateService.buyPack(request).then((resp) => {
+            this.marketStateService.buyPack(request,false).then((resp) => {
               if(resp) {
                 
                 //TO-DO gestire errori
@@ -512,7 +512,7 @@ export class MarketEdicolaComponent implements OnInit {
             request.isDeck = true;
             request.deckId = deckId;
 
-            this.marketStateService.buyPack(request).then((resp) => {
+            this.marketStateService.buyPack(request,false).then((resp) => {
               if(resp) {
                 
                 //TO-DO gestire errori
@@ -562,7 +562,7 @@ export class MarketEdicolaComponent implements OnInit {
               request.src = this.buyPackSrc;
               request.isDaily = false;
   
-              this.marketStateService.buyPack(request).then((resp) => {
+              this.marketStateService.buyPack(request,false).then((resp) => {
                 if(resp) {
                   this.player!.credits = this.player!.credits!-prezzo;
                   this.finishPurchase = true;
@@ -699,21 +699,16 @@ export class MarketEdicolaComponent implements OnInit {
           request.taglia = pack.taglia;
           request.src = pack.src;
           request.name = pack.name;
+          request.type = pack.type;
+          request.level = pack.level;
+          request.monster = pack.monster;
+          request.isDaily = pack.isDaily;
+          request.isDeck = pack.isDeck;
+          request.deckId = pack.deckId;
           this.marketStateService.venditaPack(request).then((resp) => {
             if(resp === true) {
               this.messageService.alert('Fatto!','Vendita creata con successo!','success');
-
-              //cancellazione dall'inventario
-              /*
-  
-              let cardDelete = this.zaino!.find(i => i.id === card.id);
-              if(cardDelete) {
-                const index = this.zaino!.indexOf(cardDelete, 0);
-                this.zaino!.splice(index,1);
-              }
-              this.marketStateService.resetState();
-              //this.takeHistory();*/
-  
+              this.deletePack(pack.id);
             } else {
               if(resp && resp.status !== 200) {
                 this.messageService.alert('Errore','Qualcosa è andato storto durante la creazione della vendita del pack','error');

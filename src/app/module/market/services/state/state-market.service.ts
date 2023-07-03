@@ -198,12 +198,16 @@ export class StateMarketService {
     return response;
   }
 
-  async buyPack(request: any) {
+  async buyPack(request: any, isPublicSell: boolean) {
     this.spinnerService.show();
     let response;
 
     try {
-      response = await firstValueFrom(this.marketService.acquistaPacchetti(request));
+      if(isPublicSell) {
+        response = await firstValueFrom(this.marketService.acquistoPack(request));
+      } else {
+        response = await firstValueFrom(this.marketService.acquistaPacchetti(request));
+      }
       this.spinnerService.hide();
     } catch (error: any) {
       /* TO-DO [WinError 3] Impossibile trovare il percorso specificato: 'deck\\\\Ingranaggio Antico1.ydk' -> 'deck\\\\Ingranaggio Antico.ydk'*/
