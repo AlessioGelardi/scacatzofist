@@ -269,7 +269,7 @@ export class MarketEdicolaComponent implements OnInit {
         },{
           "id": "64289315c6b53689fe3b48c4",
           "name": "amazoness",
-          "baseCost": 500,
+          "baseCost": 550,
           "src": "assets/deck/amazoness.png",
           "deck": true
         },{
@@ -305,7 +305,7 @@ export class MarketEdicolaComponent implements OnInit {
         },{
           "id": "64289844c6b53689fe3b48cb",
           "name": "drago",
-          "baseCost": 490,
+          "baseCost": 460,
           "src": "assets/deck/drago.png",
           "deck": true
         },{
