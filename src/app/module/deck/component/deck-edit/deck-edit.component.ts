@@ -303,10 +303,10 @@ export class DeckEditComponent implements OnInit {
   }
 
   private deleteCardZaino(card: Card) {
-      let indice = this.zaino.indexOf(card, 0)!;
-      if (indice !== undefined && indice > -1) {
-        this.zaino.splice(indice, 1);
-      }
+    let indice = this.zaino.indexOf(card, 0)!;
+    if (indice !== undefined && indice > -1) {
+      this.zaino.splice(indice, 1);
+    }
   }
 
   private checkExtraIntoMain(): boolean {
