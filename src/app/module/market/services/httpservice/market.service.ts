@@ -45,6 +45,10 @@ export class MarketService {
     return this.http.delete<SellCard[]>(this.apiUrlMarketPlace+'?id='+sellCardId+';'+cardId+';'+playerId);
   }
 
+  deleteSellPack(sellCardId:string): Observable<SellCard[]> {
+    return this.http.delete<SellCard[]>(this.apiUrlMarketPack+'?id='+sellCardId);
+  }
+
   acquistaCard(sellCard:SellCard, playerIdAcquista:string): Observable<boolean> {
     let acquisto:any = {};
     acquisto.card = {}
@@ -83,6 +87,11 @@ export class MarketService {
   venditaPack(request:any) {
     request.today = this.takeFormatToday();
     return this.http.post<boolean>(this.apiUrlMarketPlace,request,this.generateOptions());
+  }
+
+  acquistoPack(request:any) {
+    request.dataUpdate = this.takeFormatToday();
+    return this.http.put<boolean>(this.apiUrlMarketPack,request,this.generateOptions());
   }
 
   private takeFormatToday() {
