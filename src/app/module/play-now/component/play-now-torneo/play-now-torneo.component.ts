@@ -27,12 +27,12 @@ export class PlayNowTorneoComponent {
     name: new FormControl('Nuovo Torneo',[
       Validators.minLength(4)
     ]),
-    access: new FormControl(1),
-    orgPart: new FormControl(true),
-    regCostCoins: new FormControl(0),
-    regCostCredits: new FormControl(0),
-    type: new FormControl(1),
-    maxNReg: new FormControl(4)
+    access: new FormControl(1, Validators.required),
+    orgPart: new FormControl(true, Validators.required),
+    regCostCoins: new FormControl(-1),
+    regCostCredits: new FormControl(-1),
+    type: new FormControl(1, Validators.required),
+    maxNReg: new FormControl(4, Validators.required)
   });
 
   types = Object.keys(TipologieTorneo).filter(key => isNaN(Number(key)));
@@ -116,6 +116,27 @@ export class PlayNowTorneoComponent {
 
   create() {
     //TO-DO
+    if (this.createTorneoForm.valid) {
+      const orgPart = this.createTorneoForm.value.orgPart;
+      const regCostCoins = this.createTorneoForm.value.regCostCoins;
+      const regCostCredits = this.createTorneoForm.value.regCostCredits;
+      if(orgPart) {
+        if(regCostCoins!==-1 && regCostCoins!>Number(this.player?.coin!)) {
+          this.messageService.alert('Attenzione!','Il tuo Bugdet in coin non consente di partecipare, riduci il costo minimo se vuoi partecipare!','info');
+        }
+
+        if(regCostCredits!==-1 && regCostCredits!>Number(this.player?.credits!)) {
+          this.messageService.alert('Attenzione!','Il tuo Bugdet in crediti non consente di partecipare, riduci il costo minimo se vuoi partecipare!','info');
+        }
+      }
+
+    } else {
+      if(this.createTorneoForm.controls['name'].errors) {
+        if (this.createTorneoForm.controls['name'].errors['minlength']) {
+          this.messageService.alert('Attenzione!','Il nome minimo consentito è 4 lettere','info');
+        }
+      }
+    }
   }
 
   private takePlayer(playerId: string) {
