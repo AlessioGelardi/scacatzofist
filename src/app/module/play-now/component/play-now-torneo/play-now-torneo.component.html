@@ -2,7 +2,10 @@
 
 <playnow-buttons [buttons]="buttons" (buttonOperation)="buttonOperationHandler($event)"></playnow-buttons>
 
-<div class="mt-5">
+<div class="mt-5" *ngIf="!showCreate">
+    <div class="mt-5 text-center" *ngIf="tournaments.length<=0">
+        NESSUN TORNEO TROVATO
+    </div>
     <table class="table table-hover mt-3 text-center" >
         <thead>
             <tr>
@@ -10,20 +13,114 @@
                     <button type="button" class="btn btn-outline-dark btn-sm" (click)="addTournaments()"><i class="fa fa-plus"></i></button>&nbsp;
                     <button type="button" class="btn btn-outline-dark btn-sm" (click)="refresh()"><i class="fa fa-refresh"></i></button>
                 </th>
-                <th scope="col">Costo</th>
+                <th scope="col">Accesso</th>
+                <th scope="col">Tipologia</th>
                 <th scope="col">Nome</th>
+                <th scope="col">Costo</th>
+                <th scope="col">Num Partecipanti</th>
                 <th scope="col">Organizzatore</th>
             </tr>
         </thead>
-        <tbody >
+        <tbody  *ngIf="tournaments.length>0">
             <tr *ngFor="let t of tournaments" >
                 <td>
                     <button type="button" class="btn btn-outline-dark btn-sm" (click)="showTournaments(t)"><i class="fa fa-shopping-cart"></i></button>
                 </td>
-                <td>{{t.regCost}}</td>
+                <td>{{t.access}}</td>
+                <td>{{t.type}}</td>
                 <td class="text-truncate">{{t.name}}</td>
+                <td>{{t.regCostCoins}} <i class="fa fa fa-database"></i> {{t.regCostCredits}} <i class="fa fa fa-diamond"></i> </td>
+                <th scope="col">{{t.nreg}}/{{t.maxNReg}}</th>
                 <td>{{t.playerOrg}}</td>
             </tr>
         </tbody>
     </table>
 </div>
+
+<div class="mt-5" *ngIf="showCreate">
+    <form [formGroup]="createTorneoForm">
+        <div class="row d-flex justify-content-center">
+            <div class="col-9 m-2">
+                <div class="row">
+                    <label>Nome</label>
+                </div>
+                <div class="row">
+                    <input class="col-5" id="name" formControlName="name" type="text" class="form-control sfondino">
+                </div>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-9 m-2">
+                <div class="row">
+                    <label>Tipologia</label>
+                </div>
+                <div class="row">
+                    <select class="form-control" id="type" formControlName="type">
+                        <option *ngFor="let type of types" [value]="TipologieTorneo[convertString(type)]">{{ type }}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-9 m-2">
+                <div class="row">
+                    <label>Numero massimo partecipanti</label>
+                </div>
+                <div class="row">
+                    <select class="form-control" id="maxNReg" formControlName="maxNReg">
+                        <option *ngFor="let maxNum of nPartecipanti" [value]="maxNum">{{ maxNum }}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-9 m-2">
+                <div class="row">
+                    <label>Accesso</label>
+                </div>
+                <div class="row">
+                    <select class="form-control" id="access" formControlName="access">
+                        <option *ngFor="let access of accessTypes" [value]="AccessTypes[convertString(access)]">{{ access }}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-9 m-2">
+                <div class="row">
+                    <label>Costo d'iscrizione </label>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-3">
+                        <input type="range" class="form-control" id="regCostCoins" formControlName="regCostCoins" max="99999">
+                    </div>
+                    <div class="col">
+                        <strong *ngIf="this.createTorneoForm.value.regCostCoins!>0"><label>{{this.createTorneoForm.value.regCostCoins}}</label></strong>&nbsp;<i class="fa fa fa-database"></i>
+                    </div>
+                    <div class="col-3">
+                        <input type="range" class="form-control" id="regCostCredits" formControlName="regCostCredits" max="999">
+                    </div>
+                    <div class="col">
+                        <strong *ngIf="this.createTorneoForm.value.regCostCredits!>0"><label>{{this.createTorneoForm.value.regCostCredits}}</label></strong>&nbsp;<i class="fa fa fa-diamond"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-9 m-2">
+                <label>Organizzatore partecipante</label>
+                
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="orgPart" formControlName="orgPart" checked>
+                    <label class="form-check-label" for="orgPart">SI</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row d-flex justify-content-center">
+            <button class="col-6 m-2 btn btn-bg rounded grigino" style="margin-right: 5px" (click)="create()">CREA TORNEO</button>
+        </div>
+        
+    </form>
+</div>
+

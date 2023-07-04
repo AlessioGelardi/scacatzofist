@@ -1,3 +1,16 @@
+.form-control {
+    background-color: #cecdcb;
+}
+
+.grigino {
+    background-color: #8a8989;
+}
+
+.grigino:hover {
+    background-color:#737170;
+    box-shadow: #8a8989;
+}
+
 table tr td, table tr th{
     background-color: transparent !important;
 }

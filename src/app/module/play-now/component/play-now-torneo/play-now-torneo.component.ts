@@ -6,6 +6,8 @@ import { StatePlayerService } from 'src/app/module/player/services/state/state-p
 import { MessageService } from 'src/app/module/swalAlert/message.service';
 import { TypeMod } from '../../enum/typeMod';
 import { Tournament } from 'src/app/module/interface/tournament';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { AccessTypes, TipologieTorneo } from './enum/types';
 
 @Component({
   selector: 'app-play-now-torneo',
@@ -19,6 +21,24 @@ export class PlayNowTorneoComponent {
   playerId: string | undefined;
 
   tournaments: Tournament[] = [];
+
+  showCreate: boolean = true;
+  createTorneoForm = new FormGroup({
+    name: new FormControl('Nuovo Torneo',[
+      Validators.minLength(4)
+    ]),
+    access: new FormControl(1),
+    orgPart: new FormControl(true),
+    regCostCoins: new FormControl(0),
+    regCostCredits: new FormControl(0),
+    type: new FormControl(1),
+    maxNReg: new FormControl(4)
+  });
+
+  types = Object.keys(TipologieTorneo).filter(key => isNaN(Number(key)));
+
+  nPartecipanti = [4]
+  accessTypes = Object.keys(AccessTypes).filter(key => isNaN(Number(key)));
 
   constructor(private route: ActivatedRoute,
     private router: Router,
@@ -53,8 +73,21 @@ export class PlayNowTorneoComponent {
     this.takeTournaments();
   }
 
+  convertString(key:any) {
+    return key.toString();
+  }
+
+  public get TipologieTorneo() {
+    return TipologieTorneo; 
+  }
+
+  public get AccessTypes() {
+    return AccessTypes; 
+  }
+
   addTournaments() {
     //TO-DO
+    this.showCreate = true;
   }
 
   showTournaments(tourn: Tournament) {
@@ -68,13 +101,21 @@ export class PlayNowTorneoComponent {
           this.router.navigate(['/home']);
           break;
         case 'BACK':
-          this.router.navigate(['/playnow',{id:this.playerId}]);
+          if(this.showCreate) {
+            this.showCreate = false;
+          } else {
+            this.router.navigate(['/playnow',{id:this.playerId}]);
+          }
           break;
         case 'REQUEST':
           this.router.navigate(['/request',{id:this.playerId,typeMode:TypeMod.TORNEO}]);
           break;
       }
     }
+  }
+
+  create() {
+    //TO-DO
   }
 
   private takePlayer(playerId: string) {
