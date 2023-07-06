@@ -2,7 +2,7 @@
 
 <playnow-buttons [buttons]="buttons" (buttonOperation)="buttonOperationHandler($event)"></playnow-buttons>
 
-<div class="mt-5" *ngIf="!showCreate">
+<div class="mt-5" *ngIf="!showCreate && !showDetail">
     <div class="mt-5 text-center" *ngIf="tournaments.length<=0">
         NESSUN TORNEO TROVATO
     </div>
@@ -24,20 +24,20 @@
         <tbody  *ngIf="tournaments.length>0">
             <tr *ngFor="let t of tournaments" >
                 <td>
-                    <button type="button" class="btn btn-outline-dark btn-sm" (click)="showTournaments(t)"><i class="fa fa-shopping-cart"></i></button>
+                    <button type="button" class="btn btn-outline-dark btn-sm" (click)="showTournaments(t)"><i class="fa fa-eye"></i></button>
                 </td>
-                <td>{{t.access}}</td>
-                <td>{{t.type}}</td>
+                <td>{{AccessTypes[t.access]}}</td>
+                <td>{{TipologieTorneo[t.type]}}</td>
                 <td class="text-truncate">{{t.name}}</td>
-                <td>{{t.regCostCoins}} <i class="fa fa fa-database"></i> {{t.regCostCredits}} <i class="fa fa fa-diamond"></i> </td>
-                <th scope="col">{{t.nreg}}/{{t.maxNReg}}</th>
-                <td>{{t.playerOrg}}</td>
+                <td>{{t.regCostCoins}} <i class="fa fa fa-database"></i> {{t.regCostCredits}} <i class="fa fa fa-diamond"></i></td>
+                <td scope="col">{{t.nreg}}/<strong>{{t.maxNReg}}</strong></td>
+                <td>{{t.orgName}}</td>
             </tr>
         </tbody>
     </table>
 </div>
 
-<div class="mt-5" *ngIf="showCreate">
+<div class="mt-5" *ngIf="showCreate && !showDetail">
     <form [formGroup]="createTorneoForm">
         <div class="row d-flex justify-content-center">
             <div class="col-9 m-2">
@@ -124,3 +124,6 @@
     </form>
 </div>
 
+<div class="mt-5" *ngIf="showDetail">
+    <detail-torneo [tournament]="selectTourn" [player]="player" [imOrg]="imOrg"></detail-torneo>
+</div>

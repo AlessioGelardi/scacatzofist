@@ -1,12 +1,14 @@
 export interface Tournament {
-    _id?: string;
+    id?: string;
     name: string;
     regCostCoins: number;
     regCostCredits: number;
-    playerOrg: string;
+    orgName: string;
     type: number; //eliminatorie o classifica
     access: number; //privato o pubblico
     nreg: number;
     maxNReg: number;
     status: number;
+    playersName?: string[];
+    playersId?: string[];
 }

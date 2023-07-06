@@ -4,16 +4,23 @@ import { firstValueFrom } from 'rxjs';
 import { NotifierService } from '../httpservice/notifier.service';
 import { MessageService } from 'src/app/module/swalAlert/message.service';
 import { DictReqs, Reqs } from 'src/app/module/interface/reqs';
+import { Tournament } from 'src/app/module/interface/tournament';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StateNotifierService {
 
+  private tournaments?: Tournament[];
+
   constructor(private spinnerService: NgxSpinnerService,
     private notifierService: NotifierService,
     private messageService: MessageService) {
 
+  }
+
+  resetTournaments() {
+    this.tournaments=undefined;
   }
 
   async inviaRichiesta(request:any) {
@@ -144,5 +151,43 @@ export class StateNotifierService {
 
     return response;
   }
+
+  async getTournaments() {
+    this.spinnerService.show();
+
+    let response;
+    if(!this.tournaments) {
+      try {
+        response = await firstValueFrom(this.notifierService.getTournaments());
+        this.tournaments = response;
+        this.spinnerService.hide();
+      } catch (error: any) {
+        /* TO-DO [WinError 3] Impossibile trovare il percorso specificato: 'deck\\\\Ingranaggio Antico1.ydk' -> 'deck\\\\Ingranaggio Antico.ydk'*/
+        response = error;
+        this.spinnerService.hide();
+      }
+    } else {
+      this.spinnerService.hide();
+    }
+
+    return this.tournaments;
+  }
+
+  async updateTournaments(request:any) {
+    this.spinnerService.show();
+
+    let response;
+    try {
+      response = await firstValueFrom(this.notifierService.updateTournaments(request));
+      this.spinnerService.hide();
+    } catch (error: any) {
+      /* TO-DO [WinError 3] Impossibile trovare il percorso specificato: 'deck\\\\Ingranaggio Antico1.ydk' -> 'deck\\\\Ingranaggio Antico.ydk'*/
+      response = error;
+      this.spinnerService.hide();
+    }
+
+    return response;
+  }
+
 
 }

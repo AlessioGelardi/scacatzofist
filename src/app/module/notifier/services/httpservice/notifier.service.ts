@@ -15,6 +15,8 @@ export class NotifierService {
 
   apiUrlDuelRec:string = environment.baseUrlNotifier + "duelrec";
 
+  apiUrlTournament:string = environment.baseUrlNotifier + "tournament";
+
   constructor(private http: HttpClient) { }
 
   newRequest(request:any):Observable<boolean> {
@@ -56,6 +58,14 @@ export class NotifierService {
   updateDuelRec(request:any):Observable<any> {
     request.dataUpdate = this.takeFormatToday(false);
     return this.http.put<boolean>(this.apiUrlDuelRec,request,this.generateOptions());
+  }
+
+  getTournaments():Observable<any> {
+    return this.http.get<boolean>(this.apiUrlTournament);
+  }
+
+  updateTournaments(request:any):Observable<any> {
+    return this.http.put<boolean>(this.apiUrlTournament,request,this.generateOptions());
   }
 
   private takeFormatToday(time:boolean) {

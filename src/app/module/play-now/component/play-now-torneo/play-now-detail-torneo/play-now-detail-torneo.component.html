@@ -1,1 +1,42 @@
-<p>play-now-detail-torneo works!</p>
+<h3 class="text-center">{{tournament!.name}}</h3>
+
+<div class="row d-flex justify-content-around text-center mt-5">
+    <div class="col">
+        <h5>Dettaglio Torneo</h5>
+        <label>Tipologia: <strong>{{TipologieTorneo[tournament!.type]}}</strong></label><br>
+        <label>Accesso: <strong>{{AccessTypes[tournament!.access]}}</strong></label><br>
+        <label>Numero massimo partecipanti: <strong>{{tournament!.maxNReg}}</strong></label><br>
+        <label>Costo: <strong>{{tournament!.regCostCoins}} <i class="fa fa fa-database"></i> {{tournament!.regCostCredits}} <i class="fa fa fa-diamond"></i> </strong></label>
+    </div>
+    <div class="col">
+        <h5>Partecipanti</h5>
+        <div *ngFor="let player of tournament!.playersName">
+            <label><strong>{{player}}</strong></label><br>
+        </div>
+    </div>
+</div>
+
+<div class="row d-flex justify-content-around mt-5">
+    <button *ngIf="imOrg" class="col-3 btn btn-bg rounded grigino" (click)="iniziaTorneo()">INIZIA TORNEO</button>
+    <button class="col-3 btn btn-bg rounded grigino" (click)="partecipa()">PARTECIPA</button>
+    <button *ngIf="imOrg" class="col-3 btn btn-bg rounded grigino" (click)="cancellaTorneo()">CANCELLA TORNEO</button>
+</div>
+
+<div class="mt-5">
+    <div class="row">
+        <div class="col-4">
+            <div *ngFor="let player of getNumbers(4)">
+                <div class="box mt-4"></div>
+            </div>
+        </div>
+        <div class="col-4 mt-5">
+            <div *ngFor="let player of getNumbers(2)">
+                <div class="box mt-4" style="margin-bottom: 110px;"></div>
+            </div>
+        </div>
+        <div class="col-4" style="margin-top: 150px;">
+            <div class="box"></div>
+        </div>
+    </div>
+
+</div>

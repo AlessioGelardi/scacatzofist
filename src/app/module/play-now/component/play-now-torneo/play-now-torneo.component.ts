@@ -8,11 +8,12 @@ import { TypeMod } from '../../enum/typeMod';
 import { Tournament } from 'src/app/module/interface/tournament';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AccessTypes, TipologieTorneo } from './enum/types';
+import { StateNotifierService } from 'src/app/module/notifier/services/state/state-notifier.service';
 
 @Component({
   selector: 'app-play-now-torneo',
   templateUrl: './play-now-torneo.component.html',
-  styleUrls: ['./play-now-torneo.component.css']
+  styleUrls: ['styles/torneo.css','./play-now-torneo.component.css']
 })
 export class PlayNowTorneoComponent {
   buttons: Button[] = [];
@@ -22,15 +23,19 @@ export class PlayNowTorneoComponent {
 
   tournaments: Tournament[] = [];
 
-  showCreate: boolean = true;
+  showDetail: boolean = false;
+  selectTourn: Tournament | undefined;
+  imOrg: boolean = false;
+
+  showCreate: boolean = false;
   createTorneoForm = new FormGroup({
     name: new FormControl('Nuovo Torneo',[
       Validators.minLength(4)
     ]),
     access: new FormControl(1, Validators.required),
     orgPart: new FormControl(true, Validators.required),
-    regCostCoins: new FormControl(-1),
-    regCostCredits: new FormControl(-1),
+    regCostCoins: new FormControl(0),
+    regCostCredits: new FormControl(0),
     type: new FormControl(1, Validators.required),
     maxNReg: new FormControl(4, Validators.required)
   });
@@ -43,6 +48,7 @@ export class PlayNowTorneoComponent {
   constructor(private route: ActivatedRoute,
     private router: Router,
     private messageService: MessageService,
+    private notifierStateService: StateNotifierService,
     private playerStateService: StatePlayerService) { }
 
   ngOnInit(): void {
@@ -70,6 +76,7 @@ export class PlayNowTorneoComponent {
   }
 
   refresh() {
+    this.notifierStateService.resetTournaments();
     this.takeTournaments();
   }
 
@@ -86,12 +93,13 @@ export class PlayNowTorneoComponent {
   }
 
   addTournaments() {
-    //TO-DO
     this.showCreate = true;
   }
 
   showTournaments(tourn: Tournament) {
-    //TO-DO
+    this.imOrg = tourn.orgName === this.player?.name;
+    this.showDetail = true;
+    this.selectTourn = tourn;
   }
 
   buttonOperationHandler(code: any) {
@@ -104,7 +112,12 @@ export class PlayNowTorneoComponent {
           if(this.showCreate) {
             this.showCreate = false;
           } else {
-            this.router.navigate(['/playnow',{id:this.playerId}]);
+            if(this.showDetail) {
+              this.showDetail = false;
+            } else {
+              this.router.navigate(['/playnow',{id:this.playerId}]);
+            }
+            
           }
           break;
         case 'REQUEST':
@@ -115,21 +128,70 @@ export class PlayNowTorneoComponent {
   }
 
   create() {
-    //TO-DO
     if (this.createTorneoForm.valid) {
       const orgPart = this.createTorneoForm.value.orgPart;
       const regCostCoins = this.createTorneoForm.value.regCostCoins;
       const regCostCredits = this.createTorneoForm.value.regCostCredits;
-      if(orgPart) {
-        if(regCostCoins!==-1 && regCostCoins!>Number(this.player?.coin!)) {
-          this.messageService.alert('Attenzione!','Il tuo Bugdet in coin non consente di partecipare, riduci il costo minimo se vuoi partecipare!','info');
+      if(regCostCoins!==0 || regCostCredits!==0) {
+        if(orgPart) {
+          if(regCostCoins!==-1 && regCostCoins!>Number(this.player?.coin!)) {
+            this.messageService.alert('Attenzione!','Il tuo Bugdet in coin non consente di partecipare, riduci il costo minimo se vuoi partecipare!','info');
+            return;
+          }
+  
+          if(regCostCredits!==-1 && regCostCredits!>Number(this.player?.credits!)) {
+            this.messageService.alert('Attenzione!','Il tuo Bugdet in crediti non consente di partecipare, riduci il costo minimo se vuoi partecipare!','info');
+            return;
+          }
         }
 
-        if(regCostCredits!==-1 && regCostCredits!>Number(this.player?.credits!)) {
-          this.messageService.alert('Attenzione!','Il tuo Bugdet in crediti non consente di partecipare, riduci il costo minimo se vuoi partecipare!','info');
+        //creazione torneo
+        let request: any = {};
+        request.typeMod = TypeMod.TORNEO;
+        request.playerIdReq = this.playerId;
+        request.status = 1;
+        request.nreg = 0;
+        request.name = this.createTorneoForm.value.name;
+        request.access = this.createTorneoForm.value.access;
+        request.orgName = this.player?.name;
+        request.orgPart = this.createTorneoForm.value.orgPart;
+        request.regCostCoins = this.createTorneoForm.value.regCostCoins;
+        request.regCostCredits = this.createTorneoForm.value.regCostCredits;
+        request.type = this.createTorneoForm.value.type;
+        request.maxNReg = this.createTorneoForm.value.maxNReg;
+        request.playersName = []
+        request.playersId = []
+
+        if(orgPart) {
+          request.nreg = 1;
+          request.playersName.push(this.player?.name)
+          request.playersId.push(this.player?._id!)
         }
+
+        this.notifierStateService.inviaRichiesta(request).then((resp) => {
+          if(resp === true) {
+            if(orgPart) {
+              this.player!.coin = Number(this.player?.coin!)-regCostCoins!;
+              this.player!.credits = Number(this.player?.credits!)-regCostCredits!;
+              this.playerStateService.resetPlayerState();
+              this.showCreate = false;
+              this.refresh();
+            }
+            this.messageService.alert('Fatto!','Torneo creato!','success');
+          } else {
+            if(resp) {
+              const statusError = resp.status;
+              if(statusError === 402) {
+                this.messageService.alert('Attenzione!','Hai già creato un torneo','error');
+              } else {
+                this.messageService.alert('Errore',"Errore durante la creazione del torneo",'error');
+              }
+            }
+          }
+        });
+      } else {
+        this.messageService.alert('Attenzione!','Inserire un costo di iscrizione','info');
       }
-
     } else {
       if(this.createTorneoForm.controls['name'].errors) {
         if (this.createTorneoForm.controls['name'].errors['minlength']) {
@@ -157,6 +219,19 @@ export class PlayNowTorneoComponent {
   }
 
   private takeTournaments() {
-    //TO-DO
+    this.notifierStateService.getTournaments().then((resp) => {
+      if(resp) {
+        this.tournaments = resp;
+      } else {
+        //TO-DO gestione degli errori
+        /*
+        if(resp.status===402) {
+          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+        }
+        */
+
+        this.messageService.alert('Attenzione!','Errore durante la chiamata getTournaments','error');
+      }
+    });
   }
 }
