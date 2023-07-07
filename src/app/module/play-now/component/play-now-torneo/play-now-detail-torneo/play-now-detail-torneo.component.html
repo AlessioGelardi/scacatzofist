@@ -1,7 +1,7 @@
 <h3 class="text-center">{{tournament!.name}}</h3>
 
 <div class="row d-flex justify-content-around text-center mt-5">
-    <div class="col">
+    <div class="col" *ngIf="tournament!.status === 1">
         <h5>Dettaglio Torneo</h5>
         <label>Tipologia: <strong>{{TipologieTorneo[tournament!.type]}}</strong></label><br>
         <label>Accesso: <strong>{{AccessTypes[tournament!.access]}}</strong></label><br>
@@ -9,34 +9,71 @@
         <label>Costo: <strong>{{tournament!.regCostCoins}} <i class="fa fa fa-database"></i> {{tournament!.regCostCredits}} <i class="fa fa fa-diamond"></i> </strong></label>
     </div>
     <div class="col">
+        <h5>Ricompense</h5>
+        <label>Primo posto: <strong>{{tournament!.vincita['firstCoin']}} <i class="fa fa fa-database"></i> {{tournament!.vincita['firstCredits']}} <i class="fa fa fa-diamond"></i> </strong></label><br>
+        <label>Secondo posto: <strong>{{tournament!.vincita['secondCoin']}} <i class="fa fa fa-database"></i> {{tournament!.vincita['secondCredits']}} <i class="fa fa fa-diamond"></i> </strong></label><br>
+        <label>Terzo posto: <strong>{{tournament!.vincita['thirdCoin']}} <i class="fa fa fa-database"></i> {{tournament!.vincita['thirdCredits']}} <i class="fa fa fa-diamond"></i> </strong></label>
+    </div>
+    <div class="col" *ngIf="tournament!.status === 1">
         <h5>Partecipanti</h5>
         <div *ngFor="let player of tournament!.playersName">
             <label><strong>{{player}}</strong></label><br>
         </div>
     </div>
+    <div class="col" *ngIf="tournament!.status === 2">
+        <h5>Elenco battaglie</h5>
+        <div *ngFor="let player of getBattle()">
+            <label>{{player.first}} VS {{player.second}}</label><br>
+        </div>
+    </div>
 </div>
 
 <div class="row d-flex justify-content-around mt-5">
-    <button *ngIf="imOrg" class="col-3 btn btn-bg rounded grigino" (click)="iniziaTorneo()">INIZIA TORNEO</button>
-    <button class="col-3 btn btn-bg rounded grigino" (click)="partecipa()">PARTECIPA</button>
-    <button *ngIf="imOrg" class="col-3 btn btn-bg rounded grigino" (click)="cancellaTorneo()">CANCELLA TORNEO</button>
+    <button *ngIf="imOrg && tournament!.status === 1" class="col-3 btn btn-bg rounded grigino" (click)="iniziaTorneo()">INIZIA TORNEO</button>
+    <button *ngIf="tournament!.status === 1" class="col-3 btn btn-bg rounded grigino" (click)="partecipa()">PARTECIPA</button>
+    <button *ngIf="imOrg && tournament!.status === 1" class="col-3 btn btn-bg rounded grigino" (click)="cancellaTorneo()">CANCELLA TORNEO</button>
 </div>
 
 <div class="mt-5">
     <div class="row">
-        <div class="col-4">
-            <div *ngFor="let player of getNumbers(4)">
+        <div class="col-3 text-center" style="margin-top: 150px;">
+            <label>Terzo posto</label>
+            <div class="box"></div>
+        </div>
+        <div class="col-3" *ngIf="tournament!.status===1">
+            <div *ngFor="let player of getNumbers(4)" >
                 <div class="box mt-4"></div>
             </div>
         </div>
-        <div class="col-4 mt-5">
-            <div *ngFor="let player of getNumbers(2)">
-                <div class="box mt-4" style="margin-bottom: 110px;"></div>
+        <div class="col-3 text-center" *ngIf="tournament!.status===2">
+            <div *ngFor="let player of this.tournament!.posPlayer['firstRound']" >
+                <div class="box mt-4">
+                    <label class="mt-4">{{player}}</label>
+                </div>
             </div>
         </div>
-        <div class="col-4" style="margin-top: 150px;">
+        <div class="col-3 mt-4" *ngIf="tournament!.posPlayer['secondRound']!.length<0">
+            <label class="mt-4">Secondo posto</label>
+            <div *ngFor="let player of getNumbers(2)">
+                <div class="box" style="margin-bottom: 110px;"></div>
+            </div>
+        </div>
+        <div class="col-3 mt-4 text-center" *ngIf="tournament!.posPlayer['secondRound'].length>0">
+            <label class="mt-4">Secondo posto</label>
+            <div *ngFor="let player of tournament!.posPlayer['secondRound']">
+                <div class="box" style="margin-bottom: 110px;">
+                    <label class="mt-4">{{player}}</label>
+                </div>
+            </div>
+        </div>
+        <div class="col-3 text-center" style="margin-top: 140px;">
+            <label>Primo posto</label>
             <div class="box"></div>
         </div>
     </div>
+</div>
 
+
+<div class="row d-flex justify-content-around mt-5" *ngIf="tournament!.status === 2">
+    <button class="col-3 btn btn-bg rounded grigino" (click)="finePartita()">FINE PARTITA</button>
 </div>

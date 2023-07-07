@@ -159,6 +159,28 @@ export class PlayNowTorneoComponent {
         request.regCostCredits = this.createTorneoForm.value.regCostCredits;
         request.type = this.createTorneoForm.value.type;
         request.maxNReg = this.createTorneoForm.value.maxNReg;
+        request.main = true;
+        request.posPlayer = [];
+
+        //calcolo per la vittoria (da spostare BE ?)
+        request.vincita = {}
+
+        //15% 35% 50%
+        if(request.regCostCoins!>0) {
+          const totCoins = request.regCostCoins * request.maxNReg;
+          request.vincita["firstCoin"] = Math.round((totCoins * 50) / 100);
+          request.vincita["secondCoin"] = Math.round((totCoins * 35) / 100);
+          request.vincita["thirdCoin"] = Math.round((totCoins * 15) / 100);
+        }
+
+        if(this.createTorneoForm.value.regCostCoins!>0) {
+          const totCredits = request.regCostCredits * request.maxNReg;
+          request.vincita["firstCredits"] = Math.round((totCredits * 50) / 100);
+          request.vincita["secondCredits"] = Math.round((totCredits * 35) / 100);
+          request.vincita["thirdCredits"] = Math.round((totCredits * 15) / 100);
+        }
+
+
         request.playersName = []
         request.playersId = []
 

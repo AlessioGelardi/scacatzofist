@@ -9,6 +9,8 @@ export interface Tournament {
     nreg: number;
     maxNReg: number;
     status: number;
+    vincita:any;
+    posPlayer:any;
     playersName?: string[];
     playersId?: string[];
 }

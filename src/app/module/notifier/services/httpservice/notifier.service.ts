@@ -65,6 +65,9 @@ export class NotifierService {
   }
 
   updateTournaments(request:any):Observable<any> {
+    if(request.status===2) {
+      request.dataIns = this.takeFormatToday(true);
+    }
     return this.http.put<boolean>(this.apiUrlTournament,request,this.generateOptions());
   }
 

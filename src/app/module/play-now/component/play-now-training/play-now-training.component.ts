@@ -109,7 +109,7 @@ export class PlayNowTrainingComponent implements OnInit {
   }
 
   stopTraining() {
-    if(this.minutes>=10) { //TO-DO 
+    if(this.minutes>=10) {
       let request: any = {};
       request.playerIdReq = this.playerId!;
       request.typeMod = 2;
