@@ -182,28 +182,28 @@ export class MarketEdicolaComponent implements OnInit {
           "name": "MAGIA NORMALE",
           "baseCost": 5,
           "src": "assets/pack/magic.png",
-          "type": 2,
+          "type": [2],
           "level": [0],
           "monster": false
         }, {
           "name": "MAGIA RAPIDA",
           "baseCost": 6,
           "src": "assets/pack/magicFast.png",
-          "type": 65538,
+          "type": [65538],
           "level": [0],
           "monster": false
         }, {
           "name": "MAGIA CONTINUA",
           "baseCost": 6,
           "src": "assets/pack/magicContinua.png",
-          "type": 131074,
+          "type": [131074],
           "level": [0],
           "monster": false
         }, {
           "name": "MAGIA RITUALE",
           "baseCost": 2,
           "src": "assets/pack/magicRituale.png",
-          "type": 130,
+          "type": [130],
           "level": [0],
           "monster": false
         }, {
@@ -217,7 +217,7 @@ export class MarketEdicolaComponent implements OnInit {
           "name": "MAGIA TERRENO",
           "baseCost": 5,
           "src": "assets/pack/magicTerreno.png",
-          "type": 524290,
+          "type": [524290],
           "level": [0],
           "monster": false
         }]
@@ -227,21 +227,21 @@ export class MarketEdicolaComponent implements OnInit {
           "name": "TRAPPOLA NORMALE",
           "baseCost": 5,
           "src": "assets/pack/trap.png",
-          "type": 4,
+          "type": [4],
           "level": [0],
           "monster": false
         }, {
           "name": "TRAPPOLA CONTINUA",
           "baseCost": 6,
           "src": "assets/pack/trapContinua.png",
-          "type": 131076,
+          "type": [131076],
           "level": [0],
           "monster": false
         }, {
           "name": "TRAPPOLA CONTRO",
           "baseCost": 6,
           "src": "assets/pack/trapContro.png",
-          "type": 1048580,
+          "type": [1048580],
           "level": [0],
           "monster": false
         }]
@@ -269,7 +269,7 @@ export class MarketEdicolaComponent implements OnInit {
         },{
           "id": "64289315c6b53689fe3b48c4",
           "name": "amazoness",
-          "baseCost": 500,
+          "baseCost": 550,
           "src": "assets/deck/amazoness.png",
           "deck": true
         },{
@@ -305,7 +305,7 @@ export class MarketEdicolaComponent implements OnInit {
         },{
           "id": "64289844c6b53689fe3b48cb",
           "name": "drago",
-          "baseCost": 490,
+          "baseCost": 460,
           "src": "assets/deck/drago.png",
           "deck": true
         },{
@@ -460,7 +460,7 @@ export class MarketEdicolaComponent implements OnInit {
             request.name = name;
             request.isDaily = true;
 
-            this.marketStateService.buyPack(request).then((resp) => {
+            this.marketStateService.buyPack(request,false).then((resp) => {
               if(resp) {
                 
                 //TO-DO gestire errori
@@ -512,7 +512,7 @@ export class MarketEdicolaComponent implements OnInit {
             request.isDeck = true;
             request.deckId = deckId;
 
-            this.marketStateService.buyPack(request).then((resp) => {
+            this.marketStateService.buyPack(request,false).then((resp) => {
               if(resp) {
                 
                 //TO-DO gestire errori
@@ -562,7 +562,7 @@ export class MarketEdicolaComponent implements OnInit {
               request.src = this.buyPackSrc;
               request.isDaily = false;
   
-              this.marketStateService.buyPack(request).then((resp) => {
+              this.marketStateService.buyPack(request,false).then((resp) => {
                 if(resp) {
                   this.player!.credits = this.player!.credits!-prezzo;
                   this.finishPurchase = true;
@@ -699,21 +699,16 @@ export class MarketEdicolaComponent implements OnInit {
           request.taglia = pack.taglia;
           request.src = pack.src;
           request.name = pack.name;
+          request.type = pack.type;
+          request.level = pack.level;
+          request.monster = pack.monster;
+          request.isDaily = pack.isDaily;
+          request.isDeck = pack.isDeck;
+          request.deckId = pack.deckId;
           this.marketStateService.venditaPack(request).then((resp) => {
             if(resp === true) {
               this.messageService.alert('Fatto!','Vendita creata con successo!','success');
-
-              //cancellazione dall'inventario
-              /*
-  
-              let cardDelete = this.zaino!.find(i => i.id === card.id);
-              if(cardDelete) {
-                const index = this.zaino!.indexOf(cardDelete, 0);
-                this.zaino!.splice(index,1);
-              }
-              this.marketStateService.resetState();
-              //this.takeHistory();*/
-  
+              this.deletePack(pack.id);
             } else {
               if(resp && resp.status !== 200) {
                 this.messageService.alert('Errore','Qualcosa è andato storto durante la creazione della vendita del pack','error');

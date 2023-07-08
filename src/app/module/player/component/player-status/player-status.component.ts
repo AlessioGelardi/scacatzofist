@@ -5,6 +5,7 @@ import { StateDeckService } from 'src/app/module/deck/services/state/state-deck.
 import { StateMarketService } from 'src/app/module/market/services/state/state-market.service';
 import { StatePlayerService } from '../../services/state/state-player.service';
 import { TypeMod } from 'src/app/module/play-now/enum/typeMod';
+import { StateNotifierService } from 'src/app/module/notifier/services/state/state-notifier.service';
 
 @Component({
   selector: 'player-status',
@@ -19,6 +20,7 @@ export class PlayerStatusComponent implements OnInit {
 
   constructor(private router: Router,
     private deckStateService: StateDeckService,
+    private notifierStateService: StateNotifierService,
     private marketStateService: StateMarketService,
     private playerStateService: StatePlayerService) { }
 
@@ -37,6 +39,7 @@ export class PlayerStatusComponent implements OnInit {
     this.deckStateService.resetState();
     this.marketStateService.resetState();
     this.playerStateService.resetState();
+    this.notifierStateService.resetTournaments();
     this.router.navigate(['/']);
   }
 }

@@ -125,11 +125,17 @@ export class InventoryComponent implements OnInit {
           request.taglia = pack.taglia;
           request.src = pack.src;
           request.name = pack.name;
+          request.type = pack.type;
+          request.level = pack.level;
+          request.monster = pack.monster;
+          request.isDaily = pack.isDaily;
+          request.isDeck = pack.isDeck;
+          request.deckId = pack.deckId;
           
           this.marketStateService.venditaPack(request).then((resp) => {
             if(resp === true) {
               this.messageService.alert('Fatto!','Vendita creata con successo!','success');
-              this.deletePack(pack.id);  
+              this.deletePack(pack.id);
             } else {
               if(resp && resp.status !== 200) {
                 this.messageService.alert('Errore','Qualcosa è andato storto durante la creazione della vendita del pack','error');

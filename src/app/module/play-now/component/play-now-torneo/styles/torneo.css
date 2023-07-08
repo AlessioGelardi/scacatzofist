@@ -1,0 +1,8 @@
+.grigino {
+    background-color: #8a8989;
+}
+
+.grigino:hover {
+    background-color:#737170;
+    box-shadow: #8a8989;
+}

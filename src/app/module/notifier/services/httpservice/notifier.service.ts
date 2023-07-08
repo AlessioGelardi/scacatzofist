@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Reqs } from 'src/app/module/interface/reqs';
+import { Tournament } from 'src/app/module/interface/tournament';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -14,6 +15,9 @@ export class NotifierService {
   apiUrlNotify:string = environment.baseUrlNotifier + "notify";
 
   apiUrlDuelRec:string = environment.baseUrlNotifier + "duelrec";
+
+  apiUrlTournament:string = environment.baseUrlNotifier + "tournament";
+  apiUrlTournamentById:string = environment.baseUrlNotifier + "tournamentById";
 
   constructor(private http: HttpClient) { }
 
@@ -56,6 +60,21 @@ export class NotifierService {
   updateDuelRec(request:any):Observable<any> {
     request.dataUpdate = this.takeFormatToday(false);
     return this.http.put<boolean>(this.apiUrlDuelRec,request,this.generateOptions());
+  }
+
+  getTournaments():Observable<any> {
+    return this.http.get<boolean>(this.apiUrlTournament);
+  }
+
+  getTournamentById(id:string):Observable<any> {
+    return this.http.get<Tournament>(this.apiUrlTournamentById+'?id='+id);
+  }
+
+  updateTournaments(request:any):Observable<any> {
+    if(request.status===2) {
+      request.dataIns = this.takeFormatToday(true);
+    }
+    return this.http.put<boolean>(this.apiUrlTournament,request,this.generateOptions());
   }
 
   private takeFormatToday(time:boolean) {

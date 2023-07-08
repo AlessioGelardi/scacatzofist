@@ -15,7 +15,12 @@ export interface Pack {
     src:string;
     taglia:number;
     cards: Card[];
+    type: number[];
+    level: number[];
     isDaily:boolean;
+    isDeck: boolean;
+    deckId?: string;
+    monster:boolean;
 }
 
 export interface Deck {
@@ -39,10 +44,17 @@ export interface SellCard {
 
 export interface SellPack {
     id: string,
+    packId:string,
     name:string,
     taglia: number;
     src:string;
     prezzo?: string;
     playerId?: string;
     playerName?: string;
+    type: number[];
+    level: number[];
+    isDaily:boolean;
+    isDeck: boolean;
+    deckId?: string;
+    monster:boolean;
 }

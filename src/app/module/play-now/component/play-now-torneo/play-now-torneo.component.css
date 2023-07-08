@@ -1,0 +1,7 @@
+.form-control {
+    background-color: #cecdcb;
+}
+
+table tr td, table tr th{
+    background-color: transparent !important;
+}

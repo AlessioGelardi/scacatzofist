@@ -25,6 +25,14 @@ export class StateMarketService {
     this.dailyShop = undefined;
   }
 
+  resetMarketPack() {
+    this.marketPack = undefined;
+  }
+
+  resetMarketPlace() {
+    this.marketPlace = undefined;
+  }
+
   resetState() {
     this.marketPlace = undefined;
     this.marketPack = undefined;
@@ -132,6 +140,23 @@ export class StateMarketService {
     return response;
   }
 
+  async deleteSellPack(sellPackId:string) {
+    this.spinnerService.show();
+    let response;
+
+    try {
+      response = await firstValueFrom(this.marketService.deleteSellPack(sellPackId));
+      this.spinnerService.hide();
+    } catch (error: any) {
+      /* TO-DO [WinError 3] Impossibile trovare il percorso specificato: 'deck\\\\Ingranaggio Antico1.ydk' -> 'deck\\\\Ingranaggio Antico.ydk'*/
+      response = error;
+      this.spinnerService.hide();
+    }
+
+
+    return response;
+  }
+
   async buyCard(sellCard:SellCard, playerIdAcquista:string) {
     this.spinnerService.show();
     let response;
@@ -173,12 +198,16 @@ export class StateMarketService {
     return response;
   }
 
-  async buyPack(request: any) {
+  async buyPack(request: any, isPublicSell: boolean) {
     this.spinnerService.show();
     let response;
 
     try {
-      response = await firstValueFrom(this.marketService.acquistaPacchetti(request));
+      if(isPublicSell) {
+        response = await firstValueFrom(this.marketService.acquistoPack(request));
+      } else {
+        response = await firstValueFrom(this.marketService.acquistaPacchetti(request));
+      }
       this.spinnerService.hide();
     } catch (error: any) {
       /* TO-DO [WinError 3] Impossibile trovare il percorso specificato: 'deck\\\\Ingranaggio Antico1.ydk' -> 'deck\\\\Ingranaggio Antico.ydk'*/

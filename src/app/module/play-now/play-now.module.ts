@@ -11,6 +11,8 @@ import { PlayNowPuntataComponent } from './component/play-now-puntata/play-now-p
 import { PlayNowPlayersComponent } from './component/play-now-players/play-now-players.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { PlayNowTorneoComponent } from './component/play-now-torneo/play-now-torneo.component';
+import { PlayNowDetailTorneoComponent } from './component/play-now-torneo/play-now-detail-torneo/play-now-detail-torneo.component';
 
 
 
@@ -22,7 +24,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     PlayNowTrainingComponent,
     FilterPlayerPipe,
     PlayNowPuntataComponent,
-    PlayNowPlayersComponent
+    PlayNowPlayersComponent,
+    PlayNowTorneoComponent,
+    PlayNowDetailTorneoComponent
   ],
   imports: [
     CommonModule,
