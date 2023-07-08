@@ -36,6 +36,7 @@ export class DeckEditComponent implements OnInit {
 
   dragDrop:boolean = false;
   dragging:boolean = false;
+  stoAddCard:boolean = false;
 
   typeExtra = [65, 129, 8193, 8388609, 4161, 97, 4193, 637, 161, 4257, 2097313, 8225, 12321, 8388641];
 
@@ -180,7 +181,7 @@ export class DeckEditComponent implements OnInit {
   }
   
   showCard(card:Card) {
-    if(!this.dragging) {
+    if(!this.dragging && !this.stoAddCard) {
       this.messageService.showDetailCard(card);
     }
   }
@@ -209,10 +210,11 @@ export class DeckEditComponent implements OnInit {
   }
 
   addCard(card:Card) {
+    this.stoAddCard = true;
     if(card && this.typeExtra.includes(card.type)) {
       this.deck?.extra.push(card);
       this.deleteCardZaino(card);
-      
+      this.stoAddCard = false;
     } else if (card) {
       Swal.fire({
         title: 'Dove vuoi aggiungere questa carta?',
@@ -226,11 +228,13 @@ export class DeckEditComponent implements OnInit {
 
           this.deck?.main.push(card)
           this.deleteCardZaino(card);
+          this.stoAddCard = false;
 
         } else if (result.isDenied) {
 
           this.deck?.side.push(card)
           this.deleteCardZaino(card);
+          this.stoAddCard = false;
 
         }
       })
