@@ -103,6 +103,23 @@ export class PlayNowDetailTorneoComponent {
     return battle;
   }
 
+  refreshPartita() {
+    this.notifierStateService.getTournamentById(this.tournament!.id!).then((resp) => {
+      if(resp) {
+        this.tournament = resp
+      } else {
+        //TO-DO gestione degli errori
+        /*
+        if(resp.status===402) {
+          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+        }
+        */
+
+        this.messageService.alert('Attenzione!','Errore durante la chiamata updateDuelRec','error');
+      }
+    });
+  }
+
   finePartita() {
     let ioPart = this.tournament?.playersId!.find(i => i === this.player?._id);
     if(ioPart)  {
@@ -128,6 +145,30 @@ export class PlayNowDetailTorneoComponent {
       this.messageService.alert('Attenzione!',"Non hai partite in corso in questo torneo",'info');
 
     }
+  }
+
+  concludi() {
+    let request: any = {}
+    request.status = 3;
+    request.id = this.tournament?.id;
+    this.notifierStateService.updateTournaments(request).then((resp) => {
+      if(resp == true) {
+
+        this.tournament!.status=3;
+
+        this.notifierStateService.resetTournaments();
+        this.playerStateService.resetPlayerState();
+      } else {
+        //TO-DO gestione degli errori
+        /*
+        if(resp.status===402) {
+          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+        }
+        */
+
+        this.messageService.alert('Attenzione!','Errore durante la chiamata updateDuelRec','error');
+      }
+    });
   }
 
   private update(request:any, start:boolean) {

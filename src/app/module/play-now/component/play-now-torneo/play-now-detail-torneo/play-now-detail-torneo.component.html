@@ -20,7 +20,15 @@
             <label><strong>{{player}}</strong></label><br>
         </div>
     </div>
-    <div class="col" *ngIf="tournament!.status === 2">
+    <div class="col" *ngIf="tournament!.status !== 1">
+        <h5>Elenco battaglie</h5>
+        <div>
+            <label>Primo posto: <strong>{{this.tournament!.podio['primoPosto']}}</strong></label><br>
+            <label>Secondo posto: <strong>{{this.tournament!.podio['secondoPosto']}}</strong></label><br>
+            <label>Terzo posto: <strong>{{this.tournament!.podio['terzoPosto']}}</strong></label><br>
+        </div>
+    </div>
+    <div class="col" *ngIf="tournament!.status !== 1">
         <h5>Elenco battaglie</h5>
         <div *ngFor="let player of getBattle()">
             <label>{{player.first}} VS {{player.second}}</label><br>
@@ -36,16 +44,22 @@
 
 <div class="mt-5">
     <div class="row">
-        <div class="col-3 text-center" style="margin-top: 150px;">
+        <div class="col-3 text-center" style="margin-top: 150px;" *ngIf="!this.tournament!.podio['terzoPosto']">
             <label>Terzo posto</label>
             <div class="box"></div>
+        </div>
+        <div class="col-3 text-center" style="margin-top: 150px;" *ngIf="this.tournament!.podio['terzoPosto']">
+            <label>Terzo posto</label>
+            <div class="box">
+                <label class="mt-4">{{this.tournament!.podio['terzoPosto']}}</label>
+            </div>
         </div>
         <div class="col-3" *ngIf="tournament!.status===1">
             <div *ngFor="let player of getNumbers(4)" >
                 <div class="box mt-4"></div>
             </div>
         </div>
-        <div class="col-3 text-center" *ngIf="tournament!.status===2">
+        <div class="col-3 text-center" *ngIf="tournament!.status!==1">
             <div *ngFor="let player of this.tournament!.posPlayer['firstRound']" >
                 <div class="box mt-4">
                     <label class="mt-4">{{player}}</label>
@@ -66,14 +80,22 @@
                 </div>
             </div>
         </div>
-        <div class="col-3 text-center" style="margin-top: 140px;">
+        <div class="col-3 text-center" style="margin-top: 140px;" *ngIf="!this.tournament!.podio['primoPosto']">
             <label>Primo posto</label>
             <div class="box"></div>
+        </div>
+        <div class="col-3 text-center" style="margin-top: 140px;" *ngIf="this.tournament!.podio['primoPosto']">
+            <label>Primo posto</label>
+            <div class="box">
+                <label class="mt-4">{{this.tournament!.podio['primoPosto']}}</label>
+            </div>
         </div>
     </div>
 </div>
 
 
 <div class="row d-flex justify-content-around mt-5" *ngIf="tournament!.status === 2">
-    <button class="col-3 btn btn-bg rounded grigino" (click)="finePartita()">FINE PARTITA</button>
+    <button class="col-3 btn btn-bg rounded grigino" (click)="refreshPartita()">AGGIORNA</button>
+    <button class="col-3 btn btn-bg rounded grigino" (click)="concludi()" *ngIf="this.tournament!.podio['primoPosto'] && this.tournament!.podio['secondoPosto'] && this.tournament!.podio['terzoPosto']">CONCLUDI TORNEO</button>
+    <button class="col-3 btn btn-bg rounded grigino" (click)="finePartita()" *ngIf="tournament?.playersId?.includes(player!._id!)">FINE PARTITA</button>
 </div>
