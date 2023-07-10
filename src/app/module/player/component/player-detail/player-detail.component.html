@@ -4,7 +4,7 @@
 
 <div *ngIf="!showModify">
     <div class="row">
-        <div class="mt-5 col-4 text-center" >
+        <div class="mt-5 col-4 text-center">
             <h3>Profilo</h3>
             <div class="shadow-lg mt-3 p-5 rounded player-detail" *ngIf="player">
                 <label>Username: <strong>{{player!.name}}</strong></label><br>
@@ -40,8 +40,8 @@
         </div>
     </div>
 
-    <div class="row mt-4">
-        <div class="col-12 shadow-lg player-detail">
+    <div class="content row mt-4">
+        <div class="shadow-lg player-detail">
             <div class="mt-4" *ngIf="history!.page!>1">
                 <div class="row d-flex justify-content-around">
                     <button type="button" class="col btn impagination" (click)="selectPage(1)"><i class='fa fa-angle-left'></i></button>
