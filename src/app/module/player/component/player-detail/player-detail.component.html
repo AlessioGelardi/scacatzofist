@@ -2,15 +2,43 @@
 
 <player-buttons [buttons]="buttons" (buttonOperation)="buttonOperationHandler($event)"></player-buttons>
 
-<div class="mt-5 col-4 text-center" *ngIf="!showModify">
-    <h3>Dettaglio Profilo</h3>
-    <div class="shadow-lg mt-3 p-5 rounded player-detail" *ngIf="player">
-        <label>Username: <strong>{{player!.name}}</strong></label><br>
-        <label>Email: <strong>{{player!.email}}</strong></label><br>
-        <label>Domanda: <strong>{{player!.domanda}}</strong></label><br>
-        <label>Risposta: <strong>{{player!.risposta}}</strong></label><br>
+<div class="row">
+    <div class="mt-5 col-4 text-center" *ngIf="!showModify">
+        <h3>Profilo</h3>
+        <div class="shadow-lg mt-3 p-5 rounded player-detail" *ngIf="player">
+            <label>Username: <strong>{{player!.name}}</strong></label><br>
+            <label>Email: <strong>{{player!.email}}</strong></label><br>
+            <label>Domanda: <strong>{{player!.domanda}}</strong></label><br>
+            <label>Risposta: <strong>{{player!.risposta}}</strong></label><br>
+        </div>
+    </div>
+    
+    <div class="mt-5 col-8 text-center" *ngIf="!showModify">
+        <h3>Progressi</h3>
+        <div class="shadow-lg mt-3 p-4 rounded player-detail" *ngIf="player">
+            <div class="row mt-3">
+                <label>Numero duelli completati: <strong>54</strong></label>
+            </div>
+            <div class="row mt-4">
+                <div class="col">
+                    <label>Vittorie: <strong>20</strong></label>
+                </div>
+                <div class="col">
+                    <label>Sconfitte: <strong>14</strong></label>
+                </div>
+            </div>
+            <div class="row mt-4 percent">
+                <div class="col">
+                    <strong>20%</strong>
+                </div>
+                <div class="col">
+                    <strong>45%</strong>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
 
 <div class="content mt-5" *ngIf="showModify">
     <form [formGroup]="modForm" (ngSubmit)="modify()">
