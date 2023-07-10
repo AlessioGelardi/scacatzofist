@@ -4,7 +4,6 @@ import { Player } from 'src/app/module/interface/player';
 import { StateDeckService } from 'src/app/module/deck/services/state/state-deck.service';
 import { StateMarketService } from 'src/app/module/market/services/state/state-market.service';
 import { StatePlayerService } from '../../services/state/state-player.service';
-import { TypeMod } from 'src/app/module/play-now/enum/typeMod';
 import { StateNotifierService } from 'src/app/module/notifier/services/state/state-notifier.service';
 
 @Component({
@@ -27,8 +26,8 @@ export class PlayerStatusComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  readNotify() {
-    this.router.navigate(['/request',{id:this.player?._id!,typeMode:TypeMod.ALL, playerRole: this.player?.ruolo!}]);
+  detail() {
+    this.router.navigate(['/playerdetail',{id:this.player?._id!}]);
   }
 
   readInventory() {
