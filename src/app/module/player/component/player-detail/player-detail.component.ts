@@ -5,6 +5,9 @@ import { MessageService } from 'src/app/module/swalAlert/message.service';
 import { StatePlayerService } from '../../services/state/state-player.service';
 import { Player } from 'src/app/module/interface/player';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { StateNotifierService } from 'src/app/module/notifier/services/state/state-notifier.service';
+import { TypeMod } from 'src/app/module/play-now/enum/typeMod';
+import { DictReqs } from 'src/app/module/interface/reqs';
 
 @Component({
   selector: 'player-detail',
@@ -34,10 +37,14 @@ export class PlayerDetailComponent {
     "Parola segreta?"
   ]
 
+  pageSelected: string = "1";
+  history: DictReqs | undefined;
+
   constructor(private route: ActivatedRoute,
     private router: Router,
     private messageService: MessageService,
-    private playerStateService: StatePlayerService) {
+    private playerStateService: StatePlayerService,
+    private notifierStateService: StateNotifierService) {
 
   }
 
@@ -124,10 +131,23 @@ export class PlayerDetailComponent {
     }
   }
 
+  getNumberRange(n: number): number[] {
+    return Array.from({ length: n }, (_, index) => index + 1);
+  }
+
+  selectPage(page: number) {
+    this.pageSelected = page.toString();
+  }
+
+  public get TypeMod() {
+    return TypeMod; 
+  }
+
   private takePlayer(playerId: string) {
     this.playerStateService.getPlayer(playerId).then((resp) => {
       if(resp) {
         this.player = resp;
+        this.takeHistory();
       } else {
         //TO-DO gestione degli errori
         /*
@@ -140,4 +160,22 @@ export class PlayerDetailComponent {
       }
     });
   }
+
+  private takeHistory() {
+    this.pageSelected = "1";
+    this.notifierStateService.getReqs(this.player?._id!,true,false,TypeMod.ALL).then((resp) => {
+      if(resp) {
+        this.history = resp;
+      } else {
+        //TO-DO gestione degli errori
+        /*
+        if(resp.status===402) {
+          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+        }
+        */
+
+        this.messageService.alert('Attenzione!','Errore durante la chiamata getReqs','error');
+      }
+    });
+  } 
 }

@@ -46,3 +46,7 @@ label {
 .percent {
     font-size: 28px;
 }
+
+table tr td, table tr th{
+    background-color: transparent !important;
+}
