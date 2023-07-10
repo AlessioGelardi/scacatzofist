@@ -1,3 +1,53 @@
 <player-status [player]="player"></player-status>
 
 <player-buttons [buttons]="buttons" (buttonOperation)="buttonOperationHandler($event)"></player-buttons>
+
+<div class="mt-5 col-4 text-center" *ngIf="!showModify">
+    <h3>Dettaglio Profilo</h3>
+    <div class="shadow-lg mt-3 p-5 rounded player-detail" *ngIf="player">
+        <label>Username: <strong>{{player!.name}}</strong></label><br>
+        <label>Email: <strong>{{player!.email}}</strong></label><br>
+        <label>Domanda: <strong>{{player!.domanda}}</strong></label><br>
+        <label>Risposta: <strong>{{player!.risposta}}</strong></label><br>
+    </div>
+</div>
+
+<div class="content mt-5" *ngIf="showModify">
+    <form [formGroup]="modForm" (ngSubmit)="modify()">
+        <div class="mt-3">
+            <div class="input-group mb-3">
+                <div class="input-group-append">
+                    <span class="input-group-text"><i class="fa fa-user span_icon"></i></span>
+                </div>
+                <input #username id="name" formControlName="name" type="text" name="name" class="form-control" value="" placeholder="username" required>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-append">
+                    <span class="input-group-text"><i class="fa fa-key span_icon"></i></span>
+                </div>
+                <input id="password" formControlName="password" type="password" name="password" class="form-control" value="" placeholder="password" required>
+            </div>
+            <div class="input-group mb-4">
+                <div class="input-group-append">
+                    <span class="input-group-text"><i class="fa fa-envelope span_icon"></i></span>
+                </div>
+                <input id="email" formControlName="email" type="text" name="email" class="form-control" value="" placeholder="email" required>
+            </div>
+            <hr>
+            <div class="input-group mb-3">
+                <select class="form-control" id="domanda" formControlName="domanda">
+                    <option value="" selected="true" [disabled]="true">Domanda segreta</option>
+                    <option *ngFor="let question of questions" value="{{question}}">{{question}}</option>
+                </select>
+            </div>
+            <div class="input-group mb-4">
+                <div class="input-group-append">
+                    <span class="input-group-text"><i class="fa fa-exclamation span_icon"></i></span>
+                </div>
+                <input id="risposta" formControlName="risposta" type="text" name="risposta" class="form-control" value="" placeholder="risposta" required>
+            </div>
+            <button type="submit" name="button" class="btn login_btn">Modifica</button>
+        
+        </div>
+    </form>
+</div>
