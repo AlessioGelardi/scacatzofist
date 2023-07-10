@@ -160,7 +160,12 @@ export class PlayNowTorneoComponent {
         request.type = this.createTorneoForm.value.type;
         request.maxNReg = this.createTorneoForm.value.maxNReg;
         request.main = true;
-        request.posPlayer = [];
+        request.podio = {}
+        request.posPlayer = {
+          'firstRound': [],
+          'secondRound': [],
+          'loseRound': []
+        };
 
         //calcolo per la vittoria (da spostare BE ?)
         request.vincita = {}
