@@ -11,8 +11,8 @@ export interface Reqs {
     playerRicevente: string;
     dataUpdate: Date;
     status: Status;
-    vincita:any;
-    perdita:any;
+    vincita?:any;
+    perdita?:any;
     vincitore?:string;
     plateReq?:Card[];
     plateOppo?:Card[];

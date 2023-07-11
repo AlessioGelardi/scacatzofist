@@ -4,49 +4,53 @@
 
 <div *ngIf="!showModify">
     <div class="row">
-        <div class="mt-5 col-4 text-center">
+        <div class="mt-5 col-5 text-center">
             <h3>Profilo</h3>
-            <div class="shadow-lg mt-3 p-5 rounded player-detail" *ngIf="player">
-                <label>Username: <strong>{{player!.name}}</strong></label><br>
-                <label>Email: <strong>{{player!.email}}</strong></label><br>
-                <label>Domanda: <strong>{{player!.domanda}}</strong></label><br>
-                <label>Risposta: <strong>{{player!.risposta}}</strong></label><br>
+            <div class="shadow-lg mt-3 p-4 rounded player-detail" *ngIf="player">
+                <label>Username: <br><strong>{{player!.name}}</strong></label><br>
+                <label>Email: <br><strong>{{player!.email}}</strong></label><br>
+                <label>Domanda: <br><strong>{{player!.domanda}}</strong></label><br>
+                <label>Risposta: <br><strong>{{player!.risposta}}</strong></label><br>
             </div>
         </div>
         
-        <div class="mt-5 col-8 text-center">
+        <div class="mt-5 col-7 text-center">
             <h3>Progressi</h3>
-            <div class="shadow-lg mt-3 p-4 rounded player-detail" *ngIf="player">
-                <div class="row mt-3">
-                    <label>Numero duelli completati: <strong>54</strong></label>
+            <div class="shadow-lg mt-3 p-5 rounded player-detail" *ngIf="player">
+                <div class="row mt-1">
+                    <label>Numero duelli completati: <strong>{{history!.reqs![1].length!}}</strong></label>
                 </div>
                 <div class="row mt-4">
                     <div class="col">
-                        <label>Vittorie: <strong>20</strong></label>
+                        <label>Vittorie: <strong>{{numVittorie}}</strong></label>
                     </div>
                     <div class="col">
-                        <label>Sconfitte: <strong>14</strong></label>
+                        <label>Sconfitte: <strong>{{numSconfitte}}</strong></label>
                     </div>
                 </div>
-                <div class="row mt-4 percent">
+                <div class="row mt-2 percent">
                     <div class="col">
-                        <strong>20%</strong>
+                        <strong>{{((numVittorie / history!.reqs![1].length!) * 100).toFixed(2)}}%</strong>
                     </div>
                     <div class="col">
-                        <strong>45%</strong>
+                        <strong>{{((numSconfitte / history!.reqs![1].length!) * 100).toFixed(2)}}%</strong>
                     </div>
+                </div>
+                <div class="row mt-3">
+                    <label>Rateo: <strong>{{(numVittorie/numSconfitte).toFixed(1)}}</strong></label>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="content row mt-4">
-        <div class="shadow-lg player-detail">
+    <div class="content row mt-4 text-center" *ngIf="history!">
+        <h3>Storico duelli</h3>
+        <div class="shadow-lg mt-3 player-detail">
             <div class="mt-4" *ngIf="history!.page!>1">
                 <div class="row d-flex justify-content-around">
                     <button type="button" class="col btn impagination" (click)="selectPage(1)"><i class='fa fa-angle-left'></i></button>
                     <button *ngFor="let number of getNumberRange(history?.page!)" type="button" class="col btn impagination" (click)="selectPage(number)">{{number}}</button>
-                    <button type="button" class="col btn impagination" (click)="selectPage(history?.page!)"><i class='fa fa-angle-right'></i></button>
+                    <button type="button" class="col btn impagination" (click)="selectPage(history!.page!)"><i class='fa fa-angle-right'></i></button>
                 </div>
             </div>
             <table class="table table-hover mt-4 text-center">
@@ -54,6 +58,7 @@
                     <tr>
                         <th scope="col">Modalità</th>
                         <th scope="col">Giocatori</th>
+                        <th scope="col">Risultato</th>
                         <th scope="col">Data</th>
                     </tr>
                 </thead>
@@ -61,6 +66,7 @@
                     <tr *ngFor="let req of history?.reqs![pageSelected]">
                         <td>{{TypeMod[req.typeMod]}}</td>
                         <td>{{req.playerRicevente}} <strong>VS</strong> {{req.playerRichiedente}}</td>
+                        <td>{{checkWin(req!.vincitore!) ? 'VITTORIA' : 'SCONFITTA'}}</td>
                         <td>{{req.dataUpdate}}</td>
                     </tr>
                 </tbody>

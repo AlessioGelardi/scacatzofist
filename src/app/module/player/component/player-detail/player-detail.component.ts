@@ -40,6 +40,9 @@ export class PlayerDetailComponent {
   pageSelected: string = "1";
   history: DictReqs | undefined;
 
+  numVittorie:number = 0;
+  numSconfitte:number = 0;
+
   constructor(private route: ActivatedRoute,
     private router: Router,
     private messageService: MessageService,
@@ -139,6 +142,10 @@ export class PlayerDetailComponent {
     this.pageSelected = page.toString();
   }
 
+  checkWin(vincitore: string) {
+    return vincitore === this.player?.name ? true : false;
+  }
+
   public get TypeMod() {
     return TypeMod; 
   }
@@ -160,12 +167,23 @@ export class PlayerDetailComponent {
       }
     });
   }
-
+  
   private takeHistory() {
     this.pageSelected = "1";
     this.notifierStateService.getReqs(this.player?._id!,true,false,TypeMod.ALL).then((resp) => {
       if(resp) {
         this.history = resp;
+        this.numSconfitte = 0;
+        this.numVittorie = 0;
+        if(this.history!.reqs![1].length>0) {
+          for(let x of this.history!.reqs![1]) {
+            if(this.checkWin(x.vincitore!)) {
+              this.numVittorie++;
+            } else {
+              this.numSconfitte++;
+            }
+          }
+        }
       } else {
         //TO-DO gestione degli errori
         /*
