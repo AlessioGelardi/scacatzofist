@@ -16,9 +16,9 @@
         
         <div class="mt-5 col-7 text-center">
             <h3>Progressi</h3>
-            <div class="shadow-lg mt-3 p-5 rounded player-detail" *ngIf="player">
+            <div class="shadow-lg mt-3 p-5 rounded player-detail" *ngIf="player && history">
                 <div class="row mt-1">
-                    <label>Numero duelli completati: <strong>{{history!.reqs![1].length!}}</strong></label>
+                    <label>Numero duelli completati: <strong>{{numDuelli}}</strong></label>
                 </div>
                 <div class="row mt-4">
                     <div class="col">
@@ -30,10 +30,10 @@
                 </div>
                 <div class="row mt-2 percent">
                     <div class="col">
-                        <strong>{{((numVittorie / history!.reqs![1].length!) * 100).toFixed(2)}}%</strong>
+                        <strong>{{((numVittorie / numDuelli!) * 100).toFixed(2)}}%</strong>
                     </div>
                     <div class="col">
-                        <strong>{{((numSconfitte / history!.reqs![1].length!) * 100).toFixed(2)}}%</strong>
+                        <strong>{{((numSconfitte / numDuelli) * 100).toFixed(2)}}%</strong>
                     </div>
                 </div>
                 <div class="row mt-3">

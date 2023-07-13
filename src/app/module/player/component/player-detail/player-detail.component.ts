@@ -40,6 +40,7 @@ export class PlayerDetailComponent {
   pageSelected: string = "1";
   history: DictReqs | undefined;
 
+  numDuelli:number = 0;
   numVittorie:number = 0;
   numSconfitte:number = 0;
 
@@ -167,23 +168,41 @@ export class PlayerDetailComponent {
       }
     });
   }
+
+  private setCounters(index:number) {
+    for(let x of this.history!.reqs![index]) {
+      if(this.checkWin(x.vincitore!)) {
+        this.numVittorie++;
+      } else {
+        this.numSconfitte++;
+      }
+    }
+  }
   
   private takeHistory() {
     this.pageSelected = "1";
+    this.numDuelli = 0;
+    this.numSconfitte = 0;
+    this.numVittorie = 0;
     this.notifierStateService.getReqs(this.player?._id!,true,false,TypeMod.ALL).then((resp) => {
       if(resp) {
         this.history = resp;
-        this.numSconfitte = 0;
-        this.numVittorie = 0;
-        if(this.history!.reqs![1].length>0) {
-          for(let x of this.history!.reqs![1]) {
-            if(this.checkWin(x.vincitore!)) {
-              this.numVittorie++;
+        let index = 1;
+        let repet = true
+        do {
+          if(this.history!.reqs![index] && this.history!.reqs![index].length>0) {
+            this.numDuelli += this.history!.reqs![index].length;
+            this.setCounters(index);
+            if(this.history!.reqs![index].length>=10) {
+              index++;
             } else {
-              this.numSconfitte++;
+              repet = false;
             }
+          } else {
+            repet = false;
           }
-        }
+        } while(repet);
+
       } else {
         //TO-DO gestione degli errori
         /*
@@ -195,5 +214,5 @@ export class PlayerDetailComponent {
         this.messageService.alert('Attenzione!','Errore durante la chiamata getReqs','error');
       }
     });
-  } 
+  }
 }
