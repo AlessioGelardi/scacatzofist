@@ -77,11 +77,11 @@ export class StateNotifierService {
         count = response.length;
         obj[maxPageNum.toString()] = response;
 
-        if(count === 10) {
+        if(count >= 10) {
           maxPageNum++;
         }
 
-      } while(count === 10);
+      } while(count >= 10);
 
       result = {
         page: maxPageNum,
