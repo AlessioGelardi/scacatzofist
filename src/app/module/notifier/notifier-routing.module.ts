@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NotifierComponent } from './component/notifier/notifier.component';
-import { NotifierHistoryComponent } from './component/notifier-history/notifier-history.component';
 
 export const notifierRoutes: Routes = [
-  { path: 'request', component: NotifierComponent },
-  { path: 'ntfrHistory', component: NotifierHistoryComponent }
+  { path: 'request', component: NotifierComponent }
 ];
 
 @NgModule({

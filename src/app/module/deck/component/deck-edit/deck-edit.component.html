@@ -14,7 +14,7 @@
         <card-list [dragDrop]="dragDrop" [dragging]="dragging" [connectedTo]="['zaino']" [typeDeck]="3" [cards]="this.deck?.side!" (showCard)="showCard($event)" (removeCard)="removeCard($event)"></card-list>
     </div>
     
-    <div class="col-6">
+    <div class="col-6 panel-body table-responsive">
         <div class="d-flex justify-content-around mt-4">
             <h5 *ngIf="!viewFilter">LE TUE CARTE</h5>
             <input *ngIf="viewFilter" class="col-5" [(ngModel)]="filterName" type="text" class="form-control sfondino" placeholder="Cerca card" autofocus>
@@ -50,11 +50,11 @@
                 <div class="area-drop"></div>
             </div>
         </div>
-        <div class="row mt-1">
+        <!-- <div class="row mt-1">
             <div class="d-flex justify-content-between mt-1">
                 <button class="btn btn-outline-dark btn-sm px-3" *ngIf="sliceStart>0" (click)="backSlice()"><i class="fa fa-arrow-left"></i></button>
                 <button class="btn btn-outline-dark btn-sm px-3" *ngIf="sliceLimit! >= sliceEnd" (click)="continueSlice()"><i class="fa fa-arrow-right"></i></button>
             </div>
-        </div>
+        </div>-->
     </div>
 </div>

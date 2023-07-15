@@ -4,6 +4,7 @@ import { PlayerStatusComponent } from './component/player-status/player-status.c
 import { HomeComponent } from './component/home/home.component';
 import { PlayerDetailComponent } from './component/player-detail/player-detail.component';
 import { PlayerButtonsComponent } from './component/player-buttons/player-buttons.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -15,7 +16,9 @@ import { PlayerButtonsComponent } from './component/player-buttons/player-button
     PlayerButtonsComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [
     PlayerStatusComponent

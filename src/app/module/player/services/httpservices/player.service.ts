@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -17,6 +17,10 @@ export class PlayerService {
 
   constructor(private http: HttpClient) { }
 
+  updatePlayer(request:any): Observable<boolean> {
+    return this.http.put<boolean>(this.apiUrlPlayer,request,this.generateOptions());
+  }
+
   getPlayerById(id:string): Observable<Player>{
     return this.http.get<Player>(this.apiUrlPlayer+'?id='+id);
   }
@@ -31,6 +35,15 @@ export class PlayerService {
 
   getInventory(id:string): Observable<Pack[]> {
     return this.http.get<Pack[]>(this.apiUrlInventory+'?id='+id);
+  }
+
+  private generateOptions() {
+    return {
+      headers: new HttpHeaders({
+        'Accept': 'application/x-www-form-urlencoded',
+        'Content-Type':  'application/json'
+      })
+    };
   }
 
 }

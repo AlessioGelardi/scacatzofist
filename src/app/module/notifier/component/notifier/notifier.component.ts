@@ -23,7 +23,6 @@ export class NotifierComponent implements OnInit {
   typeMode:number | undefined;
   playerRole:number | undefined;
 
-  history: boolean = false;
   viewMyReqs: boolean = false;
 
   maxPageNum: number = 1;
@@ -60,11 +59,6 @@ export class NotifierComponent implements OnInit {
         name: "MYREQS-BUTTON",
         code: "MYREQS",
         class: "fa fa-paper-plane"
-      },
-      {
-        name: "HISTORY-BUTTON",
-        code: "HISTORY",
-        class: "fa fa-list"
       }
     ];
 
@@ -72,7 +66,7 @@ export class NotifierComponent implements OnInit {
     this.typeMode = Number(this.route.snapshot.paramMap.get('typeMode')!);
     this.playerRole = Number(this.route.snapshot.paramMap.get('playerRole')!);
 
-    this.takeReqs(this.history);
+    this.takeReqs(false);
   }
 
   buttonOperationHandler(code: any) {
@@ -87,25 +81,16 @@ export class NotifierComponent implements OnInit {
           } else {
             window.history.back();
           }
-          
-          break;
-        case 'HISTORY':
-          this.showMoreDetail = false;
-          this.history=true;
-          //this.notifierStateService.resetState();
-          this.takeReqs(this.history, this.viewMyReqs);
           break;
         case 'MYREQS':
           this.showMoreDetail = false;
           this.viewMyReqs = true;
-          this.takeReqs(this.history, this.viewMyReqs);
+          this.takeReqs(false, this.viewMyReqs);
           break;
         case 'REFRESH':
           this.showMoreDetail = false;
-          //this.history = false;
           this.viewMyReqs = false;
-          //this.notifierStateService.resetState();
-          this.takeReqs(this.history);
+          this.takeReqs(false);
           break;
       }
     }
