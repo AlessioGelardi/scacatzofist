@@ -10,6 +10,7 @@ export const environment = {
   baseUrlMarket: 'http://localhost:5001/market/',
   baseUrlNotifier: 'http://localhost:5001/notifier/',
   baseUrlDatabase: 'http://localhost:5001/database/',
+  baseUrlTrade: 'http://localhost:5001/trade/',
 };
 
 /*

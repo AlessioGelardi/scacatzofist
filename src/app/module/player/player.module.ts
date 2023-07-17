@@ -5,6 +5,7 @@ import { HomeComponent } from './component/home/home.component';
 import { PlayerDetailComponent } from './component/player-detail/player-detail.component';
 import { PlayerButtonsComponent } from './component/player-buttons/player-buttons.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FilterPlayerPipe } from './pipe/filter-player.pipe';
 
 
 
@@ -13,7 +14,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     HomeComponent,
     PlayerStatusComponent,
     PlayerDetailComponent,
-    PlayerButtonsComponent
+    PlayerButtonsComponent,
+    FilterPlayerPipe
   ],
   imports: [
     CommonModule,
@@ -21,7 +23,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule
   ],
   exports: [
-    PlayerStatusComponent
+    PlayerStatusComponent,
+    FilterPlayerPipe
   ]
 })
 export class PlayerModule { }

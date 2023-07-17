@@ -6,7 +6,6 @@ import { PlayNowButtonsComponent } from './component/play-now-buttons/play-now-b
 import { PlayNowScontroComponent } from './component/play-now-scontro/play-now-scontro.component';
 import { PlayNowTrainingComponent } from './component/play-now-training/play-now-training.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FilterPlayerPipe } from './pipe/filter-player.pipe';
 import { PlayNowPuntataComponent } from './component/play-now-puntata/play-now-puntata.component';
 import { PlayNowPlayersComponent } from './component/play-now-players/play-now-players.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -22,7 +21,6 @@ import { PlayNowDetailTorneoComponent } from './component/play-now-torneo/play-n
     PlayNowButtonsComponent,
     PlayNowScontroComponent,
     PlayNowTrainingComponent,
-    FilterPlayerPipe,
     PlayNowPuntataComponent,
     PlayNowPlayersComponent,
     PlayNowTorneoComponent,
