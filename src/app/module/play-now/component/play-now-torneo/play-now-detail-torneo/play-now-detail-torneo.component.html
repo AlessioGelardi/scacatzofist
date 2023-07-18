@@ -66,13 +66,13 @@
                 </div>
             </div>
         </div>
-        <div class="col-3 mt-4" *ngIf="tournament!.posPlayer['secondRound']!.length<=0">
+        <div class="col-3 mt-4" *ngIf="tournament!.posPlayer['secondRound']! && tournament!.posPlayer['secondRound']!.length<=0">
             <label class="mt-4">Secondo posto</label>
             <div *ngFor="let player of getNumbers(2)">
                 <div class="box" style="margin-bottom: 110px;"></div>
             </div>
         </div>
-        <div class="col-3 mt-4 text-center" *ngIf="tournament!.posPlayer['secondRound'].length>0">
+        <div class="col-3 mt-4 text-center" *ngIf="tournament!.posPlayer['secondRound'] && tournament!.posPlayer['secondRound'].length>0">
             <label class="mt-4">Secondo posto</label>
             <div *ngFor="let player of tournament!.posPlayer['secondRound']">
                 <div class="box" style="margin-bottom: 110px;">
