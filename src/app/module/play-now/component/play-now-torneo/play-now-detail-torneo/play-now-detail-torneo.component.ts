@@ -86,14 +86,14 @@ export class PlayNowDetailTorneoComponent {
       'second': this.tournament?.posPlayer['firstRound'][3]
     })
 
-    if(this.tournament?.posPlayer['secondRound']! && this.tournament?.posPlayer['secondRound']!.length>0) {
+    if(this.tournament?.posPlayer['secondRound']?.length>0) {
       battle.push({
         'first': this.tournament?.posPlayer['secondRound'][0],
         'second': this.tournament?.posPlayer['secondRound'][1]
       })
     }
 
-    if(this.tournament?.posPlayer['loseRound']! && this.tournament?.posPlayer['loseRound']!.length>0) {
+    if(this.tournament?.posPlayer['loseRound']?.length>0) {
       battle.push({
         'first': this.tournament?.posPlayer['loseRound'][0],
         'second': this.tournament?.posPlayer['loseRound'][1]
