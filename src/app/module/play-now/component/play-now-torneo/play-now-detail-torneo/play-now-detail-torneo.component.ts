@@ -6,6 +6,7 @@ import { StateNotifierService } from 'src/app/module/notifier/services/state/sta
 import { StatePlayerService } from 'src/app/module/player/services/state/state-player.service';
 import { MessageService } from 'src/app/module/swalAlert/message.service';
 import { TypeMod } from '../../../enum/typeMod';
+import { Status } from 'src/app/module/notifier/enum/status';
 
 @Component({
   selector: 'detail-torneo',
@@ -151,12 +152,12 @@ export class PlayNowDetailTorneoComponent {
 
   concludi() {
     let request: any = {}
-    request.status = 3;
+    request.status = Status.TORNEO_COMPLETATO;
     request.id = this.tournament?.id;
     this.notifierStateService.updateTournaments(request).then((resp) => {
       if(resp == true) {
 
-        this.tournament!.status=3;
+        this.tournament!.status = Status.TORNEO_COMPLETATO;
 
         this.notifierStateService.resetTournaments();
         this.playerStateService.resetPlayerState();
