@@ -127,6 +127,7 @@ export class PlayNowDetailTorneoComponent {
       let request: any = {};
       request.tournamentId = this.tournament?.id;
       request.typeMod = TypeMod.TORNEO;
+      request.podio = this.tournament?.podio;
 
       this.notifierStateService.createDuelRec(request).then((resp) => {
         if(resp == true) {  
