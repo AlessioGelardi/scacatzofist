@@ -106,7 +106,7 @@ export class PlayNowDetailTorneoComponent {
   refreshPartita() {
     this.notifierStateService.getTournamentById(this.tournament!.id!).then((resp) => {
       if(resp) {
-        this.tournament = resp
+        this.tournament = resp;
       } else {
         //TO-DO gestione degli errori
         /*
@@ -133,6 +133,7 @@ export class PlayNowDetailTorneoComponent {
         if(resp == true) {  
           this.notifierStateService.resetTournaments();
           this.messageService.alert('Partita registrata','Partita registrata con successo!','success');
+          this.refreshPartita();
         } else {
           //TO-DO gestione degli errori
           if(resp && resp.status===402) {
@@ -159,6 +160,7 @@ export class PlayNowDetailTorneoComponent {
 
         this.notifierStateService.resetTournaments();
         this.playerStateService.resetPlayerState();
+        this.refreshPartita();
       } else {
         //TO-DO gestione degli errori
         /*
@@ -189,6 +191,7 @@ export class PlayNowDetailTorneoComponent {
 
         this.notifierStateService.resetTournaments();
         this.playerStateService.resetPlayerState();
+        this.refreshPartita();
       } else {
         //TO-DO gestione degli errori
         /*
