@@ -45,6 +45,8 @@ export class TradeNewComponent {
 
   dragging: boolean = false;
 
+  private: boolean = false;
+
   constructor(private route: ActivatedRoute,
     private router: Router,
     private messageService: MessageService,
@@ -68,7 +70,6 @@ export class TradeNewComponent {
 
     const playerId = this.route.snapshot.paramMap.get('id')!; 
     this.takePlayer(playerId);
-    this.takeAllPlayers(playerId);
   }
 
   buttonOperationHandler(code: any) {
@@ -78,14 +79,27 @@ export class TradeNewComponent {
           this.router.navigate(['/home']);
           break;
         case 'BACK':
-          if(!this.showPlayers) {
-            this.showPlayers=true;
+          if(this.private) {
+            if(!this.showPlayers) {
+              this.showPlayers=true;
+            } else {
+              this.private=false;
+            }
           } else {
             this.router.navigate(['/trade']);
           }
           break;
       }
     }
+  }
+
+  pubblico() {
+    this.messageService.alert('In progress...',"Questa funzionalità è ancora in sviluppo... Ci dispiace per l'inconveniente torna più tardi !!! ",'info');
+  }
+
+  privato() {
+    this.private=true;
+    this.takeAllPlayers(this.player?._id!);
   }
 
   selectPlayer(playerIdOppo: string,name:string) {

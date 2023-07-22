@@ -8,6 +8,7 @@ import { TradeNewComponent } from './components/trade-new/trade-new.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TradeDetailComponent } from './components/trade-detail/trade-detail.component';
 
 
 
@@ -15,7 +16,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   declarations: [
     TradeComponent,
     TradeButtonsComponent,
-    TradeNewComponent
+    TradeNewComponent,
+    TradeDetailComponent
   ],
   imports: [
     CommonModule,

@@ -1,3 +1,37 @@
 <player-status [player]="player"></player-status>
 
 <trade-buttons [buttons]="buttons" (buttonOperation)="buttonOperationHandler($event)"></trade-buttons>
+
+
+<div *ngIf="!showPrivateTrade">
+
+
+</div>
+
+<div class="mt-5" *ngIf="showPrivateTrade">
+    <table class="table table-hover mt-3 text-center" >
+        <thead>
+            <tr>
+                <th scope="col">
+                    <button type="button" class="btn btn-outline-dark btn-sm" (click)="refresh()"><i class="fa fa-refresh"></i></button>
+                </th>
+                <th scope="col">Offerta</th>
+                <th scope="col">Richiesta</th>
+                <th scope="col">Richiedente</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let trade of privateTrades">
+                <td *ngIf="trade.playerIdReq!==player?._id">
+                    <button type="button" class="btn btn-outline-dark btn-sm" (click)="showDetail(trade)"><i class="fa fa-eye"></i></button>
+                </td>
+                <td *ngIf="trade.playerIdReq===player?._id">
+                    <button type="button" class="btn btn-outline-dark btn-sm" (click)="deleteTrade(trade)"><i class="fa fa-trash"></i></button>
+                </td>
+                <td>{{trade.offerta["coin"]}} <i class="fa fa fa-database"></i> &nbsp; {{trade.offerta["credits"]}} <i class="fa fa fa-diamond"></i> &nbsp; {{trade.offerta["cards"]?.length}} <i class="fa fa-square"></i> </td>
+                <td>{{trade.richiesta["coin"]}} <i class="fa fa fa-database"></i> &nbsp; {{trade.richiesta["credits"]}} <i class="fa fa fa-diamond"></i> &nbsp; {{trade.richiesta["cards"]?.length}} <i class="fa fa-square"></i> </td>
+                <td>{{trade.playerNameReq}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
