@@ -111,6 +111,7 @@ export class PlayNowTorneoComponent {
         case 'BACK':
           if(this.showCreate) {
             this.showCreate = false;
+            this.takePlayer(this.playerId!);
           } else {
             if(this.showDetail) {
               this.showDetail = false;

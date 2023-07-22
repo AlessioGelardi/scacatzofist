@@ -21,7 +21,7 @@
         </div>
     </div>
     <div class="col" *ngIf="tournament!.status !== 1">
-        <h5>Elenco battaglie</h5>
+        <h5>Podio</h5>
         <div>
             <label>Primo posto: <strong>{{this.tournament!.podio['primoPosto']}}</strong></label><br>
             <label>Secondo posto: <strong>{{this.tournament!.podio['secondoPosto']}}</strong></label><br>
@@ -66,17 +66,20 @@
                 </div>
             </div>
         </div>
-        <div class="col-3 mt-4" *ngIf="tournament!.posPlayer['secondRound']!.length<=0">
+        <div class="col-3 mt-4" *ngIf="!tournament!.posPlayer['secondRound']">
             <label class="mt-4">Secondo posto</label>
             <div *ngFor="let player of getNumbers(2)">
                 <div class="box" style="margin-bottom: 110px;"></div>
             </div>
         </div>
-        <div class="col-3 mt-4 text-center" *ngIf="tournament!.posPlayer['secondRound'].length>0">
+        <div class="col-3 mt-4 text-center" *ngIf="tournament!.posPlayer['secondRound']?.length>0">
             <label class="mt-4">Secondo posto</label>
             <div *ngFor="let player of tournament!.posPlayer['secondRound']">
                 <div class="box" style="margin-bottom: 110px;">
                     <label class="mt-4">{{player}}</label>
+                </div>
+                <div *ngFor="let player of getNumbers(2 - (tournament!.posPlayer['secondRound'] ? tournament!.posPlayer['secondRound']?.length : 0))">
+                    <div class="box" style="margin-bottom: 110px;"></div>
                 </div>
             </div>
         </div>

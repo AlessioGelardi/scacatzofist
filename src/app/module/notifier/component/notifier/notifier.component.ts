@@ -222,12 +222,12 @@ export class NotifierComponent implements OnInit {
           request.vincitore = vincitore;
           request.playerIdperdente = playerIdperdente;
           request.perdente = perdente;
-          request.status = 3;
+          request.status = Status.COMPLETATO;
           request.role = this.playerRole;
           this.notifierStateService.updateRequest(request).then((resp) => {
             if(resp === true) {
               //this.notifierStateService.resetState();
-              req.status = 3;
+              req.status = Status.COMPLETATO;
               req.vincitore = vincitore;
               this.messageService.alert('Partita Conclusa!','Richiesta aggiornata con successo!','success');
               this.playerStateService.resetPlayerState();
