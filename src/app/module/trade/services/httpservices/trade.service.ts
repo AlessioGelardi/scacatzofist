@@ -26,8 +26,12 @@ export class TradeService {
     return this.http.get<Trade>(this.apiUrlTradeById+'?id='+tradeId);
   }
 
-  updateTrade(request: any): Observable<Trade> {
-    return this.http.put<Trade>(this.apiUrlTradeById,request,this.generateOptions());
+  updateTrade(request: any): Observable<boolean> {
+    return this.http.put<boolean>(this.apiUrlTrade,request,this.generateOptions());
+  }
+
+  deleteTrade(tradeId: string): Observable<boolean> {
+    return this.http.delete<boolean>(this.apiUrlTrade+'?id='+tradeId);
   }
 
   private generateOptions() {

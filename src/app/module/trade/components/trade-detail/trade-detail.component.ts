@@ -67,25 +67,24 @@ export class TradeDetailComponent {
   }
 
   accetta() {
-    let request: any = {};
-    request.status = 2; //accettato
-    this.tradeStateService.createTrade(request).then((resp) => {
-      if(resp === true) {
-        this.messageService.alert('Fatto!','Trade accettato!','success');
-        this.tradeStateService.resetPrivateTrades();
-        this.router.navigate(['/trade']);
-      } else {
-        this.messageService.alert('Errore',"Errore durante l'aggiornamento del trade",'error');
-      }
-    });
+    if(Number(this.player?.coin) >= this.trade?.richiesta['coin'] && Number(this.player?.credits) >= this.trade?.richiesta['credits']) {
+      this.update(2);
+    } else {
+      this.messageService.alert('Attenzione!','Budget insufficente, i coin o i credits a disposizione non coprono la spesa','info');
+    }
   }
 
   rifiuta() {
+    this.update(3);
+  }
+
+  private update(status:number) {
     let request: any = {};
-    request.status = 3; //rifiutato
-    this.tradeStateService.createTrade(request).then((resp) => {
+    request.id = this.trade?._id!;
+    request.status = status; //2 - accettato | 3 - rifiutato
+    this.tradeStateService.updateTrade(request).then((resp) => {
       if(resp === true) {
-        this.messageService.alert('Fatto!','Trade rifiutato!','success');
+        this.messageService.alert('Fatto!','Trade '+(status===2?'accettato':'rifiutato')+'!','success');
         this.tradeStateService.resetPrivateTrades();
         this.router.navigate(['/trade']);
       } else {

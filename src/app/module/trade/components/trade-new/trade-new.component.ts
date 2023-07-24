@@ -130,8 +130,8 @@ export class TradeNewComponent {
           }
 
           let request: any = {};
-          request.playerRequest = this.player?._id;
-          request.playerNameRequest = this.player?.name;
+          request.playerIdReq = this.player?._id;
+          request.playerNameReq = this.player?.name;
           request.richiesta = {
             "coin": this.createMyTrade.value.coins,
             "credits": this.createMyTrade.value.credits,
@@ -143,13 +143,14 @@ export class TradeNewComponent {
             cardsOffert.push(card.id)
           }
 
-          request.playerOffert = this.selectPlayerId;
-          request.playerNameOffert = this.selectPlayerName;
+          request.playerIdOppo = this.selectPlayerId;
+          request.playerNameOppo = this.selectPlayerName;
           request.offerta = {
             "coin": this.createYourTrade.value.coins,
             "credits": this.createYourTrade.value.credits,
             "cards": cardsOffert
           }
+          request.status = 1;
     
           this.tradeStateService.createTrade(request).then((resp) => {
             if(resp === true) {

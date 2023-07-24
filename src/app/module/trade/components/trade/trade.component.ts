@@ -77,8 +77,16 @@ export class TradeComponent {
     this.router.navigate(['/trade-detail',{playerId:this.player?._id!, tradeId:trade?._id!}]);
   }
 
-  deleteTrade(trade: Trade) {
-    alert('cacca')
+  deleteTrade(tradeId: string) {
+    this.tradeStateService.deleteTrade(tradeId).then((resp) => {
+      if(resp === true) {
+        this.messageService.alert('Fatto!','Trade cancellato!','success');
+        this.tradeStateService.resetPrivateTrades();
+        this.router.navigate(['/trade']);
+      } else {
+        this.messageService.alert('Errore',"Errore durante l'aggiornamento del trade",'error');
+      }
+    });
   }
 
   private takePlayer(playerId: string) {
