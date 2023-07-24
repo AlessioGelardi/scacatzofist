@@ -64,14 +64,19 @@ export class PlayNowTrainingComponent implements OnInit {
           this.router.navigate(['/home']);
           break;
         case 'BACK':
-          //check sul timer, conferma e poi stop traning prima di mostrare la history
-          this.router.navigate(['/playnow',{id:this.playerId}]);
+          if(this.seconds>0||this.minutes>0||this.hours>0) {
+            this.stopTimer("Timer in corso, vuoi veramente terminare il traning?")
+          } else {
+            this.router.navigate(['/playnow',{id:this.playerId}]);
+          }
           break;
         case 'REQUEST':
-          //check sul timer, conferma e poi stop traning prima di mostrare la history
-          this.finishTraning=true;
-          this.takeDuelRec();
-          //this.router.navigate(['/request',{id:this.playerId,typeMode:TypeMod.SCONTRO, playerRole: this.player?.ruolo!}]);
+          if(this.seconds>0||this.minutes>0||this.hours>0) {
+            this.stopTimer("Timer in corso, vuoi veramente terminare il traning?")
+          } else {
+            this.finishTraning=true;
+            this.takeDuelRec();
+          }
           break;
       }
     }
@@ -123,27 +128,12 @@ export class PlayNowTrainingComponent implements OnInit {
           this.seconds=0;
           this.finishTraning=true;
           clearTimeout(this.intervalId);
-  
           this.takeDuelRec();
   
         } else {
           //TO-DO gestione degli errori
           if(resp && resp.status===402) {
-            Swal.fire({
-              title: 'Sei sicuro?',
-              text: "Non sono state trovate partite registrate, sei sicuro di voler terminare il traning ?",
-              icon: 'warning',
-              showCancelButton: true,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              confirmButtonText: 'Si, finisci training!'
-            }).then((result) => {
-              if (result.isConfirmed) {
-                this.seconds=0;
-                clearTimeout(this.intervalId);
-                this.start=false;
-              }
-            })
+            this.stopTimer("Non sono state trovate partite registrate, sei sicuro di voler terminare il traning ?");
           } else {
             this.messageService.alert('Attenzione!','Errore durante la chiamata createDuelRec','error');
           }  
@@ -181,6 +171,24 @@ export class PlayNowTrainingComponent implements OnInit {
         this.messageService.alert('Attenzione!','Errore durante la chiamata updateDuelRec','error');
       }
     });
+  }
+
+  private stopTimer(message:string) {
+    Swal.fire({
+      title: 'Sei sicuro?',
+      text: message,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, stop training!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.seconds=0;
+        clearTimeout(this.intervalId);
+        this.start=false;
+      }
+    })
   }
 
   private takePlayer() {
