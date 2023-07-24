@@ -257,13 +257,13 @@ export class MarketEdicolaComponent implements OnInit {
         this.packs = [{
           "id": "64289146c6b53689fe3b48c2",
           "name": "gogogo",
-          "baseCost": 700,
+          "baseCost": 870,
           "src": "assets/deck/gogogo.png",
           "deck": true
         },{
           "id": "64289203c6b53689fe3b48c3",
-          "name": "pianta",
-          "baseCost": 670,
+          "name": "predapianta",
+          "baseCost": 850,
           "src": "assets/deck/pianta.png",
           "deck": true
         },{
@@ -275,146 +275,278 @@ export class MarketEdicolaComponent implements OnInit {
         },{
           "id": "642893fcc6b53689fe3b48c5",
           "name": "eroeElementale",
-          "baseCost": 460,
+          "baseCost": 540,
           "src": "assets/deck/eroeElementale.png",
           "deck": true
         },{
           "id": "64289494c6b53689fe3b48c6",
           "name": "fata",
-          "baseCost": 480,
+          "baseCost": 400,
           "src": "assets/deck/fata.png",
           "deck": true
         },{
           "id": "6428966dc6b53689fe3b48c8",
           "name": "ingranaggioAntico",
-          "baseCost": 500,
+          "baseCost": 530,
           "src": "assets/deck/ingranaggioAntico.png",
           "deck": true
         },{
           "id": "642896ddc6b53689fe3b48c9",
           "name": "yugi",
-          "baseCost": 290,
+          "baseCost": 320,
           "src": "assets/deck/yugi.png",
           "deck": true
         },{
           "id": "642897dbc6b53689fe3b48ca",
           "name": "zombie",
-          "baseCost": 360,
+          "baseCost": 510,
           "src": "assets/deck/zombie.png",
           "deck": true
         },{
           "id": "64289844c6b53689fe3b48cb",
           "name": "drago",
-          "baseCost": 460,
+          "baseCost": 370,
           "src": "assets/deck/drago.png",
           "deck": true
         },{
           "id": "642898cdc6b53689fe3b48cc",
           "name": "fuoco",
-          "baseCost": 550,
+          "baseCost": 650,
           "src": "assets/deck/fuoco.png",
           "deck": true
         },{
           "id": "6428995dc6b53689fe3b48cd",
           "name": "luce",
-          "baseCost": 510,
+          "baseCost": 590,
           "src": "assets/deck/luce.png",
           "deck": true
         },{
           "id": "64289a6bc6b53689fe3b48cf",
           "name": "palude",
-          "baseCost": 420,
+          "baseCost": 300,
           "src": "assets/deck/palude.png",
           "deck": true
         },{
           "id": "64289ad4c6b53689fe3b48d0",
           "name": "reattore",
-          "baseCost": 530,
+          "baseCost": 630,
           "src": "assets/deck/reattore.png",
           "deck": true
         },{
           "id": "64289b4fc6b53689fe3b48d1",
           "name": "samurai",
-          "baseCost": 550,
+          "baseCost": 570,
           "src": "assets/deck/samurai.png",
           "deck": true
         },{
           "id": "64289bd0c6b53689fe3b48d2",
           "name": "gladiatore",
-          "baseCost": 360,
+          "baseCost": 420,
           "src": "assets/deck/gladiatore.png",
           "deck": true
         },{
           "id": "64289cc5c6b53689fe3b48d4",
           "name": "monarca",
-          "baseCost": 330,
+          "baseCost": 410,
           "src": "assets/deck/monarca.png",
           "deck": true
         },{
           "id": "64289d29c6b53689fe3b48d5",
           "name": "nordic",
-          "baseCost": 410,
+          "baseCost": 490,
           "src": "assets/deck/nordic.png",
           "deck": true
         },{
           "id": "64289d9fc6b53689fe3b48d6",
           "name": "sfinge",
-          "baseCost": 500,
+          "baseCost": 560,
           "src": "assets/deck/sfinge.png",
           "deck": true
         },{
           "id": "6428a07cc6b53689fe3b48d7",
           "name": "trappola",
-          "baseCost": 250,
+          "baseCost": 310,
           "src": "assets/deck/trappola.png",
           "deck": true
         },{
           "id": "6428a0e9c6b53689fe3b48d8",
           "name": "warrior",
-          "baseCost": 390,
+          "baseCost": 450,
           "src": "assets/deck/warrior.png",
           "deck": true
         },{
           "id": "6428a5e0c6b53689fe3b48d9",
           "name": "acqua",
-          "baseCost": 300,
+          "baseCost": 360,
           "src": "assets/deck/acqua.png",
           "deck": true
         },{
           "id": "6428a639c6b53689fe3b48da",
           "name": "goblin",
-          "baseCost": 250,
+          "baseCost": 310,
           "src": "assets/deck/goblin.png",
           "deck": true
         },{
           "id": "6428a68ec6b53689fe3b48db",
           "name": "insetto",
-          "baseCost": 200,
+          "baseCost": 100,
           "src": "assets/deck/insetto.png",
           "deck": true
         },{
           "id": "6428a6f1c6b53689fe3b48dc",
           "name": "jinzo",
-          "baseCost": 220,
+          "baseCost": 250,
           "src": "assets/deck/jinzo.png",
           "deck": true
         },{
           "id": "6428a74fc6b53689fe3b48dd",
           "name": "oscurita",
-          "baseCost": 250,
+          "baseCost": 280,
           "src": "assets/deck/oscurita.png",
           "deck": true
         },{
           "id": "6428a79ec6b53689fe3b48de",
           "name": "vampiro",
-          "baseCost": 330,
+          "baseCost": 410,
           "src": "assets/deck/vampiro.png",
           "deck": true
         },{
           "id": "6428a7e8c6b53689fe3b48df",
           "name": "vento",
-          "baseCost": 210,
+          "baseCost": 240,
           "src": "assets/deck/vento.png",
+          "deck": true
+        },{
+          "id": "64be98404d0276cf93cad775",
+          "name": "alanera",
+          "baseCost": 660,
+          "src": "assets/deck/alanera.png",
+          "deck": true
+        },{
+          "id": "64be97bb4d0276cf93cad765",
+          "name": "occhiBlu",
+          "baseCost": 590,
+          "src": "assets/deck/occhiBlu.png",
+          "deck": true
+        },{
+          "id": "64be974f4d0276cf93cad756",
+          "name": "burn",
+          "baseCost": 360,
+          "src": "assets/deck/burn.png",
+          "deck": true
+        },{
+          "id": "64be98614d0276cf93cad779",
+          "name": "cyberDrago",
+          "baseCost": 600,
+          "src": "assets/deck/cyberDrago.png",
+          "deck": true
+        },{
+          "id": "64be987f4d0276cf93cad77d",
+          "name": "dragunita",
+          "baseCost": 680,
+          "src": "assets/deck/dragunita.png",
+          "deck": true
+        },{
+          "id": "64be99034d0276cf93cad790",
+          "name": "brancomalvagio",
+          "baseCost": 880,
+          "src": "assets/deck/brancomalvagio.png",
+          "deck": true
+        },{
+          "id": "64be97724d0276cf93cad75d",
+          "name": "rana",
+          "baseCost": 330,
+          "src": "assets/deck/rana.png",
+          "deck": true
+        },{
+          "id": "64be972e4d0276cf93cad752",
+          "name": "custodeTombe",
+          "baseCost": 360,
+          "src": "assets/deck/custodeTombe.png",
+          "deck": true
+        },{
+          "id": "64be98a04d0276cf93cad783",
+          "name": "reticulliano",
+          "baseCost": 740,
+          "src": "assets/deck/reticulliano.png",
+          "deck": true
+        },{
+          "id": "64be97974d0276cf93cad761",
+          "name": "horus",
+          "baseCost": 310,
+          "src": "assets/deck/horus.png",
+          "deck": true
+        },{
+          "id": "64be99214d0276cf93cad794",
+          "name": "matemech",
+          "baseCost": 850,
+          "src": "assets/deck/matemech.png",
+          "deck": true
+        },{
+          "id": "64be95e04d0276cf93cad74a",
+          "name": "mokeyMokey",
+          "baseCost": 70,
+          "src": "assets/deck/mokeyMokey.png",
+          "deck": true
+        },{
+          "id": "64be98254d0276cf93cad771",
+          "name": "nekroz",
+          "baseCost": 710,
+          "src": "assets/deck/nekroz.png",
+          "deck": true
+        },{
+          "id": "64be96f84d0276cf93cad74e",
+          "name": "oldSchool",
+          "baseCost": 190,
+          "src": "assets/deck/oldSchool.png",
+          "deck": true
+        },{
+          "id": "64be98bb4d0276cf93cad787",
+          "name": "rank5",
+          "baseCost": 710,
+          "src": "assets/deck/rank5.png",
+          "deck": true
+        },{
+          "id": "64be99424d0276cf93cad799",
+          "name": "ladroTempo",
+          "baseCost": 870,
+          "src": "assets/deck/ladroTempo.png",
+          "deck": true
+        },{
+          "id": "64be98e14d0276cf93cad78b",
+          "name": "acquaPower",
+          "baseCost": 700,
+          "src": "assets/deck/acquaPower.png",
+          "deck": true
+        },{
+          "id": "64be97d94d0276cf93cad769",
+          "name": "truccastella",
+          "baseCost": 430,
+          "src": "assets/deck/truccastella.png",
+          "deck": true
+        },{
+          "id": "64be97fd4d0276cf93cad76d",
+          "name": "stregartigiana",
+          "baseCost": 550,
+          "src": "assets/deck/stregartigiana.png",
+          "deck": true
+        },{
+          "id": "64be99624d0276cf93cad79d",
+          "name": "yosenju",
+          "baseCost": 870,
+          "src": "assets/deck/yosenju.png",
+          "deck": true
+        },{
+          "id": "64be997b4d0276cf93cad7a2",
+          "name": "zexal",
+          "baseCost": 1000,
+          "src": "assets/deck/zexal.png",
+          "deck": true
+        },{
+          "id": "64be99994d0276cf93cad7a9",
+          "name": "zoodiaco",
+          "baseCost": 900,
+          "src": "assets/deck/zoodiaco.png",
           "deck": true
         }]
         break;

@@ -51,6 +51,10 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/playnow',{id:this.player?._id, bonus:this.bonus}]);
   }
 
+  trade() {
+    this.router.navigate(['/trade',{id:this.player?._id}]);
+  }
+
   private takePlayer(playerId: string) {
     this.playerStateService.getPlayer(playerId).then((resp) => {
       if(resp) {

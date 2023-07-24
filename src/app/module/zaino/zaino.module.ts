@@ -18,14 +18,15 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     FilterCardComponent,
     ViewCardComponent,
     OpeningPackComponent,
-    InventoryComponent
+    InventoryComponent,
+    
   ],
   imports: [
     CommonModule,
     FormsModule,
     DragDropModule,
     ReactiveFormsModule,
-    PlayerModule,
+    PlayerModule
   ],
   exports: [
     AutofocusDirective,

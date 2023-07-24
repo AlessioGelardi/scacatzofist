@@ -1,0 +1,55 @@
+<player-status [player]="player"></player-status>
+
+<trade-buttons [buttons]="buttons" (buttonOperation)="buttonOperationHandler($event)"></trade-buttons>
+
+<div class="mt-5">
+    <div class="row mt-3 text-center">
+        <div class="col-6" style="border-right: solid #8a8989 1px">
+            <h5>OFFERTA </h5>
+            <div class="row mt-4">
+                <div class="col">
+                    <strong><label>{{this.trade?.offerta!['coin']!}}</label></strong>&nbsp;<i class="fa fa fa-database"></i>
+                </div>
+                <div class="col">
+                    <strong><label>{{this.trade?.offerta!['credits']!}}</label></strong>&nbsp;<i class="fa fa fa-diamond"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6" style="border-left: solid #8a8989 1px">
+            <h5>RICHIESTA </h5>
+            <div class="row mt-4">
+                <div class="col">
+                    <strong><label>{{this.trade?.richiesta!['coin']}}</label></strong>&nbsp;<i class="fa fa fa-database"></i>
+                </div>
+                <div class="col">
+                    <strong><label>{{this.trade?.richiesta!['credits']}}</label></strong>&nbsp;<i class="fa fa fa-diamond"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-6" style="border-right: solid #8a8989 1px">
+            <label>CARTE OFFERTE</label>
+            <div *ngIf="this.trade?.offerta['cards'].length>0" class="row mt-2">
+                <div *ngFor="let card of this.trade!.offerta['cards']" class="col-3" (click)="showCard(card)">
+                    <img class="tradecard" src="{{'https://images.ygoprodeck.com/images/cards/'+card?.id+'.jpg'}}"  />
+                </div>
+            </div>
+        </div>
+        <div class="col-6" style="border-left: solid #8a8989 1px">
+            <label>CARTE RICHIESTE</label>
+            <div *ngIf="this.trade?.richiesta['cards'].length>0" class="row mt-2">
+                <div *ngFor="let card of this.trade!.richiesta['cards']" class="col-3" (click)="showCard(card)">
+                    <img class="tradecard" src="{{'https://images.ygoprodeck.com/images/cards/'+card?.id+'.jpg'}}"  />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row d-flex justify-content-around mt-5">
+        <button class="col-5 m-2 btn btn-bg rounded grigino" style="margin-right: 5px" (click)="rifiuta()">RIFIUTA TRADE</button>
+        <button class="col-5 m-2 btn btn-bg rounded grigino" style="margin-right: 5px" (click)="accetta()">ACCETTA TRADE</button>
+    </div>
+</div>

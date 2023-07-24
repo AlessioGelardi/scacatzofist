@@ -16,6 +16,7 @@ import { MarketModule } from './module/market/market.module';
 import { PlayerModule } from './module/player/player.module';
 import { PlayNowModule } from './module/play-now/play-now.module';
 import { NotifierModule } from './module/notifier/notifier.module';
+import { TradeModule } from './module/trade/trade.module';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { NotifierModule } from './module/notifier/notifier.module';
     MarketModule,
     PlayNowModule,
     NotifierModule,
-    DragDropModule
+    DragDropModule,
+    TradeModule
   ],
   providers: [],
   bootstrap: [AppComponent]

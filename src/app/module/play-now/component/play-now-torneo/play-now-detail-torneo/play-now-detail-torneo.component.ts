@@ -6,6 +6,7 @@ import { StateNotifierService } from 'src/app/module/notifier/services/state/sta
 import { StatePlayerService } from 'src/app/module/player/services/state/state-player.service';
 import { MessageService } from 'src/app/module/swalAlert/message.service';
 import { TypeMod } from '../../../enum/typeMod';
+import { Status } from 'src/app/module/notifier/enum/status';
 
 @Component({
   selector: 'detail-torneo',
@@ -86,14 +87,14 @@ export class PlayNowDetailTorneoComponent {
       'second': this.tournament?.posPlayer['firstRound'][3]
     })
 
-    if(this.tournament?.posPlayer['secondRound']! && this.tournament?.posPlayer['secondRound']!.length>0) {
+    if(this.tournament?.posPlayer['secondRound']?.length>0) {
       battle.push({
         'first': this.tournament?.posPlayer['secondRound'][0],
         'second': this.tournament?.posPlayer['secondRound'][1]
       })
     }
 
-    if(this.tournament?.posPlayer['loseRound']! && this.tournament?.posPlayer['loseRound']!.length>0) {
+    if(this.tournament?.posPlayer['loseRound']?.length>0) {
       battle.push({
         'first': this.tournament?.posPlayer['loseRound'][0],
         'second': this.tournament?.posPlayer['loseRound'][1]
@@ -106,7 +107,7 @@ export class PlayNowDetailTorneoComponent {
   refreshPartita() {
     this.notifierStateService.getTournamentById(this.tournament!.id!).then((resp) => {
       if(resp) {
-        this.tournament = resp
+        this.tournament = resp;
       } else {
         //TO-DO gestione degli errori
         /*
@@ -127,11 +128,13 @@ export class PlayNowDetailTorneoComponent {
       let request: any = {};
       request.tournamentId = this.tournament?.id;
       request.typeMod = TypeMod.TORNEO;
+      request.podio = this.tournament?.podio;
 
       this.notifierStateService.createDuelRec(request).then((resp) => {
         if(resp == true) {  
           this.notifierStateService.resetTournaments();
           this.messageService.alert('Partita registrata','Partita registrata con successo!','success');
+          this.refreshPartita();
         } else {
           //TO-DO gestione degli errori
           if(resp && resp.status===402) {
@@ -149,15 +152,16 @@ export class PlayNowDetailTorneoComponent {
 
   concludi() {
     let request: any = {}
-    request.status = 3;
+    request.status = Status.TORNEO_COMPLETATO;
     request.id = this.tournament?.id;
     this.notifierStateService.updateTournaments(request).then((resp) => {
       if(resp == true) {
 
-        this.tournament!.status=3;
+        this.tournament!.status = Status.TORNEO_COMPLETATO;
 
         this.notifierStateService.resetTournaments();
         this.playerStateService.resetPlayerState();
+        this.refreshPartita();
       } else {
         //TO-DO gestione degli errori
         /*
@@ -188,6 +192,7 @@ export class PlayNowDetailTorneoComponent {
 
         this.notifierStateService.resetTournaments();
         this.playerStateService.resetPlayerState();
+        this.refreshPartita();
       } else {
         //TO-DO gestione degli errori
         /*
