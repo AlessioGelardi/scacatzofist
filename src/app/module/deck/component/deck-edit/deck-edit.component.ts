@@ -23,7 +23,7 @@ export class DeckEditComponent implements OnInit {
   newNameDeck: string | undefined;
 
   viewFilter = false;
-  filterName:string | undefined;
+  searchFilter:any | undefined;
 
   zaino: Card[]=[];
 
@@ -126,6 +126,25 @@ export class DeckEditComponent implements OnInit {
           }
           break;
       }
+    }
+  }
+
+  retrieveCards(searchFilter: any) {
+    if(searchFilter) {
+
+      this.searchFilter = searchFilter;
+
+      /*if(searchFilter.filter.name) {
+        this.zaino = this.zaino.filter(card => card.name.toUpperCase().includes(searchFilter.filter.name.toUpperCase()));
+      } */
+
+      /*
+      this.databaseStateService.getCards(searchFilter.filter, this.page).then((resp) => {
+        if(resp) {
+          this.cards=resp;
+          this.viewSearchResult=true;
+        }
+      }); */
     }
   }
 

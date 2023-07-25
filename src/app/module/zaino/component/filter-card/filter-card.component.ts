@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Attributi } from '../../enum/attribute';
 import { Razze } from '../../enum/races';
@@ -18,10 +18,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class FilterCardComponent implements OnInit {
 
-  player:Player | undefined;
-  playerId: string | undefined;
-
-  zaino: Card[]=[];
+  @Output() cardsEmit: EventEmitter<any> = new EventEmitter();
 
   viewMoreFilter: boolean = false;
 
@@ -46,23 +43,11 @@ export class FilterCardComponent implements OnInit {
 
   defaultTypes: any;
 
-  cards: Card[] = [];
-  viewSearchResult: boolean = false;
-
-  page:number = 1;
-
-  constructor(private route: ActivatedRoute,
-    private router: Router,
-    private messageService: MessageService,
-    private databaseStateService: StateDatabaseService,
-    private playerStateService: StatePlayerService) {
+  constructor(private messageService: MessageService) {
     this.defaultMonster();
   }
 
   ngOnInit(): void {
-    this.playerId = this.route.snapshot.paramMap.get('id')!;
-    
-    this.takePlayer(this.playerId!);
   }
 
   doMoreFilter() {
@@ -104,25 +89,7 @@ export class FilterCardComponent implements OnInit {
     }
   }
 
-  home() {
-    this.router.navigate(['/home',{id:this.playerId!}]);
-  }
-
-  back() {
-    this.page--;
-    this.search(false);
-  }
-
-  continue() {
-    this.page++;
-    this.search(false);
-  }
-
   search(resetPage:boolean) {
-    if(resetPage) {
-      this.page = 1;
-    }
-
     if (this.filterCardForm.valid) {
 
       let searchFilter = {...this.filterCardForm.value }
@@ -186,12 +153,7 @@ export class FilterCardComponent implements OnInit {
         searchFilter.attribute = attributeSelected;
       }
 
-      this.databaseStateService.getCards(searchFilter,this.page).then((resp) => {
-        if(resp) {
-          this.viewSearchResult = true; 
-          this.cards=resp;
-        }
-      });
+      this.cardsEmit.emit({filter: searchFilter,resetPage:resetPage})
       
     } else {
       if(this.filterCardForm.controls['name'].errors) {
@@ -219,40 +181,5 @@ export class FilterCardComponent implements OnInit {
       ...Object.values(TipSynchroEff).filter((value) => typeof value === 'number').map(Number),
       ...Object.values(TipXYZEff).filter((value) => typeof value === 'number').map(Number)
     ];
-  }
-
-  private takePlayer(playerId: string) {
-    this.playerStateService.getPlayer(playerId).then((resp) => {
-      if(resp) {
-        this.player = resp;
-        this.takeZaino();
-      } else {
-        //TO-DO gestione degli errori
-        /*
-        if(resp.status===402) {
-          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
-        }
-        */
-
-        this.messageService.alert('Attenzione!','Errore durante la chiamata getPlayer','error');
-      }
-    });
-  }
-
-  private takeZaino() {
-    this.playerStateService.getZaino(this.playerId!).then((resp) => {
-      if(resp) {
-        this.zaino = resp;
-      } else {
-        //TO-DO gestione degli errori
-        /*
-        if(resp.status===402) {
-          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
-        }
-        */
-  
-        this.messageService.alert('Attenzione!','Errore durante la chiamata getZaino','error');
-      }
-    });
   }
 }

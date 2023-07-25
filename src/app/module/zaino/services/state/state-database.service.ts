@@ -25,20 +25,6 @@ export class StateDatabaseService {
   async getCards(formFilter:any,page: number) {
     this.spinnerService.show();
 
-    /*
-    console.log(formFilter);
-    console.log(formFilter.type);
-    if(formFilter.type==='') {
-      console.log(formFilter.category)
-      if(formFilter.category===1){
-        formFilter.type = [];
-      } else if (formFilter.category===2) {
-        formFilter.type = [];
-      } else {
-        formFilter.type = [];
-      }
-    } */
-
     formFilter.page = page;
     formFilter.limit = 20;
 
