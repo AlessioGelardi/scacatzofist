@@ -27,11 +27,6 @@ export class DeckEditComponent implements OnInit {
 
   zaino: Card[]=[];
 
-  sliceLimit: number | undefined;
-  sliceStart: number = 0;
-  sliceEnd: number = 60;
-  slice: number = 60;
-
   permission: boolean = true;
 
   dragDrop:boolean = false;
@@ -92,7 +87,7 @@ export class DeckEditComponent implements OnInit {
           if(this.newNameDeck) {
             this.router.navigate(['/deck',{id:this.playerId!, permission: this.permission}]);
           } else {
-            this.router.navigate(['/deckDetail',{id:this.deckId, permission: this.permission}]);
+            this.router.navigate(['/deckDetail',{id:this.deckId, playerId:this.playerId!, permission: this.permission}]);
           }
           break;
         case 'REFRESH': {
@@ -103,14 +98,6 @@ export class DeckEditComponent implements OnInit {
         }
         case 'SWITCH': {
           this.dragDrop=!this.dragDrop;
-
-          if(this.dragDrop) {
-            this.sliceEnd = 120;
-            this.slice = 120;
-          } else {
-            this.sliceEnd = 60;
-            this.slice = 60;
-          }
           break;
         }
         case 'SAVE':
@@ -243,16 +230,6 @@ export class DeckEditComponent implements OnInit {
 
   }
 
-  backSlice() {
-    this.sliceEnd -= this.slice;
-    this.sliceStart -= this.slice;
-  }
-
-  continueSlice() {
-    this.sliceStart += this.slice;
-    this.sliceEnd += this.slice;
-  }
-
   private takeDeck() {
     if(this.newNameDeck) {
       this.deck = {
@@ -292,7 +269,6 @@ export class DeckEditComponent implements OnInit {
             this.zaino.push(card)
           }
         }
-        this.sliceLimit = this.zaino.length;
       } else {
         //TO-DO gestione degli errori
         /*
