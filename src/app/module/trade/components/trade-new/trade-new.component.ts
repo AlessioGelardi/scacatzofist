@@ -47,6 +47,12 @@ export class TradeNewComponent {
 
   private: boolean = false;
 
+  
+  viewFilterZaino: boolean = false;
+  viewFilterOppo: boolean = false;
+  searchFilterZaino:any | undefined;
+  searchFilterOppo:any | undefined;
+
   constructor(private route: ActivatedRoute,
     private router: Router,
     private messageService: MessageService,
@@ -165,6 +171,26 @@ export class TradeNewComponent {
       })
     } else {
       this.messageService.alert('Attenzione!','Inserire almeno delle carte per creare il trade!','error');
+    }
+  }
+
+  doFilterZaino() {
+    this.viewFilterZaino = true;
+  }
+
+  doFilterOppo() {
+    this.viewFilterOppo = true;
+  }
+
+  retrieveCardsMyZaino(searchFilter: any) {
+    if(searchFilter) {
+      this.searchFilterZaino = searchFilter;
+    }
+  }
+
+  retrieveCardsOppo(searchFilter: any) {
+    if(searchFilter) {
+      this.searchFilterOppo = searchFilter;
     }
   }
 
