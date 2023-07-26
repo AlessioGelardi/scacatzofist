@@ -22,7 +22,10 @@
         </div>
     </div>
     <div class="row d-flex justify-content-left">
-        <div class="col-3 m-2">
+        <div class="col-12 m-2" [ngClass]="{
+            'col-12': filterCardForm.value.category !== 'MOSTRO',
+            'col-3': filterCardForm.value.category === 'MOSTRO'
+          }">
             <div class="row">
                 <label>Tipologia</label>
             </div>
