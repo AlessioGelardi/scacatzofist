@@ -20,8 +20,6 @@ export class FilterCardComponent implements OnInit {
 
   @Output() cardsEmit: EventEmitter<any> = new EventEmitter();
 
-  viewMoreFilter: boolean = false;
-
   filterCardForm = new FormGroup({
     category: new FormControl('MOSTRO'),
     name: new FormControl('',[
@@ -50,22 +48,16 @@ export class FilterCardComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  doMoreFilter() {
-    if(this.viewMoreFilter) {
-      this.filterCardForm.patchValue({
-        attribute: '',
-        type: '',
-        race: '',
-        level: 0,
-        atk: -50,
-        def: -50,
-        effect: true
-      });
-    }
-    this.viewMoreFilter = !this.viewMoreFilter;
-  }
-
   changeCategory() {
+    this.filterCardForm.patchValue({
+      attribute: '',
+      type: '',
+      race: '',
+      level: 0,
+      atk: -50,
+      def: -50,
+      effect: true
+    });
     if(this.filterCardForm.value.category) {
       const index = this.getEnumValue(Categorie, this.filterCardForm.value.category);
       switch(index) {

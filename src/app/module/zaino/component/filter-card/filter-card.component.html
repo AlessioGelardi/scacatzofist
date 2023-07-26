@@ -21,7 +21,7 @@
             </div>
         </div>
     </div>
-    <div *ngIf="viewMoreFilter" class="row d-flex justify-content-left">
+    <div class="row d-flex justify-content-left">
         <div class="col-3 m-2">
             <div class="row">
                 <label>Tipologia</label>
@@ -66,7 +66,7 @@
             </div>
         </div>
     </div>
-    <div *ngIf="viewMoreFilter && filterCardForm.value.category === 'MOSTRO'" class="row d-flex justify-content-left">
+    <div *ngIf="filterCardForm.value.category === 'MOSTRO'" class="row d-flex justify-content-left">
         <div class="col-3 m-2">
             <div class="row">
                 <label>Livello <strong *ngIf="this.filterCardForm.value.level!>0"><label>{{this.filterCardForm.value.level}}</label></strong></label>
@@ -93,6 +93,4 @@
         </div>
     </div>
     <button class="btn btn-sm rounded grigino" style="margin-right: 5px" (click)="search(true)"><i class="fa fa-filter"></i></button>
-    <button class="btn btn-sm rounded grigino" (click)="doMoreFilter()"><i class="fa fa-bars"></i></button>
-    
 </form>
