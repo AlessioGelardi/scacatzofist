@@ -5,11 +5,6 @@ import { Razze } from '../../enum/races';
 import { TipEff, TipFusEff, TipRitEff, TipSynchroEff, TipTunNorm, TipXYZEff, Tipologie, TipologieMagia, TipologieTrappola } from '../../enum/types';
 import { MessageService } from 'src/app/module/swalAlert/message.service';
 import { Categorie } from '../../enum/category';
-import { StateDatabaseService } from '../../services/state/state-database.service';
-import { Card } from 'src/app/module/interface/card';
-import { StatePlayerService } from 'src/app/module/player/services/state/state-player.service';
-import { Player } from 'src/app/module/interface/player';
-import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'filter-card',
