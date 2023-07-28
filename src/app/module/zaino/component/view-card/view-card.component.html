@@ -1,5 +1,5 @@
 <div *ngIf="cards.length>0">
-    <div class="row mb-2 p-4 border rounded text-center" *ngFor="let card of cards">
+    <div class="row mb-2 p-4 border rounded text-center" *ngFor="let card of cards | filterZaino: searchFilter!">
         <div class="col-3 d-flex justify-content-center">
             <div>
                 <label class="col-12 mb-1 border rounded etichetta" [ngStyle]="{'background-color': checkExist(card) ? '#44a344cc' : '#858585a1'}">

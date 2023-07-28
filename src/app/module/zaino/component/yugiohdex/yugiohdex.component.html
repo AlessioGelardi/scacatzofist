@@ -17,7 +17,7 @@
                     <button type="button" class="col btn impagination" *ngIf="cards.length===20" (click)="continue()"><i class='fa fa-angle-right'></i></button>
                 </div>
             </div>
-            <view-card [cards]="cards" [zaino]="zaino"></view-card>
+            <view-card [cards]="cards" [zaino]="zaino" [searchFilter]="searchFilter"></view-card>
         </div>
 
     </div>

@@ -25,6 +25,8 @@ export class YugiohdexComponent {
 
   page:number = 1;
 
+  searchFilter: any | undefined;
+
   constructor(private route: ActivatedRoute,
     private router: Router,
     private messageService: MessageService,
@@ -49,6 +51,7 @@ export class YugiohdexComponent {
         if(resp) {
           this.cards=resp;
           this.viewSearchResult=true;
+          this.searchFilter = searchFilter;
         }
       });
     }
