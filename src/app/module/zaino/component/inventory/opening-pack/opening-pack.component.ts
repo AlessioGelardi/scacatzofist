@@ -1,6 +1,7 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, Input, OnInit } from '@angular/core';
 import { Card } from 'src/app/module/interface/card';
+import { MessageService } from 'src/app/module/swalAlert/message.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -27,8 +28,9 @@ import Swal from 'sweetalert2';
 export class OpeningPackComponent implements OnInit {
 
   @Input() cards!: Card[];
+  @Input() zaino!: Card[];
 
-  constructor() { }
+  constructor(private messageService: MessageService) { }
 
   ngOnInit(): void {
   }
@@ -37,17 +39,14 @@ export class OpeningPackComponent implements OnInit {
     if (card.state === "default") {
       card.state = "flipped";
     } else if(card.state === "flipped") {
-      Swal.fire({
-        title: card.name,
-        color: '#3e3d3c',
-        background: '#cdcccc',
-        html: '<label style="font-size:14px">'+card.description+'</label>',
-        imageUrl: 'https://images.ygoprodeck.com/images/cards/'+card.id+'.jpg',
-        imageWidth: 160
-        })
+      this.messageService.showDetailCard(card);
     } else {
       card.state = "default";
     }
+  }
+
+  checkExist(card:Card) {
+    return this.zaino.some(item => item.id === card.id);
   }
 
 }
