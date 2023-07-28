@@ -18,7 +18,7 @@ export class MessageService {
   public showDetailCard(card:Card) {
     Swal.fire({
       heightAuto: false,
-      backdrop:false,
+      backdrop: false,
       title: card.name,
       color: '#3e3d3c',
       background: '#cdcccc',
@@ -31,7 +31,7 @@ export class MessageService {
   public showDetailPack(pack:SellPack) {
     Swal.fire({
       heightAuto: false,
-      backdrop:false,
+      backdrop: false,
       title: pack.name,
       color: '#3e3d3c',
       background: '#cdcccc',
