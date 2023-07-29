@@ -795,7 +795,6 @@ export class MarketEdicolaComponent implements OnInit {
             this.viewCards=resp;
             this.viewCurrencyExchange = false;
             this.deletePack(packId);
-            this.takeZaino(this.player?._id!);
 
             window.scroll({ 
               top: 0, 
@@ -877,6 +876,7 @@ export class MarketEdicolaComponent implements OnInit {
     this.playerStateService.getPlayer(playerId).then((resp) => {
       if(resp) {
         this.player = resp;
+        this.takeZaino(this.player?._id!);
       } else {
         //TO-DO gestione degli errori
         /*
