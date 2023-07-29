@@ -12,7 +12,12 @@
         <button class="btn btn-sm rounded grigino" (click)="doFilter()"><i class="fa fa-filter"></i></button>
     </div>
     <div class="col-6 d-flex justify-content-end" *ngIf="viewFilter">
-        <filter-card (cardsEmit)="retrieveCards($event)"></filter-card>
+        <div class="row">
+            <div class="position-relative">
+                <button class="col-1 btn btn-sm rounded grigino position-absolute top-0 start-100 translate-middle" (click)="doFilter()"><i class="fa fa-times"></i></button>
+            </div>
+            <filter-card (cardsEmit)="retrieveCards($event)"></filter-card>
+        </div>
     </div>
 </div>
 <div class="row">

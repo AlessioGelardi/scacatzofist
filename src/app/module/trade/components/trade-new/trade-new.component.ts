@@ -175,11 +175,11 @@ export class TradeNewComponent {
   }
 
   doFilterZaino() {
-    this.viewFilterZaino = true;
+    this.viewFilterZaino = !this.viewFilterZaino;
   }
 
   doFilterOppo() {
-    this.viewFilterOppo = true;
+    this.viewFilterOppo = !this.viewFilterOppo;
   }
 
   retrieveCardsMyZaino(searchFilter: any) {
