@@ -3,12 +3,13 @@ import { Component } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Button } from 'src/app/module/interface/button';
-import { Card } from 'src/app/module/interface/card';
+import { Card, Deck } from 'src/app/module/interface/card';
 import { Player } from 'src/app/module/interface/player';
 import { StatePlayerService } from 'src/app/module/player/services/state/state-player.service';
 import { MessageService } from 'src/app/module/swalAlert/message.service';
 import { StateTradeService } from '../../services/state/state-trade.service';
 import Swal from 'sweetalert2';
+import { StateDeckService } from 'src/app/module/deck/services/state/state-deck.service';
 
 @Component({
   selector: 'trade-new',
@@ -46,16 +47,19 @@ export class TradeNewComponent {
   dragging: boolean = false;
 
   private: boolean = false;
-
   
   viewFilterZaino: boolean = false;
   viewFilterOppo: boolean = false;
   searchFilterZaino:any | undefined;
   searchFilterOppo:any | undefined;
 
+  myDecks:Deck[] = [];
+  oppoDecks:Deck[] = [];
+
   constructor(private route: ActivatedRoute,
     private router: Router,
     private messageService: MessageService,
+    private deckStateService: StateDeckService,
     private playerStateService: StatePlayerService,
     private tradeStateService: StateTradeService) { }
 
@@ -113,8 +117,7 @@ export class TradeNewComponent {
     this.selectPlayerId = playerIdOppo;
     this.selectPlayerName = name;
 
-    this.takeZaino(this.selectPlayerId);
-    this.takeZaino(this.player!._id!);
+    this.takeDecksByIdPlayer(this.selectPlayerId);    
   }
 
   create() {
@@ -227,7 +230,20 @@ export class TradeNewComponent {
     if(this.player!._id === playerId) {
       this.playerStateService.getZaino(playerId).then((resp) => {
         if(resp) {
-          this.myZaino=resp
+          for (const card of resp) {
+            let checkId = card.id
+            let inUse = false;
+    
+            for(const deck of this.myDecks) {
+              if (deck.main.concat(deck.extra, deck.side).some(obj => obj.id === checkId)) {
+                inUse = true;
+              }
+            }
+    
+            if(!inUse) {
+              this.myZaino.push(card)
+            }
+          }
         } else {
           //TO-DO gestione degli errori
           /*
@@ -242,7 +258,20 @@ export class TradeNewComponent {
     } else {
       this.playerStateService.getZainoNoCache(playerId).then((resp) => {
         if(resp) {
-          this.oppoZaino=resp
+          for (const card of resp) {
+            let checkId = card.id
+            let inUse = false;
+    
+            for(const deck of this.oppoDecks) {
+              if (deck.main.concat(deck.extra, deck.side).some(obj => obj.id === checkId)) {
+                inUse = true;
+              }
+            }
+    
+            if(!inUse) {
+              this.oppoZaino.push(card)
+            }
+          }
         } else {
           //TO-DO gestione degli errori
           /*
@@ -281,6 +310,7 @@ export class TradeNewComponent {
     this.playerStateService.getPlayer(playerId).then((resp) => {
       if(resp) {
         this.player = resp;
+        this.takeDecksByIdPlayer(playerId);
       } else {
         //TO-DO gestione degli errori
         /*
@@ -292,5 +322,35 @@ export class TradeNewComponent {
         this.messageService.alert('Attenzione!','Errore durante la chiamata getPlayer','error');
       }
     });
+  }
+
+  private takeDecksByIdPlayer(playerId:string) {
+    let decks:any = {}
+    this.deckStateService.resetPlayerDecks();
+    this.deckStateService.getDecks(playerId).then((resp) => {
+      decks = resp!;
+
+      for(let x of decks) {
+        this.takeDeck(x["id"],playerId)
+      }
+      this.takeZaino(playerId);
+    });
+  }
+
+  private takeDeck(deckId:string,playerId:string) {
+    this.deckStateService.resetDeck();
+    if(this.player!._id === playerId) {
+      this.deckStateService.getDeck(deckId).then((resp) => {
+        if(resp) {
+          this.myDecks.push(resp);
+        }
+      });
+    } else {
+      this.deckStateService.getDeck(deckId).then((resp) => {
+        if(resp) {
+          this.oppoDecks.push(resp);
+        }
+      });
+    }
   }
 }
