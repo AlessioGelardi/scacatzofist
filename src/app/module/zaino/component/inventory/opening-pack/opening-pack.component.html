@@ -1,14 +1,12 @@
-<div class="row mt-4">
+<div class="row mt-5">
     <div *ngFor="let card of cards" class="col">
-
-        <div class="deckcard mb-4" (click)="cardClicked(card)" [@cardFlip]="card.state">
-
+        <div class="deckcard mb-5" (click)="cardClicked(card)" [@cardFlip]="card.state">
             <div class="face back">
                 <img class="deckcard back" src="https://images.ygoprodeck.com/images/cards/back_high.jpg">
             </div>
             <div class="face front">
-                <label class="col-12 mb-1 border rounded text-center etichetta" [ngStyle]="{'background-color': checkExist(card) ?  '#858585a1': '#44a344cc'}">
-                    {{checkExist(card) ? 'DOPPIONE':'NUOVA'}}
+                <label class="col-12 mb-1 mt-2 border rounded text-center etichetta" [ngStyle]="{'background-color': checkExist(card) ?  '#858585a1': '#44a344cc'}">
+                    {{checkExist(card) ? 'IN POSSESSO':'NUOVA'}}
                 </label>
                 <img class="deckcard front" [src]="'https://images.ygoprodeck.com/images/cards/'+card?.id+'.jpg'">
             </div>

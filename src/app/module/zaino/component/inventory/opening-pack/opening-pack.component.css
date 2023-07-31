@@ -30,5 +30,7 @@
 }
 
 .etichetta {
+    font-size: 12px;
+    font-weight: bold;
     font-family: 'Big Caslon';
 }
