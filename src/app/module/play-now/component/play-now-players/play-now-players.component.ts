@@ -181,6 +181,7 @@ export class PlayNowPlayersComponent {
     if(this.playerId === playerId) {
       this.playerStateService.getZaino(playerId).then((resp) => {
         if(resp) {
+          this.myZaino=[]
           for (const card of resp) {
             let checkId = card.id
             let inUse = false;
@@ -209,6 +210,7 @@ export class PlayNowPlayersComponent {
     } else {
       this.playerStateService.getZainoNoCache(playerId).then((resp) => {
         if(resp) {
+          this.oppoZaino=[]
           for (const card of resp) {
             let checkId = card.id
             let inUse = false;

@@ -47,6 +47,9 @@ export class TradeNewComponent {
   dragging: boolean = false;
 
   private: boolean = false;
+  public:boolean = false;
+  tradeDeck: boolean = false;
+  tradeCard: boolean = false;
   
   viewFilterZaino: boolean = false;
   viewFilterOppo: boolean = false;
@@ -92,6 +95,7 @@ export class TradeNewComponent {
           if(this.private) {
             if(!this.showPlayers) {
               this.showPlayers=true;
+              this.selectPlayerId=undefined;
             } else {
               this.private=false;
             }
@@ -104,11 +108,23 @@ export class TradeNewComponent {
   }
 
   pubblico() {
+    this.public=true;
     this.messageService.alert('In progress...',"Questa funzionalità è ancora in sviluppo... Ci dispiace per l'inconveniente torna più tardi !!! ",'info');
   }
 
   privato() {
     this.private=true;
+  }
+
+  onTradeDeck() {
+    this.private=true;
+    this.tradeDeck=true;
+    //this.takeAllPlayers(this.player?._id!);
+  }
+
+  onTradeCard() {
+    this.private=true;
+    this.tradeCard=true;
     this.takeAllPlayers(this.player?._id!);
   }
 
@@ -230,6 +246,7 @@ export class TradeNewComponent {
     if(this.player!._id === playerId) {
       this.playerStateService.getZaino(playerId).then((resp) => {
         if(resp) {
+          this.myZaino=[]
           for (const card of resp) {
             let checkId = card.id
             let inUse = false;
@@ -258,6 +275,7 @@ export class TradeNewComponent {
     } else {
       this.playerStateService.getZainoNoCache(playerId).then((resp) => {
         if(resp) {
+          this.oppoZaino=[];
           for (const card of resp) {
             let checkId = card.id
             let inUse = false;
