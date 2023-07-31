@@ -142,7 +142,7 @@ export class PlayNowTrainingComponent implements OnInit {
     const hours = Math.floor(minutes / 60);
     const days = Math.floor(hours / 24);
 
-    if(seconds>1 || minutes>10 || hours>=1 || days>=1) {
+    if(minutes>10 || hours>=1 || days>=1) {
       let request: any = {};
       request.playerIdReq = this.playerId!;
       request.typeMod = TypeMod.TRAINING;
