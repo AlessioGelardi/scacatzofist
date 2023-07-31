@@ -117,6 +117,25 @@ export class StateNotifierService {
     return response;
   }
 
+  async createTraining(request:any) {
+    this.spinnerService.show();
+
+    let duelRec;
+    try {
+      duelRec = await firstValueFrom(this.notifierService.createTraining(request));
+      this.spinnerService.hide();
+    } catch (error:any) {
+      this.spinnerService.hide();
+      if(error.status===402) {
+        this.messageService.alert('Attenzione!','Non sono riuscito a creare il training','error');
+      } else {
+        this.messageService.alert('Errore','Qualcosa è andato storto durante la creazione del training','error');
+      }
+    }
+
+    return duelRec;
+  }
+
   async getDuelRec(id:string) {
     this.spinnerService.show();
 

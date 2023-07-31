@@ -6,6 +6,7 @@ import { StateNotifierService } from 'src/app/module/notifier/services/state/sta
 import { StatePlayerService } from 'src/app/module/player/services/state/state-player.service';
 import { MessageService } from 'src/app/module/swalAlert/message.service';
 import Swal from 'sweetalert2';
+import { TypeMod } from '../../enum/typeMod';
 
 @Component({
   selector: 'app-play-now-training',
@@ -20,9 +21,8 @@ export class PlayNowTrainingComponent implements OnInit {
   playerId: string | undefined;
 
   start:boolean = false;
-  intervalId:any | undefined;
+  startDate: Date | undefined;
 
-  seconds:number = 0;
   finishTraning:boolean=false;
 
   duelRecs:any;
@@ -61,17 +61,21 @@ export class PlayNowTrainingComponent implements OnInit {
     if(code) {
       switch(code) {
         case 'HOME':
-          this.router.navigate(['/home']);
+          if(this.start) {
+            this.stopTimer("Timer in corso, vuoi veramente terminare il traning?")
+          } else {
+            this.router.navigate(['/home']);
+          }
           break;
         case 'BACK':
-          if(this.seconds>0||this.minutes>0||this.hours>0) {
+          if(this.start) {
             this.stopTimer("Timer in corso, vuoi veramente terminare il traning?")
           } else {
             this.router.navigate(['/playnow',{id:this.playerId}]);
           }
           break;
         case 'REQUEST':
-          if(this.seconds>0||this.minutes>0||this.hours>0) {
+          if(this.start) {
             this.stopTimer("Timer in corso, vuoi veramente terminare il traning?")
           } else {
             this.finishTraning=true;
@@ -94,40 +98,55 @@ export class PlayNowTrainingComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         this.start=true;
-        this.intervalId = setInterval(() => {
-          this.seconds++;
-        }, 1000);
+        const dataIns = new Date();
+
+        let request:any = {}
+        request.playerIdReq = this.player?._id!;
+        request.main = true;
+        request.status = 1;
+        request.typeMod = TypeMod.TRAINING;
+        request.dataIns = this.takeFormatToday(dataIns);
+        this.notifierStateService.createTraining(request).then((resp) => {
+          if(resp == true) {
+            this.startDate=dataIns;
+          }
+        });
       }
     })
   }
 
-  get hours(): number {
-    return Math.floor(this.seconds / 3600);
-  }
+  private takeFormatToday(startDate:Date) {
+    var today = new Date();
+    var dd = String(startDate.getDate()).padStart(2, '0');
+    var mm = String(startDate.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = startDate.getFullYear();
 
-  get minutes(): number {
-    return Math.floor((this.seconds % 3600) / 60);
-  }
+    var formatDate = dd + '/' + mm + '/' + yyyy;
 
-  get secondi(): number {
-    return this.seconds % 60;
+    return formatDate+'-'+startDate.getHours()+':'+startDate.getMinutes()+':'+startDate.getSeconds();
   }
 
   stopTraining() {
-    if(this.minutes>=10) {
+    const endTraining = new Date();
+    const differenceInMilliseconds = endTraining.getTime() - this.startDate!.getTime();
+
+    const seconds = Math.floor(differenceInMilliseconds / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+
+    console.log(minutes)
+    if(true){//(minutes>10 || hours>=1 || days>=1) {
       let request: any = {};
       request.playerIdReq = this.playerId!;
-      request.typeMod = 2;
+      request.typeMod = TypeMod.TRAINING;
       request.status = 1;
       request.playerName = this.player?.name;
-      request.timer = this.seconds;
       request.bonus = this.playerStateService.getBonus();
   
       this.notifierStateService.createDuelRec(request).then((resp) => {
         if(resp == true) {
-          this.seconds=0;
           this.finishTraning=true;
-          clearTimeout(this.intervalId);
           this.takeDuelRec();
   
         } else {
@@ -184,8 +203,6 @@ export class PlayNowTrainingComponent implements OnInit {
       confirmButtonText: 'Si, stop training!'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.seconds=0;
-        clearTimeout(this.intervalId);
         this.start=false;
       }
     })

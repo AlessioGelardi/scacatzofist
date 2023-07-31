@@ -15,6 +15,7 @@ export class NotifierService {
   apiUrlNotify:string = environment.baseUrlNotifier + "notify";
 
   apiUrlDuelRec:string = environment.baseUrlNotifier + "duelrec";
+  apiUrlTrainingRec:string = environment.baseUrlNotifier + "training";
 
   apiUrlTournament:string = environment.baseUrlNotifier + "tournament";
   apiUrlTournamentById:string = environment.baseUrlNotifier + "tournamentById";
@@ -46,6 +47,10 @@ export class NotifierService {
   
   getNumberNotify(id:string):Observable<number>{
     return this.http.get<number>(this.apiUrlNotify+'?id='+id);
+  }
+
+  createTraining(request:any):Observable<any> {
+    return this.http.post<boolean>(this.apiUrlTrainingRec,request,this.generateOptions());
   }
 
   createDuelRec(request:any):Observable<any> {

@@ -66,8 +66,7 @@ export class PlayNowComponent implements OnInit {
   }
 
   training() {
-    this.messageService.alert('In manutenzione',"Ci dispiace, in questo momento la funzionalità è in manutenzione! Riprova più tardi! ",'info');
-    //this.router.navigate(['/training',{id:this.player!._id}]);
+    this.router.navigate(['/training',{id:this.player!._id}]);
   }
 
   puntata() {
