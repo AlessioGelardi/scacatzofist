@@ -6,7 +6,20 @@
     </div>
 </div>
 
-
+<div class="row mt-3">
+    <div class="col-6 d-flex justify-content-start"></div>
+    <div *ngIf="!viewFilter" class="col-6 d-flex justify-content-end">
+        <button class="btn btn-sm rounded grigino" (click)="doFilter()"><i class="fa fa-filter"></i></button>
+    </div>
+    <div class="col-6 d-flex justify-content-end" *ngIf="viewFilter">
+        <div class="row">
+            <div class="position-relative">
+                <button class="col-1 btn btn-sm rounded grigino position-absolute top-0 start-100 translate-middle" (click)="doFilter()"><i class="fa fa-times"></i></button>
+            </div>
+            <filter-card (cardsEmit)="retrieveCards($event)"></filter-card>
+        </div>
+    </div>
+</div>
 <div class="row">
     <div class="col-6">
         <card-list [dragDrop]="dragDrop" [dragging]="dragging" [connectedTo]="['zaino']" [typeDeck]="1" [cards]="this.deck?.main!" (showCard)="showCard($event)" (removeCard)="removeCard($event)"></card-list>
@@ -14,35 +27,36 @@
         <card-list [dragDrop]="dragDrop" [dragging]="dragging" [connectedTo]="['zaino']" [typeDeck]="3" [cards]="this.deck?.side!" (showCard)="showCard($event)" (removeCard)="removeCard($event)"></card-list>
     </div>
     
-    <div class="col-6 panel-body table-responsive">
+    <div class="col-6">
         <div class="d-flex justify-content-around mt-4">
-            <h5 *ngIf="!viewFilter">LE TUE CARTE</h5>
-            <input *ngIf="viewFilter" class="col-5" [(ngModel)]="filterName" type="text" class="form-control sfondino" placeholder="Cerca card" autofocus>
-            <button class="btn btn-sm rounded grigino" (click)="doFilter()"><i class="fa fa-filter"></i></button>
+            <h5>LE TUE CARTE</h5>
         </div>
-        <table class="table table-hover mt-3 text-center" *ngIf="!dragDrop">
-            <thead>
-                <tr>
-                    <th scope="col">&nbsp;</th>
-                    <th scope="col">Nome</th>
-                    <th scope="col">ATK</th>
-                    <th scope="col">DEF</th>
-                </tr>
-            </thead>
-            <tbody cdkDropList (cdkDropListDropped)="onDrop($event)" [cdkDropListData]="zaino" id="zaino" [cdkDropListConnectedTo]="['main','extra','side']">
-                <tr *ngFor="let card of zaino | filterZaino: filterName! | slice:sliceStart:sliceEnd; let i=index" cdkDrag (click)="showCard(card)" (cdkDragStarted)="onDragStart()" (cdkDragEnded)="onDragEnd()">
-                    <td>
-                        <button type="button" class="btn btn-outline-dark btn-sm" (click)="addCard(card)"><i class="fa fa-arrow-left"></i></button>
-                    </td>
-                    <td class="text-truncate" (click)="showCard(card)">{{card.name}}</td>
-                    <td>{{card.atk}}</td>
-                    <td>{{card.def}}</td>
-                </tr>
-            </tbody>
-        </table>
-        <div *ngIf="dragDrop" class="mt-3">
+        <div class="panel-body table-responsive">
+            <table class="table table-hover mt-3 text-center" *ngIf="!dragDrop">
+                <thead>
+                    <tr>
+                        <th scope="col-2">&nbsp;</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">ATK</th>
+                        <th scope="col">DEF</th>
+                    </tr>
+                </thead>
+                <tbody cdkDropList (cdkDropListDropped)="onDrop($event)" [cdkDropListData]="zaino" id="zaino" [cdkDropListConnectedTo]="['main','extra','side']">
+                    <tr *ngFor="let card of zaino | filterZaino: searchFilter!; let i=index" cdkDrag (click)="showCard(card)" (cdkDragStarted)="onDragStart()" (cdkDragEnded)="onDragEnd()">
+                        <td>
+                            <button type="button" class="btn btn-outline-dark btn-sm" (click)="addCard(card)"><i class="fa fa-arrow-left"></i></button>
+                        </td>
+                        <td class="text-truncate" (click)="showCard(card)">{{card.name}}</td>
+                        <td>{{card.atk}}</td>
+                        <td>{{card.def}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div *ngIf="dragDrop" class="mt-3" style="margin-right:50px">
             <div *ngIf="zaino.length>0" class="row" cdkDropList (cdkDropListDropped)="onDrop($event)" [cdkDropListData]="zaino" id="zaino" [cdkDropListConnectedTo]="['main','extra','side']">
-                <div *ngFor="let card of zaino | filterZaino: filterName! | slice:sliceStart:sliceEnd; let i=index" class="col-1" cdkDrag (click)="showCard(card)" (cdkDragStarted)="onDragStart()" (cdkDragEnded)="onDragEnd()">
+                <div *ngFor="let card of zaino | filterZaino: searchFilter!; let i=index" class="col-1" cdkDrag (click)="showCard(card)" (cdkDragStarted)="onDragStart()" (cdkDragEnded)="onDragEnd()">
                     <img class="deckcard" src="{{'https://images.ygoprodeck.com/images/cards/'+card?.id+'.jpg'}}"  />
                 </div>
             </div>
@@ -50,11 +64,5 @@
                 <div class="area-drop"></div>
             </div>
         </div>
-        <!-- <div class="row mt-1">
-            <div class="d-flex justify-content-between mt-1">
-                <button class="btn btn-outline-dark btn-sm px-3" *ngIf="sliceStart>0" (click)="backSlice()"><i class="fa fa-arrow-left"></i></button>
-                <button class="btn btn-outline-dark btn-sm px-3" *ngIf="sliceLimit! >= sliceEnd" (click)="continueSlice()"><i class="fa fa-arrow-right"></i></button>
-            </div>
-        </div>-->
     </div>
 </div>

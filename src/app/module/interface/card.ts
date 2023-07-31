@@ -2,6 +2,8 @@ export interface Card {
     id: string;
     name: string;
     type: number;
+    attribute: number;
+    race: number;
     description: string;
     level: number;
     atk: number;

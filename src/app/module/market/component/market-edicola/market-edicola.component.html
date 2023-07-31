@@ -69,17 +69,17 @@
 </div>
 
 <div class="mt-4" *ngIf="finishPurchase">
-    <div class="row">
-        <div *ngFor="let pack of newPacks" class="col-3 d-flex justify-content-center">
-            <img src="{{buyPackSrc}}" class="pack mb-3" (click)="openPack(pack.id)" />
-        </div>
-    </div>
-    <div class="row">
-        <div *ngFor="let pack of newPacks" class="col-3 d-flex justify-content-center">
-            <button type="button" class="col-3 btn btn-sm btn-outline-success" (click)="sellPack(pack)"><i class="fa fa-dollar"></i></button>
-        </div>
-    </div>
     <div>
-        <opening-pack [cards]="viewCards"></opening-pack>
+        <opening-pack [cards]="viewCards" [zaino]="zaino"></opening-pack>
+    </div>
+    <div class="row">
+        <div *ngFor="let pack of newPacks" class="col-3 d-flex justify-content-center pb-5">
+            <div class="mt-5 position-relative">
+                <img src="{{buyPackSrc}}" class="pack mb-3" (click)="openPack(pack.id)" />
+                <div class="position-absolute bottom-10 start-50 translate-middle-x">
+                    <button type="button" class="btn btn-sm btn-outline-success" style="width: 100px;" (click)="sellPack(pack)"><i class="fa fa-dollar"></i></button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

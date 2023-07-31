@@ -9,6 +9,7 @@ import { InventoryComponent } from './component/inventory/inventory.component';
 import { OpeningPackComponent } from './component/inventory/opening-pack/opening-pack.component';
 import { PlayerModule } from '../player/player.module';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { YugiohdexComponent } from './component/yugiohdex/yugiohdex.component';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     ViewCardComponent,
     OpeningPackComponent,
     InventoryComponent,
+    YugiohdexComponent,
     
   ],
   imports: [
@@ -32,7 +34,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     AutofocusDirective,
     FilterZainoPipe,
     FilterCardComponent,
-    OpeningPackComponent
+    OpeningPackComponent,FilterCardComponent
   ],
 })
 export class ZainoModule { }

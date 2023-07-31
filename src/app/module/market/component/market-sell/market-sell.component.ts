@@ -16,12 +16,10 @@ export class MarketSellComponent implements OnInit {
 
   buttons: Button[] = [];
 
-  //history: SellCard[] | undefined;
-
   playerId:string | undefined;
 
   viewFilter = false;
-  filterName:string | undefined;
+  searchFilter:any | undefined;
 
   zaino: Card[]=[];
 
@@ -166,6 +164,12 @@ export class MarketSellComponent implements OnInit {
         
       }
     })
+  }
+
+  retrieveCards(searchFilter: any) {
+    if(searchFilter) {
+      this.searchFilter = searchFilter;
+    }
   }
 
   doFilter() {

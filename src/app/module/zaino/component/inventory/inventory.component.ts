@@ -17,11 +17,10 @@ export class InventoryComponent implements OnInit {
 
   player:Player | undefined;
 
-  playerId:string | undefined;
-
   buttons: Button[] = [];
 
   inventory: Pack[] = [];
+  zaino: Card[] = [];
 
   viewCards: Card[] = [];
 
@@ -53,10 +52,11 @@ export class InventoryComponent implements OnInit {
       },
     ];
 
-    this.playerId = this.route.snapshot.paramMap.get('id')!;
+    const playerId = this.route.snapshot.paramMap.get('id')!;
 
-    this.takePlayer();
-    this.takeInventory();
+    this.takePlayer(playerId!);
+    this.takeInventory(playerId!);
+    this.takeZaino(playerId!);
   }
   
   action(code:string) {
@@ -95,6 +95,14 @@ export class InventoryComponent implements OnInit {
           if(resp) {
             this.viewCards = resp;
             this.deletePack(packId);
+
+            window.scroll({ 
+              top: 0, 
+              left: 0, 
+              behavior: 'smooth' 
+            });
+
+            this.playerStateService.resetZaino();
           } else {
             this.messageService.alert('Attenzione!',"Problema durante l'apertura del pack",'error');
           }
@@ -160,8 +168,8 @@ export class InventoryComponent implements OnInit {
   }
 
 
-  private takePlayer() {
-    this.playerStateService.getPlayer(this.playerId!).then((resp) => {
+  private takePlayer(playerId:string) {
+    this.playerStateService.getPlayer(playerId).then((resp) => {
       if(resp) {
         this.player = resp;
       } else {
@@ -177,8 +185,8 @@ export class InventoryComponent implements OnInit {
     });
   }
 
-  private takeInventory() {
-    this.playerStateService.getInventory(this.playerId!).then((resp) => {
+  private takeInventory(playerId:string) {
+    this.playerStateService.getInventory(playerId).then((resp) => {
       if(resp) {
         this.inventory = resp;
       } else {
@@ -193,4 +201,23 @@ export class InventoryComponent implements OnInit {
       }
     });
   }
+
+  private takeZaino(playerId:string) {
+    this.playerStateService.getZaino(playerId).then((resp) => {
+      if(resp) {
+        this.zaino=resp
+      } else {
+        //TO-DO gestione degli errori
+        /*
+        if(resp.status===402) {
+          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+        }
+        */
+  
+        this.messageService.alert('Attenzione!','Errore durante la chiamata getZaino','error');
+      }
+    });
+  }
+
+
 }

@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TradeDetailComponent } from './components/trade-detail/trade-detail.component';
+import { ZainoModule } from '../zaino/zaino.module';
 
 
 
@@ -26,7 +27,8 @@ import { TradeDetailComponent } from './components/trade-detail/trade-detail.com
     DragDropModule,
     BrowserAnimationsModule,
     TradeRoutingModule,
-    PlayerModule
+    PlayerModule,
+    ZainoModule
   ]
 })
 export class TradeModule { }

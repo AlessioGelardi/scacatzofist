@@ -1,121 +1,99 @@
-<div class="d-flex justify-content-center">
-    <div class="col-9">
-
-        <player-status [player]="player"></player-status>
-
-        <div class="row d-flex justify-content-around mt-4">
-            <button type="button" class="col-2 btn btn-lg rounded-pill grigino " (click)="home()"><i class='fa fa-home'></i></button>
+<form [formGroup]="filterCardForm">
+    <div class="row d-flex justify-content-left">
+        <div class="col-12 m-2">
+            <div class="row">
+                <label>Categoria</label>
+            </div>
+            <div class="row">
+                <select class="form-control" id="category" formControlName="category" (change)="changeCategory()">
+                    <option *ngFor="let category of categories" value="{{category}}">{{category}}</option>
+                </select>
+            </div>
         </div>
-
-        <form [formGroup]="filterCardForm">
-            <div class="row d-flex justify-content-left">
-                <div class="col-12 m-2">
-                    <div class="row">
-                        <label>Categoria</label>
-                    </div>
-                    <div class="row">
-                        <select class="form-control" id="category" formControlName="category" (change)="changeCategory()">
-                            <option *ngFor="let category of categories" value="{{category}}">{{category}}</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="row d-flex justify-content-left">
-                <div class="col-12 m-2">
-                    <div class="row">
-                        <label>Nome carta</label>
-                    </div>
-                    <div class="row">
-                        <input class="col-5" id="name" formControlName="name" type="text" class="form-control sfondino" placeholder="Inserisci nome carta">
-                    </div>
-                </div>
-            </div>
-            <div *ngIf="viewMoreFilter" class="row d-flex justify-content-left">
-                <div class="col-3 m-2">
-                    <div class="row">
-                        <label>Tipologia</label>
-                    </div>
-                    <div class="row">
-                        <select class="form-control" id="type" formControlName="type">
-                            <option value="" selected="true">Scegli Tipologia</option>
-                            <option *ngFor="let type of types" value="{{type}}">{{type}}</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-3 m-2" *ngIf="filterCardForm.value.category === 'MOSTRO'">
-                    <div class="row">
-                        <label>Attributo</label>
-                    </div>
-                    <div class="row">
-                        <select class="form-control" id="attribute" formControlName="attribute">
-                            <option value="" selected="true">Scegli Attributo</option>
-                            <option *ngFor="let attributo of attributes" value="{{attributo}}">{{attributo}}</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-3 m-2" *ngIf="filterCardForm.value.category === 'MOSTRO'">
-                    <div class="row">
-                        <label>Razza</label>
-                    </div>
-                    <div class="row">
-                        <select class="form-control" id="race" formControlName="race">
-                            <option value="" selected="true">Scegli Razza</option>
-                            <option *ngFor="let race of races" value="{{race}}">{{race}}</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-2 m-2" *ngIf="filterCardForm.value.category === 'MOSTRO'">
-                    <div class="row">
-                        <label>Effetto</label>
-                    </div>
-                    
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" id="effect" formControlName="effect" checked>
-                        <label class="form-check-label" for="effect">SI</label>
-                    </div>
-                </div>
-            </div>
-            <div *ngIf="viewMoreFilter && filterCardForm.value.category === 'MOSTRO'" class="row d-flex justify-content-left">
-                <div class="col-3 m-2">
-                    <div class="row">
-                        <label>Livello <strong *ngIf="this.filterCardForm.value.level!>0"><label>{{this.filterCardForm.value.level}}</label></strong></label>
-                    </div>
-                    <div class="row">
-                        <input type="range" class="form-control" id="level" formControlName="level" min="0" max="13">
-                    </div>
-                </div>
-                <div class="col-3 m-2">
-                    <div class="row">
-                        <label>ATK <strong *ngIf="this.filterCardForm.value.atk!>=0"><label>{{this.filterCardForm.value.atk}}</label></strong></label>
-                    </div>
-                    <div class="row">
-                        <input type="range" class="form-control" id="atk" formControlName="atk" min="-50" step="50" max="5000">
-                    </div>
-                </div>
-                <div class="col-3 m-2">
-                    <div class="row">
-                        <label>DEF <strong *ngIf="this.filterCardForm.value.def!>=0"><label>{{this.filterCardForm.value.def}}</label></strong></label>
-                    </div>
-                    <div class="row">
-                        <input type="range" class="form-control" id="def" formControlName="def" min="-50" step="50" max="5000">
-                    </div>
-                </div>
-            </div>
-            <button class="btn btn-sm rounded grigino" style="margin-right: 5px" (click)="search(true)"><i class="fa fa-filter"></i></button>
-            <button class="btn btn-sm rounded grigino" (click)="doMoreFilter()"><i class="fa fa-bars"></i></button>
-            
-        </form>
-
-
-        <div class="mt-3" *ngIf="viewSearchResult">
-            <div class="mt-4">
-                <div class="row d-flex justify-content-around">
-                    <button type="button" class="col btn impagination" *ngIf="page>1" (click)="back()"><i class='fa fa-angle-left'></i></button>
-                    <button type="button" class="col btn impagination" *ngIf="cards.length===20" (click)="continue()"><i class='fa fa-angle-right'></i></button>
-                </div>
-            </div>
-            <view-card [cards]="cards" [zaino]="zaino"></view-card>
-        </div>
-
     </div>
-</div>
+    <div class="row d-flex justify-content-left">
+        <div class="col-12 m-2">
+            <div class="row">
+                <label>Nome carta</label>
+            </div>
+            <div class="row">
+                <input class="col-5" id="name" formControlName="name" type="text" class="form-control sfondino" placeholder="Inserisci nome carta">
+            </div>
+        </div>
+    </div>
+    <div class="row d-flex justify-content-left">
+        <div class="col-12 m-2" [ngClass]="{
+            'col-12': filterCardForm.value.category !== 'MOSTRO',
+            'col-3': filterCardForm.value.category === 'MOSTRO'
+          }">
+            <div class="row">
+                <label>Tipologia</label>
+            </div>
+            <div class="row">
+                <select class="form-control" id="type" formControlName="type">
+                    <option value="" selected="true">Scegli Tipologia</option>
+                    <option *ngFor="let type of types" value="{{type}}">{{type}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-3 m-2" *ngIf="filterCardForm.value.category === 'MOSTRO'">
+            <div class="row">
+                <label>Attributo</label>
+            </div>
+            <div class="row">
+                <select class="form-control" id="attribute" formControlName="attribute">
+                    <option value="" selected="true">Scegli Attributo</option>
+                    <option *ngFor="let attributo of attributes" value="{{attributo}}">{{attributo}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-3 m-2" *ngIf="filterCardForm.value.category === 'MOSTRO'">
+            <div class="row">
+                <label>Razza</label>
+            </div>
+            <div class="row">
+                <select class="form-control" id="race" formControlName="race">
+                    <option value="" selected="true">Scegli Razza</option>
+                    <option *ngFor="let race of races" value="{{race}}">{{race}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-2 m-2" *ngIf="filterCardForm.value.category === 'MOSTRO'">
+            <div class="row">
+                <label>Effetto</label>
+            </div>
+            
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="effect" formControlName="effect" checked>
+                <label class="form-check-label" for="effect">SI</label>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="filterCardForm.value.category === 'MOSTRO'" class="row d-flex justify-content-left">
+        <div class="col-3 m-2">
+            <div class="row">
+                <label>Livello <strong *ngIf="this.filterCardForm.value.level!>0"><label>{{this.filterCardForm.value.level}}</label></strong></label>
+            </div>
+            <div class="row">
+                <input type="range" class="form-control" id="level" formControlName="level" min="0" max="13">
+            </div>
+        </div>
+        <div class="col-3 m-2">
+            <div class="row">
+                <label>ATK <strong *ngIf="this.filterCardForm.value.atk!>=0"><label>{{this.filterCardForm.value.atk}}</label></strong></label>
+            </div>
+            <div class="row">
+                <input type="range" class="form-control" id="atk" formControlName="atk" min="-50" step="50" max="5000">
+            </div>
+        </div>
+        <div class="col-3 m-2">
+            <div class="row">
+                <label>DEF <strong *ngIf="this.filterCardForm.value.def!>=0"><label>{{this.filterCardForm.value.def}}</label></strong></label>
+            </div>
+            <div class="row">
+                <input type="range" class="form-control" id="def" formControlName="def" min="-50" step="50" max="5000">
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-sm rounded grigino" style="margin-right: 5px" (click)="search(true)"><i class="fa fa-filter"></i></button>
+</form>

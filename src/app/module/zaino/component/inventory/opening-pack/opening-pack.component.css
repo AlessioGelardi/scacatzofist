@@ -28,3 +28,9 @@
 .front {
     transform: rotateY( 0deg );
 }
+
+.etichetta {
+    font-size: 12px;
+    font-weight: bold;
+    font-family: 'Big Caslon';
+}

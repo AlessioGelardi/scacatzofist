@@ -11,6 +11,8 @@ export class ViewCardComponent implements OnInit {
   @Input() cards: Card[] = [];
   @Input() zaino: Card[] = [];
 
+  @Input() searchFilter: any | undefined;
+
   constructor() { }
 
   ngOnInit(): void {

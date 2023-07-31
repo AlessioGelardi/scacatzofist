@@ -20,9 +20,11 @@ export class VetrinaComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    
     if(this.packs[0].dailyPack) {
       this.dailyPack = true;
     } else if(this.packs[0].deck) {
+      this.packs.sort((a, b) => a.baseCost - b.baseCost);
       this.dailyPack = false;
       this.isDeck = true;
     } else {
