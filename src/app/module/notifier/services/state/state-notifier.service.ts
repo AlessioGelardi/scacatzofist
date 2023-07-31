@@ -136,6 +136,25 @@ export class StateNotifierService {
     return duelRec;
   }
 
+  async stopTraining() {
+    this.spinnerService.show();
+
+    let duelRec;
+    try {
+      duelRec = await firstValueFrom(this.notifierService.stopTraining());
+      this.spinnerService.hide();
+    } catch (error:any) {
+      this.spinnerService.hide();
+      if(error.status===402) {
+        this.messageService.alert('Attenzione!','Non sono riuscito a stoppare il training','error');
+      } else {
+        this.messageService.alert('Errore','Qualcosa è andato storto durante lo stoppare del training','error');
+      }
+    }
+
+    return duelRec;
+  }
+
   async getDuelRec(id:string) {
     this.spinnerService.show();
 

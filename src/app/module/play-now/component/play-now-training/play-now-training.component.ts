@@ -71,15 +71,23 @@ export class PlayNowTrainingComponent implements OnInit {
           if(this.start) {
             this.stopTimer("Timer in corso, vuoi veramente terminare il traning?")
           } else {
-            this.router.navigate(['/playnow',{id:this.playerId}]);
+            if(this.finishTraning) {
+              this.finishTraning=false
+            } else {
+              this.router.navigate(['/playnow',{id:this.playerId}]);
+            }
           }
           break;
         case 'REQUEST':
           if(this.start) {
             this.stopTimer("Timer in corso, vuoi veramente terminare il traning?")
           } else {
-            this.finishTraning=true;
-            this.takeDuelRec();
+            if(this.finishTraning) {
+              this.finishTraning=false;
+            } else {
+              this.finishTraning=true;
+              this.takeDuelRec();
+            }
           }
           break;
       }
@@ -116,7 +124,6 @@ export class PlayNowTrainingComponent implements OnInit {
   }
 
   private takeFormatToday(startDate:Date) {
-    var today = new Date();
     var dd = String(startDate.getDate()).padStart(2, '0');
     var mm = String(startDate.getMonth() + 1).padStart(2, '0'); //January is 0!
     var yyyy = startDate.getFullYear();
@@ -135,8 +142,7 @@ export class PlayNowTrainingComponent implements OnInit {
     const hours = Math.floor(minutes / 60);
     const days = Math.floor(hours / 24);
 
-    console.log(minutes)
-    if(true){//(minutes>10 || hours>=1 || days>=1) {
+    if(seconds>1 || minutes>10 || hours>=1 || days>=1) {
       let request: any = {};
       request.playerIdReq = this.playerId!;
       request.typeMod = TypeMod.TRAINING;
@@ -147,6 +153,7 @@ export class PlayNowTrainingComponent implements OnInit {
       this.notifierStateService.createDuelRec(request).then((resp) => {
         if(resp == true) {
           this.finishTraning=true;
+          this.start=false;
           this.takeDuelRec();
   
         } else {
@@ -203,7 +210,11 @@ export class PlayNowTrainingComponent implements OnInit {
       confirmButtonText: 'Si, stop training!'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.start=false;
+        this.notifierStateService.stopTraining().then((resp) => {
+          if(resp == true) {
+            this.start=false;
+          }
+        });
       }
     })
   }

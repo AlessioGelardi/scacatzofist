@@ -49,8 +49,12 @@ export class NotifierService {
     return this.http.get<number>(this.apiUrlNotify+'?id='+id);
   }
 
-  createTraining(request:any):Observable<any> {
+  createTraining(request:any):Observable<boolean> {
     return this.http.post<boolean>(this.apiUrlTrainingRec,request,this.generateOptions());
+  }
+
+  stopTraining():Observable<boolean> {
+    return this.http.put<boolean>(this.apiUrlTrainingRec,{},this.generateOptions());
   }
 
   createDuelRec(request:any):Observable<any> {
