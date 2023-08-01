@@ -50,8 +50,7 @@ export class TradeNewCardComponent {
   myDecks:Deck[] = [];
   oppoDecks:Deck[] = [];
   
-  constructor(private route: ActivatedRoute,
-    private router: Router,
+  constructor(private router: Router,
     private messageService: MessageService,
     private deckStateService: StateDeckService,
     private playerStateService: StatePlayerService,
@@ -60,8 +59,8 @@ export class TradeNewCardComponent {
   }
 
   ngOnInit(): void {
-    this.takePlayer(this.player?._id!);
-    this.takePlayer(this.selectPlayerId!);
+    this.takeDecksByIdPlayer(this.player?._id!);
+    this.takeDecksByIdPlayer(this.selectPlayerId!);
   }
 
   doFilterZaino() {
@@ -231,44 +230,6 @@ export class TradeNewCardComponent {
         }
       });
     }
-
-  }
-
-  private takeAllPlayers(id:string) {
-    this.players=[];
-    this.playerStateService.getAllPlayers(id).then((resp) => {
-      if(resp) {
-        //this.showPlayers = true;
-        this.players = resp;
-      } else {
-        //TO-DO gestione degli errori
-        /*
-        if(resp.status===402) {
-          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
-        }
-        */
-
-        this.messageService.alert('Attenzione!','Errore durante la chiamata getAllPlayers','error');
-      }
-    });
-  }
-
-  private takePlayer(playerId: string) {
-    this.playerStateService.getPlayer(playerId).then((resp) => {
-      if(resp) {
-        this.player = resp;
-        this.takeDecksByIdPlayer(playerId);
-      } else {
-        //TO-DO gestione degli errori
-        /*
-        if(resp.status===402) {
-          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
-        }
-        */
-
-        this.messageService.alert('Attenzione!','Errore durante la chiamata getPlayer','error');
-      }
-    });
   }
 
   private takeDecksByIdPlayer(playerId:string) {

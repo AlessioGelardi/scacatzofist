@@ -30,3 +30,7 @@
 <div *ngIf="tradeCard && selectPlayerId">
     <trade-new-card [player]="player" [selectPlayerId]="selectPlayerId" [selectPlayerName]="selectPlayerName"></trade-new-card>
 </div>
+
+<div *ngIf="tradeDeck && selectPlayerId">
+    <trade-new-deck [player]="player" [selectPlayerId]="selectPlayerId" [selectPlayerName]="selectPlayerName"></trade-new-deck>
+</div>
