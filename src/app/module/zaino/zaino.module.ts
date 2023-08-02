@@ -10,6 +10,7 @@ import { OpeningPackComponent } from './component/inventory/opening-pack/opening
 import { PlayerModule } from '../player/player.module';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { YugiohdexComponent } from './component/yugiohdex/yugiohdex.component';
+import { ShowDeckComponent } from './component/show-deck/show-deck.component';
 
 
 @NgModule({
@@ -21,7 +22,7 @@ import { YugiohdexComponent } from './component/yugiohdex/yugiohdex.component';
     OpeningPackComponent,
     InventoryComponent,
     YugiohdexComponent,
-    
+    ShowDeckComponent,
   ],
   imports: [
     CommonModule,
@@ -34,6 +35,7 @@ import { YugiohdexComponent } from './component/yugiohdex/yugiohdex.component';
     AutofocusDirective,
     FilterZainoPipe,
     FilterCardComponent,
+    ShowDeckComponent,
     OpeningPackComponent,FilterCardComponent
   ],
 })

@@ -18,8 +18,11 @@ export class TradeNewDeckComponent {
   @Input() selectPlayerId: string | undefined;
   @Input() selectPlayerName: string | undefined;
 
-  probablyMyDecks:Deck[] = [];
-  probablyOppoDecks:Deck[] = [];
+  viewDeck: boolean = false;
+  selectDeck: Deck | undefined;
+
+  tradeMyDecks:any[] = [];
+  tradeOppoDecks:any[] = [];
 
   constructor(private router: Router,
     private messageService: MessageService,
@@ -34,49 +37,150 @@ export class TradeNewDeckComponent {
     this.takeDecksByIdPlayer(this.selectPlayerId!);
   }
 
+  doViewDeck(id:string) {
+    
+    if(this.viewDeck) {
+      this.viewDeck = false;
+    } else {
+      this.viewDeck = true;
+      this.deckStateService.getDeck(id).then((resp) => {
+        if(resp) {
+          this.selectDeck = resp;
+        }
+      });
+    }
+    
+  }
+
+
   private takeDecksByIdPlayer(playerId:string) {
     let decks:any = {}
     this.deckStateService.resetPlayerDecks();
     this.deckStateService.getDecks(playerId).then((resp) => {
       decks = resp!;
 
+      let allDecks:Deck[]=[]
       for(let x of decks) {
-        this.takeDeck(x["id"],playerId)
+        this.takeDeck(x["id"],playerId,allDecks)
       }
-      //this.takeZaino(playerId);
+
+
+      this.takeZaino(playerId,allDecks);
     });
   }
 
-  private takeDeck(deckId:string,playerId:string) {
+  private takeDeck(deckId:string,playerId:string, decks:Deck[]) {
     this.deckStateService.resetDeck();
     if(this.player!._id === playerId) {
       this.deckStateService.getDeck(deckId).then((resp) => {
         if(resp) {
-          this.probablyMyDecks.push(resp);
+          decks.push(resp);
         }
-        this.checkDeck(this.probablyMyDecks);
       });
     } else {
       this.deckStateService.getDeck(deckId).then((resp) => {
         if(resp) {
-          this.probablyOppoDecks.push(resp);
+          decks.push(resp);
         }
       });
     }
+    
   }
 
-  private checkDeck(decks:Deck[]) {
-    let allIdcard:string[]=[]
+  private checkFeasibilityTrade(decks:Deck[], zainoCard: string[], playerId:string) {
+    let invZaino: string[] = [ ...zainoCard];
+    let cardNotIncludes: string[] = []
+    
     for(let deck of decks) {
-      if(allIdcard.length>0) {
-        if (deck.main.concat(deck.extra, deck.side).some(obj => allIdcard.includes(obj.id))) {
-          alert('aia')
-        }
-      } else {
-        for(let card of deck.main.concat(deck.extra, deck.side)) {
-          allIdcard.push(card.id)
+      let tradeItem:any={}
+      
+      tradeItem["name"] = deck.name;
+      tradeItem["id"] = deck.id;
+      tradeItem["tradable"] = true;
+
+      for(let card of deck.main.concat(deck.extra, deck.side)) {
+        if(invZaino.includes(card.id)) {
+          let indice = invZaino.indexOf(card.id, 0)!;
+          if (indice !== undefined && indice > -1) {
+            invZaino.splice(indice, 1);
+          }
+        } else {
+          tradeItem["tradable"] = true;
+          cardNotIncludes.push(card.id)
         }
       }
+
+      if(this.player!._id === playerId) {
+        this.tradeMyDecks.push(tradeItem);
+      } else {
+        this.tradeOppoDecks.push(tradeItem);
+      }
+    
+    }
+
+    for(let deck of decks) {
+      for(let card of deck.main.concat(deck.extra, deck.side)) {
+        if(cardNotIncludes.includes(card.id)) {
+          let tradeDeck = undefined;
+          if(this.player!._id === playerId) {
+            tradeDeck = this.tradeMyDecks.filter(deckT => deckT["name"]===deck.name);
+          } else {
+            tradeDeck = this.tradeOppoDecks.filter(deckT => deckT["name"]===deck.name);
+          }
+          
+          if(tradeDeck && tradeDeck.length>0) {
+            for(let trades of tradeDeck) {
+              trades["tradable"]=false;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  private takeZaino(playerId:string, decks:Deck[]) {
+    if(this.player!._id === playerId) {
+      this.playerStateService.getZaino(playerId).then((resp) => {
+        if(resp) {
+
+          let zainoCard: string[] = [];
+          for(let card of resp) {
+            zainoCard.push(card.id!)
+          }
+          this.checkFeasibilityTrade(decks,zainoCard,playerId);
+
+        } else {
+          //TO-DO gestione degli errori
+          /*
+          if(resp.status===402) {
+            this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+          }
+          */
+  
+          this.messageService.alert('Attenzione!','Errore durante la chiamata getZaino','error');
+        }
+      });
+    } else {
+      this.playerStateService.getZainoNoCache(playerId).then((resp) => {
+        if(resp) {
+
+          let zainoCard: string[] = [];
+          for(let card of resp) {
+            zainoCard.push(card.id!)
+          }
+          this.checkFeasibilityTrade(decks,zainoCard,playerId);
+
+        } else {
+          //TO-DO gestione degli errori
+          /*
+          if(resp.status===402) {
+            this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+          }
+          */
+  
+          this.messageService.alert('Attenzione!','Errore durante la chiamata getZaino','error');
+        }
+      });
     }
   }
 }

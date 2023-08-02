@@ -70,9 +70,7 @@ export class DeckDetailComponent implements OnInit {
     }
   }
 
-  showCard(card:Card) {
-    this.messageService.showDetailCard(card);
-  }
+
 
   buttonOperationHandler(code: any) {
     if(code) {

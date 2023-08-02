@@ -1,1 +1,42 @@
-<p>trade-new-deck works!</p>
+<div class="mt-3" *ngIf="!viewDeck">
+    <div class="row">
+        <div class="col-12 d-flex justify-content-center">
+            <label>Scegli i deck che vuoi scambiare</label>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-6">
+            <div *ngIf="tradeMyDecks && tradeMyDecks.length>0">
+                <div class="row d-flex justify-content-center" *ngFor="let deck of tradeMyDecks" (click)="doViewDeck(deck.id)">
+                    <button class="col-5 m-2 btn btn-lg rounded grigino">
+                        {{deck.name}} 
+                    </button>
+                </div>
+            </div>
+            <div *ngIf="!tradeMyDecks || (tradeMyDecks && tradeMyDecks.length===0)">
+                <label>Nessun deck disponibile per il trade</label>
+            </div>
+        </div>
+        <div class="col-6">
+            <div *ngIf="tradeOppoDecks && tradeOppoDecks.length>0">
+                <div class="row d-flex justify-content-center" *ngFor="let deck of tradeOppoDecks" (click)="doViewDeck(deck.id)">
+                    <button class="col-5 m-2 btn btn-lg rounded grigino">
+                        {{deck.name}} 
+                    </button>
+                </div>
+            </div>
+            <div *ngIf="!tradeOppoDecks || (tradeOppoDecks && tradeOppoDecks.length===0)">
+                <label>Nessun deck disponibile per il trade</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-5" *ngIf="viewDeck">
+    <div class="row d-flex justify-content-around">
+        <button type="button" class="col-2 btn btn-lg rounded-pill grigino" (click)="doViewDeck(selectDeck!.id)">TORNA AL TRADE</button>
+    </div>
+    <show-deck [deck]="selectDeck"></show-deck>
+</div>
+
