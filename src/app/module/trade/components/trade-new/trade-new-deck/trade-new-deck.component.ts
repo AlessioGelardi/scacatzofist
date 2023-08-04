@@ -21,8 +21,11 @@ export class TradeNewDeckComponent {
   viewDeck: boolean = false;
   selectDeck: Deck | undefined;
 
-  tradeMyDecks:any[] = [];
-  tradeOppoDecks:any[] = [];
+  myDecks:Deck[] = [];
+  oppoDecks:Deck[] = [];
+
+  tradeMyDeck: Deck | undefined;
+  tradeOppoDeck: Deck | undefined;
 
   constructor(private router: Router,
     private messageService: MessageService,
@@ -41,6 +44,7 @@ export class TradeNewDeckComponent {
     
     if(this.viewDeck) {
       this.viewDeck = false;
+      this.selectDeck = undefined;
     } else {
       this.viewDeck = true;
       this.deckStateService.getDeck(id).then((resp) => {
@@ -49,32 +53,70 @@ export class TradeNewDeckComponent {
         }
       });
     }
-    
+  }
+
+  choiseDeck(deck:Deck) {
+    let checkFattibilita: boolean = false;
+    if(this.player!._id === deck.playerId) {
+      checkFattibilita = this.myDecks.length>1;
+    } else {
+      checkFattibilita = this.oppoDecks.length>1;
+    }
+
+    if(checkFattibilita) {
+      this.tradeStateService.fattibilitaTrade(deck.id).then((resp) => {
+        if(resp === true) {
+          //this.messageService.alert('Fatto!','Trade cancellato!','success');
+          if(this.player!._id === deck.playerId) {
+            this.tradeMyDeck = deck;
+          } else {
+            this.tradeOppoDeck = deck;
+          }
+        } else {
+          this.messageService.alert('Attenzione',"Impossibile effettuare questo trade perchè le carte contenute al suo interno sono presenti in altri deck",'info');
+        }
+      });
+    }
   }
 
 
   private takeDecksByIdPlayer(playerId:string) {
-    let decks:any = {}
+    //let decks:any = {}
     this.deckStateService.resetPlayerDecks();
-    this.deckStateService.getDecks(playerId).then((resp) => {
-      decks = resp!;
+    if(this.player!._id === playerId) {
 
-      let allDecks:Deck[]=[]
-      for(let x of decks) {
-        this.takeDeck(x["id"],playerId,allDecks)
-      }
+      this.deckStateService.getDecks(playerId).then((resp) => {
+        this.myDecks = resp!;
 
+        /* let allDecks:Deck[]=[]
+        for(let x of decks) {
+          this.takeDeck(x["id"],playerId,allDecks)
+        }
 
-      this.takeZaino(playerId,allDecks);
-    });
+        //this.takeZaino(playerId,allDecks); */
+      });
+    } else {
+      this.deckStateService.getDecks(playerId).then((resp) => {
+        this.oppoDecks = resp!;
+
+        /* let allDecks:Deck[]=[]
+        for(let x of decks) {
+          this.takeDeck(x["id"],playerId,allDecks)
+        }
+
+        //this.takeZaino(playerId,allDecks); */
+      });
+    }
   }
+
+  /*
 
   private takeDeck(deckId:string,playerId:string, decks:Deck[]) {
     this.deckStateService.resetDeck();
     if(this.player!._id === playerId) {
       this.deckStateService.getDeck(deckId).then((resp) => {
         if(resp) {
-          decks.push(resp);
+          //this.myDecks = resp;
         }
       });
     } else {
@@ -155,8 +197,6 @@ export class TradeNewDeckComponent {
           if(resp.status===402) {
             this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
           }
-          */
-  
           this.messageService.alert('Attenzione!','Errore durante la chiamata getZaino','error');
         }
       });
@@ -172,15 +212,15 @@ export class TradeNewDeckComponent {
 
         } else {
           //TO-DO gestione degli errori
-          /*
+          
           if(resp.status===402) {
             this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
           }
-          */
+          
   
           this.messageService.alert('Attenzione!','Errore durante la chiamata getZaino','error');
         }
       });
     }
-  }
+  }*/
 }

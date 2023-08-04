@@ -7,26 +7,28 @@
 
     <div class="row mt-3">
         <div class="col-6">
-            <div *ngIf="tradeMyDecks && tradeMyDecks.length>0">
-                <div class="row d-flex justify-content-center" *ngFor="let deck of tradeMyDecks" (click)="doViewDeck(deck.id)">
-                    <button class="col-5 m-2 btn btn-lg rounded grigino">
+            <div *ngIf="myDecks.length>0">
+                <div class="row d-flex justify-content-center" *ngFor="let deck of myDecks">
+                    <button type="button" class="col-2 m-2 btn btn-sm rounded grigino" (click)="doViewDeck(selectDeck!.id)"><i class="fa fa-eye"></i></button>
+                    <button class="col-5 m-2 btn btn-lg rounded grigino" (click)="choiseDeck(deck)">
                         {{deck.name}} 
                     </button>
                 </div>
             </div>
-            <div *ngIf="!tradeMyDecks || (tradeMyDecks && tradeMyDecks.length===0)">
+            <div *ngIf="myDecks.length===0">
                 <label>Nessun deck disponibile per il trade</label>
             </div>
         </div>
         <div class="col-6">
-            <div *ngIf="tradeOppoDecks && tradeOppoDecks.length>0">
-                <div class="row d-flex justify-content-center" *ngFor="let deck of tradeOppoDecks" (click)="doViewDeck(deck.id)">
-                    <button class="col-5 m-2 btn btn-lg rounded grigino">
+            <div *ngIf="oppoDecks.length>0">
+                <div class="row d-flex justify-content-center" *ngFor="let deck of oppoDecks" (click)="doViewDeck(deck.id)">
+                    <button class="col-5 m-2 btn btn-lg rounded grigino" (click)="choiseDeck(deck)">
                         {{deck.name}} 
                     </button>
+                    <button type="button" class="col-2 m-2 btn btn-sm rounded grigino" (click)="doViewDeck(selectDeck!.id)"><i class="fa fa-eye"></i></button>
                 </div>
             </div>
-            <div *ngIf="!tradeOppoDecks || (tradeOppoDecks && tradeOppoDecks.length===0)">
+            <div *ngIf="oppoDecks.length===0">
                 <label>Nessun deck disponibile per il trade</label>
             </div>
         </div>

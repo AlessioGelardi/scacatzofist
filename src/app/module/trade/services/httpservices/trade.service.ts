@@ -12,6 +12,8 @@ export class TradeService {
   apiUrlTrade: string = environment.baseUrlTrade + "trade";
   apiUrlTradeById: string = environment.baseUrlTrade + "tradeById";
 
+  apiUrlTradeFattibilita: string = environment.baseUrlTrade + "fattibilita";
+
   constructor(private http: HttpClient) { }
 
   newTrade(request:any) {
@@ -32,6 +34,10 @@ export class TradeService {
 
   deleteTrade(tradeId: string): Observable<boolean> {
     return this.http.delete<boolean>(this.apiUrlTrade+'?id='+tradeId);
+  }
+
+  fattibilitaTrade(deckId: string): Observable<boolean> {
+    return this.http.get<boolean>(this.apiUrlTradeFattibilita+'?id='+deckId);
   }
 
   private generateOptions() {
