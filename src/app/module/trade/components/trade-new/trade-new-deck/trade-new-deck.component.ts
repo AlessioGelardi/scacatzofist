@@ -64,7 +64,7 @@ export class TradeNewDeckComponent {
     }
 
     if(checkFattibilita) {
-      this.tradeStateService.fattibilitaTrade(deck.id).then((resp) => {
+      this.tradeStateService.fattibilitaTrade(deck.id,deck.playerId).then((resp) => {
         if(resp === true) {
           //this.messageService.alert('Fatto!','Trade cancellato!','success');
           if(this.player!._id === deck.playerId) {
@@ -79,6 +79,19 @@ export class TradeNewDeckComponent {
     }
   }
 
+  creaScambio() {
+    let request:any = {}
+    request.myDeckId = this.tradeMyDeck!.id;
+    request.oppoDeckId = this.tradeOppoDeck!.id;
+    this.tradeStateService.offriScambio(request).then((resp) => {
+      if(resp === true) {
+        this.messageService.alert('Fatto!','Lo scambio è stato proposto!','success');
+      } else {
+        this.messageService.alert('Attenzione!','Errore durante la chiamata offriScambio','error');
+      }
+    });
+  }
+
 
   private takeDecksByIdPlayer(playerId:string) {
     //let decks:any = {}
@@ -87,6 +100,7 @@ export class TradeNewDeckComponent {
 
       this.deckStateService.getDecks(playerId).then((resp) => {
         this.myDecks = resp!;
+        this.deckStateService.resetPlayerDecks();
 
         /* let allDecks:Deck[]=[]
         for(let x of decks) {
@@ -98,6 +112,7 @@ export class TradeNewDeckComponent {
     } else {
       this.deckStateService.getDecks(playerId).then((resp) => {
         this.oppoDecks = resp!;
+        this.deckStateService.resetPlayerDecks();
 
         /* let allDecks:Deck[]=[]
         for(let x of decks) {

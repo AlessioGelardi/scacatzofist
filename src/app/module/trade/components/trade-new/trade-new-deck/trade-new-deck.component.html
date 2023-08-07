@@ -5,11 +5,22 @@
         </div>
     </div>
 
+    <div class="row mt-3" *ngIf="tradeMyDeck || tradeOppoDeck">
+        <div class="col-12 d-flex justify-content-center" *ngIf="tradeMyDeck">
+            <label *ngIf="tradeMyDeck">{{tradeMyDeck["name"]}}</label>
+            <label *ngIf="tradeMyDeck && tradeOppoDeck">&nbsp;<i class="fa fa-arrows-h"></i>&nbsp;</label>
+            <label *ngIf="tradeOppoDeck">{{tradeOppoDeck["name"]}}</label>
+        </div> 
+    </div>
+    <div class="row mt-3 d-flex justify-content-center" *ngIf="tradeMyDeck && tradeOppoDeck">
+        <button type="button" class="col-4 btn btn-lg rounded grigino" (click)="creaScambio()">OFFRI SCAMBIO</button>
+    </div>
+
     <div class="row mt-3">
         <div class="col-6">
             <div *ngIf="myDecks.length>0">
                 <div class="row d-flex justify-content-center" *ngFor="let deck of myDecks">
-                    <button type="button" class="col-2 m-2 btn btn-sm rounded grigino" (click)="doViewDeck(selectDeck!.id)"><i class="fa fa-eye"></i></button>
+                    <button type="button" class="col-2 m-2 btn btn-sm rounded grigino" (click)="doViewDeck(deck!.id)"><i class="fa fa-eye"></i></button>
                     <button class="col-5 m-2 btn btn-lg rounded grigino" (click)="choiseDeck(deck)">
                         {{deck.name}} 
                     </button>
@@ -21,11 +32,11 @@
         </div>
         <div class="col-6">
             <div *ngIf="oppoDecks.length>0">
-                <div class="row d-flex justify-content-center" *ngFor="let deck of oppoDecks" (click)="doViewDeck(deck.id)">
+                <div class="row d-flex justify-content-center" *ngFor="let deck of oppoDecks">
                     <button class="col-5 m-2 btn btn-lg rounded grigino" (click)="choiseDeck(deck)">
                         {{deck.name}} 
                     </button>
-                    <button type="button" class="col-2 m-2 btn btn-sm rounded grigino" (click)="doViewDeck(selectDeck!.id)"><i class="fa fa-eye"></i></button>
+                    <button type="button" class="col-2 m-2 btn btn-sm rounded grigino" (click)="doViewDeck(deck!.id)"><i class="fa fa-eye"></i></button>
                 </div>
             </div>
             <div *ngIf="oppoDecks.length===0">

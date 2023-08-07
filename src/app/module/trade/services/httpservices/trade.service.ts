@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Card } from 'src/app/module/interface/card';
 import { Trade } from 'src/app/module/interface/trade';
 import { environment } from 'src/environments/environment';
 
@@ -36,8 +37,12 @@ export class TradeService {
     return this.http.delete<boolean>(this.apiUrlTrade+'?id='+tradeId);
   }
 
-  fattibilitaTrade(deckId: string): Observable<boolean> {
-    return this.http.get<boolean>(this.apiUrlTradeFattibilita+'?id='+deckId);
+  fattibilitaTrade(deckId: string, playerId:string): Observable<Card[]> {
+    return this.http.get<Card[]>(this.apiUrlTradeFattibilita+'?id='+deckId+'&playerId='+playerId);
+  }
+
+  offriScambio(request: any): Observable<boolean> {
+    return this.http.put<boolean>(this.apiUrlTrade,request,this.generateOptions());
   }
 
   private generateOptions() {

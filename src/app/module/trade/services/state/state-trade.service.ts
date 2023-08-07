@@ -106,12 +106,28 @@ export class StateTradeService {
     return response;
   }
 
-  async fattibilitaTrade(deckId:string) {
+  async fattibilitaTrade(deckId:string, playerId:string) {
     this.spinnerService.show();
     let response;
 
     try {
-      response = await firstValueFrom(this.tradeService.fattibilitaTrade(deckId));
+      response = await firstValueFrom(this.tradeService.fattibilitaTrade(deckId,playerId));
+      this.spinnerService.hide();
+    } catch (error: any) {
+      /* TO-DO [WinError 3] Impossibile trovare il percorso specificato: 'deck\\\\Ingranaggio Antico1.ydk' -> 'deck\\\\Ingranaggio Antico.ydk'*/
+      response = error;
+      this.spinnerService.hide();
+    }
+
+    return response;
+  }
+
+  async offriScambio(request: any) {
+    this.spinnerService.show();
+    let response;
+
+    try {
+      response = await firstValueFrom(this.tradeService.offriScambio(request));
       this.spinnerService.hide();
     } catch (error: any) {
       /* TO-DO [WinError 3] Impossibile trovare il percorso specificato: 'deck\\\\Ingranaggio Antico1.ydk' -> 'deck\\\\Ingranaggio Antico.ydk'*/
