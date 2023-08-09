@@ -17,10 +17,30 @@
 </div>
 
 <div class="row mt-3" *ngIf="showZaini">
+    <div class="row d-flex justify-content-between">
+        <div class="col-6">
+            <button *ngIf="!viewFilterZaino" class="btn btn-sm rounded grigino" (click)="doFilterZaino()"><i class="fa fa-filter"></i></button>
+            <div class="row mt-3" *ngIf="viewFilterZaino">
+                <div class="position-relative">
+                    <button class="col-1 btn btn-sm rounded grigino position-absolute top-0 start-100 translate-middle" (click)="doFilterZaino()"><i class="fa fa-times"></i></button>
+                </div>
+                <filter-card (cardsEmit)="retrieveCardsMyZaino($event)"></filter-card>
+            </div>
+        </div>
+        <div class="col-6">
+            <button *ngIf="!viewFilterOppo" class="btn btn-sm rounded grigino" (click)="doFilterOppo()"><i class="fa fa-filter"></i></button>
+            <div class="row mt-3" *ngIf="viewFilterOppo">
+                <div class="position-relative">
+                    <button class="col-1 btn btn-sm rounded grigino position-absolute top-0 start-100 translate-middle" (click)="doFilterOppo()"><i class="fa fa-times"></i></button>
+                </div>
+                <filter-card (cardsEmit)="retrieveCardsOppo($event)"></filter-card>
+            </div>
+        </div>
+    </div>
     <div class="col-3" style="padding-right:80px">
         <label>LE MIE CARTE</label>
         <div *ngIf="myZaino.length>0" class="row mt-2" cdkDropList (cdkDropListDropped)="onDrop($event)" [cdkDropListData]="myZaino" id="myZaino" [cdkDropListConnectedTo]="['myPlate']">
-            <div *ngFor="let card of myZaino" class="col-3" cdkDrag (click)="showCard(card)" (cdkDragStarted)="onDragStart()" (cdkDragEnded)="onDragEnd()">
+            <div *ngFor="let card of myZaino | filterZaino: searchFilterZaino!" class="col-3" cdkDrag (click)="showCard(card)" (cdkDragStarted)="onDragStart()" (cdkDragEnded)="onDragEnd()">
                 <img class="deckcard" src="{{'https://images.ygoprodeck.com/images/cards/'+card?.id+'.jpg'}}"  />
             </div>
         </div>
@@ -50,7 +70,7 @@
     <div class="col-3" style="padding-right:80px">
         <label>CARTE AVVERSARIO</label>
         <div *ngIf="oppoZaino.length>0" class="row mt-2" cdkDropList (cdkDropListDropped)="onDrop($event)" [cdkDropListData]="oppoZaino" id="oppoZaino" [cdkDropListConnectedTo]="['oppoPlate']">
-            <div *ngFor="let card of oppoZaino" class="col-3" cdkDrag (click)="showCard(card)" (cdkDragStarted)="onDragStart()" (cdkDragEnded)="onDragEnd()"> 
+            <div *ngFor="let card of oppoZaino | filterZaino: searchFilterOppo!" class="col-3" cdkDrag (click)="showCard(card)" (cdkDragStarted)="onDragStart()" (cdkDragEnded)="onDragEnd()"> 
                 <img class="deckcard" src="{{'https://images.ygoprodeck.com/images/cards/'+card?.id+'.jpg'}}"  />
             </div>
         </div>

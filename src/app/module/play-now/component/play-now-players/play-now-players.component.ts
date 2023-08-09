@@ -39,6 +39,11 @@ export class PlayNowPlayersComponent {
 
   dragging:boolean = false;
 
+  viewFilterZaino: boolean = false;
+  viewFilterOppo: boolean = false;
+  searchFilterZaino:any | undefined;
+  searchFilterOppo:any | undefined;
+
   constructor(private messageService: MessageService,
     private notifierStateService: StateNotifierService,
     private deckStateService: StateDeckService,
@@ -156,6 +161,26 @@ export class PlayNowPlayersComponent {
         event.previousIndex,
         event.currentIndex
       )
+    }
+  }
+
+  doFilterZaino() {
+    this.viewFilterZaino = !this.viewFilterZaino;
+  }
+
+  doFilterOppo() {
+    this.viewFilterOppo = !this.viewFilterOppo;
+  }
+
+  retrieveCardsMyZaino(searchFilter: any) {
+    if(searchFilter) {
+      this.searchFilterZaino = searchFilter;
+    }
+  }
+
+  retrieveCardsOppo(searchFilter: any) {
+    if(searchFilter) {
+      this.searchFilterOppo = searchFilter;
     }
   }
 
