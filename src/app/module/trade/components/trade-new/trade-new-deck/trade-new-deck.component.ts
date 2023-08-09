@@ -50,6 +50,7 @@ export class TradeNewDeckComponent {
       this.deckStateService.getDeck(id).then((resp) => {
         if(resp) {
           this.selectDeck = resp;
+          this.deckStateService.resetDeck();
         }
       });
     }
@@ -66,7 +67,6 @@ export class TradeNewDeckComponent {
     if(checkFattibilita) {
       this.tradeStateService.fattibilitaTrade(deck.id,deck.playerId).then((resp) => {
         if(resp === true) {
-          //this.messageService.alert('Fatto!','Trade cancellato!','success');
           if(this.player!._id === deck.playerId) {
             this.tradeMyDeck = deck;
           } else {
@@ -81,11 +81,24 @@ export class TradeNewDeckComponent {
 
   creaScambio() {
     let request:any = {}
-    request.myDeckId = this.tradeMyDeck!.id;
-    request.oppoDeckId = this.tradeOppoDeck!.id;
-    this.tradeStateService.offriScambio(request).then((resp) => {
+    request.offerta = {
+      "deckId": this.tradeMyDeck!.id,
+      "deckName": this.tradeMyDeck!.name      
+    }
+    request.richiesta = {
+      "deckId": this.tradeOppoDeck!.id,
+      "deckName": this.tradeOppoDeck!.name
+    }
+
+    request.playerIdReq = this.player!._id!;
+    request.playerNameReq = this.player!.name;
+    request.playerIdOppo = this.tradeOppoDeck!.playerId;
+    request.status = 1;
+    request.type = 2;
+    this.tradeStateService.createTrade(request).then((resp) => {
       if(resp === true) {
         this.messageService.alert('Fatto!','Lo scambio è stato proposto!','success');
+        this.router.navigate(['/trade']);
       } else {
         this.messageService.alert('Attenzione!','Errore durante la chiamata offriScambio','error');
       }

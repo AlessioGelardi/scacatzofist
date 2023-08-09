@@ -6,7 +6,7 @@
     </div>
 
     <div class="row mt-3" *ngIf="tradeMyDeck || tradeOppoDeck">
-        <div class="col-12 d-flex justify-content-center" *ngIf="tradeMyDeck">
+        <div class="col-12 d-flex justify-content-center">
             <label *ngIf="tradeMyDeck">{{tradeMyDeck["name"]}}</label>
             <label *ngIf="tradeMyDeck && tradeOppoDeck">&nbsp;<i class="fa fa-arrows-h"></i>&nbsp;</label>
             <label *ngIf="tradeOppoDeck">{{tradeOppoDeck["name"]}}</label>

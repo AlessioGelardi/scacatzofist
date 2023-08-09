@@ -14,6 +14,7 @@ export class TradeService {
   apiUrlTradeById: string = environment.baseUrlTrade + "tradeById";
 
   apiUrlTradeFattibilita: string = environment.baseUrlTrade + "fattibilita";
+  apiUrlTradeDeck: string = environment.baseUrlTrade + "tradeDeck";
 
   constructor(private http: HttpClient) { }
 
@@ -42,7 +43,7 @@ export class TradeService {
   }
 
   offriScambio(request: any): Observable<boolean> {
-    return this.http.put<boolean>(this.apiUrlTrade,request,this.generateOptions());
+    return this.http.post<boolean>(this.apiUrlTradeDeck,request,this.generateOptions());
   }
 
   private generateOptions() {

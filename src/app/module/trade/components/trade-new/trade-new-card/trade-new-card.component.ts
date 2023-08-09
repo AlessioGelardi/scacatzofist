@@ -153,6 +153,7 @@ export class TradeNewCardComponent {
             "cards": cardsOffert
           }
           request.status = 1;
+          request.type = 1;
     
           this.tradeStateService.createTrade(request).then((resp) => {
             if(resp === true) {

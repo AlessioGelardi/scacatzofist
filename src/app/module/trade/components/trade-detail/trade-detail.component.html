@@ -2,7 +2,7 @@
 
 <trade-buttons [buttons]="buttons" (buttonOperation)="buttonOperationHandler($event)"></trade-buttons>
 
-<div class="mt-5">
+<div class="mt-5" *ngIf="trade?.type===1">
     <div class="row mt-3 text-center">
         <div class="col-6" style="border-right: solid #8a8989 1px">
             <h5>OFFERTA </h5>
@@ -51,5 +51,35 @@
     <div class="row d-flex justify-content-around mt-5">
         <button class="col-5 m-2 btn btn-bg rounded grigino" style="margin-right: 5px" (click)="rifiuta()">RIFIUTA TRADE</button>
         <button class="col-5 m-2 btn btn-bg rounded grigino" style="margin-right: 5px" (click)="accetta()">ACCETTA TRADE</button>
+    </div>
+</div>
+
+<div class="mt-5" *ngIf="trade?.type===2">
+    <div class="row mt-3 text-center" *ngIf="!viewDeck">
+        <div class="col-6" style="border-right: solid #8a8989 1px">
+            <h5>OFFERTA</h5>
+            <div class="row mt-4 d-flex justify-content-center">
+                <button class="col-5 m-2 btn btn-bg rounded grigino" style="margin-right: 5px" (click)="doViewDeck(trade!.offerta['deckId'])">{{trade!.offerta['deckName']}}</button>
+            </div>
+        </div>
+
+        <div class="col-6" style="border-left: solid #8a8989 1px">
+            <h5>RICHIESTA</h5>
+            <div class="row mt-4 d-flex justify-content-center">
+                <button class="col-5 m-2 btn btn-bg rounded grigino" style="margin-right: 5px" (click)="doViewDeck(trade!.richiesta['deckId'])">{{trade!.richiesta['deckName']}}</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row d-flex justify-content-around mt-5" *ngIf="!viewDeck">
+        <button class="col-5 m-2 btn btn-bg rounded grigino" style="margin-right: 5px" (click)="rifiuta()">RIFIUTA TRADE</button>
+        <button class="col-5 m-2 btn btn-bg rounded grigino" style="margin-right: 5px" (click)="accetta()">ACCETTA TRADE</button>
+    </div>
+
+    <div class="mt-5" *ngIf="viewDeck">
+        <div class="row d-flex justify-content-around">
+            <button type="button" class="col-2 btn btn-lg rounded-pill grigino" (click)="doViewDeck(selectDeck!.id)">TORNA AL TRADE</button>
+        </div>
+        <show-deck [deck]="selectDeck"></show-deck>
     </div>
 </div>
