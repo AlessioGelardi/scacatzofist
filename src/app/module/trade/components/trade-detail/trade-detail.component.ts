@@ -84,7 +84,6 @@ export class TradeDetailComponent {
   }
 
   doViewDeck(id:string) {
-    
     if(this.viewDeck) {
       this.viewDeck = false;
       this.selectDeck = undefined;
@@ -97,6 +96,19 @@ export class TradeDetailComponent {
         }
       });
     }
+  }
+
+  alignDeck() {
+    this.deckStateService.alignDecks(this.player?._id!).then((resp) => {
+      if(resp === true) {
+        this.messageService.alert('Fatto!','I deck sono stati allineati!','success');
+        this.deckStateService.resetDeck();
+        this.deckStateService.resetPlayerDecks();
+        this.router.navigate(['/trade']);
+      } else {
+        this.messageService.alert('Errore',"Errore durante l'allineamento dei deck",'error');
+      }
+    });
   }
 
   private update(status:number) {

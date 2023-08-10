@@ -14,6 +14,7 @@ export class DeckService {
   apiUrlDeck: string = environment.baseUrlDeck + "deck";
   apiUrlAddDeck: string = environment.baseUrlDeck + "addDeck";
   apiUrlSaveNameDeck: string= environment.baseUrlDeck + "savedeck";
+  apiUrlAlignDecks: string = environment.baseUrlDeck + "alignDecks";
 
   constructor(private http: HttpClient) { }
 
@@ -43,6 +44,10 @@ export class DeckService {
 
   deleteDeck(idDeck?: string): Observable<boolean>{
     return this.http.delete<boolean>(this.apiUrlDeck+'?id='+idDeck);
+  }
+
+  alignDecks(id:string) {
+    return this.http.get<boolean>(this.apiUrlAlignDecks+'?id='+id);
   }
 
   private generateOptions() {

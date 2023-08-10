@@ -53,6 +53,11 @@ export class DeckComponent implements OnInit {
           class: "fa fa-plus"
         },
         {
+          name: "ALIGN-BUTTON",
+          code: "ALIGN",
+          class: "fa fa-retweet"
+        },
+        {
           name: "EDIT-BUTTON",
           code: "EDIT",
           class: "fa fa-pencil"
@@ -95,6 +100,9 @@ export class DeckComponent implements OnInit {
             this.newDeck = true;
             this.newDeckName = "NuovoDeck";
           }
+          break;
+        case 'ALIGN':
+          this.alignDecks();
           break;
         case 'EDIT':
           this.modifyDeck = !this.modifyDeck;
@@ -197,6 +205,20 @@ export class DeckComponent implements OnInit {
         }
       })
     }
+  }
+
+  private alignDecks() {
+    this.deckStateService.alignDecks(this.playerId!).then((resp) => {
+      if(resp === true) {
+        this.messageService.alert('Fatto!','I deck sono stati allineati!','success');
+        this.deckStateService.resetDeck();
+        this.deckStateService.resetPlayerDecks();
+        this.takeDecks();
+        this.router.navigate(['/trade']);
+      } else {
+        this.messageService.alert('Errore',"Errore durante l'allineamento dei deck",'error');
+      }
+    });
   }
 
   private takeDecks() {

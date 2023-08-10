@@ -51,6 +51,7 @@
     <div class="row d-flex justify-content-around mt-5">
         <button class="col-5 m-2 btn btn-bg rounded grigino" style="margin-right: 5px" (click)="rifiuta()">RIFIUTA TRADE</button>
         <button class="col-5 m-2 btn btn-bg rounded grigino" style="margin-right: 5px" (click)="accetta()">ACCETTA TRADE</button>
+        <button *ngIf="trade!.type===2 && trade!.status===2"class="col-5 m-2 btn btn-bg rounded grigino" style="margin-right: 5px" (click)="alignDeck()">ACCETTA TRADE</button>
     </div>
 </div>
 

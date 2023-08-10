@@ -168,4 +168,19 @@ export class StateDeckService {
 
     return response;
   }
+
+  async alignDecks(id:string) {
+    this.spinnerService.show();
+    let response;
+
+    try {
+      response = await firstValueFrom(this.deckService.alignDecks(id));
+      this.spinnerService.hide();
+    } catch (error: any) {
+      response = error;
+      this.spinnerService.hide();
+    }
+
+    return response
+  }
 }
