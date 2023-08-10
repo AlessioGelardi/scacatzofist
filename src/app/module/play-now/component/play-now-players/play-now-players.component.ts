@@ -5,8 +5,9 @@ import { StatePlayerService } from 'src/app/module/player/services/state/state-p
 import { MessageService } from 'src/app/module/swalAlert/message.service';
 import Swal from 'sweetalert2';
 import { TypeMod } from '../../enum/typeMod';
-import { Card } from 'src/app/module/interface/card';
+import { Card, Deck } from 'src/app/module/interface/card';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { StateDeckService } from 'src/app/module/deck/services/state/state-deck.service';
 
 @Component({
   selector: 'play-now-players',
@@ -33,10 +34,19 @@ export class PlayNowPlayersComponent {
   myPlate: Card[] = [];
   oppoPlate: Card[] = [];
 
+  myDecks:Deck[] = [];
+  oppoDecks:Deck[] = [];
+
   dragging:boolean = false;
+
+  viewFilterZaino: boolean = false;
+  viewFilterOppo: boolean = false;
+  searchFilterZaino:any | undefined;
+  searchFilterOppo:any | undefined;
 
   constructor(private messageService: MessageService,
     private notifierStateService: StateNotifierService,
+    private deckStateService: StateDeckService,
     private playerStateService: StatePlayerService) {
 
   }
@@ -121,8 +131,8 @@ export class PlayNowPlayersComponent {
     this.oppoPlayerId = oppoPlayerId;
     this.oppoPlayerName = playerName;
 
-    this.takeZaino(this.oppoPlayerId);
-    this.takeZaino(this.playerId);
+    this.takeDecksByIdPlayer(this.oppoPlayerId); 
+    this.takeDecksByIdPlayer(this.playerId);
   }
 
   showCard(card:Card) {
@@ -154,6 +164,26 @@ export class PlayNowPlayersComponent {
     }
   }
 
+  doFilterZaino() {
+    this.viewFilterZaino = !this.viewFilterZaino;
+  }
+
+  doFilterOppo() {
+    this.viewFilterOppo = !this.viewFilterOppo;
+  }
+
+  retrieveCardsMyZaino(searchFilter: any) {
+    if(searchFilter) {
+      this.searchFilterZaino = searchFilter;
+    }
+  }
+
+  retrieveCardsOppo(searchFilter: any) {
+    if(searchFilter) {
+      this.searchFilterOppo = searchFilter;
+    }
+  }
+
   private takeAllPlayers(id:string) {
     
     this.playerStateService.getAllPlayers(id).then((resp) => {
@@ -176,7 +206,21 @@ export class PlayNowPlayersComponent {
     if(this.playerId === playerId) {
       this.playerStateService.getZaino(playerId).then((resp) => {
         if(resp) {
-          this.myZaino=resp
+          this.myZaino=[]
+          for (const card of resp) {
+            let checkId = card.id
+            let inUse = false;
+    
+            for(const deck of this.myDecks) {
+              if (deck.main.concat(deck.extra, deck.side).some(obj => obj.id === checkId)) {
+                inUse = true;
+              }
+            }
+    
+            if(!inUse) {
+              this.myZaino.push(card)
+            }
+          }
         } else {
           //TO-DO gestione degli errori
           /*
@@ -191,7 +235,21 @@ export class PlayNowPlayersComponent {
     } else {
       this.playerStateService.getZainoNoCache(playerId).then((resp) => {
         if(resp) {
-          this.oppoZaino=resp
+          this.oppoZaino=[]
+          for (const card of resp) {
+            let checkId = card.id
+            let inUse = false;
+    
+            for(const deck of this.oppoDecks) {
+              if (deck.main.concat(deck.extra, deck.side).some(obj => obj.id === checkId)) {
+                inUse = true;
+              }
+            }
+    
+            if(!inUse) {
+              this.oppoZaino.push(card)
+            }
+          }
         } else {
           //TO-DO gestione degli errori
           /*
@@ -204,7 +262,36 @@ export class PlayNowPlayersComponent {
         }
       });
     }
+  }
 
+  private takeDecksByIdPlayer(playerId:string) {
+    let decks:any = {}
+    this.deckStateService.resetPlayerDecks();
+    this.deckStateService.getDecks(playerId).then((resp) => {
+      decks = resp!;
+
+      for(let x of decks) {
+        this.takeDeck(x["id"],playerId)
+      }
+      this.takeZaino(playerId);
+    });
+  }
+
+  private takeDeck(deckId:string,playerId:string) {
+    this.deckStateService.resetDeck();
+    if(this.playerId === playerId) {
+      this.deckStateService.getDeck(deckId).then((resp) => {
+        if(resp) {
+          this.myDecks.push(resp);
+        }
+      });
+    } else {
+      this.deckStateService.getDeck(deckId).then((resp) => {
+        if(resp) {
+          this.oppoDecks.push(resp);
+        }
+      });
+    }
   }
 
 }

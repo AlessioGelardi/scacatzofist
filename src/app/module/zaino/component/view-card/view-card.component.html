@@ -13,8 +13,12 @@
                 <h4 class="text-uppercase">{{card?.name}}</h4>
                 <label class="text-justify">{{card?.description}}</label>
             </div>
-            <div class="d-flex justify-content-around" style="margin-top: 100px;">
+            <div class="d-flex justify-content-around" style="margin-top: 100px;" *ngIf="card.level>0">
                 <label>Livello: <strong>{{card?.level}}</strong></label>
+                <label>Attributo: <strong>{{Attributi[card!.attribute]}}</strong></label>
+                <label>Razza: <strong>{{Razze[card!.race]}}</strong></label>
+            </div>
+            <div class="d-flex justify-content-around" style="margin-top: 20px;" *ngIf="card.level>0">
                 <label>ATK: <strong>{{card?.atk}}</strong></label>
                 <label>DEF: <strong>{{card?.def}}</strong></label>
             </div>

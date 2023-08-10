@@ -6,7 +6,8 @@ import { MessageService } from 'src/app/module/swalAlert/message.service';
 import { StateTradeService } from '../../services/state/state-trade.service';
 import { Player } from 'src/app/module/interface/player';
 import { Trade } from 'src/app/module/interface/trade';
-import { Card } from 'src/app/module/interface/card';
+import { Card, Deck } from 'src/app/module/interface/card';
+import { StateDeckService } from 'src/app/module/deck/services/state/state-deck.service';
 
 @Component({
   selector: 'app-trade-detail',
@@ -20,9 +21,13 @@ export class TradeDetailComponent {
   player:Player | undefined;
   trade: Trade | undefined;
 
+  viewDeck: boolean = false;
+  selectDeck: Deck | undefined;
+
   constructor(private route: ActivatedRoute,
     private router: Router,
     private messageService: MessageService,
+    private deckStateService: StateDeckService,
     private playerStateService: StatePlayerService,
     private tradeStateService: StateTradeService) {
 
@@ -76,6 +81,34 @@ export class TradeDetailComponent {
 
   rifiuta() {
     this.update(3);
+  }
+
+  doViewDeck(id:string) {
+    if(this.viewDeck) {
+      this.viewDeck = false;
+      this.selectDeck = undefined;
+    } else {
+      this.viewDeck = true;
+      this.deckStateService.getDeck(id).then((resp) => {
+        if(resp) {
+          this.selectDeck = resp;
+          this.deckStateService.resetDeck();
+        }
+      });
+    }
+  }
+
+  alignDeck() {
+    this.deckStateService.alignDecks(this.player?._id!).then((resp) => {
+      if(resp === true) {
+        this.messageService.alert('Fatto!','I deck sono stati allineati!','success');
+        this.deckStateService.resetDeck();
+        this.deckStateService.resetPlayerDecks();
+        this.router.navigate(['/trade']);
+      } else {
+        this.messageService.alert('Errore',"Errore durante l'allineamento dei deck",'error');
+      }
+    });
   }
 
   private update(status:number) {

@@ -12,6 +12,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PlayNowTorneoComponent } from './component/play-now-torneo/play-now-torneo.component';
 import { PlayNowDetailTorneoComponent } from './component/play-now-torneo/play-now-detail-torneo/play-now-detail-torneo.component';
+import { ZainoModule } from '../zaino/zaino.module';
 
 
 
@@ -32,7 +33,8 @@ import { PlayNowDetailTorneoComponent } from './component/play-now-torneo/play-n
     DragDropModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    PlayerModule
+    PlayerModule,
+    ZainoModule
   ]
 })
 export class PlayNowModule { }

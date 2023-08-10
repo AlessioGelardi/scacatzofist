@@ -45,11 +45,17 @@
                     <button type="button" class="btn btn-outline-dark btn-sm" (click)="showDetail(trade)"><i class="fa fa-eye"></i></button>&nbsp;
                     <button *ngIf="trade.playerIdReq===player?._id" type="button" class="btn btn-outline-dark btn-sm" (click)="deleteTrade(trade._id!)"><i class="fa fa-trash"></i></button>
                 </td>
-                <td>
+                <td *ngIf="trade?.type===1">
                     {{trade.richiesta["coin"]}} <i class="fa fa fa-database"></i> &nbsp; {{trade.richiesta["credits"]}} <i class="fa fa fa-diamond"></i> &nbsp; {{trade.richiesta["cards"]?.length}} <i class="fa fa-square"></i>
                 </td>
-                <td>
+                <td *ngIf="trade?.type===1">
                     {{trade.offerta["coin"]}}<i class="fa fa fa-database"></i> &nbsp; {{trade.offerta["credits"]}} <i class="fa fa fa-diamond"></i> &nbsp; {{trade.offerta["cards"]?.length}} <i class="fa fa-square"></i>
+                </td>
+                <td *ngIf="trade?.type===2">
+                    {{trade.offerta['deckName']}}
+                </td>
+                <td *ngIf="trade?.type===2">
+                    {{trade.richiesta['deckName']}}
                 </td>
                 <td>{{trade.playerNameReq}}</td>
             </tr>

@@ -61,8 +61,12 @@ export class TradeComponent {
           this.router.navigate(['/trade-new',{id:this.player?._id!}]);
           break;
         case 'REQUEST':
-          this.showPrivateTrade=true;
-          this.takePrivateTrade(this.player?._id!);
+          if(this.showPrivateTrade) {
+            this.showPrivateTrade = false;
+          } else {
+            this.showPrivateTrade=true;
+            this.takePrivateTrade(this.player?._id!);
+          }
           break;
       }
     }

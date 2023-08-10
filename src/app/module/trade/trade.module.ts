@@ -10,6 +10,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TradeDetailComponent } from './components/trade-detail/trade-detail.component';
 import { ZainoModule } from '../zaino/zaino.module';
+import { TradeNewDeckComponent } from './components/trade-new/trade-new-deck/trade-new-deck.component';
+import { TradeNewCardComponent } from './components/trade-new/trade-new-card/trade-new-card.component';
 
 
 
@@ -18,7 +20,9 @@ import { ZainoModule } from '../zaino/zaino.module';
     TradeComponent,
     TradeButtonsComponent,
     TradeNewComponent,
-    TradeDetailComponent
+    TradeDetailComponent,
+    TradeNewDeckComponent,
+    TradeNewCardComponent
   ],
   imports: [
     CommonModule,

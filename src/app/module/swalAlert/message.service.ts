@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Card, SellPack } from 'src/app/module/interface/card';
 import Swal, { SweetAlertIcon } from 'sweetalert2';
+import { Attributi } from '../zaino/enum/attribute';
+import { Razze } from '../zaino/enum/races';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +24,7 @@ export class MessageService {
       title: card.name,
       color: '#3e3d3c',
       background: '#cdcccc',
-      html: '<label style="font-size:14px">'+card.description+'</label>',
+      html: '<p>Livello: <strong>'+card.level+'</strong> Attributo: <strong>'+Attributi[card.attribute]+'</strong> Razza: <strong>'+Razze[card.race]+'</strong></p><p>'+card.description+'</p><p>ATK: <strong>'+card.atk+'</strong> DEF: <strong>'+card.def+'</strong></p>',
       imageUrl: 'https://images.ygoprodeck.com/images/cards/'+card.id+'.jpg',
       imageWidth: 160
     })

@@ -116,6 +116,7 @@ export class MarketComponent implements OnInit {
               if(resp) {
                 this.player!.coin = this.player!.coin! - Number(sellCard.prezzo);
                 this.messageService.alert('Fatto!','Carta acquistata!','success');
+                this.playerStateService.resetZaino();
                 this.takeMarketPlace();
               } else {
                 this.messageService.alert('Errore','Qualcosa è andato storto durante acquisto della carta','error');

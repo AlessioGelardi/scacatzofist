@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Card } from 'src/app/module/interface/card';
+import { Attributi } from '../../enum/attribute';
+import { Razze } from '../../enum/races';
 
 @Component({
   selector: 'view-card',
@@ -16,6 +18,14 @@ export class ViewCardComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  public get Attributi() {
+    return Attributi; 
+  }
+
+  public get Razze() {
+    return Razze; 
   }
 
   checkExist(card:Card) {
