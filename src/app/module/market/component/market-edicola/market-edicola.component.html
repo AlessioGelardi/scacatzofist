@@ -27,6 +27,16 @@
     </div>
     <div class="row mt-5" *ngIf="!viewPack">
         <div class="col-12 d-flex justify-content-center">
+            <label>Acquista il pack solo mostri per razza</label>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div *ngIf="!viewPack" class="d-flex justify-content-around mt-3">
+            <button type="button" class="col-3 btn btn-lg rounded-pill grigino" (click)="setTypePack(6)">MOSTRI RAZZA</button>
+        </div>
+    </div>
+    <div class="row mt-5" *ngIf="!viewPack">
+        <div class="col-12 d-flex justify-content-center">
             <label>Acquista il deck che preferisci</label>
         </div>
     </div>

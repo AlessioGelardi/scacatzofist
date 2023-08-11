@@ -15,11 +15,16 @@ export class VetrinaComponent implements OnInit {
   selectPack: any | undefined;
 
   dailyPack: boolean = false;
+  showOnlyTaglia = false;
   isDeck: boolean = false;
 
   constructor() { }
 
   ngOnInit(): void {
+
+    if(this.packs[0].dailyPack || this.packs[0].race) {
+      this.showOnlyTaglia = true;
+    }
     
     if(this.packs[0].dailyPack) {
       this.dailyPack = true;
@@ -38,11 +43,11 @@ export class VetrinaComponent implements OnInit {
     this.selectPack = pack;
   }
 
-  acquista(name:string, taglia:number, baseCost:number, type:number, monster:boolean, level:number, src:string) {
+  acquista(name:string, taglia:number, baseCost:number, type:number, monster:boolean, level:number, race:number,src:string) {
     if(this.dailyPack) {
       this.confirmBuyEmitter.emit({"name":name,"dailyPack":true, "src":src});
     } else {
-      this.confirmBuyEmitter.emit({"name":name,"taglia":taglia,"baseCost":baseCost, "typePack":type, "monster":monster, "level":level, "src":src});
+      this.confirmBuyEmitter.emit({"name":name,"taglia":taglia,"baseCost":baseCost, "typePack":type, "monster":monster, "level":level, "race":race,"src":src});
     }
   }
 

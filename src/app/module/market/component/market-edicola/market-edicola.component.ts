@@ -552,6 +552,193 @@ export class MarketEdicolaComponent implements OnInit {
           "deck": true
         }]
         break;
+      case 6:
+        this.packs = [{
+          "name": "GUERRIERO",
+          "baseCost": 70,
+          "level": [],
+          "type": [],
+          "race": 1,
+          "src": "assets/pack/razza/guerriero.png",
+          "monster": true
+        },{
+          "name": "INCANTATORE",
+          "baseCost": 70,
+          "level": [],
+          "type": [],
+          "race": 2,
+          "src": "assets/pack/razza/incantatore.png",
+          "monster": true
+        },{
+          "name": "FATA",
+          "baseCost": 70,
+          "level": [],
+          "type": [],
+          "race": 4,
+          "src": "assets/pack/razza/fata.png",
+          "monster": true
+        },{
+          "name": "DEMONE",
+          "baseCost": 70,
+          "level": [],
+          "type": [],
+          "race": 8,
+          "src": "assets/pack/razza/demone.png",
+          "monster": true
+        },{
+          "name": "ZOMBIE",
+          "baseCost": 70,
+          "level": [],
+          "type": [],
+          "race": 16,
+          "src": "assets/pack/razza/zombie.png",
+          "monster": true
+        },{
+          "name": "MACCHINA",
+          "baseCost": 70,
+          "level": [],
+          "type": [],
+          "race": 32,
+          "src": "assets/pack/razza/macchina.png",
+          "monster": true
+        },{
+          "name": "ACQUA",
+          "baseCost": 70,
+          "level": [],
+          "type": [],
+          "race": 64,
+          "src": "assets/pack/razza/acqua.png",
+          "monster": true
+        },{
+          "name": "PYRO",
+          "baseCost": 70,
+          "level": [],
+          "type": [],
+          "race": 128,
+          "src": "assets/pack/razza/pyro.png",
+          "monster": true
+        },{
+          "name": "ROCCIA",
+          "baseCost": 70,
+          "level": [],
+          "type": [],
+          "race": 256,
+          "src": "assets/pack/razza/roccia.png",
+          "monster": true
+        },{
+          "name": "BESTIA_ALATA",
+          "baseCost": 70,
+          "level": [],
+          "type": [],
+          "race": 512,
+          "src": "assets/pack/razza/bestia_alata.png",
+          "monster": true
+        },{
+          "name": "PIANTA",
+          "baseCost": 70,
+          "level": [],
+          "type": [],
+          "race": 1024,
+          "src": "assets/pack/razza/pianta.png",
+          "monster": true
+        },{
+          "name": "INSETTO",
+          "baseCost": 70,
+          "level": [],
+          "type": [],
+          "race": 2048,
+          "src": "assets/pack/razza/insetto.png",
+          "monster": true
+        },{
+          "name": "TUONO",
+          "baseCost": 70,
+          "level": [],
+          "type": [],
+          "race": 4096,
+          "src": "assets/pack/razza/tuono.png",
+          "monster": true
+        },{
+          "name": "DRAGO",
+          "baseCost": 70,
+          "level": [],
+          "type": [],
+          "race": 8192,
+          "src": "assets/pack/razza/drago.png",
+          "monster": true
+        },{
+          "name": "BESTIA",
+          "baseCost": 70,
+          "level": [],
+          "type": [],
+          "race": 16384,
+          "src": "assets/pack/razza/bestia.png",
+          "monster": true
+        },{
+          "name": "GUERRIERO_BESTIA",
+          "baseCost": 70,
+          "level": [],
+          "type": [],
+          "race": 32768,
+          "src": "assets/pack/razza/guerriero_bestia.png",
+          "monster": true
+        },{
+          "name": "DINOSAURO",
+          "baseCost": 70,
+          "level": [],
+          "type": [],
+          "race": 65536,
+          "src": "assets/pack/razza/dinosauro.png",
+          "monster": true
+        },{
+          "name": "SERPENTE_MARINO",
+          "baseCost": 70,
+          "level": [],
+          "type": [],
+          "race": 131072,
+          "src": "assets/pack/razza/serpente_marino.png",
+          "monster": true
+        },{
+          "name": "PESCE",
+          "baseCost": 70,
+          "level": [],
+          "type": [],
+          "race": 262144,
+          "src": "assets/pack/razza/pesce.png",
+          "monster": true
+        },{
+          "name": "RETTILE",
+          "baseCost": 70,
+          "level": [],
+          "type": [],
+          "race": 524288,
+          "src": "assets/pack/razza/rettile.png",
+          "monster": true
+        },{
+          "name": "PSICHICO",
+          "baseCost": 70,
+          "level": [],
+          "type": [],
+          "race": 1048576,
+          "src": "assets/pack/razza/psichico.png",
+          "monster": true
+        },{
+          "name": "WYRM",
+          "baseCost": 70,
+          "level": [],
+          "type": [],
+          "race": 8388608,
+          "src": "assets/pack/razza/wyrm.png",
+          "monster": true
+        },{
+          "name": "CYBERSE",
+          "baseCost": 70,
+          "level": [],
+          "type": [],
+          "race": 16777216,
+          "src": "assets/pack/razza/cyberse.png",
+          "monster": true
+        }];
+        break;
     }
   }
 
@@ -561,6 +748,7 @@ export class MarketEdicolaComponent implements OnInit {
     let baseCost = objectAcquista.baseCost;
     let typePack = objectAcquista.typePack;
     let level = objectAcquista.level;
+    let race = objectAcquista.race;
     let monster = objectAcquista.monster;
     let dailyPack = objectAcquista.dailyPack;
     this.buyPackSrc = objectAcquista.src;
@@ -689,6 +877,7 @@ export class MarketEdicolaComponent implements OnInit {
               request.type = typePack;
               request.level = level;
               request.taglia = taglia;
+              request.race = race;
               request.quantity = result.value;
               request.prezzo = prezzo;
               request.playerId = this.player!._id!;
