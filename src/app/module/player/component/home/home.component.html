@@ -26,3 +26,8 @@
         </div>
     </div>
 </div>
+
+<h3>Utenti online</h3>
+<div *ngFor="let user of users | keyvalue">
+    <p>{{user.value}}</p>
+</div>

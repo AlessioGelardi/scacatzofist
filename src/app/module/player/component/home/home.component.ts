@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Player } from 'src/app/module/interface/player';
 import { MessageService } from 'src/app/module/swalAlert/message.service';
 import { StatePlayerService } from '../../services/state/state-player.service';
+import { Socket } from 'ngx-socket-io';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'player-home',
@@ -16,11 +18,18 @@ export class HomeComponent implements OnInit {
 
   bonus:boolean = false;
 
+  users: any;
+
   constructor(private route: ActivatedRoute,
     private playerStateService: StatePlayerService,
     private messageService: MessageService,
-    private router: Router) {
+    private router: Router,
+    private socket: Socket) {
 
+  }
+
+  getUsersCall() {
+    return this.socket.fromEvent('current_users').pipe(map((data: any) => data))
   }
 
   ngOnInit(): void {
@@ -33,6 +42,10 @@ export class HomeComponent implements OnInit {
     if(oggi.getDay() === 6 || oggi.getDay() === 0) {
       this.bonus = true;
     }
+
+    this.getUsersCall().subscribe(users => {
+      this.users = users;
+    })
   }
 
   modificaDeck() {
@@ -59,6 +72,7 @@ export class HomeComponent implements OnInit {
     this.playerStateService.getPlayer(playerId).then((resp) => {
       if(resp) {
         this.player = resp;
+
       } else {
         //TO-DO gestione degli errori
         /*
