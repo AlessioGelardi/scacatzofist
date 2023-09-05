@@ -145,6 +145,7 @@ export class PlayNowTrainingComponent implements OnInit {
     if(minutes>10 || hours>=1 || days>=1) {
       let request: any = {};
       request.playerIdReq = this.playerId!;
+      request.playerName = this.player?.name!;
       request.typeMod = TypeMod.TRAINING;
       request.status = 1;
       request.playerName = this.player?.name;
