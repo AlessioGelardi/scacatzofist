@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  baseUrlLogin: 'http://localhost:5001/login/',
+  baseUrlLogin: 'http://127.0.0.1:5000/login/',
   baseUrlPlayer: 'http://localhost:5001/player/',
   baseUrlDeck: 'http://localhost:5001/deck/',
   baseUrlMarket: 'http://localhost:5001/market/',
