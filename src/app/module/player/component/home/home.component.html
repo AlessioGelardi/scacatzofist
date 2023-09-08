@@ -31,23 +31,3 @@
 <div *ngFor="let user of users | keyvalue">
     <p>{{user.value}}</p>
 </div>
-
-<h4>Chat</h4>
-
-<div>
-    <form [formGroup]="chatForm" (ngSubmit)="pushMessage()">
-        <div class="mt-3">
-            <input #message id="message" formControlName="message" type="text" name="message" class="form-control" value="" placeholder="message" required>
-            
-        </div>
-        <div class="mt-3">
-            <button type="submit" name="button" class="btn login_btn">Invia</button>
-        </div>
-    </form>
-</div>
-
-<div *ngIf="chat">
-    <div *ngFor="let message of chat">
-        <label><strong>{{message['name']}}:</strong>&nbsp;&nbsp;{{message['txt']}}</label>
-    </div>
-</div>

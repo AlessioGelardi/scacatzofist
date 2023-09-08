@@ -9,7 +9,7 @@ import { FortuneWheelComponent } from './component/fortune-wheel/fortune-wheel.c
 import { ZainoModule } from '../zaino/zaino.module';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 
-const config: SocketIoConfig = { url: 'https://websocketio.onrender.com', options: {} };
+const config: SocketIoConfig = { url: 'https://websocketio.onrender.com', options: { transports: ['websocket']} };
 
 @NgModule({
   declarations: [
