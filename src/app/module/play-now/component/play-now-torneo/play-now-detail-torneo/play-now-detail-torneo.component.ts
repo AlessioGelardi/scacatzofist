@@ -127,6 +127,7 @@ export class PlayNowDetailTorneoComponent {
 
       let request: any = {};
       request.tournamentId = this.tournament?.id;
+      request.playerName = this.player?.name!;
       request.typeMod = TypeMod.TORNEO;
       request.podio = this.tournament?.podio;
 
@@ -152,12 +153,12 @@ export class PlayNowDetailTorneoComponent {
 
   concludi() {
     let request: any = {}
-    request.status = Status.TORNEO_COMPLETATO;
+    request.status = Status.COMPLETATO;
     request.id = this.tournament?.id;
     this.notifierStateService.updateTournaments(request).then((resp) => {
       if(resp == true) {
 
-        this.tournament!.status = Status.TORNEO_COMPLETATO;
+        this.tournament!.status = Status.COMPLETATO;
 
         this.notifierStateService.resetTournaments();
         this.playerStateService.resetPlayerState();

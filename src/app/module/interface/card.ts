@@ -59,4 +59,5 @@ export interface SellPack {
     isDeck: boolean;
     deckId?: string;
     monster:boolean;
+    attribute?: number;
 }

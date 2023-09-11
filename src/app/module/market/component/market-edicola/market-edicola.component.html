@@ -27,6 +27,25 @@
     </div>
     <div class="row mt-5" *ngIf="!viewPack">
         <div class="col-12 d-flex justify-content-center">
+            <label>Acquista il pack solo mostri per attributo</label>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div *ngIf="!viewPack" class="d-flex justify-content-around mt-3">
+            <button type="button" class="col-3 btn btn-lg rounded-pill grigino" (click)="setTypePack(7)">ACQUA</button>
+            <button type="button" class="col-3 btn btn-lg rounded-pill grigino" (click)="setTypePack(8)">FUOCO</button>
+            <button type="button" class="col-3 btn btn-lg rounded-pill grigino" (click)="setTypePack(9)">LUCE</button>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div *ngIf="!viewPack" class="d-flex justify-content-around mt-3">
+            <button type="button" class="col-3 btn btn-lg rounded-pill grigino" (click)="setTypePack(10)">OSCURITA</button>
+            <button type="button" class="col-3 btn btn-lg rounded-pill grigino" (click)="setTypePack(11)">TERRA</button>
+            <button type="button" class="col-3 btn btn-lg rounded-pill grigino" (click)="setTypePack(12)">VENTO</button>
+        </div>
+    </div>
+    <div class="row mt-5" *ngIf="!viewPack">
+        <div class="col-12 d-flex justify-content-center">
             <label>Acquista il pack solo mostri per razza</label>
         </div>
     </div>

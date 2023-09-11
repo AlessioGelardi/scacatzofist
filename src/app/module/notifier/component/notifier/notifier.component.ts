@@ -9,6 +9,7 @@ import { MessageService } from 'src/app/module/swalAlert/message.service';
 import { StatePlayerService } from 'src/app/module/player/services/state/state-player.service';
 import { Button } from 'src/app/module/interface/button';
 import { Card } from 'src/app/module/interface/card';
+import { Player } from 'src/app/module/interface/player';
 
 @Component({
   selector: 'app-notifier',
@@ -16,6 +17,8 @@ import { Card } from 'src/app/module/interface/card';
   styleUrls: ['../../styles/notifier.css','./notifier.component.css']
 })
 export class NotifierComponent implements OnInit {
+
+  player:Player | undefined;
 
   buttons: Button[] = [];
 
@@ -66,6 +69,7 @@ export class NotifierComponent implements OnInit {
     this.typeMode = Number(this.route.snapshot.paramMap.get('typeMode')!);
     this.playerRole = Number(this.route.snapshot.paramMap.get('playerRole')!);
 
+    this.takePlayer(this.playerId);
     this.takeReqs(false);
   }
 
@@ -191,13 +195,10 @@ export class NotifierComponent implements OnInit {
         '<label>'+richiedente+'<strong> VS </strong>'+ricevente+' <br><br>'+
         'Vincita: <strong>'+vincita.coin+' <i class="fa fa fa-database"></i> '+vincita.credits+' <i class="fa fa fa-diamond"></i></strong><br><br>'+
         'Sconfitta: <strong>'+perdita.coin+' <i class="fa fa fa-database"></i> '+perdita.credits+' <i class="fa fa fa-diamond"></i></strong><br><br>'+nota,
-        showDenyButton: true,
+        showDenyButton: false,
         confirmButtonColor: '#46a9c9',
-        denyButtonColor: '#46a9c9',
         confirmButtonText:
-          richiedente,
-        denyButtonText:
-          ricevente
+          'OTTIENI RICOMPENSA',
       }).then((result) => {
         let playerIdvincitore = "";
         let playerIdperdente = "";
@@ -224,6 +225,7 @@ export class NotifierComponent implements OnInit {
           request.perdente = perdente;
           request.status = Status.COMPLETATO;
           request.role = this.playerRole;
+          request.typeMod = typeMod;
           this.notifierStateService.updateRequest(request).then((resp) => {
             if(resp === true) {
               //this.notifierStateService.resetState();
@@ -235,7 +237,7 @@ export class NotifierComponent implements OnInit {
               if(resp) {
                 const statusError = resp.status;
                 if(statusError === 404) {
-                  this.messageService.alert('Attenzione!','Non fare il furbo seleziona correttamente il vincitore... piccolo delinquente!','error');
+                  this.messageService.alert('Attenzione!','Completa la tua partita prima di ottenere la ricompensa!','error');
                 } else {
                   this.messageService.alert('Attenzione!',"Problema durante l'aggiornamento della richiesta",'error');
                 }
@@ -303,6 +305,23 @@ export class NotifierComponent implements OnInit {
         this.messageService.alert('Attenzione!','Errore durante la chiamata getReqs','error');
       }
     });
-  } 
+  }
+
+  private takePlayer(playerId: string) {
+    this.playerStateService.getPlayer(playerId).then((resp) => {
+      if(resp) {
+        this.player = resp;
+      } else {
+        //TO-DO gestione degli errori
+        /*
+        if(resp.status===402) {
+          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+        }
+        */
+
+        this.messageService.alert('Attenzione!','Errore durante la chiamata getPlayer','error');
+      }
+    });
+  }
 
 }

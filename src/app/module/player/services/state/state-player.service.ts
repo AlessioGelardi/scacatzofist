@@ -4,6 +4,7 @@ import { firstValueFrom } from 'rxjs';
 import { Card, Pack } from 'src/app/module/interface/card';
 import { Player } from 'src/app/module/interface/player';
 import { PlayerService } from '../httpservices/player.service';
+import { Socket } from 'ngx-socket-io';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,8 @@ export class StatePlayerService {
   private bonus: boolean = false;
 
   constructor(private spinnerService: NgxSpinnerService,
-    private playerService: PlayerService) {
+    private playerService: PlayerService,
+    private socket: Socket) {
 
   }
 
@@ -63,6 +65,8 @@ export class StatePlayerService {
     } else {
       this.spinnerService.hide();
     }
+
+    this.socket.emit('sign_in', this.player!.name);
 
     return this.player;
   }

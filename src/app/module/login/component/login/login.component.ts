@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { LoginService } from '../../httpservices/login.service';
 import { MessageService } from 'src/app/module/swalAlert/message.service';
 import { StatePlayerService } from 'src/app/module/player/services/state/state-player.service';
+import { Socket } from 'ngx-socket-io';
 
 @Component({
   selector: 'app-login',
@@ -26,8 +27,17 @@ export class LoginComponent implements OnInit {
     private loginService: LoginService,
     private spinnerService: NgxSpinnerService,
     private playerStateService: StatePlayerService,
-    private messageService: MessageService) { }
+    private messageService: MessageService,
+    private socket: Socket) {
+      //this.socket.on('user_offline', () => this.updateUserStatus('offline'));
+  }
 
+  updateUserStatus(status: string): void {
+    alert(status)
+    // Assuming you have a user object with a name property
+    //this.users.push({ name: 'User Name', status: status });
+  }
+  
   ngOnInit(): void {
     this.playerStateService.resetState();
   }
@@ -42,6 +52,9 @@ export class LoginComponent implements OnInit {
         this.loginService.login(user,password).subscribe({
           next: (result) => {
             if(result) {
+              const prova = user;
+              const isAuthenticated = true;
+              this.socket.emit('sign_in', prova);
               this.router.navigate(['/home',{id:result._id}]);
             }
           },

@@ -3,6 +3,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Player } from 'src/app/module/interface/player';
 import { MessageService } from 'src/app/module/swalAlert/message.service';
 import { StatePlayerService } from '../../services/state/state-player.service';
+import { Socket } from 'ngx-socket-io';
+import { map } from 'rxjs/operators';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+
+interface Message {
+  name?: string,
+  txt?: string
+}
 
 @Component({
   selector: 'player-home',
@@ -16,11 +24,27 @@ export class HomeComponent implements OnInit {
 
   bonus:boolean = false;
 
+  users: any;
+  chat: any[] = [];
+
+  chatForm = new FormGroup({
+    message: new FormControl('', Validators.required)
+  });
+
   constructor(private route: ActivatedRoute,
     private playerStateService: StatePlayerService,
     private messageService: MessageService,
-    private router: Router) {
+    private router: Router,
+    private socket: Socket) {
 
+  }
+
+  getUsersCall() {
+    return this.socket.fromEvent('current_users').pipe(map((data: any) => data))
+  }
+
+  getChatCall() {
+    return this.socket.fromEvent('chat_messages').pipe(map((data: any) => data))
   }
 
   ngOnInit(): void {
@@ -33,6 +57,16 @@ export class HomeComponent implements OnInit {
     if(oggi.getDay() === 6 || oggi.getDay() === 0) {
       this.bonus = true;
     }
+
+    this.getUsersCall().subscribe(users => {
+      this.users = users;
+    })
+
+    this.getChatCall().subscribe(messages => {
+      for(let item in messages) {
+        this.chat.push(messages[item])
+      }
+    })
   }
 
   modificaDeck() {
@@ -52,13 +86,27 @@ export class HomeComponent implements OnInit {
   }
 
   trade() {
-    this.router.navigate(['/trade',{id:this.player?._id}]);
+    this.messageService.alert('In progress...',"Questa funzionalità è ancora in sviluppo... Ci dispiace per l'inconveniente torna più tardi !!! ",'info');
+    //this.router.navigate(['/trade',{id:this.player?._id}]);
+  }
+
+  pushMessage() {
+    const message = this.chatForm.value.message!;
+    this.socket.emit('message', {name:this.player?.name!,txt:message});
+    this.chatForm.patchValue({
+      message: ''
+    });
+  }
+
+  isObject(value: any): boolean {
+    return typeof value === 'object' && value !== null;
   }
 
   private takePlayer(playerId: string) {
     this.playerStateService.getPlayer(playerId).then((resp) => {
       if(resp) {
         this.player = resp;
+
       } else {
         //TO-DO gestione degli errori
         /*

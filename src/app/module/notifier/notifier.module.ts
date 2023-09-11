@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NotifierComponent } from './component/notifier/notifier.component';
 import { NotifierButtonsComponent } from './component/notifier-buttons/notifier-buttons.component';
+import { PlayerModule } from '../player/player.module';
 
 
 
@@ -11,6 +12,7 @@ import { NotifierButtonsComponent } from './component/notifier-buttons/notifier-
     NotifierButtonsComponent
   ],
   imports: [
+    PlayerModule,
     CommonModule
   ]
 })

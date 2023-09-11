@@ -13,8 +13,10 @@ export class DeckService {
   apiUrlDeckById: string = environment.baseUrlDeck + "deckById";
   apiUrlDeck: string = environment.baseUrlDeck + "deck";
   apiUrlAddDeck: string = environment.baseUrlDeck + "addDeck";
-  apiUrlSaveNameDeck: string= environment.baseUrlDeck + "savedeck";
-  apiUrlAlignDecks: string = environment.baseUrlDeck + "alignDecks";
+  apiUrlSaveNameDeck: string= environment.baseUrlService + "savedeck";
+  apiUrlAlignDecks: string = environment.baseUrlService + "alignDecks";
+
+  apiUrlServiceDeck: string = environment.baseUrlService + "deck";
 
   constructor(private http: HttpClient) { }
 
@@ -31,7 +33,7 @@ export class DeckService {
   }
 
   newDeck(deck:any): Observable<boolean> {
-    return this.http.post<boolean>(this.apiUrlDeck,deck,this.generateOptions());
+    return this.http.post<boolean>(this.apiUrlServiceDeck,deck,this.generateOptions());
   }
 
   saveNameDeck(deck:any): Observable<boolean> {
@@ -39,7 +41,7 @@ export class DeckService {
   }
 
   updateDeck(deck:Deck,id:string): Observable<boolean> {
-    return this.http.put<boolean>(this.apiUrlDeck+'?id='+id,deck,this.generateOptions());
+    return this.http.put<boolean>(this.apiUrlServiceDeck+'?id='+id,deck,this.generateOptions());
   }
 
   deleteDeck(idDeck?: string): Observable<boolean>{

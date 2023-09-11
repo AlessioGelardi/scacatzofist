@@ -1,3 +1,8 @@
+<div class="d-flex justify-content-center">
+    <div class="col-9">
+        <player-status [player]="player"></player-status>
+    </div>
+</div>
 <notifier-buttons [buttons]="buttons" (buttonOperation)="buttonOperationHandler($event)"></notifier-buttons>
 
 <div class="mt-4" *ngIf="!showMoreDetail">
