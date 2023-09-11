@@ -191,13 +191,10 @@ export class NotifierComponent implements OnInit {
         '<label>'+richiedente+'<strong> VS </strong>'+ricevente+' <br><br>'+
         'Vincita: <strong>'+vincita.coin+' <i class="fa fa fa-database"></i> '+vincita.credits+' <i class="fa fa fa-diamond"></i></strong><br><br>'+
         'Sconfitta: <strong>'+perdita.coin+' <i class="fa fa fa-database"></i> '+perdita.credits+' <i class="fa fa fa-diamond"></i></strong><br><br>'+nota,
-        showDenyButton: true,
+        showDenyButton: false,
         confirmButtonColor: '#46a9c9',
-        denyButtonColor: '#46a9c9',
         confirmButtonText:
-          richiedente,
-        denyButtonText:
-          ricevente
+          'OTTIENI RICOMPENSA',
       }).then((result) => {
         let playerIdvincitore = "";
         let playerIdperdente = "";
@@ -224,6 +221,7 @@ export class NotifierComponent implements OnInit {
           request.perdente = perdente;
           request.status = Status.COMPLETATO;
           request.role = this.playerRole;
+          request.typeMod = typeMod;
           this.notifierStateService.updateRequest(request).then((resp) => {
             if(resp === true) {
               //this.notifierStateService.resetState();
@@ -235,7 +233,7 @@ export class NotifierComponent implements OnInit {
               if(resp) {
                 const statusError = resp.status;
                 if(statusError === 404) {
-                  this.messageService.alert('Attenzione!','Non fare il furbo seleziona correttamente il vincitore... piccolo delinquente!','error');
+                  this.messageService.alert('Attenzione!','Completa la tua partita prima di ottenere la ricompensa!','error');
                 } else {
                   this.messageService.alert('Attenzione!',"Problema durante l'aggiornamento della richiesta",'error');
                 }
