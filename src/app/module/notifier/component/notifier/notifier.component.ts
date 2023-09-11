@@ -9,6 +9,7 @@ import { MessageService } from 'src/app/module/swalAlert/message.service';
 import { StatePlayerService } from 'src/app/module/player/services/state/state-player.service';
 import { Button } from 'src/app/module/interface/button';
 import { Card } from 'src/app/module/interface/card';
+import { Player } from 'src/app/module/interface/player';
 
 @Component({
   selector: 'app-notifier',
@@ -16,6 +17,8 @@ import { Card } from 'src/app/module/interface/card';
   styleUrls: ['../../styles/notifier.css','./notifier.component.css']
 })
 export class NotifierComponent implements OnInit {
+
+  player:Player | undefined;
 
   buttons: Button[] = [];
 
@@ -66,6 +69,7 @@ export class NotifierComponent implements OnInit {
     this.typeMode = Number(this.route.snapshot.paramMap.get('typeMode')!);
     this.playerRole = Number(this.route.snapshot.paramMap.get('playerRole')!);
 
+    this.takePlayer(this.playerId);
     this.takeReqs(false);
   }
 
@@ -301,6 +305,23 @@ export class NotifierComponent implements OnInit {
         this.messageService.alert('Attenzione!','Errore durante la chiamata getReqs','error');
       }
     });
-  } 
+  }
+
+  private takePlayer(playerId: string) {
+    this.playerStateService.getPlayer(playerId).then((resp) => {
+      if(resp) {
+        this.player = resp;
+      } else {
+        //TO-DO gestione degli errori
+        /*
+        if(resp.status===402) {
+          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+        }
+        */
+
+        this.messageService.alert('Attenzione!','Errore durante la chiamata getPlayer','error');
+      }
+    });
+  }
 
 }
