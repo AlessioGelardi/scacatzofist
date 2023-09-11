@@ -739,6 +739,264 @@ export class MarketEdicolaComponent implements OnInit {
           "monster": true
         }];
         break;
+      case 7:
+        this.packs = [{
+          "name": "MOSTRO ACQUA Lv1-4",
+          "baseCost": 10,
+          "level": [1,2,3,4],
+          "type": [17,4113, 33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561,2097185,2101281],
+          "attribute": 2,
+          "src": "assets/pack/attributi/lvl1-4_acqua.png",
+          "monster": true
+        },{
+          "name": "MOSTRO ACQUA Lv5-6",
+          "baseCost": 15,
+          "level": [5,6],
+          "type": [17,4113,33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561,2097185,2101281],
+          "attribute": 2,
+          "src": "assets/pack/attributi/lvl5-6_acqua.png",
+          "monster": true
+        },{
+          "name": "MOSTRO ACQUA Lv7-9",
+          "baseCost": 20,
+          "level": [7,9],
+          "type": [17,4113,33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561,2097185,2101281],
+          "attribute": 2,
+          "src": "assets/pack/attributi/lvl7-9_acqua.png",
+          "monster": true
+        },{
+          "name": "MOSTRO ACQUA Lv10+",
+          "baseCost": 35,
+          "level": [10],
+          "type": [33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561,2097185,2101281],
+          "attribute": 2,
+          "src": "assets/pack/attributi/lvl10_acqua.png",
+          "monster": true
+        },{
+          "name": "MOSTRI ACQUA EXTRA",
+          "baseCost": 40,
+          "level": [0],
+          "type": [8225,12321,8193,97,65,4161,4193,8388641,8388609],
+          "attribute": 2,
+          "src": "assets/pack/attributi/extra_acqua.png",
+          "monster": true
+        }];
+        break;
+      case 8:
+        this.packs = [{
+          "name": "MOSTRO FUOCO Lv1-4",
+          "baseCost": 10,
+          "level": [1,2,3,4],
+          "type": [17,4113, 33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561,2097185,2101281],
+          "attribute": 4,
+          "src": "assets/pack/attributi/lvl1-4_fuoco.png",
+          "monster": true
+        },{
+          "name": "MOSTRO FUOCO Lv5-6",
+          "baseCost": 15,
+          "level": [5,6],
+          "type": [17,4113,33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561,2097185,2101281],
+          "attribute": 4,
+          "src": "assets/pack/attributi/lvl5-6_fuoco.png",
+          "monster": true
+        },{
+          "name": "MOSTRO FUOCO Lv7-9",
+          "baseCost": 20,
+          "level": [7,9],
+          "type": [17,4113,33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561,2097185,2101281],
+          "attribute": 4,
+          "src": "assets/pack/attributi/lvl7-9_fuoco.png",
+          "monster": true
+        },{
+          "name": "MOSTRO FUOCO Lv10+",
+          "baseCost": 35,
+          "level": [10],
+          "type": [33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561,2097185,2101281],
+          "attribute": 4,
+          "src": "assets/pack/attributi/lvl10_fuoco.png",
+          "monster": true
+        },{
+          "name": "MOSTRI FUOCO EXTRA",
+          "baseCost": 40,
+          "level": [0],
+          "type": [8225,12321,8193,97,65,4161,4193,8388641,8388609],
+          "attribute": 4,
+          "src": "assets/pack/attributi/extra_fuoco.png",
+          "monster": true
+        }];
+        break;
+      case 9:
+        this.packs = [{
+          "name": "MOSTRO LUCE Lv1-4",
+          "baseCost": 10,
+          "level": [1,2,3,4],
+          "type": [17,4113, 33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561,2097185,2101281],
+          "attribute": 16,
+          "src": "assets/pack/attributi/lvl1-4_luce.png",
+          "monster": true
+        },{
+          "name": "MOSTRO LUCE Lv5-6",
+          "baseCost": 15,
+          "level": [5,6],
+          "type": [17,4113,33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561,2097185,2101281],
+          "attribute": 16,
+          "src": "assets/pack/attributi/lvl5-6_luce.png",
+          "monster": true
+        },{
+          "name": "MOSTRO LUCE Lv7-9",
+          "baseCost": 20,
+          "level": [7,9],
+          "type": [17,4113,33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561,2097185,2101281],
+          "attribute": 16,
+          "src": "assets/pack/attributi/lvl7-9_luce.png",
+          "monster": true
+        },{
+          "name": "MOSTRO LUCE Lv10+",
+          "baseCost": 35,
+          "level": [10],
+          "type": [33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561,2097185,2101281],
+          "attribute": 16,
+          "src": "assets/pack/attributi/lvl10_luce.png",
+          "monster": true
+        },{
+          "name": "MOSTRI LUCE EXTRA",
+          "baseCost": 40,
+          "level": [0],
+          "type": [8225,12321,8193,97,65,4161,4193,8388641,8388609],
+          "attribute": 16,
+          "src": "assets/pack/attributi/extra_luce.png",
+          "monster": true
+        }];
+        break;
+      case 10:
+        this.packs = [{
+          "name": "MOSTRO OSCURITA Lv1-4",
+          "baseCost": 10,
+          "level": [1,2,3,4],
+          "type": [17,4113, 33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561,2097185,2101281],
+          "attribute": 32,
+          "src": "assets/pack/attributi/lvl1-4_oscurita.png",
+          "monster": true
+        },{
+          "name": "MOSTRO OSCURITA Lv5-6",
+          "baseCost": 15,
+          "level": [5,6],
+          "type": [17,4113,33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561,2097185,2101281],
+          "attribute": 32,
+          "src": "assets/pack/attributi/lvl5-6_oscurita.png",
+          "monster": true
+        },{
+          "name": "MOSTRO OSCURITA Lv7-9",
+          "baseCost": 20,
+          "level": [7,9],
+          "type": [17,4113,33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561,2097185,2101281],
+          "attribute": 32,
+          "src": "assets/pack/attributi/lvl7-9_oscurita.png",
+          "monster": true
+        },{
+          "name": "MOSTRO OSCURITA Lv10+",
+          "baseCost": 35,
+          "level": [10],
+          "type": [33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561,2097185,2101281],
+          "attribute": 32,
+          "src": "assets/pack/attributi/lvl10_oscurita.png",
+          "monster": true
+        },{
+          "name": "MOSTRI OSCURITA EXTRA",
+          "baseCost": 40,
+          "level": [0],
+          "type": [8225,12321,8193,97,65,4161,4193,8388641,8388609],
+          "attribute": 32,
+          "src": "assets/pack/attributi/extra_oscurita.png",
+          "monster": true
+        }];
+        break;
+      case 11:
+        this.packs = [{
+          "name": "MOSTRO TERRA Lv1-4",
+          "baseCost": 10,
+          "level": [1,2,3,4],
+          "type": [17,4113, 33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561,2097185,2101281],
+          "attribute": 1,
+          "src": "assets/pack/attributi/lvl1-4_terra.png",
+          "monster": true
+        },{
+          "name": "MOSTRO TERRA Lv5-6",
+          "baseCost": 15,
+          "level": [5,6],
+          "type": [17,4113,33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561,2097185,2101281],
+          "attribute": 1,
+          "src": "assets/pack/attributi/lvl5-6_terra.png",
+          "monster": true
+        },{
+          "name": "MOSTRO TERRA Lv7-9",
+          "baseCost": 20,
+          "level": [7,9],
+          "type": [17,4113,33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561,2097185,2101281],
+          "attribute": 1,
+          "src": "assets/pack/attributi/lvl7-9_terra.png",
+          "monster": true
+        },{
+          "name": "MOSTRO TERRA Lv10+",
+          "baseCost": 35,
+          "level": [10],
+          "type": [33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561,2097185,2101281],
+          "attribute": 1,
+          "src": "assets/pack/attributi/lvl10_terra.png",
+          "monster": true
+        },{
+          "name": "MOSTRI TERRA EXTRA",
+          "baseCost": 40,
+          "level": [0],
+          "type": [8225,12321,8193,97,65,4161,4193,8388641,8388609],
+          "attribute": 1,
+          "src": "assets/pack/attributi/extra_terra.png",
+          "monster": true
+        }];
+        break;
+      case 12:
+        this.packs = [{
+          "name": "MOSTRO VENTO Lv1-4",
+          "baseCost": 10,
+          "level": [1,2,3,4],
+          "type": [17,4113, 33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561,2097185,2101281],
+          "attribute": 8,
+          "src": "assets/pack/attributi/lvl1-4_vento.png",
+          "monster": true
+        },{
+          "name": "MOSTRO VENTO Lv5-6",
+          "baseCost": 15,
+          "level": [5,6],
+          "type": [17,4113,33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561,2097185,2101281],
+          "attribute": 8,
+          "src": "assets/pack/attributi/lvl5-6_vento.png",
+          "monster": true
+        },{
+          "name": "MOSTRO VENTO Lv7-9",
+          "baseCost": 20,
+          "level": [7,9],
+          "type": [17,4113,33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561,2097185,2101281],
+          "attribute": 8,
+          "src": "assets/pack/attributi/lvl7-9_vento.png",
+          "monster": true
+        },{
+          "name": "MOSTRO VENTO Lv10+",
+          "baseCost": 35,
+          "level": [10],
+          "type": [33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561,2097185,2101281],
+          "attribute": 8,
+          "src": "assets/pack/attributi/lvl10_vento.png",
+          "monster": true
+        },{
+          "name": "MOSTRI VENTO EXTRA",
+          "baseCost": 40,
+          "level": [0],
+          "type": [8225,12321,8193,97,65,4161,4193,8388641,8388609],
+          "attribute": 8,
+          "src": "assets/pack/attributi/extra_vento.png",
+          "monster": true
+        }];
+        break;
     }
   }
 
@@ -750,6 +1008,7 @@ export class MarketEdicolaComponent implements OnInit {
     let level = objectAcquista.level;
     let race = objectAcquista.race;
     let monster = objectAcquista.monster;
+    let attribute = objectAcquista.attribute;
     let dailyPack = objectAcquista.dailyPack;
     this.buyPackSrc = objectAcquista.src;
     const isDeck = objectAcquista.deck;
@@ -884,6 +1143,7 @@ export class MarketEdicolaComponent implements OnInit {
               request.monster = monster;
               request.src = this.buyPackSrc;
               request.isDaily = false;
+              request.attribute = attribute;
   
               this.marketStateService.buyPack(request,false).then((resp) => {
                 if(resp) {

@@ -7,7 +7,7 @@ export const environment = {
   baseUrlLogin: 'https://renderwin.onrender.com/login/',
   baseUrlPlayer: 'https://renderwin.onrender.com/player/',
   baseUrlDeck: 'https://renderwin.onrender.com/deck/',
-  baseUrlMarket: 'https://renderwin.onrender.com/market/',
+  baseUrlMarket: 'http://127.0.0.1:5000/market/',
   baseUrlNotifier: 'https://renderwin.onrender.com/notifier/',
   baseUrlDatabase: 'https://renderwin.onrender.com/database/',
   baseUrlTrade: 'https://renderwin.onrender.com/trade/',
