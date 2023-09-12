@@ -26,6 +26,9 @@ export class DeckEditComponent implements OnInit {
   searchFilter:any | undefined;
 
   zaino: Card[]=[];
+  zainoBackup: Card[]=[];
+  zainoAdd: Card[] = [];
+  zainoDelete: Card[] = [];
 
   permission: boolean = true;
 
@@ -133,6 +136,68 @@ export class DeckEditComponent implements OnInit {
     if(searchFilter) {
       this.searchFilter = searchFilter;
     }
+
+    if(this.zainoAdd.length>0) {
+      for(let card of this.zainoAdd) {
+        this.zainoBackup.push(card);
+      }
+      this.zainoAdd=[];
+    }
+
+    if(this.zainoDelete.length>0) {
+      for(let card of this.zainoDelete) {
+        let indiceBackup = this.zainoBackup.indexOf(card, 0)!;
+        if (indiceBackup !== undefined && indiceBackup > -1) {
+          this.zainoBackup.splice(indiceBackup, 1);
+          break;
+        }
+      }
+      this.zainoDelete=[];
+    }
+
+    this.zaino = this.transform(this.zainoBackup,searchFilter);
+  }
+
+  transform(value: Card[], searchFilter: any): Card[] {
+    let result: Card[] = value;
+    if(searchFilter) {
+      let x: Card[] = result;
+      if(searchFilter.filter.name) {
+        x = value.filter(card => card.name.toUpperCase().includes(searchFilter.filter.name.toUpperCase()));
+      }
+
+      if(typeof searchFilter.filter.type !=='string' && searchFilter.filter.type) {
+        x = x.filter(card => searchFilter.filter.type.includes(card.type));
+      }
+
+      if(searchFilter.filter.attribute) {
+        x = x.filter(card => searchFilter.filter.attribute===card.attribute);
+      }
+
+      if(searchFilter.filter.race) {
+        x = x.filter(card => searchFilter.filter.race===card.race);
+      }
+
+      if(searchFilter.filter.atk>-50) {
+        x = x.filter(card => searchFilter.filter.atk===card.atk);
+      }
+
+      if(searchFilter.filter.def>-50) {
+        x = x.filter(card => searchFilter.filter.def===card.def);
+      }
+
+      if(searchFilter.filter.level>0) {
+        x = x.filter(card => searchFilter.filter.level===card.level);
+      }
+
+      result = x;
+      
+    }
+    return result; 
+  }
+
+  registerZaino(removeCard:Card) {
+    this.zainoDelete.push(removeCard);
   }
 
   removeCard(removeObject:any) {
@@ -166,6 +231,7 @@ export class DeckEditComponent implements OnInit {
       }
 
       this.zaino.push(card);
+      this.zainoBackup.push(card);
     }
   }
 
@@ -193,12 +259,16 @@ export class DeckEditComponent implements OnInit {
     if(event.previousContainer === event.container) {
       moveItemInArray(event.container.data,event.previousIndex,event.currentIndex)
     } else {
+      const previus = [ ...event.previousContainer.data];
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
         event.previousIndex,
         event.currentIndex
       )
+      const nextStep = [...event.previousContainer.data];
+      const arrayTwo = previus.filter(item => !nextStep.includes(item));
+      this.zainoAdd.push(arrayTwo[0])
     }
   }
 
@@ -231,9 +301,7 @@ export class DeckEditComponent implements OnInit {
 
         }
       })
-      
     }
-
   }
 
   private takeDeck() {
@@ -289,13 +357,15 @@ export class DeckEditComponent implements OnInit {
           }
 
           if(!inUse) {
-            this.zaino.push(card)
+            this.zaino.push(card);
+            this.zainoBackup.push(card);
           } else {
             if(countZainoResp>0 && countDeck>0) {
-              let countZaino = this.countCard(this.zaino,checkId);
+              countZaino = this.countCard(this.zaino,checkId);
               if(countZaino !== countZainoResp-countDeck) {
                 for (let i = 0; i < countZainoResp-countDeck; i++) {
-                  this.zaino.push(card)
+                  this.zaino.push(card);
+                  this.zainoBackup.push(card);
                 }
               }
             }
@@ -318,6 +388,11 @@ export class DeckEditComponent implements OnInit {
     let indice = this.zaino.indexOf(card, 0)!;
     if (indice !== undefined && indice > -1) {
       this.zaino.splice(indice, 1);
+    }
+
+    let indiceBackup = this.zainoBackup.indexOf(card, 0)!;
+    if (indiceBackup !== undefined && indiceBackup > -1) {
+      this.zainoBackup.splice(indiceBackup, 1);
     }
   }
 

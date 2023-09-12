@@ -22,9 +22,9 @@
 </div>
 <div class="row">
     <div class="col-6">
-        <card-list [dragDrop]="dragDrop" [dragging]="dragging" [connectedTo]="['zaino']" [typeDeck]="1" [cards]="this.deck?.main!" (showCard)="showCard($event)" (removeCard)="removeCard($event)"></card-list>
-        <card-list [dragDrop]="dragDrop" [dragging]="dragging" [connectedTo]="['zaino']" [typeDeck]="2" [cards]="this.deck?.extra!" (showCard)="showCard($event)" (removeCard)="removeCard($event)"></card-list>
-        <card-list [dragDrop]="dragDrop" [dragging]="dragging" [connectedTo]="['zaino']" [typeDeck]="3" [cards]="this.deck?.side!" (showCard)="showCard($event)" (removeCard)="removeCard($event)"></card-list>
+        <card-list [dragDrop]="dragDrop" [dragging]="dragging" [connectedTo]="['zaino']" [typeDeck]="1" [cards]="this.deck?.main!" (showCard)="showCard($event)" (removeCard)="removeCard($event)" (zainoRemove)="registerZaino($event)"></card-list>
+        <card-list [dragDrop]="dragDrop" [dragging]="dragging" [connectedTo]="['zaino']" [typeDeck]="2" [cards]="this.deck?.extra!" (showCard)="showCard($event)" (removeCard)="removeCard($event)" (zainoRemove)="registerZaino($event)"></card-list>
+        <card-list [dragDrop]="dragDrop" [dragging]="dragging" [connectedTo]="['zaino']" [typeDeck]="3" [cards]="this.deck?.side!" (showCard)="showCard($event)" (removeCard)="removeCard($event)" (zainoRemove)="registerZaino($event)"></card-list>
     </div>
     
     <div class="col-6">
@@ -42,7 +42,7 @@
                     </tr>
                 </thead>
                 <tbody cdkDropList (cdkDropListDropped)="onDrop($event)" [cdkDropListData]="zaino" id="zaino" [cdkDropListConnectedTo]="['main','extra','side']">
-                    <tr *ngFor="let card of zaino | filterZaino: searchFilter!; let i=index" cdkDrag (click)="showCard(card)" (cdkDragStarted)="onDragStart()" (cdkDragEnded)="onDragEnd()">
+                    <tr *ngFor="let card of zaino; let i=index" cdkDrag (click)="showCard(card)" (cdkDragStarted)="onDragStart()" (cdkDragEnded)="onDragEnd()">
                         <td>
                             <button type="button" class="btn btn-outline-dark btn-sm" (click)="addCard(card)"><i class="fa fa-arrow-left"></i></button>
                         </td>
@@ -56,7 +56,7 @@
 
         <div *ngIf="dragDrop" class="mt-3" style="margin-right:50px">
             <div *ngIf="zaino.length>0" class="row" cdkDropList (cdkDropListDropped)="onDrop($event)" [cdkDropListData]="zaino" id="zaino" [cdkDropListConnectedTo]="['main','extra','side']">
-                <div *ngFor="let card of zaino | filterZaino: searchFilter!; let i=index" class="col-1" cdkDrag (click)="showCard(card)" (cdkDragStarted)="onDragStart()" (cdkDragEnded)="onDragEnd()">
+                <div *ngFor="let card of zaino; let i=index" class="col-1" cdkDrag (click)="showCard(card)" (cdkDragStarted)="onDragStart()" (cdkDragEnded)="onDragEnd()">
                     <img class="deckcard" src="{{'https://images.ygoprodeck.com/images/cards/'+card?.id+'.jpg'}}"  />
                 </div>
             </div>

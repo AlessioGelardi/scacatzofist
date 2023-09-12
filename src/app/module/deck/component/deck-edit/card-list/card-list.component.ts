@@ -20,6 +20,8 @@ export class CardListComponent implements OnInit {
 
   kindDeck: string | undefined;
 
+  @Output() zainoRemove: EventEmitter<Card> = new EventEmitter();
+
   constructor() { }
 
   ngOnInit(): void {
@@ -53,12 +55,16 @@ export class CardListComponent implements OnInit {
     if(event.previousContainer === event.container) {
       moveItemInArray(event.container.data,event.previousIndex,event.currentIndex)
     } else {
+      const previus = [ ...event.previousContainer.data];
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
         event.previousIndex,
         event.currentIndex
       )
+      const nextStep = [...event.previousContainer.data];
+      const arrayTwo = previus.filter(item => !nextStep.includes(item));
+      this.zainoRemove.emit(arrayTwo[0])
     }
   }
 
