@@ -33,7 +33,7 @@ export class DeckEditComponent implements OnInit {
   dragging:boolean = false;
   stoAddCard:boolean = false;
 
-  typeExtra = [65, 129, 8193, 8388609, 4161, 97, 4193, 637, 161, 4257, 2097313, 8225, 12321, 8388641];
+  typeExtra = [65,8193, 8388609, 4161, 97, 4193, 637, 4257, 2097313, 8225, 12321, 8388641];
 
   constructor(private router: Router,
     private deckStateService: StateDeckService,
@@ -258,6 +258,16 @@ export class DeckEditComponent implements OnInit {
     }
   }
 
+  private countCard(iterObj: Card[], id: string) {
+    let count = 0;
+    for (const card of iterObj) {
+      if (card.id === id) {
+        count++;
+      }
+    }
+    return count;
+  }
+
   private takeZaino() {
     this.zaino = []
     this.playerStateService.getZaino(this.playerId!).then((resp) => {
@@ -267,12 +277,28 @@ export class DeckEditComponent implements OnInit {
           let checkId = card.id
           let inUse = false;
 
-          if (this.deck?.main.concat(this.deck?.extra, this.deck?.side).some(obj => obj.id === checkId)) {
+          let iterObj = this.deck?.main.concat(this.deck?.extra, this.deck?.side)!;
+          let countZaino = 0;
+          let countZainoResp = 0;
+          let countDeck = 0;
+
+          if(iterObj.some(obj => obj.id === checkId)) {
             inUse = true;
+            countZainoResp = this.countCard(resp,checkId);
+            countDeck = this.countCard(iterObj,checkId);
           }
 
           if(!inUse) {
             this.zaino.push(card)
+          } else {
+            if(countZainoResp>0 && countDeck>0) {
+              let countZaino = this.countCard(this.zaino,checkId);
+              if(countZaino !== countZainoResp-countDeck) {
+                for (let i = 0; i < countZainoResp-countDeck; i++) {
+                  this.zaino.push(card)
+                }
+              }
+            }
           }
         }
       } else {
