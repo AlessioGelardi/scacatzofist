@@ -73,7 +73,10 @@ export class StatePlayerService {
       this.spinnerService.hide();
     }
 
-    this.socket.emit('sign_in', this.player!.name);
+    if(this.player?.ruolo!==3) {
+      this.socket.emit('sign_in', this.player!.name);
+    }
+
 
     return this.player;
   }
