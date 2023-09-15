@@ -50,6 +50,7 @@ export class LoginComponent implements OnInit {
                 this.socket.emit('sign_in', user);
               }
               this.router.navigate(['/home',{id:result._id}]);
+              this.messageService.alert('Benvenuto!','Ricorda di aprire il terminale locale per le modifiche sui deck','warning');
             }
           },
           error: (error: any) => {
