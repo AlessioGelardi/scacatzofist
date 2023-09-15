@@ -556,7 +556,7 @@ export class MarketEdicolaComponent implements OnInit {
       case 6:
         this.packs = [{
           "name": "GUERRIERO",
-          "baseCost": 70,
+          "baseCost": 100,
           "level": [],
           "type": [],
           "race": 1,
@@ -564,7 +564,7 @@ export class MarketEdicolaComponent implements OnInit {
           "monster": true
         },{
           "name": "INCANTATORE",
-          "baseCost": 70,
+          "baseCost": 100,
           "level": [],
           "type": [],
           "race": 2,
@@ -572,7 +572,7 @@ export class MarketEdicolaComponent implements OnInit {
           "monster": true
         },{
           "name": "FATA",
-          "baseCost": 70,
+          "baseCost": 100,
           "level": [],
           "type": [],
           "race": 4,
@@ -580,7 +580,7 @@ export class MarketEdicolaComponent implements OnInit {
           "monster": true
         },{
           "name": "DEMONE",
-          "baseCost": 70,
+          "baseCost": 100,
           "level": [],
           "type": [],
           "race": 8,
@@ -588,7 +588,7 @@ export class MarketEdicolaComponent implements OnInit {
           "monster": true
         },{
           "name": "ZOMBIE",
-          "baseCost": 70,
+          "baseCost": 100,
           "level": [],
           "type": [],
           "race": 16,
@@ -596,7 +596,7 @@ export class MarketEdicolaComponent implements OnInit {
           "monster": true
         },{
           "name": "MACCHINA",
-          "baseCost": 70,
+          "baseCost": 100,
           "level": [],
           "type": [],
           "race": 32,
@@ -604,7 +604,7 @@ export class MarketEdicolaComponent implements OnInit {
           "monster": true
         },{
           "name": "ACQUA",
-          "baseCost": 70,
+          "baseCost": 100,
           "level": [],
           "type": [],
           "race": 64,
@@ -612,7 +612,7 @@ export class MarketEdicolaComponent implements OnInit {
           "monster": true
         },{
           "name": "PYRO",
-          "baseCost": 70,
+          "baseCost": 100,
           "level": [],
           "type": [],
           "race": 128,
@@ -620,7 +620,7 @@ export class MarketEdicolaComponent implements OnInit {
           "monster": true
         },{
           "name": "ROCCIA",
-          "baseCost": 70,
+          "baseCost": 100,
           "level": [],
           "type": [],
           "race": 256,
@@ -628,7 +628,7 @@ export class MarketEdicolaComponent implements OnInit {
           "monster": true
         },{
           "name": "BESTIA_ALATA",
-          "baseCost": 70,
+          "baseCost": 100,
           "level": [],
           "type": [],
           "race": 512,
@@ -636,7 +636,7 @@ export class MarketEdicolaComponent implements OnInit {
           "monster": true
         },{
           "name": "PIANTA",
-          "baseCost": 70,
+          "baseCost": 100,
           "level": [],
           "type": [],
           "race": 1024,
@@ -644,7 +644,7 @@ export class MarketEdicolaComponent implements OnInit {
           "monster": true
         },{
           "name": "INSETTO",
-          "baseCost": 70,
+          "baseCost": 100,
           "level": [],
           "type": [],
           "race": 2048,
@@ -652,7 +652,7 @@ export class MarketEdicolaComponent implements OnInit {
           "monster": true
         },{
           "name": "TUONO",
-          "baseCost": 70,
+          "baseCost": 100,
           "level": [],
           "type": [],
           "race": 4096,
@@ -660,7 +660,7 @@ export class MarketEdicolaComponent implements OnInit {
           "monster": true
         },{
           "name": "DRAGO",
-          "baseCost": 70,
+          "baseCost": 100,
           "level": [],
           "type": [],
           "race": 8192,
@@ -668,7 +668,7 @@ export class MarketEdicolaComponent implements OnInit {
           "monster": true
         },{
           "name": "BESTIA",
-          "baseCost": 70,
+          "baseCost": 100,
           "level": [],
           "type": [],
           "race": 16384,
@@ -676,7 +676,7 @@ export class MarketEdicolaComponent implements OnInit {
           "monster": true
         },{
           "name": "GUERRIERO_BESTIA",
-          "baseCost": 70,
+          "baseCost": 100,
           "level": [],
           "type": [],
           "race": 32768,
@@ -684,7 +684,7 @@ export class MarketEdicolaComponent implements OnInit {
           "monster": true
         },{
           "name": "DINOSAURO",
-          "baseCost": 70,
+          "baseCost": 100,
           "level": [],
           "type": [],
           "race": 65536,
@@ -692,7 +692,7 @@ export class MarketEdicolaComponent implements OnInit {
           "monster": true
         },{
           "name": "SERPENTE_MARINO",
-          "baseCost": 70,
+          "baseCost": 100,
           "level": [],
           "type": [],
           "race": 131072,
@@ -700,7 +700,7 @@ export class MarketEdicolaComponent implements OnInit {
           "monster": true
         },{
           "name": "PESCE",
-          "baseCost": 70,
+          "baseCost": 100,
           "level": [],
           "type": [],
           "race": 262144,
@@ -708,7 +708,7 @@ export class MarketEdicolaComponent implements OnInit {
           "monster": true
         },{
           "name": "RETTILE",
-          "baseCost": 70,
+          "baseCost": 100,
           "level": [],
           "type": [],
           "race": 524288,
@@ -716,7 +716,7 @@ export class MarketEdicolaComponent implements OnInit {
           "monster": true
         },{
           "name": "PSICHICO",
-          "baseCost": 70,
+          "baseCost": 100,
           "level": [],
           "type": [],
           "race": 1048576,
@@ -724,7 +724,7 @@ export class MarketEdicolaComponent implements OnInit {
           "monster": true
         },{
           "name": "WYRM",
-          "baseCost": 70,
+          "baseCost": 100,
           "level": [],
           "type": [],
           "race": 8388608,
@@ -732,7 +732,7 @@ export class MarketEdicolaComponent implements OnInit {
           "monster": true
         },{
           "name": "CYBERSE",
-          "baseCost": 70,
+          "baseCost": 100,
           "level": [],
           "type": [],
           "race": 16777216,
@@ -767,7 +767,7 @@ export class MarketEdicolaComponent implements OnInit {
           "monster": true
         },{
           "name": "MOSTRO ACQUA Lv10+",
-          "baseCost": 35,
+          "baseCost": 30,
           "level": [10],
           "type": [33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561,2097185,2101281],
           "attribute": 2,
@@ -810,7 +810,7 @@ export class MarketEdicolaComponent implements OnInit {
           "monster": true
         },{
           "name": "MOSTRO FUOCO Lv10+",
-          "baseCost": 35,
+          "baseCost": 30,
           "level": [10],
           "type": [33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561,2097185,2101281],
           "attribute": 4,
@@ -853,7 +853,7 @@ export class MarketEdicolaComponent implements OnInit {
           "monster": true
         },{
           "name": "MOSTRO LUCE Lv10+",
-          "baseCost": 35,
+          "baseCost": 30,
           "level": [10],
           "type": [33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561,2097185,2101281],
           "attribute": 16,
@@ -896,7 +896,7 @@ export class MarketEdicolaComponent implements OnInit {
           "monster": true
         },{
           "name": "MOSTRO OSCURITA Lv10+",
-          "baseCost": 35,
+          "baseCost": 30,
           "level": [10],
           "type": [33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561,2097185,2101281],
           "attribute": 32,
@@ -939,7 +939,7 @@ export class MarketEdicolaComponent implements OnInit {
           "monster": true
         },{
           "name": "MOSTRO TERRA Lv10+",
-          "baseCost": 35,
+          "baseCost": 30,
           "level": [10],
           "type": [33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561,2097185,2101281],
           "attribute": 1,
@@ -982,7 +982,7 @@ export class MarketEdicolaComponent implements OnInit {
           "monster": true
         },{
           "name": "MOSTRO VENTO Lv10+",
-          "baseCost": 35,
+          "baseCost": 30,
           "level": [10],
           "type": [33,4129,33554977,545,1057,5153,4194337,37748769,2081,33554465,33558561,2097185,2101281],
           "attribute": 8,
