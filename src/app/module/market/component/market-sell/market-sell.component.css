@@ -1,3 +1,26 @@
 .deckcard {
     max-width: 140px;
 }
+
+/* Stile di base per il menu a tendina */
+.dropdown-etichetta {
+    position: absolute;
+    background-color: #8a8989; /* Colore di sfondo del menu */
+    border: 1px solid #737170; /* Bordo del menu */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombra del menu */
+    z-index: 1000; /* Assicura che il menu sia sopra gli altri elementi */
+    padding: 5px; /* Spaziatura interna del menu */
+}
+
+/* Stile per gli elementi del menu a tendina (es. link o opzioni) */
+.dropdown-etichetta a {
+    padding: 5px 12px;
+    text-decoration: none;
+    color: white; /* Colore del testo */
+    font-size: 14px;
+}
+  
+/* Stile per gli elementi del menu al passaggio del mouse */
+.dropdown-etichetta a:hover {
+    background-color: #737170; /* Cambia il colore di sfondo al passaggio del mouse */
+}

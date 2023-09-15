@@ -267,6 +267,9 @@ engine.io-client
 
 engine.io-parser
 
+ngx-color-picker
+MIT
+
 ngx-socket-io
 MIT
 MIT License

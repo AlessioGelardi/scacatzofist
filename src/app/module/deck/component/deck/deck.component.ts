@@ -214,7 +214,6 @@ export class DeckComponent implements OnInit {
         this.deckStateService.resetDeck();
         this.deckStateService.resetPlayerDecks();
         this.takeDecks();
-        this.router.navigate(['/trade']);
       } else {
         this.messageService.alert('Errore',"Errore durante l'allineamento dei deck",'error');
       }

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Attributi } from '../../enum/attribute';
 import { Razze } from '../../enum/races';
@@ -13,6 +13,8 @@ import { Categorie } from '../../enum/category';
 })
 export class FilterCardComponent implements OnInit {
 
+  @Input() etichette?:any;
+
   @Output() cardsEmit: EventEmitter<any> = new EventEmitter();
 
   filterCardForm = new FormGroup({
@@ -26,7 +28,8 @@ export class FilterCardComponent implements OnInit {
     level: new FormControl(0),
     atk: new FormControl(-50),
     def: new FormControl(-50),
-    effect: new FormControl(true)
+    effect: new FormControl(true),
+    etich: new FormControl('')
   });
 
   categories = Object.keys(Categorie).filter(key => isNaN(Number(key)));

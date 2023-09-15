@@ -10,8 +10,12 @@ export class FilterZainoPipe implements PipeTransform {
     let result: Card[] = value;
     if(searchFilter) {
       let x: Card[] = result;
+      if(searchFilter.filter.etich) {
+        x = value.filter(card => card.etich && card.etich["name"].toUpperCase().includes(searchFilter.filter.etich.toUpperCase()));
+      }
+
       if(searchFilter.filter.name) {
-        x = value.filter(card => card.name.toUpperCase().includes(searchFilter.filter.name.toUpperCase()));
+        x = x.filter(card => card.name.toUpperCase().includes(searchFilter.filter.name.toUpperCase()));
       }
 
       if(typeof searchFilter.filter.type !=='string' && searchFilter.filter.type) {

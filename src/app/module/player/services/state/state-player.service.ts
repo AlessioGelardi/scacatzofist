@@ -16,6 +16,8 @@ export class StatePlayerService {
   private zaino?: Card[];
   private inventory?: Pack[];
 
+  private etichette?:any;
+
   private bonus: boolean = false;
 
   constructor(private spinnerService: NgxSpinnerService,
@@ -44,11 +46,16 @@ export class StatePlayerService {
     this.inventory = undefined;
   }
 
+  resetEtichette() {
+    this.etichette = undefined;
+  }
+
   resetState() {
     this.player = undefined;
     this.allplayers = undefined;
     this.zaino = undefined;
     this.inventory = undefined;
+    this.etichette = undefined;
   }
 
   async getPlayer(id:string) {
@@ -66,7 +73,10 @@ export class StatePlayerService {
       this.spinnerService.hide();
     }
 
-    this.socket.emit('sign_in', this.player!.name);
+    if(this.player?.ruolo!==3) {
+      this.socket.emit('sign_in', this.player!.name);
+    }
+
 
     return this.player;
   }
@@ -162,4 +172,75 @@ export class StatePlayerService {
 
     return this.inventory;
   }
+
+  async addEtichetta(request:any) {
+    this.spinnerService.show();
+    let response;
+
+    try {
+      response = await firstValueFrom(this.playerService.addEtichetta(request));
+      this.spinnerService.hide();
+    } catch (error: any) {
+      /* TO-DO [WinError 3] Impossibile trovare il percorso specificato: 'deck\\\\Ingranaggio Antico1.ydk' -> 'deck\\\\Ingranaggio Antico.ydk'*/
+      response = error;
+      this.spinnerService.hide();
+    }
+
+
+    return response;
+  }
+
+  async getEtichette(id:string) {
+    this.spinnerService.show();
+
+    if(!this.etichette) {
+      try {
+        const response = await firstValueFrom(this.playerService.getEtichette(id));
+        this.etichette = response;
+        this.spinnerService.hide();
+      } catch(error:any) {
+        this.spinnerService.hide();
+      }
+    } else {
+      this.spinnerService.hide();
+    }
+
+    return this.etichette;
+  }
+
+  async assegnaEtichetta(request:any) {
+    this.spinnerService.show();
+    let response;
+
+    try {
+      response = await firstValueFrom(this.playerService.assegnaEtichette(request));
+      this.spinnerService.hide();
+    } catch (error: any) {
+      /* TO-DO [WinError 3] Impossibile trovare il percorso specificato: 'deck\\\\Ingranaggio Antico1.ydk' -> 'deck\\\\Ingranaggio Antico.ydk'*/
+      response = error;
+      this.spinnerService.hide();
+    }
+
+
+    return response;
+  }
+
+  async delEtichetta(request:any) {
+    this.spinnerService.show();
+    let response;
+
+    try {
+      response = await firstValueFrom(this.playerService.delEtichetta(request));
+      this.spinnerService.hide();
+    } catch (error: any) {
+      /* TO-DO [WinError 3] Impossibile trovare il percorso specificato: 'deck\\\\Ingranaggio Antico1.ydk' -> 'deck\\\\Ingranaggio Antico.ydk'*/
+      response = error;
+      this.spinnerService.hide();
+    }
+
+
+    return response;
+  }
+
+
 }

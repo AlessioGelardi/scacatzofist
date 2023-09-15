@@ -36,7 +36,8 @@ import { ShowDeckComponent } from './component/show-deck/show-deck.component';
     FilterZainoPipe,
     FilterCardComponent,
     ShowDeckComponent,
-    OpeningPackComponent,FilterCardComponent
+    OpeningPackComponent,
+    FilterCardComponent
   ],
 })
 export class ZainoModule { }
