@@ -24,7 +24,7 @@
                 <div class="position-relative">
                     <button class="col-1 btn btn-sm rounded grigino position-absolute top-0 start-100 translate-middle" (click)="doFilterZaino()"><i class="fa fa-times"></i></button>
                 </div>
-                <filter-card (cardsEmit)="retrieveCardsMyZaino($event)"></filter-card>
+                <filter-card [etichette]="null" (cardsEmit)="retrieveCardsMyZaino($event)"></filter-card>
             </div>
         </div>
         <div class="col-6">
@@ -33,7 +33,7 @@
                 <div class="position-relative">
                     <button class="col-1 btn btn-sm rounded grigino position-absolute top-0 start-100 translate-middle" (click)="doFilterOppo()"><i class="fa fa-times"></i></button>
                 </div>
-                <filter-card (cardsEmit)="retrieveCardsOppo($event)"></filter-card>
+                <filter-card [etichette]="null" (cardsEmit)="retrieveCardsOppo($event)"></filter-card>
             </div>
         </div>
     </div>

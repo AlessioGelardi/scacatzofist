@@ -7,7 +7,7 @@
             <button type="button" class="col-2 btn btn-lg rounded-pill grigino " (click)="home()"><i class='fa fa-home'></i></button>
         </div>
 
-        <filter-card (cardsEmit)="retrieveCards($event)"></filter-card>
+        <filter-card [etichette]="null" (cardsEmit)="retrieveCards($event)"></filter-card>
 
 
         <div class="mt-3" *ngIf="viewSearchResult">

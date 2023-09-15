@@ -22,6 +22,19 @@
         </div>
     </div>
     <div class="row d-flex justify-content-left">
+        <div class="col-12 m-2">
+            <div class="row">
+                <label>Etichetta</label>
+            </div>
+            <div class="row">
+                <select class="form-control" id="etich" formControlName="etich">
+                    <option value="" selected="true">Scegli Etichetta</option>
+                    <option *ngFor="let etich of etichette" value="{{etich.name}}">{{etich.name}}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row d-flex justify-content-left">
         <div class="col-12 m-2" [ngClass]="{
             'col-12': filterCardForm.value.category !== 'MOSTRO',
             'col-3': filterCardForm.value.category === 'MOSTRO'

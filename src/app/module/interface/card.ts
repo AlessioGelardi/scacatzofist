@@ -9,6 +9,7 @@ export interface Card {
     atk: number;
     def: number;
     state?: string;
+    etich?: any;
 }
 
 export interface Pack {

@@ -4,12 +4,12 @@
 
 export const environment = {
   production: false,
-  baseUrlLogin: 'https://renderwin.onrender.com/login/',
-  baseUrlPlayer: 'https://renderwin.onrender.com/player/',
-  baseUrlDeck: 'https://renderwin.onrender.com/deck/',
+  baseUrlLogin: 'http://127.0.0.1:5000/login/',
+  baseUrlPlayer: 'http://127.0.0.1:5000/player/',
+  baseUrlDeck: 'http://127.0.0.1:5000/deck/',
   baseUrlMarket: 'http://127.0.0.1:5000/market/',
-  baseUrlNotifier: 'https://renderwin.onrender.com/notifier/',
-  baseUrlDatabase: 'https://renderwin.onrender.com/database/',
+  baseUrlNotifier: 'http://127.0.0.1:5000/notifier/',
+  baseUrlDatabase: 'http://127.0.0.1:5000/database/',
   baseUrlTrade: 'http://127.0.0.1:5000/trade/',
   baseUrlService: 'http://localhost:5001/service/'
 };

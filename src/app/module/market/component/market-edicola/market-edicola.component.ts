@@ -251,6 +251,7 @@ export class MarketEdicolaComponent implements OnInit {
       case 4:
         this.packs = [{
           "name": "DAILY PACK",
+          "baseCost": 35,
           "src": "assets/pack/dailyPack.png",
           "dailyPack": true
         }]
