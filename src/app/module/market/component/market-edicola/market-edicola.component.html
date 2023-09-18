@@ -72,7 +72,7 @@
 <div class="mt-5" *ngIf="!finishPurchase">
     <div class="row" *ngIf="!viewPack">
         <div class="col-12 d-flex justify-content-center">
-            <label>Acquista i crediti tramite coin</label>
+            <label>Acquista coin tramite crediti</label>
         </div>
     </div>
      <div class="row mt-3" *ngIf="!viewCurrencyExchange">
@@ -82,18 +82,18 @@
     </div>
     <div class="row" *ngIf="viewCurrencyExchange" class="d-flex justify-content-around mt-3">
         <div class="col-5">
-            <label>Quanti crediti vuoi acquistare</label>
-            <input [(ngModel)]="numberCredits" type="number" class="form-control sfondino">
+            <label>Quanti coin vuoi acquistare?</label>
+            <input [(ngModel)]="numberCoins" type="number" step="300" class="form-control sfondino">
         </div>
     </div>
     <div class="row" *ngIf="viewCurrencyExchange" class="d-flex justify-content-around mt-3">
         <div class="col-5">
-            <strong><label>{{numberCredits*1000}} <i class="fa fa-database"></i></label>&nbsp;<i class="fa fa-arrow-right"></i>&nbsp;<label></label><label>{{numberCredits}} <i class="fa fa-diamond"></i></label></strong>
+            <strong><label>{{numberCoins/300}} <i class="fa fa-diamond"></i></label>&nbsp;<i class="fa fa-arrow-right"></i>&nbsp;<label></label><label>{{numberCoins}} <i class="fa fa-database"></i></label></strong>
             
         </div>
     </div>
     <div class="row" *ngIf="viewCurrencyExchange" class="d-flex justify-content-around mt-3">
-        <button type="button" class="col-3 btn btn-lg grigino" (click)="buyCredits()">ACQUISTA</button>
+        <button type="button" class="col-3 btn btn-lg grigino" (click)="buyCoins()">ACQUISTA</button>
     </div>
 </div>
 

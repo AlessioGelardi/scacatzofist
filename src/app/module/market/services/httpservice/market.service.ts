@@ -12,7 +12,7 @@ export class MarketService {
   apiUrlMarketPlace: string = environment.baseUrlMarket + "marketplace";
   apiUrlMarketPack: string = environment.baseUrlMarket + "marketpack";
   apiUrlMarketEdicola: string =  environment.baseUrlMarket + "edicola";
-  apiUrlMarketCredits: string =  environment.baseUrlMarket + "credits";
+  apiUrlMarketCoins: string =  environment.baseUrlMarket + "coins";
   apiUrlMarketOpenPack: string =  environment.baseUrlMarket + "openpack";
   marketplaceById: string = environment.baseUrlMarket + "marketplaceById";
   apiUrlMarketDailyShop: string =  environment.baseUrlMarket + "dailyshop";
@@ -72,11 +72,8 @@ export class MarketService {
     return this.http.put<Pack[]>(this.apiUrlMarketEdicola,request,this.generateOptions());
   }
 
-  acquistaCrediti(playerId:string, numCredits:number): Observable<boolean> {
-    let request:any = {};
-    request.playerId = playerId;
-    request.credits = numCredits;
-    return this.http.put<boolean>(this.apiUrlMarketCredits,request,this.generateOptions());
+  acquistaCoins(request:any): Observable<boolean> {
+    return this.http.put<boolean>(this.apiUrlMarketCoins,request,this.generateOptions());
   }
 
   apriPack(request:any) {
