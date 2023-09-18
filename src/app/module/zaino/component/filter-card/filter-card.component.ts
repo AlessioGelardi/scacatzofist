@@ -70,12 +70,7 @@ export class FilterCardComponent implements OnInit {
           this.types = Object.keys(TipologieTrappola).filter(key => isNaN(Number(key)));
           this.defaultTypes = Object.values(TipologieTrappola).filter((value) => typeof value === 'number').map(Number);
           break;
-        default:
-          this.messageService.alert('Attenzione!','La categoria deve essere scelta','info');
-          break;
       }
-    } else {
-      this.messageService.alert('Attenzione!','La categoria deve essere scelta','info');
     }
   }
 
@@ -84,67 +79,70 @@ export class FilterCardComponent implements OnInit {
 
       let searchFilter = {...this.filterCardForm.value }
 
-      if(!this.filterCardForm.value.type || this.filterCardForm.value.type === "" ) {
-        searchFilter.type = this.defaultTypes;
+      if(this.filterCardForm.value.category === '' && this.filterCardForm.value.name === '') {
+        this.messageService.alert('Attenzione!','Bisogna inserire almeno o il nome della carta o la categoria','info');
       } else {
-        let typeSelected:any;
-        if(this.filterCardForm.value.category==="MAGIA") {
-          typeSelected = [this.getEnumValue(TipologieMagia, this.filterCardForm.value.type!)];
-        } else if (this.filterCardForm.value.category==="TRAPPOLA") {
-          typeSelected = [this.getEnumValue(TipologieTrappola, this.filterCardForm.value.type!)];
+        if(!this.filterCardForm.value.type || this.filterCardForm.value.type === "" ) {
+          searchFilter.type = this.defaultTypes;
         } else {
-          if(this.filterCardForm.value.effect) {
-
-            const indexType = this.getEnumValue(Tipologie, this.filterCardForm.value.type);
-            switch(indexType) {
-              case Tipologie.NORMALE:
-                typeSelected = Object.values(TipEff).filter((value) => typeof value === 'number').map(Number);
-                break;
-              case Tipologie.FUSIONE:
-                typeSelected = Object.values(TipFusEff).filter((value) => typeof value === 'number').map(Number);
-                break;
-              case Tipologie.RITUALE:
-                typeSelected = Object.values(TipRitEff).filter((value) => typeof value === 'number').map(Number);
-                break;
-              case Tipologie.SYNCHRO:
-                typeSelected = Object.values(TipSynchroEff).filter((value) => typeof value === 'number').map(Number);
-                break;
-              case Tipologie.XYZ:
-                typeSelected = Object.values(TipXYZEff).filter((value) => typeof value === 'number').map(Number);
-                break;
-              default:
-                this.defaultMonster();
-                break;
-            }
-            
+          let typeSelected:any;
+          if(this.filterCardForm.value.category==="MAGIA") {
+            typeSelected = [this.getEnumValue(TipologieMagia, this.filterCardForm.value.type!)];
+          } else if (this.filterCardForm.value.category==="TRAPPOLA") {
+            typeSelected = [this.getEnumValue(TipologieTrappola, this.filterCardForm.value.type!)];
           } else {
-            typeSelected = [this.getEnumValue(Tipologie, this.filterCardForm.value.type!)];
-
-            if(this.filterCardForm.value.type! === "FUSIONE") {
-              typeSelected.push(TipTunNorm.FUSIONE)
-            } else if (this.filterCardForm.value.type! === "NORMALE") {
-              typeSelected.push(TipTunNorm.TUNER)
+            if(this.filterCardForm.value.effect) {
+  
+              const indexType = this.getEnumValue(Tipologie, this.filterCardForm.value.type);
+              switch(indexType) {
+                case Tipologie.NORMALE:
+                  typeSelected = Object.values(TipEff).filter((value) => typeof value === 'number').map(Number);
+                  break;
+                case Tipologie.FUSIONE:
+                  typeSelected = Object.values(TipFusEff).filter((value) => typeof value === 'number').map(Number);
+                  break;
+                case Tipologie.RITUALE:
+                  typeSelected = Object.values(TipRitEff).filter((value) => typeof value === 'number').map(Number);
+                  break;
+                case Tipologie.SYNCHRO:
+                  typeSelected = Object.values(TipSynchroEff).filter((value) => typeof value === 'number').map(Number);
+                  break;
+                case Tipologie.XYZ:
+                  typeSelected = Object.values(TipXYZEff).filter((value) => typeof value === 'number').map(Number);
+                  break;
+                default:
+                  this.defaultMonster();
+                  break;
+              }
+              
+            } else {
+              typeSelected = [this.getEnumValue(Tipologie, this.filterCardForm.value.type!)];
+  
+              if(this.filterCardForm.value.type! === "FUSIONE") {
+                typeSelected.push(TipTunNorm.FUSIONE)
+              } else if (this.filterCardForm.value.type! === "NORMALE") {
+                typeSelected.push(TipTunNorm.TUNER)
+              }
             }
           }
+          
+          if(typeSelected) {
+            searchFilter.type = typeSelected;
+          }
         }
-        
-        if(typeSelected) {
-          searchFilter.type = typeSelected;
+  
+        if(this.filterCardForm.value.race) {
+          const raceSelected:any = this.getEnumValue(Razze, this.filterCardForm.value.race!);
+          searchFilter.race = raceSelected;
         }
+  
+        if(this.filterCardForm.value.attribute) {
+          const attributeSelected:any = this.getEnumValue(Attributi, this.filterCardForm.value.attribute!);
+          searchFilter.attribute = attributeSelected;
+        }
+  
+        this.cardsEmit.emit({filter: searchFilter,resetPage:resetPage})
       }
-
-      if(this.filterCardForm.value.race) {
-        const raceSelected:any = this.getEnumValue(Razze, this.filterCardForm.value.race!);
-        searchFilter.race = raceSelected;
-      }
-
-      if(this.filterCardForm.value.attribute) {
-        const attributeSelected:any = this.getEnumValue(Attributi, this.filterCardForm.value.attribute!);
-        searchFilter.attribute = attributeSelected;
-      }
-
-      this.cardsEmit.emit({filter: searchFilter,resetPage:resetPage})
-      
     } else {
       if(this.filterCardForm.controls['name'].errors) {
         if (this.filterCardForm.controls['name'].errors['minlength']) {

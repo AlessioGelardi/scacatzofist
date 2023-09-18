@@ -18,7 +18,7 @@ export class FilterZainoPipe implements PipeTransform {
         x = x.filter(card => card.name.toUpperCase().includes(searchFilter.filter.name.toUpperCase()));
       }
 
-      if(typeof searchFilter.filter.type !=='string' && searchFilter.filter.type) {
+      if(searchFilter.filter.category && typeof searchFilter.filter.type !=='string' && searchFilter.filter.type) {
         x = x.filter(card => searchFilter.filter.type.includes(card.type));
       }
 

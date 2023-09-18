@@ -6,6 +6,7 @@
             </div>
             <div class="row">
                 <select class="form-control" id="category" formControlName="category" (change)="changeCategory()">
+                    <option value="" selected="true">Scegli Categoria</option>
                     <option *ngFor="let category of categories" value="{{category}}">{{category}}</option>
                 </select>
             </div>
@@ -34,7 +35,7 @@
             </div>
         </div>
     </div>
-    <div class="row d-flex justify-content-left">
+    <div class="row d-flex justify-content-left" *ngIf="filterCardForm.value.category !== ''">
         <div class="col-12 m-2" [ngClass]="{
             'col-12': filterCardForm.value.category !== 'MOSTRO',
             'col-3': filterCardForm.value.category === 'MOSTRO'
