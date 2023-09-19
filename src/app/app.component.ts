@@ -20,12 +20,18 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
 
+  viewSideBar = false;
+
   constructor() {
     
   }
 
   turnHome() {
     window.history.back();
+  }
+
+  openSideBar() {
+    this.viewSideBar = !this.viewSideBar;
   }
   
 }

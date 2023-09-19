@@ -17,11 +17,13 @@ import { PlayerModule } from './module/player/player.module';
 import { PlayNowModule } from './module/play-now/play-now.module';
 import { NotifierModule } from './module/notifier/notifier.module';
 import { TradeModule } from './module/trade/trade.module';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,

@@ -6,6 +6,7 @@ import { StateMarketService } from 'src/app/module/market/services/state/state-m
 import { StatePlayerService } from '../../services/state/state-player.service';
 import { StateNotifierService } from 'src/app/module/notifier/services/state/state-notifier.service';
 import { StateTradeService } from 'src/app/module/trade/services/state/state-trade.service';
+import { Socket } from 'ngx-socket-io';
 
 @Component({
   selector: 'player-status',
@@ -23,7 +24,8 @@ export class PlayerStatusComponent implements OnInit {
     private notifierStateService: StateNotifierService,
     private marketStateService: StateMarketService,
     private tradeStateService: StateTradeService,
-    private playerStateService: StatePlayerService) { }
+    private playerStateService: StatePlayerService,
+    private socket: Socket) { }
 
   ngOnInit(): void {
   }
@@ -43,5 +45,6 @@ export class PlayerStatusComponent implements OnInit {
     this.notifierStateService.resetTournaments();
     this.tradeStateService.resetPrivateTrades();
     this.router.navigate(['/']);
+    this.socket.emit('disconnect', this.player!.name);
   }
 }

@@ -24,9 +24,6 @@ export class HomeComponent implements OnInit {
 
   bonus:boolean = false;
 
-  users: any;
-  chat: any[] = [];
-
   chatForm = new FormGroup({
     message: new FormControl('', Validators.required)
   });
@@ -39,14 +36,6 @@ export class HomeComponent implements OnInit {
 
   }
 
-  getUsersCall() {
-    return this.socket.fromEvent('current_users').pipe(map((data: any) => data))
-  }
-
-  getChatCall() {
-    return this.socket.fromEvent('chat_messages').pipe(map((data: any) => data))
-  }
-
   ngOnInit(): void {
     const playerId = this.route.snapshot.paramMap.get('id')!;
 
@@ -57,16 +46,6 @@ export class HomeComponent implements OnInit {
     if(oggi.getDay() === 6 || oggi.getDay() === 0) {
       this.bonus = true;
     }
-
-    this.getUsersCall().subscribe(users => {
-      this.users = users;
-    })
-
-    this.getChatCall().subscribe(messages => {
-      for(let item in messages) {
-        this.chat.push(messages[item])
-      }
-    })
   }
 
   modificaDeck() {
