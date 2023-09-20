@@ -66,7 +66,7 @@ export class PlayNowDetailTorneoComponent {
     }
   }
 
-  cancellaTorneo() {
+  annullaTorneo() {
     this.messageService.alert('In progress...',"Questa funzionalità è ancora in sviluppo... Ci dispiace per l'inconveniente torna più tardi !!! ",'info');
   }
 

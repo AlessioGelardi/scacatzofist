@@ -20,7 +20,7 @@
             <label><strong>{{player}}</strong></label><br>
         </div>
     </div>
-    <div class="col" *ngIf="tournament!.status !== 1">
+    <div class="col" *ngIf="tournament!.type === 1 && tournament!.status !== 1">
         <h5>Podio</h5>
         <div>
             <label>Primo posto: <strong>{{this.tournament!.podio['primoPosto']}}</strong></label><br>
@@ -28,7 +28,40 @@
             <label>Terzo posto: <strong>{{this.tournament!.podio['terzoPosto']}}</strong></label><br>
         </div>
     </div>
-    <div class="col" *ngIf="tournament!.status !== 1">
+    <div class="col" *ngIf="tournament!.type === 2 && tournament!.status !== 1">
+        <h5>Classifica</h5>
+        <table class="table table-hover text-center">
+            <thead>
+                <tr>
+                    <th scope="col">Player</th>
+                    <th scope="col">Punteggio</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- <tr *ngFor="let p of classification">
+                    <td>{{p.playerName}}</td>
+                    <td>{{p.point}}</td>
+                </tr> -->
+                <tr>
+                    <td>Gary</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Yota</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Peppe</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>Admin</td>
+                    <td>0</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col" *ngIf="tournament!.type === 1 && tournament!.status !== 1">
         <h5>Elenco battaglie</h5>
         <div *ngFor="let player of getBattle()">
             <label>{{player.first}} VS {{player.second}}</label><br>
@@ -39,10 +72,10 @@
 <div class="row d-flex justify-content-around mt-5">
     <button *ngIf="imOrg && tournament!.status === 1" class="col-3 btn btn-bg rounded grigino" (click)="iniziaTorneo()">INIZIA TORNEO</button>
     <button *ngIf="tournament!.status === 1" class="col-3 btn btn-bg rounded grigino" (click)="partecipa()">PARTECIPA</button>
-    <button *ngIf="imOrg && tournament!.status === 1" class="col-3 btn btn-bg rounded grigino" (click)="cancellaTorneo()">CANCELLA TORNEO</button>
+    <button *ngIf="imOrg && tournament!.status === 1" class="col-3 btn btn-bg rounded grigino" (click)="annullaTorneo()">CANCELLA TORNEO</button>
 </div>
 
-<div class="mt-5">
+<div class="mt-5" *ngIf="tournament!.type === 1">
     <div class="row">
         <div class="col-3 text-center" style="margin-top: 150px;" *ngIf="!this.tournament!.podio['terzoPosto']">
             <label>Terzo posto</label>
@@ -94,6 +127,62 @@
             </div>
         </div>
     </div>
+</div>
+
+<div class="row mt-2 text-center" *ngIf="tournament!.type === 2">
+    <div class="col">
+        <h5>Turno Andata</h5>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Duelli</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- <tr *ngFor="let p of classification">
+                    <td>{{p.playerName}}</td>
+                    <td>{{p.point}}</td>
+                </tr> -->
+                <tr>
+                    <td>Io VS Gary</td>
+                </tr>
+                <tr>
+                    <td>Io VS Yota</td>
+                </tr>
+                <tr>
+                    <td>Io VS Peppe</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col">
+        <h5>Turno Ritorno</h5>
+        <table class="table table-hover text-center">
+            <thead>
+                <tr>
+                    <th scope="col">Duelli</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- <tr *ngFor="let p of classification">
+                    <td>{{p.playerName}}</td>
+                    <td>{{p.point}}</td>
+                </tr> -->
+                <tr>
+                    <td>Gary VS Io</td>
+                </tr>
+                <tr>
+                    <td>Yota VS Io</td>
+                </tr>
+                <tr>
+                    <td>Peppe VS Io</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    
 </div>
 
 

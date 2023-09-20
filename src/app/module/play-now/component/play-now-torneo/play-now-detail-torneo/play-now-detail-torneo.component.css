@@ -3,3 +3,7 @@
     width: 275px;
     height: 70px;
 }
+
+table tr td, table tr th{
+    background-color: transparent !important;
+}
