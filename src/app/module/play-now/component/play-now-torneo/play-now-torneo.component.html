@@ -92,7 +92,7 @@
                 </div>
                 <div class="row mt-2">
                     <div class="col-3">
-                        <input type="range" class="form-control" id="regCostCoins" formControlName="regCostCoins" max="99999">
+                        <input type="range" class="form-control" id="regCostCoins" step="100" formControlName="regCostCoins" max="99999">
                     </div>
                     <div class="col">
                         <strong *ngIf="this.createTorneoForm.value.regCostCoins!>0"><label>{{this.createTorneoForm.value.regCostCoins}}</label></strong>&nbsp;<i class="fa fa fa-database"></i>

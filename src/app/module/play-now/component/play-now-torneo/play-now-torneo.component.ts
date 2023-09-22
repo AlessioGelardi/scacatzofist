@@ -158,7 +158,7 @@ export class PlayNowTorneoComponent {
         request.orgPart = this.createTorneoForm.value.orgPart;
         request.regCostCoins = this.createTorneoForm.value.regCostCoins;
         request.regCostCredits = this.createTorneoForm.value.regCostCredits;
-        request.type = this.createTorneoForm.value.type;
+        request.type = Number(this.createTorneoForm.value.type);
         request.maxNReg = this.createTorneoForm.value.maxNReg;
         request.main = true;
         request.podio = {}
@@ -170,6 +170,11 @@ export class PlayNowTorneoComponent {
 
         //calcolo per la vittoria (da spostare BE ?)
         request.vincita = {}
+
+        //torneo classificato
+        if(request.type===TipologieTorneo.CLASSIFICATO) {
+          request.classificato = {}
+        }
 
         //15% 35% 50%
         if(request.regCostCoins!>0) {

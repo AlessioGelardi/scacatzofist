@@ -1,0 +1,10 @@
+<div class="sidebar" [class.open]="isOpen">
+    <div class="sidebar-header">
+        <h4>Utenti online</h4>
+    </div>
+    <button class="btn btn-bg col-1 position-absolute top-0 end-0" (click)="closeSidebar()"><i class="fa fa-times text-white"></i></button>
+    <ul *ngFor="let user of users | keyvalue">
+        <li>{{user.value}}</li>
+    </ul>
+</div>
+  

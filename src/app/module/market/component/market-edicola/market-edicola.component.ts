@@ -30,7 +30,7 @@ export class MarketEdicolaComponent implements OnInit {
   finishPurchase: boolean = false;
 
   viewCurrencyExchange: boolean = false;
-  numberCredits: number = 0;
+  numberCoins: number = 0;
 
   buyPackSrc: string | undefined;
 
@@ -1183,12 +1183,12 @@ export class MarketEdicolaComponent implements OnInit {
     this.viewCurrencyExchange = true;
   }
 
-  buyCredits() {
-    if(this.numberCredits>0) {
-      if(this.player!.coin!>=(this.numberCredits*1000)) {
+  buyCoins() {
+    if(this.numberCoins>0) {
+      if(this.player!.credits!>=(this.numberCoins/300)) {
         Swal.fire({
           title: 'Sei sicuro?',
-          html: "Acquisterai <strong>"+this.numberCredits+" <i class='fa fa-diamond'></i></strong> al prezzo di <strong>"+this.numberCredits*1000+" <i class='fa fa-database'></i></strong>!",
+          html: "Acquisterai <strong>"+this.numberCoins+" <i class='fa fa-database'></i></strong> al prezzo di <strong>"+this.numberCoins/300+" <i class='fa fa-diamond'></i></strong>!",
           icon: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#3085d6',
@@ -1197,12 +1197,19 @@ export class MarketEdicolaComponent implements OnInit {
           cancelButtonText: 'Non acquistare!'
         }).then((result) => {
           if (result.isConfirmed) {
+
+            let request: any = {};
+            request.playerId = this.player!._id!;
+            request.coins = this.numberCoins;
   
-            this.marketStateService.buyCredits(this.player!._id!,this.numberCredits).then((resp) => {
-              if(resp) {
-                this.player!.credits = Number(this.player!.credits!) + Number(this.numberCredits);
-                this.player!.coin = this.player!.coin!-(this.numberCredits*1000);
+            this.marketStateService.buyCoins(request).then((resp) => {
+              if(resp == true) {
+                
+                this.player!.coin = Number(this.player!.coin!) + Number(this.numberCoins);
+                this.player!.credits = this.player!.credits! - Number(this.numberCoins/300);
                 this.viewCurrencyExchange = false;
+                this.playerStateService.resetPlayerState();
+                this.takePlayer(this.player?._id!);
               } else {
                 //TO-DO gestione degli errori
                 /*
@@ -1211,7 +1218,7 @@ export class MarketEdicolaComponent implements OnInit {
                 }
                 */
         
-                this.messageService.alert('Attenzione!','Problema durante l"acquisto dei crediti','error');
+                this.messageService.alert('Attenzione!',"Problema durante l'acquisto dei coins",'error');
               }
             });
           }

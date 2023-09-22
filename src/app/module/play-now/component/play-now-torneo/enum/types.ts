@@ -1,6 +1,6 @@
 export enum TipologieTorneo {
-    ELIMINATORIE = 1//,
-    //CLASSIFICATO = 2
+    ELIMINATORIE = 1,
+    CLASSIFICATO = 2
 }
 
 export enum AccessTypes {

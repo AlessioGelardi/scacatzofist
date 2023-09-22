@@ -63,7 +63,7 @@
                     </tbody>
                 </table>
                 <div class="mt-4">
-                    <button class="col-5 btn btn-lg rounded grigino" (click)="awardTraining()">CONFERMA RICOMPENSA <strong>{{totalReward}} <i class="fa fa fa-database"></i></strong></button>
+                    <button *ngIf="duelRecs!.length>0" class="col-5 btn btn-lg rounded grigino" (click)="awardTraining()">CONFERMA RICOMPENSA <strong>{{totalReward}} <i class="fa fa fa-database"></i></strong></button>
                 </div>
             </div>
 
