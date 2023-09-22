@@ -19,9 +19,20 @@ export class PlayNowDetailTorneoComponent {
   @Input() player: Player | undefined;
   @Input() imOrg: boolean = false;
 
+  andata: any = [];
+  ritorno: any = [];
+  fineClassificato: boolean = false;
+
   constructor(private messageService: MessageService,
     private notifierStateService: StateNotifierService,
-    private playerStateService: StatePlayerService) { }
+    private playerStateService: StatePlayerService) {
+
+  }
+
+  ngOnInit(): void {
+    this.takeAndata();
+    this.checkFineClassificato();
+  }
 
   public get TipologieTorneo() {
     return TipologieTorneo; 
@@ -46,7 +57,7 @@ export class PlayNowDetailTorneoComponent {
         request.id = this.tournament?.id; 
         request.name = this.player!.name;
         request.playerId = this.player!._id!;
-        request.status = 1;
+        request.status = Status.INVIATO;
 
         this.update(request,false);
       }
@@ -59,7 +70,7 @@ export class PlayNowDetailTorneoComponent {
     } else {
 
       let request: any = {}
-      request.status = 2;
+      request.status = Status.ACCETTATO;
       request.id = this.tournament?.id;
 
       this.update(request,true);
@@ -108,6 +119,11 @@ export class PlayNowDetailTorneoComponent {
     this.notifierStateService.getTournamentById(this.tournament!.id!).then((resp) => {
       if(resp) {
         this.tournament = resp;
+        this.andata = [];
+        this.ritorno = [];
+
+        this.takeAndata();
+        this.checkFineClassificato();
       } else {
         //TO-DO gestione degli errori
         /*
@@ -174,6 +190,48 @@ export class PlayNowDetailTorneoComponent {
         this.messageService.alert('Attenzione!','Errore durante la chiamata updateDuelRec','error');
       }
     });
+  }
+
+  private takeAndata() {
+    if(this.tournament?.type===TipologieTorneo.CLASSIFICATO) {
+      for(let duels of this.tournament.classificato.duels) {
+        const player1 = duels.players[0]
+        const player2 = duels.players[1]
+        if(player1 === this.player?.name || player2 === this.player?.name) {
+          if(player1 === this.player?.name) {
+            this.andata.push({"duel":player1+" VS "+player2,"winner":duels.players[duels.esitoAndata]})
+            this.ritorno.push({"duel":player2+" VS "+player1,"winner":duels.players[duels.esitoRitorno]})
+          } else {
+            this.andata.push({"duel":this.player?.name+" VS "+player1,"winner":duels.players[duels.esitoAndata]})
+            this.ritorno.push({"duel":player1+" VS "+this.player?.name,"winner":duels.players[duels.esitoRitorno]})
+          }
+        }
+      }
+    }
+  }
+
+  private checkFineClassificato() {
+    let allAndata = false;
+    let allRitorno = false;
+    for(let x of this.andata) {
+      if(x["winner"] !== undefined) {
+        allAndata = true;
+      } else {
+        allAndata = false
+      }
+    }
+
+    for(let x of this.ritorno) {
+      if(x["winner"] !== undefined) {
+        allRitorno = true;
+      } else {
+        allRitorno = false
+      }
+    }
+
+    if(allAndata && allRitorno) {
+      this.fineClassificato = true;
+    }
   }
 
   private update(request:any, start:boolean) {

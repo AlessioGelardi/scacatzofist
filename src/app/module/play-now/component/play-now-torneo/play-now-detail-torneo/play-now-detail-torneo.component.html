@@ -38,25 +38,9 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- <tr *ngFor="let p of classification">
-                    <td>{{p.playerName}}</td>
-                    <td>{{p.point}}</td>
-                </tr> -->
-                <tr>
-                    <td>Gary</td>
-                    <td>0</td>
-                </tr>
-                <tr>
-                    <td>Yota</td>
-                    <td>0</td>
-                </tr>
-                <tr>
-                    <td>Peppe</td>
-                    <td>0</td>
-                </tr>
-                <tr>
-                    <td>Admin</td>
-                    <td>0</td>
+                <tr *ngFor="let pl of tournament!.playersName">
+                    <td>{{pl}}</td>
+                    <td>{{tournament!.classificato!.point[pl]}}</td>
                 </tr>
             </tbody>
         </table>
@@ -129,7 +113,7 @@
     </div>
 </div>
 
-<div class="row mt-2 text-center" *ngIf="tournament!.type === 2">
+<div class="row mt-2 text-center" *ngIf="tournament!.type === 2 && tournament!.status === 2">
     <div class="col">
         <h5>Turno Andata</h5>
         <table class="table table-hover">
@@ -139,18 +123,9 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- <tr *ngFor="let p of classification">
-                    <td>{{p.playerName}}</td>
-                    <td>{{p.point}}</td>
-                </tr> -->
-                <tr>
-                    <td>Io VS Gary</td>
-                </tr>
-                <tr>
-                    <td>Io VS Yota</td>
-                </tr>
-                <tr>
-                    <td>Io VS Peppe</td>
+                <tr *ngFor="let p of andata">
+                    <td *ngIf="p.winner" [ngStyle]="{'color':p.winner===player?.name! ? 'green' : 'red'}">{{p.duel}}</td>
+                    <td *ngIf="!p.winner">{{p.duel}}</td>
                 </tr>
             </tbody>
         </table>
@@ -165,18 +140,9 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- <tr *ngFor="let p of classification">
-                    <td>{{p.playerName}}</td>
-                    <td>{{p.point}}</td>
-                </tr> -->
-                <tr>
-                    <td>Gary VS Io</td>
-                </tr>
-                <tr>
-                    <td>Yota VS Io</td>
-                </tr>
-                <tr>
-                    <td>Peppe VS Io</td>
+                <tr *ngFor="let p of ritorno">
+                    <td *ngIf="p.winner" [ngStyle]="{'color':p.winner===player?.name! ? 'green' : 'red'}">{{p.duel}}</td>
+                    <td *ngIf="!p.winner">{{p.duel}}</td>
                 </tr>
             </tbody>
         </table>
@@ -188,6 +154,6 @@
 
 <div class="row d-flex justify-content-around mt-5" *ngIf="tournament!.status === 2">
     <button class="col-3 btn btn-bg rounded grigino" (click)="refreshPartita()">AGGIORNA</button>
-    <button class="col-3 btn btn-bg rounded grigino" (click)="concludi()" *ngIf="this.tournament!.podio['primoPosto'] && this.tournament!.podio['secondoPosto'] && this.tournament!.podio['terzoPosto']">CONCLUDI TORNEO</button>
+    <button class="col-3 btn btn-bg rounded grigino" (click)="concludi()" *ngIf="(this.tournament!.type === 2 && fineClassificato) || (this.tournament!.type === 1 && this.tournament!.podio['primoPosto'] && this.tournament!.podio['secondoPosto'] && this.tournament!.podio['terzoPosto'])">CONCLUDI TORNEO</button>
     <button class="col-3 btn btn-bg rounded grigino" (click)="finePartita()" *ngIf="tournament?.playersId?.includes(player!._id!)">FINE PARTITA</button>
 </div>

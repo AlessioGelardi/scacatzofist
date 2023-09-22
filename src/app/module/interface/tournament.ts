@@ -14,4 +14,5 @@ export interface Tournament {
     playersName?: string[];
     playersId?: string[];
     podio:any;
+    classificato?:any;
 }

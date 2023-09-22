@@ -171,6 +171,11 @@ export class PlayNowTorneoComponent {
         //calcolo per la vittoria (da spostare BE ?)
         request.vincita = {}
 
+        //torneo classificato
+        if(request.type===TipologieTorneo.CLASSIFICATO) {
+          request.classificato = {}
+        }
+
         //15% 35% 50%
         if(request.regCostCoins!>0) {
           const totCoins = request.regCostCoins * request.maxNReg;
