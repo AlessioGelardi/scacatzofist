@@ -6,6 +6,7 @@ import { StatePlayerService } from 'src/app/module/player/services/state/state-p
 import { MessageService } from 'src/app/module/swalAlert/message.service';
 import { FilterCardComponent } from '../filter-card/filter-card.component';
 import { StateDatabaseService } from '../../services/state/state-database.service';
+import { FilterZainoService } from '../../services/filter-zaino.service';
 
 @Component({
   selector: 'app-yugiohdex',
@@ -27,17 +28,21 @@ export class YugiohdexComponent {
 
   searchFilter: any | undefined;
 
+  etichette:any= {};
+
   constructor(private route: ActivatedRoute,
     private router: Router,
     private messageService: MessageService,
     private databaseStateService: StateDatabaseService,
-    private playerStateService: StatePlayerService) {
+    private playerStateService: StatePlayerService,
+    private filterZainoService: FilterZainoService) {
   }
 
   ngOnInit(): void {
     const playerId = this.route.snapshot.paramMap.get('id')!;
     
     this.takePlayer(playerId);
+    this.takeEtichette(playerId);
   }
 
   retrieveCards(searchFilter: any) {
@@ -55,6 +60,8 @@ export class YugiohdexComponent {
         }
       });
     }
+
+    this.zaino = this.filterZainoService.transform(this.zaino,searchFilter);
   }
 
   home() {
@@ -102,6 +109,23 @@ export class YugiohdexComponent {
         */
   
         this.messageService.alert('Attenzione!','Errore durante la chiamata getZaino','error');
+      }
+    });
+  }
+
+  private takeEtichette(playerId: string) {
+    this.playerStateService.getEtichette(playerId).then((resp) => {
+      if(resp) {
+        this.etichette = resp;
+      } else {
+        //TO-DO gestione degli errori
+        /*
+        if(resp.status===402) {
+          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+        }
+        */
+
+        this.messageService.alert('Attenzione!','Errore durante la chiamata getEtichette','error');
       }
     });
   }

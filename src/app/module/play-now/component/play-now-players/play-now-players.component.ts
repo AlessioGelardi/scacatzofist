@@ -8,6 +8,7 @@ import { TypeMod } from '../../enum/typeMod';
 import { Card, Deck } from 'src/app/module/interface/card';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { StateDeckService } from 'src/app/module/deck/services/state/state-deck.service';
+import { FilterZainoService } from 'src/app/module/zaino/services/filter-zaino.service';
 
 @Component({
   selector: 'play-now-players',
@@ -30,7 +31,9 @@ export class PlayNowPlayersComponent {
 
   showZaini:boolean = false;
   myZaino: Card[] = [];
+  myZainoBackup: Card[] = [];
   oppoZaino: Card[] = [];
+  oppoZainoBackup: Card[] = [];
   myPlate: Card[] = [];
   oppoPlate: Card[] = [];
 
@@ -44,15 +47,19 @@ export class PlayNowPlayersComponent {
   searchFilterZaino:any | undefined;
   searchFilterOppo:any | undefined;
 
+  etichette:any= {};
+
   constructor(private messageService: MessageService,
     private notifierStateService: StateNotifierService,
     private deckStateService: StateDeckService,
-    private playerStateService: StatePlayerService) {
+    private playerStateService: StatePlayerService,
+    private filterZainoService: FilterZainoService) {
 
   }
 
   ngOnInit(): void {
     this.takeAllPlayers(this.playerId);
+    this.takeEtichette();
   }
 
   inviaRichiesta(playerId:string,playerName:string) {
@@ -176,12 +183,54 @@ export class PlayNowPlayersComponent {
     if(searchFilter) {
       this.searchFilterZaino = searchFilter;
     }
+
+    this.myZaino = this.filterZainoService.transform(this.myZainoBackup,searchFilter);
+  }
+
+  transform(value: Card[], searchFilter: any): Card[] {
+    let result: Card[] = value;
+    if(searchFilter) {
+      let x: Card[] = result;
+      if(searchFilter.filter.name) {
+        x = value.filter(card => card.name.toUpperCase().includes(searchFilter.filter.name.toUpperCase()));
+      }
+
+      if(typeof searchFilter.filter.type !=='string' && searchFilter.filter.type) {
+        x = x.filter(card => searchFilter.filter.type.includes(card.type));
+      }
+
+      if(searchFilter.filter.attribute) {
+        x = x.filter(card => searchFilter.filter.attribute===card.attribute);
+      }
+
+      if(searchFilter.filter.race) {
+        x = x.filter(card => searchFilter.filter.race===card.race);
+      }
+
+      if(searchFilter.filter.atk>-50) {
+        x = x.filter(card => searchFilter.filter.atk===card.atk);
+      }
+
+      if(searchFilter.filter.def>-50) {
+        x = x.filter(card => searchFilter.filter.def===card.def);
+      }
+
+      if(searchFilter.filter.level>0) {
+        x = x.filter(card => searchFilter.filter.level===card.level);
+      }
+
+      result = x;
+      
+    }
+    return result; 
   }
 
   retrieveCardsOppo(searchFilter: any) {
     if(searchFilter) {
       this.searchFilterOppo = searchFilter;
     }
+
+    this.oppoZaino = this.filterZainoService.transform(this.oppoZainoBackup,searchFilter);
   }
 
   private takeAllPlayers(id:string) {
@@ -292,6 +341,23 @@ export class PlayNowPlayersComponent {
         }
       });
     }
+  }
+
+  private takeEtichette() {
+    this.playerStateService.getEtichette(this.playerId!).then((resp) => {
+      if(resp) {
+        this.etichette = resp;
+      } else {
+        //TO-DO gestione degli errori
+        /*
+        if(resp.status===402) {
+          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+        }
+        */
+
+        this.messageService.alert('Attenzione!','Errore durante la chiamata getEtichette','error');
+      }
+    });
   }
 
 }

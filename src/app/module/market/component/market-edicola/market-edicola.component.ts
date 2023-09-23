@@ -1099,7 +1099,7 @@ export class MarketEdicolaComponent implements OnInit {
                 
                 //TO-DO gestire errori
                 if(!resp.status) {
-                  this.player!.credits = Number(this.player!.credits!) - 35;
+                  this.player!.credits = Number(this.player!.credits!) - baseCost;
                   this.finishPurchase = true;
                   this.newPacks = resp;
                   this.viewCards = [];

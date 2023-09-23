@@ -16,7 +16,7 @@
             <div class="position-relative">
                 <button class="col-1 btn btn-sm rounded grigino position-absolute top-0 start-100 translate-middle" (click)="doFilter()"><i class="fa fa-times"></i></button>
             </div>
-            <filter-card [etichette]="null" (cardsEmit)="retrieveCards($event)"></filter-card>
+            <filter-card [etichette]="etichette" (cardsEmit)="retrieveCards($event)"></filter-card>
         </div>
     </div>
 </div>
