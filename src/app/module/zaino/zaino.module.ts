@@ -22,7 +22,7 @@ import { ShowDeckComponent } from './component/show-deck/show-deck.component';
     OpeningPackComponent,
     InventoryComponent,
     YugiohdexComponent,
-    ShowDeckComponent,
+    ShowDeckComponent
   ],
   imports: [
     CommonModule,

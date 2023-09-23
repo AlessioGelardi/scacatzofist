@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Player } from 'src/app/module/interface/player';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { FilterZainoService } from 'src/app/module/zaino/services/filter-zaino.service';
 
 @Component({
   selector: 'trade-new-card',
@@ -40,7 +41,7 @@ export class TradeNewCardComponent {
 
   oppoZaino: Card[] = [];
   oppoZainoBackup: Card[] = [];
-  
+
   myPlate: Card[] = [];
   oppoPlate: Card[] = [];
 
@@ -58,7 +59,8 @@ export class TradeNewCardComponent {
     private messageService: MessageService,
     private deckStateService: StateDeckService,
     private playerStateService: StatePlayerService,
-    private tradeStateService: StateTradeService) {
+    private tradeStateService: StateTradeService,
+    private filterZainoService: FilterZainoService) {
 
   }
 
@@ -80,7 +82,7 @@ export class TradeNewCardComponent {
       this.searchFilterZaino = searchFilter;
     }
 
-    this.myZaino = this.transform(this.myZainoBackup,searchFilter);
+    this.myZaino = this.filterZainoService.transform(this.myZainoBackup,searchFilter);
 
   }
 
@@ -127,7 +129,7 @@ export class TradeNewCardComponent {
       this.searchFilterOppo = searchFilter;
     }
 
-    this.oppoZaino = this.transform(this.oppoZainoBackup,searchFilter);
+    this.oppoZaino = this.filterZainoService.transform(this.oppoZainoBackup,searchFilter);
   }
 
   showCard(card:Card) {

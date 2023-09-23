@@ -6,6 +6,7 @@ import { StatePlayerService } from 'src/app/module/player/services/state/state-p
 import { MessageService } from 'src/app/module/swalAlert/message.service';
 import { FilterCardComponent } from '../filter-card/filter-card.component';
 import { StateDatabaseService } from '../../services/state/state-database.service';
+import { FilterZainoService } from '../../services/filter-zaino.service';
 
 @Component({
   selector: 'app-yugiohdex',
@@ -31,7 +32,8 @@ export class YugiohdexComponent {
     private router: Router,
     private messageService: MessageService,
     private databaseStateService: StateDatabaseService,
-    private playerStateService: StatePlayerService) {
+    private playerStateService: StatePlayerService,
+    private filterZainoService: FilterZainoService) {
   }
 
   ngOnInit(): void {
@@ -55,6 +57,8 @@ export class YugiohdexComponent {
         }
       });
     }
+
+    this.zaino = this.filterZainoService.transform(this.zaino,searchFilter);
   }
 
   home() {

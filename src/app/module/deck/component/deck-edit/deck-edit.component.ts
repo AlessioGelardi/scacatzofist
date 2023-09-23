@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import { StatePlayerService } from 'src/app/module/player/services/state/state-player.service';
 import { MessageService } from 'src/app/module/swalAlert/message.service';
 import { CdkDragDrop, CdkDragEnd, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { FilterZainoService } from 'src/app/module/zaino/services/filter-zaino.service';
 
 @Component({
   selector: 'app-deck-edit',
@@ -42,7 +43,8 @@ export class DeckEditComponent implements OnInit {
     private deckStateService: StateDeckService,
     private route: ActivatedRoute,
     private playerStateService: StatePlayerService,
-    private messageService: MessageService) { }
+    private messageService: MessageService,
+    private filterZainoService: FilterZainoService) { }
 
   ngOnInit(): void {
     this.permission = this.route.snapshot.paramMap.get('permission')! === "true";
@@ -155,7 +157,7 @@ export class DeckEditComponent implements OnInit {
       this.zainoDelete=[];
     }
 
-    this.zaino = this.transform(this.zainoBackup,searchFilter);
+    this.zaino = this.filterZainoService.transform(this.zainoBackup,searchFilter);
   }
 
   transform(value: Card[], searchFilter: any): Card[] {

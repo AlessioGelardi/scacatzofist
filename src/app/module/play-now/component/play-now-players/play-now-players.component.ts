@@ -8,6 +8,7 @@ import { TypeMod } from '../../enum/typeMod';
 import { Card, Deck } from 'src/app/module/interface/card';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { StateDeckService } from 'src/app/module/deck/services/state/state-deck.service';
+import { FilterZainoService } from 'src/app/module/zaino/services/filter-zaino.service';
 
 @Component({
   selector: 'play-now-players',
@@ -49,7 +50,8 @@ export class PlayNowPlayersComponent {
   constructor(private messageService: MessageService,
     private notifierStateService: StateNotifierService,
     private deckStateService: StateDeckService,
-    private playerStateService: StatePlayerService) {
+    private playerStateService: StatePlayerService,
+    private filterZainoService: FilterZainoService) {
 
   }
 
@@ -179,7 +181,7 @@ export class PlayNowPlayersComponent {
       this.searchFilterZaino = searchFilter;
     }
 
-    this.myZaino = this.transform(this.myZainoBackup,searchFilter);
+    this.myZaino = this.filterZainoService.transform(this.myZainoBackup,searchFilter);
   }
 
   transform(value: Card[], searchFilter: any): Card[] {
@@ -225,7 +227,7 @@ export class PlayNowPlayersComponent {
       this.searchFilterOppo = searchFilter;
     }
 
-    this.oppoZaino = this.transform(this.oppoZainoBackup,searchFilter);
+    this.oppoZaino = this.filterZainoService.transform(this.oppoZainoBackup,searchFilter);
   }
 
   private takeAllPlayers(id:string) {
