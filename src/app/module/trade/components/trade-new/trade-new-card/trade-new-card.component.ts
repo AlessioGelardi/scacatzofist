@@ -36,7 +36,11 @@ export class TradeNewCardComponent {
   });
 
   myZaino: Card[] = [];
+  myZainoBackup: Card[] = [];
+
   oppoZaino: Card[] = [];
+  oppoZainoBackup: Card[] = [];
+  
   myPlate: Card[] = [];
   oppoPlate: Card[] = [];
 
@@ -75,12 +79,55 @@ export class TradeNewCardComponent {
     if(searchFilter) {
       this.searchFilterZaino = searchFilter;
     }
+
+    this.myZaino = this.transform(this.myZainoBackup,searchFilter);
+
+  }
+
+  transform(value: Card[], searchFilter: any): Card[] {
+    let result: Card[] = value;
+    if(searchFilter) {
+      let x: Card[] = result;
+      if(searchFilter.filter.name) {
+        x = value.filter(card => card.name.toUpperCase().includes(searchFilter.filter.name.toUpperCase()));
+      }
+
+      if(typeof searchFilter.filter.type !=='string' && searchFilter.filter.type) {
+        x = x.filter(card => searchFilter.filter.type.includes(card.type));
+      }
+
+      if(searchFilter.filter.attribute) {
+        x = x.filter(card => searchFilter.filter.attribute===card.attribute);
+      }
+
+      if(searchFilter.filter.race) {
+        x = x.filter(card => searchFilter.filter.race===card.race);
+      }
+
+      if(searchFilter.filter.atk>-50) {
+        x = x.filter(card => searchFilter.filter.atk===card.atk);
+      }
+
+      if(searchFilter.filter.def>-50) {
+        x = x.filter(card => searchFilter.filter.def===card.def);
+      }
+
+      if(searchFilter.filter.level>0) {
+        x = x.filter(card => searchFilter.filter.level===card.level);
+      }
+
+      result = x;
+      
+    }
+    return result; 
   }
 
   retrieveCardsOppo(searchFilter: any) {
     if(searchFilter) {
       this.searchFilterOppo = searchFilter;
     }
+
+    this.oppoZaino = this.transform(this.oppoZainoBackup,searchFilter);
   }
 
   showCard(card:Card) {
@@ -187,7 +234,8 @@ export class TradeNewCardComponent {
             }
     
             if(!inUse) {
-              this.myZaino.push(card)
+              this.myZaino.push(card);
+              this.myZainoBackup.push(card);
             }
           }
         } else {
@@ -216,7 +264,8 @@ export class TradeNewCardComponent {
             }
     
             if(!inUse) {
-              this.oppoZaino.push(card)
+              this.oppoZaino.push(card);
+              this.oppoZainoBackup.push(card);
             }
           }
         } else {
