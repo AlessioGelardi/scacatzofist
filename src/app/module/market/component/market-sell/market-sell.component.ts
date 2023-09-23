@@ -229,8 +229,13 @@ export class MarketSellComponent implements OnInit {
               this.messageService.alert('Fatto!','Etichetta cancellata!','success');
               this.playerStateService.resetEtichette();
               this.takeEtichette();
-      
-              card.etich = undefined;
+
+              let cards = this.zaino!.filter(i => i.id === card.id);
+              if(cards) {
+                for(let card of cards) {
+                  card.etich = undefined;
+                }
+              }
       
             } else {
               this.messageService.alert('Attenzione!','Errore durante la chiamata delEtichetta','error');
@@ -254,14 +259,14 @@ export class MarketSellComponent implements OnInit {
         this.takeEtichette();
 
         //find card for add color.
-        let card = this.zaino!.find(i => i.id === this.cardEticSelected!);
-        if(card) {
-          let etichNew:any = {}
-          etichNew.name = etich.name;
-          etichNew.color = etich.color
-          card.etich = etichNew;
-        } else {
-          console.log('error')
+        let cards = this.zaino!.filter(i => i.id === this.cardEticSelected!);
+        if(cards) {
+          for(let card of cards) {
+            let etichNew:any = {}
+            etichNew.name = etich.name;
+            etichNew.color = etich.color
+            card.etich = etichNew;
+          }
         }
         this.isDropdownVisible = false;
 
