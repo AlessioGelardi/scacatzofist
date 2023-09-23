@@ -54,6 +54,8 @@ export class TradeNewCardComponent {
 
   myDecks:Deck[] = [];
   oppoDecks:Deck[] = [];
+
+  etichette:any= {};
   
   constructor(private router: Router,
     private messageService: MessageService,
@@ -67,6 +69,7 @@ export class TradeNewCardComponent {
   ngOnInit(): void {
     this.takeDecksByIdPlayer(this.player?._id!);
     this.takeDecksByIdPlayer(this.selectPlayerId!);
+    this.takeEtichette();
   }
 
   doFilterZaino() {
@@ -312,6 +315,23 @@ export class TradeNewCardComponent {
         }
       });
     }
+  }
+
+  private takeEtichette() {
+    this.playerStateService.getEtichette(this.player?._id!).then((resp) => {
+      if(resp) {
+        this.etichette = resp;
+      } else {
+        //TO-DO gestione degli errori
+        /*
+        if(resp.status===402) {
+          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+        }
+        */
+
+        this.messageService.alert('Attenzione!','Errore durante la chiamata getEtichette','error');
+      }
+    });
   }
 }
 

@@ -39,6 +39,8 @@ export class DeckEditComponent implements OnInit {
 
   typeExtra = [65,8193, 8388609, 4161, 97, 4193, 637, 4257, 2097313, 8225, 12321, 8388641];
 
+  etichette:any= {};
+
   constructor(private router: Router,
     private deckStateService: StateDeckService,
     private route: ActivatedRoute,
@@ -80,6 +82,7 @@ export class DeckEditComponent implements OnInit {
     this.playerId = this.route.snapshot.paramMap.get('playerId')!;
     this.newNameDeck = this.route.snapshot.paramMap.get('newNameDeck')!;
     this.takeDeck();
+    this.takeEtichette();
   }
 
   buttonOperationHandler(code: any) {
@@ -406,6 +409,23 @@ export class DeckEditComponent implements OnInit {
   private checkMainIntoExtra(): boolean {
     let cardIntoExtra = this.deck!.extra.find(i => !this.typeExtra.includes(i.type));
     return cardIntoExtra ? true:false;
+  }
+
+  private takeEtichette() {
+    this.playerStateService.getEtichette(this.playerId!).then((resp) => {
+      if(resp) {
+        this.etichette = resp;
+      } else {
+        //TO-DO gestione degli errori
+        /*
+        if(resp.status===402) {
+          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+        }
+        */
+
+        this.messageService.alert('Attenzione!','Errore durante la chiamata getEtichette','error');
+      }
+    });
   }
 
 }

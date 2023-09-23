@@ -28,6 +28,8 @@ export class YugiohdexComponent {
 
   searchFilter: any | undefined;
 
+  etichette:any= {};
+
   constructor(private route: ActivatedRoute,
     private router: Router,
     private messageService: MessageService,
@@ -40,6 +42,7 @@ export class YugiohdexComponent {
     const playerId = this.route.snapshot.paramMap.get('id')!;
     
     this.takePlayer(playerId);
+    this.takeEtichette(playerId);
   }
 
   retrieveCards(searchFilter: any) {
@@ -106,6 +109,23 @@ export class YugiohdexComponent {
         */
   
         this.messageService.alert('Attenzione!','Errore durante la chiamata getZaino','error');
+      }
+    });
+  }
+
+  private takeEtichette(playerId: string) {
+    this.playerStateService.getEtichette(playerId).then((resp) => {
+      if(resp) {
+        this.etichette = resp;
+      } else {
+        //TO-DO gestione degli errori
+        /*
+        if(resp.status===402) {
+          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+        }
+        */
+
+        this.messageService.alert('Attenzione!','Errore durante la chiamata getEtichette','error');
       }
     });
   }

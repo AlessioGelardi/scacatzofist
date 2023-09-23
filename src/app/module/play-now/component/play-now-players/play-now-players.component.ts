@@ -47,6 +47,8 @@ export class PlayNowPlayersComponent {
   searchFilterZaino:any | undefined;
   searchFilterOppo:any | undefined;
 
+  etichette:any= {};
+
   constructor(private messageService: MessageService,
     private notifierStateService: StateNotifierService,
     private deckStateService: StateDeckService,
@@ -57,6 +59,7 @@ export class PlayNowPlayersComponent {
 
   ngOnInit(): void {
     this.takeAllPlayers(this.playerId);
+    this.takeEtichette();
   }
 
   inviaRichiesta(playerId:string,playerName:string) {
@@ -338,6 +341,23 @@ export class PlayNowPlayersComponent {
         }
       });
     }
+  }
+
+  private takeEtichette() {
+    this.playerStateService.getEtichette(this.playerId!).then((resp) => {
+      if(resp) {
+        this.etichette = resp;
+      } else {
+        //TO-DO gestione degli errori
+        /*
+        if(resp.status===402) {
+          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+        }
+        */
+
+        this.messageService.alert('Attenzione!','Errore durante la chiamata getEtichette','error');
+      }
+    });
   }
 
 }
