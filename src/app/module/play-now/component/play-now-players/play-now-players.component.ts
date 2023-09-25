@@ -9,6 +9,7 @@ import { Card, Deck } from 'src/app/module/interface/card';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { StateDeckService } from 'src/app/module/deck/services/state/state-deck.service';
 import { FilterZainoService } from 'src/app/module/zaino/services/filter-zaino.service';
+import { Socket } from 'ngx-socket-io';
 
 @Component({
   selector: 'play-now-players',
@@ -53,7 +54,8 @@ export class PlayNowPlayersComponent {
     private notifierStateService: StateNotifierService,
     private deckStateService: StateDeckService,
     private playerStateService: StatePlayerService,
-    private filterZainoService: FilterZainoService) {
+    private filterZainoService: FilterZainoService,
+    private socket: Socket) {
 
   }
 
@@ -109,8 +111,10 @@ export class PlayNowPlayersComponent {
         }
 
         this.notifierStateService.inviaRichiesta(request).then((resp) => {
-          if(resp === true) {
+          if(resp && typeof resp === "string") {
             this.messageService.alert('Fatto!','Richiesta inviata!','success');
+            request.requestId = resp;
+            this.socket.emit('newRequestGame', request);
           } else {
             if(resp) {
               const statusError = resp.status;
