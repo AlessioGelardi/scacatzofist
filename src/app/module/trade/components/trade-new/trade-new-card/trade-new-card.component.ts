@@ -186,7 +186,7 @@ export class TradeNewCardComponent {
           let request: any = {};
           request.playerIdReq = this.player?._id;
           request.playerNameReq = this.player?.name;
-          request.richiesta = {
+          request.offerta = {
             "coin": this.createMyTrade.value.coins,
             "credits": this.createMyTrade.value.credits,
             "cards": cardsRequest
@@ -199,13 +199,14 @@ export class TradeNewCardComponent {
 
           request.playerIdOppo = this.selectPlayerId;
           request.playerNameOppo = this.selectPlayerName;
-          request.offerta = {
+          request.richiesta = {
             "coin": this.createYourTrade.value.coins,
             "credits": this.createYourTrade.value.credits,
             "cards": cardsOffert
           }
           request.status = 1;
           request.type = 1;
+          request.dataIns = this.takeFormatToday(new Date());
     
           this.tradeStateService.createTrade(request).then((resp) => {
             if(resp === true) {
@@ -221,6 +222,16 @@ export class TradeNewCardComponent {
     } else {
       this.messageService.alert('Attenzione!','Inserire almeno delle carte per creare il trade!','error');
     }
+  }
+
+  private takeFormatToday(startDate:Date) {
+    var dd = String(startDate.getDate()).padStart(2, '0');
+    var mm = String(startDate.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = startDate.getFullYear();
+
+    var formatDate = dd + '/' + mm + '/' + yyyy;
+
+    return formatDate+'-'+startDate.getHours()+':'+startDate.getMinutes()+':'+startDate.getSeconds();
   }
 
   private takeZaino(playerId:string) {

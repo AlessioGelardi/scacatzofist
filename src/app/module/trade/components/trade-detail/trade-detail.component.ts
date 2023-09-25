@@ -115,6 +115,7 @@ export class TradeDetailComponent {
     let request: any = {};
     request.id = this.trade?._id!;
     request.status = status; //2 - accettato | 3 - rifiutato
+    request.dataUpd = this.takeFormatToday(new Date())
     this.tradeStateService.updateTrade(request).then((resp) => {
       if(resp === true) {
         this.messageService.alert('Fatto!','Trade '+(status===2?'accettato':'rifiutato')+'!','success');
@@ -124,6 +125,16 @@ export class TradeDetailComponent {
         this.messageService.alert('Errore',"Errore durante l'aggiornamento del trade",'error');
       }
     });
+  }
+
+  private takeFormatToday(startDate:Date) {
+    var dd = String(startDate.getDate()).padStart(2, '0');
+    var mm = String(startDate.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = startDate.getFullYear();
+
+    var formatDate = dd + '/' + mm + '/' + yyyy;
+
+    return formatDate+'-'+startDate.getHours()+':'+startDate.getMinutes()+':'+startDate.getSeconds();
   }
 
   private takePlayer(playerId: string) {
