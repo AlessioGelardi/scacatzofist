@@ -65,7 +65,8 @@ export class HomeComponent implements OnInit {
   }
 
   trade() {
-    this.router.navigate(['/trade',{id:this.player?._id}]);
+    this.messageService.alert('In progress...',"Questa funzionalità è ancora in sviluppo... Ci dispiace per l'inconveniente torna più tardi !!! ",'info');
+    //this.router.navigate(['/trade',{id:this.player?._id}]);
   }
 
   pushMessage() {
