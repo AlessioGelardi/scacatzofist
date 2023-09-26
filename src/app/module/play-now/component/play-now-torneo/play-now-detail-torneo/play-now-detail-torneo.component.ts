@@ -7,6 +7,8 @@ import { StatePlayerService } from 'src/app/module/player/services/state/state-p
 import { MessageService } from 'src/app/module/swalAlert/message.service';
 import { TypeMod } from '../../../enum/typeMod';
 import { Status } from 'src/app/module/notifier/enum/status';
+import { Socket } from 'ngx-socket-io';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'detail-torneo',
@@ -25,13 +27,25 @@ export class PlayNowDetailTorneoComponent {
 
   constructor(private messageService: MessageService,
     private notifierStateService: StateNotifierService,
-    private playerStateService: StatePlayerService) {
+    private playerStateService: StatePlayerService,
+    private socket: Socket) {
 
   }
 
   ngOnInit(): void {
     this.takeAndata();
     this.checkFineClassificato();
+    this.getUpdateTournament().subscribe(updateTournament => {
+      if(updateTournament && updateTournament.length>0) {
+        for(let id of updateTournament) {
+          if(id === this.tournament?.id!) {
+            this.refreshPartita();
+            this.socket.emit('refresh_tournament', id);
+            break;
+          }
+        }
+      }
+    })
   }
 
   public get TipologieTorneo() {
@@ -40,6 +54,10 @@ export class PlayNowDetailTorneoComponent {
 
   public get AccessTypes() {
     return AccessTypes; 
+  }
+
+  getUpdateTournament() {
+    return this.socket.fromEvent('current_tournament').pipe(map((data: any) => data))
   }
 
   partecipa() {
@@ -193,8 +211,8 @@ export class PlayNowDetailTorneoComponent {
   }
 
   private takeAndata() {
-    if(this.tournament?.type===TipologieTorneo.CLASSIFICATO) {
-      for(let duels of this.tournament.classificato.duels) {
+    if(this.tournament?.type===TipologieTorneo.CLASSIFICATO && this.tournament.classificato.duels!) {
+      for(let duels of this.tournament.classificato.duels!) {
         const player1 = duels.players[0]
         const player2 = duels.players[1]
         if(player1 === this.player?.name || player2 === this.player?.name) {
@@ -251,7 +269,8 @@ export class PlayNowDetailTorneoComponent {
 
         this.notifierStateService.resetTournaments();
         this.playerStateService.resetPlayerState();
-        this.refreshPartita();
+        this.socket.emit("update_tournament", this.tournament?.id!);
+        //this.refreshPartita();
       } else {
         //TO-DO gestione degli errori
         /*
