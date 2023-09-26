@@ -16,6 +16,8 @@ export class LoginComponent implements OnInit {
 
   @ViewChild('username') elementInputName?: ElementRef;
 
+  showPassword = false;
+
   loginForm = new FormGroup({
     name: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required)
@@ -78,6 +80,10 @@ export class LoginComponent implements OnInit {
   doRecupera() {
     this.router.navigate(['/recover']);
     this.svuotaForm();
+  }
+
+  showPss() {
+    this.showPassword = !this.showPassword;
   }
 
   private svuotaForm() {

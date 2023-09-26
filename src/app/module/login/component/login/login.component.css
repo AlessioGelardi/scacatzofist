@@ -4,3 +4,9 @@
     background: #4f038d !important;
     color: #cecdcb !important;
 }
+
+.vis_pass {
+    color:#cecdcb;
+    border: none;
+    background: transparent;
+}
