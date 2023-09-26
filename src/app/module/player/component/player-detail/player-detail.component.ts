@@ -44,6 +44,8 @@ export class PlayerDetailComponent {
   numVittorie:number = 0;
   numSconfitte:number = 0;
 
+  showPassword = false;
+
   constructor(private route: ActivatedRoute,
     private router: Router,
     private messageService: MessageService,
@@ -145,6 +147,10 @@ export class PlayerDetailComponent {
 
   checkWin(vincitore: string) {
     return vincitore === this.player?.name ? true : false;
+  }
+
+  showPss() {
+    this.showPassword = !this.showPassword;
   }
 
   public get TypeMod() {

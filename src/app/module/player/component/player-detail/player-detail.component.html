@@ -10,7 +10,7 @@
                 <label>Username: <br><strong>{{player!.name}}</strong></label><br>
                 <label>Email: <br><strong>{{player!.email}}</strong></label><br>
                 <label>Domanda: <br><strong>{{player!.domanda}}</strong></label><br>
-                <label>Risposta: <br><strong>{{player!.risposta}}</strong></label><br>
+                <label>Risposta: <br><strong>••••••</strong></label><br>
             </div>
         </div>
         
@@ -90,7 +90,11 @@
                 <div class="input-group-append">
                     <span class="input-group-text"><i class="fa fa-key span_icon"></i></span>
                 </div>
-                <input id="password" formControlName="password" type="password" name="password" class="form-control" value="" placeholder="password" required>
+                <input id="password" formControlName="password" type="{{ showPassword ? 'text' : 'password' }}" name="password" class="form-control" value="" placeholder="password" required>
+                <span class="input-group-text nopadding nomargin">
+                    <button *ngIf="!showPassword" type="button" class="vis_pass" (click)="showPss()"><i class="fa fa-eye"></i></button>
+                    <button *ngIf="showPassword" type="button" class="vis_pass" (click)="showPss()"><i class="fa fa-eye-slash"></i></button>
+                </span>
             </div>
             <div class="input-group mb-4">
                 <div class="input-group-append">
