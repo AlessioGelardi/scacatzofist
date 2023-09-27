@@ -73,6 +73,10 @@ export class NotifierComponent implements OnInit {
         for(let request of updateRequests) {
           if(request["playerIdReq"] === this.player?._id! || request["playerIdOppo"] === this.player?._id) {
             this.buttonOperationHandler("REFRESH");
+            if(request["status"]===Status.COMPLETATO) {
+              this.playerStateService.resetPlayerState();
+              this.takePlayer(this.playerId!);
+            }
             this.socket.emit('refresh_requests', request["id"]);
             break;
           }
@@ -151,9 +155,6 @@ export class NotifierComponent implements OnInit {
     const vincita = req.vincita;
     const perdita = req.perdita;
     const vincitore = req.vincitore;
-    
-    const myPlate = req.plateReq;
-    const oppoPlate =  req.plateOppo;
 
     let nota="";
     if(typeMod===TypeMod.SCONTRO) {
@@ -239,7 +240,9 @@ export class NotifierComponent implements OnInit {
               req.status = Status.COMPLETATO;
               req.vincitore = vincitore;
               this.messageService.alert('Partita Conclusa!','Richiesta aggiornata con successo!','success');
-              this.playerStateService.resetPlayerState();
+              request.playerIdReq = request.playerIdvincitore;
+              request.playerIdOppo = request.playerIdperdente;
+              this.socket.emit('newRequestGame', request);
             } else {
               if(resp) {
                 const statusError = resp.status;
