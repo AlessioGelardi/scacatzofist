@@ -96,11 +96,21 @@
                     <button *ngIf="showPassword" type="button" class="vis_pass" (click)="showPss()"><i class="fa fa-eye-slash"></i></button>
                 </span>
             </div>
+            <div class="input-group mb-3">
+                <div class="input-group-append">
+                    <span class="input-group-text"><i class="fa fa-key span_icon"></i></span>
+                </div>
+                <input id="confirmpassword" formControlName="confirmpassword" type="{{ showConfirmPassword ? 'text' : 'password' }}" name="confirmpassword" class="form-control" value="" placeholder="confirm password" required>
+                <span class="input-group-text nopadding nomargin">
+                    <button *ngIf="!showConfirmPassword" type="button" class="vis_pass" (click)="showConfirmPss()"><i class="fa fa-eye"></i></button>
+                    <button *ngIf="showConfirmPassword" type="button" class="vis_pass" (click)="showConfirmPss()"><i class="fa fa-eye-slash"></i></button>
+                </span>
+            </div>
             <div class="input-group mb-4">
                 <div class="input-group-append">
                     <span class="input-group-text"><i class="fa fa-envelope span_icon"></i></span>
                 </div>
-                <input id="email" formControlName="email" type="text" name="email" class="form-control" value="" placeholder="email" required>
+                <input id="email" formControlName="email" type="email" name="email" class="form-control" value="" placeholder="email" email required>
             </div>
             <hr>
             <div class="input-group mb-3">

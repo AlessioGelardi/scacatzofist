@@ -24,6 +24,7 @@ export class PlayerDetailComponent {
   modForm = new FormGroup({
     name: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
+    confirmpassword: new FormControl('', Validators.required),
     email: new FormControl('', Validators.required),
     domanda: new FormControl('', Validators.required),
     risposta: new FormControl('', Validators.required)
@@ -45,6 +46,7 @@ export class PlayerDetailComponent {
   numSconfitte:number = 0;
 
   showPassword = false;
+  showConfirmPassword = false;
 
   constructor(private route: ActivatedRoute,
     private router: Router,
@@ -122,18 +124,27 @@ export class PlayerDetailComponent {
       request.pss = this.modForm.value.password;
       request.domanda = this.modForm.value.domanda;
       request.risposta = this.modForm.value.risposta;
-      this.playerStateService.updatePlayer(request).then((resp) => {
-        if(resp === true) {
-          this.messageService.alert('Fatto!','Dati aggiornati!','success');
-          this.playerStateService.resetPlayerState();
-          this.takePlayer(request.id);
-          this.showModify = false;
-        } else {
-          this.messageService.alert('Attenzione!','Errore durante la chiamata updatePlayer','error');
-        }
-      });
+
+      if(this.modForm.value.password === this.modForm.value.confirmpassword) {
+        this.playerStateService.updatePlayer(request).then((resp) => {
+          if(resp === true) {
+            this.messageService.alert('Fatto!','Dati aggiornati!','success');
+            this.playerStateService.resetPlayerState();
+            this.takePlayer(request.id);
+            this.showModify = false;
+          } else {
+            this.messageService.alert('Attenzione!','Errore durante la chiamata updatePlayer','error');
+          }
+        });
+      } else {
+        this.messageService.alert('Attenzione!','Le password devono combaciare','warning');
+      }
     } else {
-      this.messageService.alert('Attenzione!','Tutti i campi sono obbligatori','warning');
+      if(this.modForm.controls['email'].errors) {
+        this.messageService.alert('Attenzione!','Inserisci una email valida','warning');
+      } else {
+        this.messageService.alert('Attenzione!','Tutti i campi sono obbligatori','warning');
+      }
     }
   }
 
@@ -151,6 +162,10 @@ export class PlayerDetailComponent {
 
   showPss() {
     this.showPassword = !this.showPassword;
+  }
+
+  showConfirmPss() {
+    this.showConfirmPassword = !this.showConfirmPassword;
   }
 
   public get TypeMod() {

@@ -47,36 +47,41 @@ export class RecoverComponent implements OnInit {
   recupera() {
     const user = this.recuperaForm.value.name;
     const email = this.recuperaForm.value.email;
-    if(user || email) {
-      try {
-        this.spinnerService.show();
-        this.loginService.recupera(user,email).subscribe({
-          next: (result) => {
-            if(result.email === email || result.name === user) {
-              this.player = result;
-            }
-          }, // completeHandler
-          error: (error: any) => {
-            this.spinnerService.hide();
-            if(error.status===402) {
-              //devi far comparire la possibilita di registrarsi.
-              this.messageService.alert('Attenzione!','non ho trovato nulla con questo user o con questo email, probabilmente devi fare la registrazione','warning');
-            }
-          },
-          complete: () => {
-            this.spinnerService.hide();
-            this.viewConfermaRecupero = true;
-          }
-        });
-      } catch {
-        this.messageService.alert('Attenzione!','Qualcosa non va con il servizio recupera, chiama il programmatore','error');
-      }
-      finally {
-        this.spinnerService.hide();
-      }
+    if(email && this.recuperaForm.controls['email'].errors) {
+      this.messageService.alert('Attenzione!','Inserisci una email valida','warning');
     } else {
-      this.messageService.alert('Attenzione!','Almeno uno dei campi è obbligatorio','warning');
+      if(user || email) {
+        try {
+          this.spinnerService.show();
+          this.loginService.recupera(user,email).subscribe({
+            next: (result) => {
+              if(result.email === email || result.name === user) {
+                this.player = result;
+              }
+            }, // completeHandler
+            error: (error: any) => {
+              this.spinnerService.hide();
+              if(error.status===402) {
+                //devi far comparire la possibilita di registrarsi.
+                this.messageService.alert('Attenzione!','non ho trovato nulla con questo username o con questa email, probabilmente non sei ancora registrato','warning');
+              }
+            },
+            complete: () => {
+              this.spinnerService.hide();
+              this.viewConfermaRecupero = true;
+            }
+          });
+        } catch {
+          this.messageService.alert('Attenzione!','Errore durante il ercupero password','error');
+        }
+        finally {
+          this.spinnerService.hide();
+        }
+      } else {
+        this.messageService.alert('Attenzione!','Almeno uno dei campi è obbligatorio','warning');
+      }
     }
+    
   }
 
   recuperaCheck() {
@@ -90,7 +95,11 @@ export class RecoverComponent implements OnInit {
         this.messageService.alert('Attenzione!','La domanda o la risposta non combaciano, puoi chiamare Alessio per recuperare il tuo account','error');
       }
     } else {
-      this.messageService.alert('Attenzione!','Domanda e risposta sono obbligatori','warning');
+      if(this.recuperaForm.controls['email'].errors) {
+        this.messageService.alert('Attenzione!','Inserisci una email valida','warning');
+      } else {
+        this.messageService.alert('Attenzione!','Domanda e risposta sono obbligatori','warning');
+      }
     }
   }
 
