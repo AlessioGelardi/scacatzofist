@@ -224,6 +224,7 @@ export class DeckComponent implements OnInit {
     if(this.playerId) {
       this.deckStateService.getDecks(this.playerId).then((resp) => {
         this.decks = resp!;
+        this.messageService.alert('Benvenuto!','Ricorda di aprire il terminale locale per le modifiche sui deck','warning');
       });
     }
   }

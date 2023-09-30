@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Status } from 'src/app/module/notifier/enum/status';
 import { TypeMod } from 'src/app/module/play-now/enum/typeMod';
-import { DictReqs, Reqs } from 'src/app/module/interface/reqs';
+import { Reqs } from 'src/app/module/interface/reqs';
 import Swal from 'sweetalert2';
 import { StateNotifierService } from '../../services/state/state-notifier.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,6 +10,8 @@ import { StatePlayerService } from 'src/app/module/player/services/state/state-p
 import { Button } from 'src/app/module/interface/button';
 import { Card } from 'src/app/module/interface/card';
 import { Player } from 'src/app/module/interface/player';
+import { Socket } from 'ngx-socket-io';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-notifier',
@@ -26,10 +28,8 @@ export class NotifierComponent implements OnInit {
   typeMode:number | undefined;
   playerRole:number | undefined;
 
-  viewMyReqs: boolean = false;
-
   maxPageNum: number = 1;
-  dictReqs: DictReqs | undefined;
+  reqs: Reqs[] = [];
   pageSelected: string = "1";
 
   showMoreDetail: boolean = false;
@@ -39,7 +39,8 @@ export class NotifierComponent implements OnInit {
     private router: Router,
     private messageService: MessageService,
     private playerStateService: StatePlayerService,
-    private notifierStateService: StateNotifierService) { }
+    private notifierStateService: StateNotifierService,
+    private socket: Socket) { }
 
   ngOnInit(): void {
     this.buttons = [
@@ -57,11 +58,6 @@ export class NotifierComponent implements OnInit {
         name: "REFRESH-BUTTON",
         code: "REFRESH",
         class: "fa fa-refresh"
-      },
-      {
-        name: "MYREQS-BUTTON",
-        code: "MYREQS",
-        class: "fa fa-paper-plane"
       }
     ];
 
@@ -70,7 +66,23 @@ export class NotifierComponent implements OnInit {
     this.playerRole = Number(this.route.snapshot.paramMap.get('playerRole')!);
 
     this.takePlayer(this.playerId);
-    this.takeReqs(false);
+    this.takeReqs();
+
+    this.getUpdateRequests().subscribe(updateRequests => {
+      if(updateRequests && updateRequests.length>0) {
+        for(let request of updateRequests) {
+          if(request["playerIdReq"] === this.player?._id! || request["playerIdOppo"] === this.player?._id) {
+            this.buttonOperationHandler("REFRESH");
+            if(request["status"]===Status.COMPLETATO) {
+              this.playerStateService.resetPlayerState();
+              this.takePlayer(this.playerId!);
+            }
+            this.socket.emit('refresh_requests', request["id"]);
+            break;
+          }
+        }
+      }
+    })
   }
 
   buttonOperationHandler(code: any) {
@@ -88,13 +100,12 @@ export class NotifierComponent implements OnInit {
           break;
         case 'MYREQS':
           this.showMoreDetail = false;
-          this.viewMyReqs = true;
-          this.takeReqs(false, this.viewMyReqs);
+          this.takeReqs();
           break;
         case 'REFRESH':
           this.showMoreDetail = false;
-          this.viewMyReqs = false;
-          this.takeReqs(false);
+          this.reqs=[]
+          this.takeReqs();
           break;
       }
     }
@@ -144,9 +155,6 @@ export class NotifierComponent implements OnInit {
     const vincita = req.vincita;
     const perdita = req.perdita;
     const vincitore = req.vincitore;
-    
-    const myPlate = req.plateReq;
-    const oppoPlate =  req.plateOppo;
 
     let nota="";
     if(typeMod===TypeMod.SCONTRO) {
@@ -232,7 +240,9 @@ export class NotifierComponent implements OnInit {
               req.status = Status.COMPLETATO;
               req.vincitore = vincitore;
               this.messageService.alert('Partita Conclusa!','Richiesta aggiornata con successo!','success');
-              this.playerStateService.resetPlayerState();
+              request.playerIdReq = request.playerIdvincitore;
+              request.playerIdOppo = request.playerIdperdente;
+              this.socket.emit('newRequestGame', request);
             } else {
               if(resp) {
                 const statusError = resp.status;
@@ -267,17 +277,24 @@ export class NotifierComponent implements OnInit {
     return Array.from({ length: n }, (_, index) => index + 1);
   }
 
+  getUpdateRequests() {
+    return this.socket.fromEvent('current_requests').pipe(map((data: any) => data))
+  }
+
   private updateReqs(req: Reqs, newstatus: number) {
     if(newstatus !== 0) {
       let request:any = {}
       request.requestId = req.id;
       request.status = newstatus;
+      request.playerIdReq = req.playerIdReq;
+      request.playerIdOppo = req.playerIdOppo;
       this.notifierStateService.updateRequest(request).then((resp) => {
         if(resp) {
           //this.notifierStateService.resetState();
           req.status = newstatus;
           this.messageService.alert('Aggiornato!','Richiesta aggiornata con successo! Torna più tardi per vedere gli aggiornamenti','success');
           this.showMoreDetail = false;
+          this.socket.emit('newRequestGame', request);
         } else {
           this.messageService.alert('Errore',"Qualcosa è andato storto durante l'aggiornamento della richiesta",'error');
         }
@@ -289,11 +306,20 @@ export class NotifierComponent implements OnInit {
     this.messageService.showDetailCard(card);
   }
 
-  private takeReqs(history:boolean, myReqs: boolean = false) {
+  private takeReqs() {
     this.pageSelected = "1";
-    this.notifierStateService.getReqs(this.playerId!,history,myReqs,this.typeMode!).then((resp) => {
+    this.notifierStateService.getReqs(this.playerId!,false,false,this.typeMode!).then((resp) => {
       if(resp) {
-        this.dictReqs = resp;
+        this.reqs.push(...resp.reqs![this.pageSelected]);
+
+        this.notifierStateService.getReqs(this.playerId!,false,true,this.typeMode!).then((resp) => {
+          if(resp) {
+            this.reqs.push(...resp.reqs![this.pageSelected]);
+          } else {
+            this.messageService.alert('Attenzione!','Errore durante la chiamata getReqs','error');
+          }
+        });
+
       } else {
         //TO-DO gestione degli errori
         /*

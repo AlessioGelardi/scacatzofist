@@ -34,3 +34,9 @@
 .form-control {
     background-color: #cecdcb;
 }
+
+.vis_pass {
+    color:#cecdcb;
+    border: none;
+    background: transparent;
+}

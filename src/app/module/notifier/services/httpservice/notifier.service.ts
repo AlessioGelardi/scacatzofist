@@ -22,9 +22,9 @@ export class NotifierService {
 
   constructor(private http: HttpClient) { }
 
-  newRequest(request:any):Observable<boolean> {
+  newRequest(request:any):Observable<string> {
     request.dataUpdate = this.takeFormatToday(false);
-    return this.http.post<boolean>(this.apiUrlPlaynow,request,this.generateOptions());
+    return this.http.post<string>(this.apiUrlPlaynow,request,this.generateOptions());
   }
 
   updateRequest(request:any) {

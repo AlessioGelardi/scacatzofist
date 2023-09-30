@@ -45,6 +45,6 @@ export class PlayerStatusComponent implements OnInit {
     this.notifierStateService.resetTournaments();
     this.tradeStateService.resetPrivateTrades();
     this.router.navigate(['/']);
-    this.socket.emit('disconnect', this.player!.name);
+    this.socket.emit('logout', this.player!.name);
   }
 }

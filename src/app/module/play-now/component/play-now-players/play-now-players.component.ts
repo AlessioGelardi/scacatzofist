@@ -9,6 +9,7 @@ import { Card, Deck } from 'src/app/module/interface/card';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { StateDeckService } from 'src/app/module/deck/services/state/state-deck.service';
 import { FilterZainoService } from 'src/app/module/zaino/services/filter-zaino.service';
+import { Socket } from 'ngx-socket-io';
 
 @Component({
   selector: 'play-now-players',
@@ -18,6 +19,7 @@ import { FilterZainoService } from 'src/app/module/zaino/services/filter-zaino.s
 export class PlayNowPlayersComponent {
 
   @Input() playerId!: string;
+  @Input() playerName!: string;
   @Input() typeMode!: number;
   @Input() rewardPerdita: any;
   @Input() rewardVincita: any;
@@ -53,7 +55,8 @@ export class PlayNowPlayersComponent {
     private notifierStateService: StateNotifierService,
     private deckStateService: StateDeckService,
     private playerStateService: StatePlayerService,
-    private filterZainoService: FilterZainoService) {
+    private filterZainoService: FilterZainoService,
+    private socket: Socket) {
 
   }
 
@@ -86,7 +89,9 @@ export class PlayNowPlayersComponent {
         let request: any = {};
         request.typeMod = this.typeMode;
         request.playerIdReq = this.playerId;
+        request.playerNameReq = this.playerName;
         request.playerIdOppo = playerId;
+        request.playerNameOppo = playerName;
         request.status = 1;
         request.bonus = this.playerStateService.getBonus() && this.typeMode===TypeMod.SCONTRO;
         request.vincita = this.rewardVincita;
@@ -109,12 +114,16 @@ export class PlayNowPlayersComponent {
         }
 
         this.notifierStateService.inviaRichiesta(request).then((resp) => {
-          if(resp === true) {
+          if(resp && typeof resp === "string") {
             this.messageService.alert('Fatto!','Richiesta inviata!','success');
+            request.requestId = resp;
+            this.socket.emit('newRequestGame', request);
           } else {
             if(resp) {
               const statusError = resp.status;
-              if(statusError === 402) {
+              if(statusError === 403) {
+                this.messageService.alert('Attenzione!','Sei impegnato in un torneo, non puoi inviare richieste al momento!','error');
+              } else if(statusError === 402) {
                 this.messageService.alert('Attenzione!','Richiesta gia inviata, controlla nelle tue richieste','error');
               } else if(statusError === 401) {
                 this.messageService.alert('Attenzione!','User impegnato al momento! Riprova più tardi','error');

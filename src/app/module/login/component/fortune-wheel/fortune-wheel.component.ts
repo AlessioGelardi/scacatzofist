@@ -34,6 +34,9 @@ export class FortuneWheelComponent implements OnInit {
 
   player:Player | undefined;
 
+  rotatioWheel: any = {};
+  avanza:number=0;
+
   constructor(private router: Router,
     private route: ActivatedRoute,
     private playerStateService: StatePlayerService,
@@ -78,6 +81,15 @@ export class FortuneWheelComponent implements OnInit {
       };
       this.slices.push(slice);
     }
+
+    this.rotatioWheel = setInterval(() => {
+      for (let i = 0; i < 10; i++) {
+        this.slices[i].numTransform+=36;
+        
+      }
+      this.avanza+=36;
+
+    }, 1000);
   }
 
   getRandomColor(): string {
@@ -90,10 +102,11 @@ export class FortuneWheelComponent implements OnInit {
   }
 
   doRotation() {
+    clearInterval(this.rotatioWheel);
     const numRand = Math.floor(Math.random()*10);
 
     for (let i = 0; i < 10; i++) {
-      this.slices[i].numTransform+=1440+this.orcaNumero(numRand);
+      this.slices[i].numTransform+=720+this.orcaNumero(numRand)-this.avanza;
     }
 
     setTimeout(() => {

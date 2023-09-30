@@ -17,6 +17,7 @@ export class SigninComponent implements OnInit {
   signinForm = new FormGroup({
     name: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
+    confirmpassword: new FormControl('', Validators.required),
     email: new FormControl('', Validators.required),
     domanda: new FormControl('', Validators.required),
     risposta: new FormControl('', Validators.required)
@@ -29,6 +30,9 @@ export class SigninComponent implements OnInit {
     "Anno di nascita di un tuo genitore?",
     "Parola segreta?"
   ]
+
+  showPassword = false;
+  showConfirmPassword = false;
 
   constructor(private router: Router,
     private spinnerService: NgxSpinnerService,
@@ -45,48 +49,67 @@ export class SigninComponent implements OnInit {
     this.router.navigate(['/']);
   }
 
+  showPss() {
+    this.showPassword = !this.showPassword;
+  }
+
+  showConfirmPss() {
+    this.showConfirmPassword = !this.showConfirmPassword;
+  }
+
   async signin() {
     if(this.signinForm.valid) {
       const user = this.signinForm.value.name;
       const password = this.signinForm.value.password;
+      const confirmpassword = this.signinForm.value.confirmpassword;
       const email = this.signinForm.value.email;
       const domanda = this.signinForm.value.domanda;
       const risposta = this.signinForm.value.risposta;
 
-      const player:Player = {
-        name: user!,
-        pss: password!,
-        email: email!,
-        domanda: domanda!,
-        risposta: risposta!
-      };
-  
-      try {
-        this.spinnerService.show();
-        this.loginService.signin(player).subscribe({
-          next: (result: boolean) => {
-            if(result) {
-              //this.viewRegistrati = false;
-              this.messageService.alert('Successo!','Utente registrato con successo, adesso puoi fare il login','success');
-              this.router.navigate(['/ruota',{id:result}]);
-              this.svuotaForm();
+      if(password===confirmpassword) {
+        const player:Player = {
+          name: user!,
+          pss: password!,
+          email: email!,
+          domanda: domanda!,
+          risposta: risposta!
+        };
+    
+        try {
+          this.spinnerService.show();
+          this.loginService.signin(player).subscribe({
+            next: (result: boolean) => {
+              if(result) {
+                //this.viewRegistrati = false;
+                this.messageService.alert('Successo!','Utente registrato con successo, adesso puoi fare il login','success');
+                this.router.navigate(['/ruota',{id:result}]);
+                this.svuotaForm();
+              }
+            }, // completeHandler
+            error: (error: any) => {
+              this.spinnerService.hide();
+              if(error.status===401) {
+                this.alertError401();
+              }
+            },
+            complete: () => {
+              this.spinnerService.hide();
             }
-          }, // completeHandler
-          error: (error: any) => {
-            this.spinnerService.hide();
-            if(error.status===401) {
-              this.alertError401();
-            }
-          },
-          complete: () => {
-            this.spinnerService.hide();
-          }
-        });
-      } catch {
-        this.messageService.alert('Attenzione!','User e/o password non registrati, riprovare','warning');
+          });
+        } catch {
+          this.messageService.alert('Attenzione!','User e/o password non registrati, riprovare','warning');
+        }
+      } else {
+        this.messageService.alert('Attenzione!','Le password devono combaciare','warning');
       }
+
+      
     } else {
-      this.messageService.alert('Attenzione!','Tutti i campi sono obbligatori','warning');
+      if(this.signinForm.controls['email'].errors) {
+        this.messageService.alert('Attenzione!','Inserisci una email valida','warning');
+      } else {
+        this.messageService.alert('Attenzione!','Tutti i campi sono obbligatori','warning');
+      }
     }
 
   }
