@@ -19,6 +19,7 @@ import { Socket } from 'ngx-socket-io';
 export class PlayNowPlayersComponent {
 
   @Input() playerId!: string;
+  @Input() playerName!: string;
   @Input() typeMode!: number;
   @Input() rewardPerdita: any;
   @Input() rewardVincita: any;
@@ -88,7 +89,9 @@ export class PlayNowPlayersComponent {
         let request: any = {};
         request.typeMod = this.typeMode;
         request.playerIdReq = this.playerId;
+        request.playerNameReq = this.playerName;
         request.playerIdOppo = playerId;
+        request.playerNameOppo = playerName;
         request.status = 1;
         request.bonus = this.playerStateService.getBonus() && this.typeMode===TypeMod.SCONTRO;
         request.vincita = this.rewardVincita;
@@ -118,7 +121,9 @@ export class PlayNowPlayersComponent {
           } else {
             if(resp) {
               const statusError = resp.status;
-              if(statusError === 402) {
+              if(statusError === 403) {
+                this.messageService.alert('Attenzione!','Sei impegnato in un torneo, non puoi inviare richieste al momento!','error');
+              } else if(statusError === 402) {
                 this.messageService.alert('Attenzione!','Richiesta gia inviata, controlla nelle tue richieste','error');
               } else if(statusError === 401) {
                 this.messageService.alert('Attenzione!','User impegnato al momento! Riprova più tardi','error');
