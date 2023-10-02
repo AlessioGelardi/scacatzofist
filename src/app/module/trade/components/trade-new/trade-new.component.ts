@@ -37,8 +37,7 @@ export class TradeNewComponent {
     private router: Router,
     private messageService: MessageService,
     private deckStateService: StateDeckService,
-    private playerStateService: StatePlayerService,
-    private tradeStateService: StateTradeService) { }
+    private playerStateService: StatePlayerService) { }
 
   ngOnInit(): void {
 
@@ -63,9 +62,11 @@ export class TradeNewComponent {
     if(code) {
       switch(code) {
         case 'HOME':
+          this.deckStateService.resetPlayerDecks();
           this.router.navigate(['/home']);
           break;
         case 'BACK':
+          this.deckStateService.resetPlayerDecks();
           if(this.tradeCard || this.tradeDeck) {
             if(this.tradeCard) {
               this.tradeCard=false;
@@ -107,19 +108,15 @@ export class TradeNewComponent {
 
   onTradeDeck() {
     this.tradeDeck=true;
-    //this.takeAllPlayers(this.player?._id!);
   }
 
   onTradeCard() {
     this.tradeCard=true;
-    //this.takeAllPlayers(this.player?._id!);
   }
 
   selectPlayer(playerIdOppo: string,name:string) {
     this.selectPlayerId = playerIdOppo;
     this.selectPlayerName = name;
-
-    //this.takeDecksByIdPlayer(this.selectPlayerId);    
   }
 
   private takePlayer(playerId: string) {
