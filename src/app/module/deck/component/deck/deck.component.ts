@@ -4,7 +4,6 @@ import { Button } from 'src/app/module/interface/button';
 import Swal from 'sweetalert2';
 import { StateDeckService } from '../../services/state/state-deck.service';
 import { MessageService } from 'src/app/module/swalAlert/message.service';
-import { Deck } from 'src/app/module/interface/card';
 
 @Component({
   selector: 'app-deck',
@@ -39,6 +38,7 @@ export class DeckComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.messageService.alert('Benvenuto!','Ricorda di aprire il terminale locale per le modifiche sui deck','warning');
     this.permission = this.route.snapshot.paramMap.get('permission') === "true";
     if(this.permission) {
       this.buttons = [
@@ -224,7 +224,6 @@ export class DeckComponent implements OnInit {
     if(this.playerId) {
       this.deckStateService.getDecks(this.playerId).then((resp) => {
         this.decks = resp!;
-        this.messageService.alert('Benvenuto!','Ricorda di aprire il terminale locale per le modifiche sui deck','warning');
       });
     }
   }
