@@ -138,9 +138,7 @@ export class DeckEditComponent implements OnInit {
   }
 
   retrieveCards(searchFilter: any) {
-    if(searchFilter) {
-      this.searchFilter = searchFilter;
-    }
+    this.searchFilter = searchFilter;
 
     if(this.zainoAdd.length>0) {
       for(let card of this.zainoAdd) {
@@ -161,44 +159,6 @@ export class DeckEditComponent implements OnInit {
     }
 
     this.zaino = this.filterZainoService.transform(this.zainoBackup,searchFilter);
-  }
-
-  transform(value: Card[], searchFilter: any): Card[] {
-    let result: Card[] = value;
-    if(searchFilter) {
-      let x: Card[] = result;
-      if(searchFilter.filter.name) {
-        x = value.filter(card => card.name.toUpperCase().includes(searchFilter.filter.name.toUpperCase()));
-      }
-
-      if(typeof searchFilter.filter.type !=='string' && searchFilter.filter.type) {
-        x = x.filter(card => searchFilter.filter.type.includes(card.type));
-      }
-
-      if(searchFilter.filter.attribute) {
-        x = x.filter(card => searchFilter.filter.attribute===card.attribute);
-      }
-
-      if(searchFilter.filter.race) {
-        x = x.filter(card => searchFilter.filter.race===card.race);
-      }
-
-      if(searchFilter.filter.atk>-50) {
-        x = x.filter(card => searchFilter.filter.atk===card.atk);
-      }
-
-      if(searchFilter.filter.def>-50) {
-        x = x.filter(card => searchFilter.filter.def===card.def);
-      }
-
-      if(searchFilter.filter.level>0) {
-        x = x.filter(card => searchFilter.filter.level===card.level);
-      }
-
-      result = x;
-      
-    }
-    return result; 
   }
 
   registerZaino(removeCard:Card) {
@@ -242,6 +202,9 @@ export class DeckEditComponent implements OnInit {
 
   doFilter() {
     this.viewFilter=!this.viewFilter;
+    if(!this.viewFilter) {
+      this.retrieveCards(undefined);
+    }
   }
   
   showCard(card:Card) {

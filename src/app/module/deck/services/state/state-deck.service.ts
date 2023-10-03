@@ -12,7 +12,6 @@ export class StateDeckService {
 
   private deck?: Deck;
   private playerDecks?: Deck[];
-  private actualDeck?: string;
 
   constructor(private spinnerService: NgxSpinnerService,
     private deckService: DeckService,
@@ -23,7 +22,6 @@ export class StateDeckService {
   resetState() {
     this.resetDeck();
     this.resetPlayerDecks();
-    this.resetActualDeck();
   }
 
   resetDeck() {
@@ -32,10 +30,6 @@ export class StateDeckService {
 
   resetPlayerDecks() {
     this.playerDecks=undefined;
-  }
-
-  resetActualDeck() {
-    this.actualDeck=undefined;
   }
 
   async newDeck(deck:any) {
