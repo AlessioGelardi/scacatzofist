@@ -56,7 +56,7 @@
 <div class="row d-flex justify-content-around mt-5">
     <button *ngIf="imOrg && tournament!.status === 1" class="col-3 btn btn-bg rounded grigino" (click)="iniziaTorneo()">INIZIA TORNEO</button>
     <button *ngIf="tournament!.status === 1" class="col-3 btn btn-bg rounded grigino" (click)="partecipa()">PARTECIPA</button>
-    <button *ngIf="imOrg && tournament!.status === 1" class="col-3 btn btn-bg rounded grigino" (click)="annullaTorneo()">CANCELLA TORNEO</button>
+    <button *ngIf="imOrg && tournament!.status === 1" class="col-3 btn btn-bg rounded grigino" (click)="annullaTorneo()">ANNULLA TORNEO</button>
 </div>
 
 <div class="mt-5" *ngIf="tournament!.type === 1">

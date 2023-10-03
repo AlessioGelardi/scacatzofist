@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Tournament } from 'src/app/module/interface/tournament';
 import { TipologieTorneo, AccessTypes } from '../enum/types';
 import { Player } from 'src/app/module/interface/player';
@@ -9,6 +9,7 @@ import { TypeMod } from '../../../enum/typeMod';
 import { Status } from 'src/app/module/notifier/enum/status';
 import { Socket } from 'ngx-socket-io';
 import { map } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'detail-torneo',
@@ -20,6 +21,8 @@ export class PlayNowDetailTorneoComponent {
   @Input() tournament: Tournament | undefined;
   @Input() player: Player | undefined;
   @Input() imOrg: boolean = false;
+
+  @Output() backOperation: EventEmitter<any> = new EventEmitter();
 
   andata: any = [];
   ritorno: any = [];
@@ -96,7 +99,25 @@ export class PlayNowDetailTorneoComponent {
   }
 
   annullaTorneo() {
-    this.messageService.alert('In progress...',"Questa funzionalità è ancora in sviluppo... Ci dispiace per l'inconveniente torna più tardi !!! ",'info');
+    Swal.fire({
+      title: 'Sei sicuro?',
+      text: "Una volta cancellato il torneo "+this.tournament!.name +" non verrà mai più ripristinato!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, cancella!',
+      cancelButtonText: 'Non cancellare!'
+    }).then((result) => {
+      if(result.isConfirmed) {
+        
+        let request: any = {}
+        request.status = Status.RIFIUTATO;
+        request.id = this.tournament?.id;
+  
+        this.update(request,true);
+      }
+    })
   }
 
   getNumbers(n: number): number[] {
@@ -264,12 +285,17 @@ export class PlayNowDetailTorneoComponent {
           this.player!.coin = Number(this.player?.coin!)-this.tournament!.regCostCoins!;
           this.player!.credits = Number(this.player?.credits!)-this.tournament!.regCostCredits!;
         } else {
-          this.tournament!.status = 2;
+          this.tournament!.status = request.status;
         }
 
         this.notifierStateService.resetTournaments();
         this.playerStateService.resetPlayerState();
-        this.socket.emit("update_tournament", this.tournament?.id!);
+        if(this.tournament!.status == Status.RIFIUTATO) {
+          this.backOperation.emit('BACK');
+          //this.router.navigate(['/torneo',{id:this.player!._id}]);
+        } else {
+          this.socket.emit("update_tournament", this.tournament?.id!);
+        }
         //this.refreshPartita();
       } else {
         //TO-DO gestione degli errori
@@ -286,3 +312,4 @@ export class PlayNowDetailTorneoComponent {
   
 
 }
+
