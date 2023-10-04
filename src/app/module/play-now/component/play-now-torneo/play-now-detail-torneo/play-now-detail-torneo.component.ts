@@ -231,6 +231,55 @@ export class PlayNowDetailTorneoComponent {
     });
   }
 
+  isPartiteFinite() {
+    return (this.tournament?.type === 2 && this.fineClassificato) || (this.tournament?.type === 1 && this.tournament?.podio['primoPosto'] && this.tournament?.podio['secondoPosto'] && this.tournament?.podio['terzoPosto'])
+  }
+
+  abbandonaTorneo() {
+    if(this.tournament?.type === 1) {
+      this.messageService.alert('In progress...',"Questa funzionalità è ancora in sviluppo... Ci dispiace per l'inconveniente torna più tardi !!! ",'info');
+    } else {
+      Swal.fire({
+        title: 'Sei sicuro?',
+        text: "Una volta abbandonato il torneo "+this.tournament!.name +" verranno automaticamente registrate le arrese a tutte le partite!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, arrenditi!',
+        cancelButtonText: 'Non abbandonare!'
+      }).then((result) => {
+        if(result.isConfirmed) {
+          
+          let request: any = {}
+          request.id = this.tournament?.id;
+          request.playerName = this.player?.name;
+          request.typeTournament = this.tournament?.type;
+    
+          this.notifierStateService.abbandonaTournament(request).then((resp) => {
+            if(resp == true) {
+      
+              this.notifierStateService.resetTournaments();
+              this.playerStateService.resetPlayerState();
+              this.messageService.alert('Fatto!','Torneo abbandonato!','success');
+              this.socket.emit("update_tournament", this.tournament?.id!);
+            } else {
+              //TO-DO gestione degli errori
+              /*
+              if(resp.status===402) {
+                this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+              }
+              */
+      
+              this.messageService.alert('Attenzione!','Errore durante la chiamata abbandonaTournament','error');
+            }
+          });
+        }
+      })
+    }
+    
+  }
+
   private takeAndata() {
     if(this.tournament?.type===TipologieTorneo.CLASSIFICATO && this.tournament.classificato.duels!) {
       for(let duels of this.tournament.classificato.duels!) {

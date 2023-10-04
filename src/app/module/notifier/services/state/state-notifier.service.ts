@@ -246,5 +246,21 @@ export class StateNotifierService {
     return response;
   }
 
+  async abbandonaTournament(request:any) {
+    this.spinnerService.show();
+
+    let response;
+    try {
+      response = await firstValueFrom(this.notifierService.abbandonaTournament(request));
+      this.spinnerService.hide();
+    } catch (error: any) {
+      /* TO-DO [WinError 3] Impossibile trovare il percorso specificato: 'deck\\\\Ingranaggio Antico1.ydk' -> 'deck\\\\Ingranaggio Antico.ydk'*/
+      response = error;
+      this.spinnerService.hide();
+    }
+
+    return response;
+  }
+
 
 }

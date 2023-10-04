@@ -86,6 +86,10 @@ export class NotifierService {
     return this.http.put<boolean>(this.apiUrlTournament,request,this.generateOptions());
   }
 
+  abbandonaTournament(request:any):Observable<any> {
+    return this.http.post<boolean>(this.apiUrlTournamentById,request,this.generateOptions());
+  }
+
   private takeFormatToday(time:boolean) {
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');

@@ -98,7 +98,6 @@ export class TradeNewComponent {
   }
 
   pubblico() {
-    //this.public=true;
     this.messageService.alert('In progress...',"Questa funzionalità è ancora in sviluppo... Ci dispiace per l'inconveniente torna più tardi !!! ",'info');
   }
 

@@ -154,6 +154,7 @@
 
 <div class="row d-flex justify-content-around mt-5" *ngIf="tournament!.status === 2">
     <button class="col-3 btn btn-bg rounded grigino" (click)="refreshPartita()">AGGIORNA</button>
-    <button class="col-3 btn btn-bg rounded grigino" (click)="concludi()" *ngIf="(this.tournament!.type === 2 && fineClassificato) || (this.tournament!.type === 1 && this.tournament!.podio['primoPosto'] && this.tournament!.podio['secondoPosto'] && this.tournament!.podio['terzoPosto'])">CONCLUDI TORNEO</button>
-    <button class="col-3 btn btn-bg rounded grigino" (click)="finePartita()" *ngIf="tournament?.playersId?.includes(player!._id!)">FINE PARTITA</button>
+    <button class="col-3 btn btn-bg rounded grigino" (click)="concludi()" *ngIf="isPartiteFinite()">CONCLUDI TORNEO</button>
+    <button class="col-3 btn btn-bg rounded grigino" (click)="finePartita()" *ngIf="!isPartiteFinite() && tournament?.playersId?.includes(player!._id!)">FINE PARTITA</button>
+    <button class="col-3 btn btn-bg rounded grigino" (click)="abbandonaTorneo()" *ngIf="!isPartiteFinite() && tournament?.playersName?.includes(player!.name!)">ABBANDONA TORNEO</button>
 </div>
