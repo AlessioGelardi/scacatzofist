@@ -125,5 +125,5 @@
 </div>
 
 <div class="mt-5" *ngIf="showDetail">
-    <detail-torneo [tournament]="selectTourn" [player]="player" [imOrg]="imOrg"></detail-torneo>
+    <detail-torneo [tournament]="selectTourn" [player]="player" [imOrg]="imOrg" (backOperation)="buttonOperationHandler($event)"></detail-torneo>
 </div>

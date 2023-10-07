@@ -217,11 +217,6 @@ export class NotifierComponent implements OnInit {
           vincitore = richiedente;
           playerIdperdente = req.playerIdOppo;
           perdente = ricevente;
-        } else if (result.isDenied) {
-          playerIdvincitore = req.playerIdOppo;
-          vincitore = ricevente;
-          playerIdperdente = req.playerIdReq;
-          perdente = richiedente;
         }
   
         if(vincitore !== "") {

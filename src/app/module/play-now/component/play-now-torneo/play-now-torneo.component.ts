@@ -114,6 +114,7 @@ export class PlayNowTorneoComponent {
             this.takePlayer(this.playerId!);
           } else {
             if(this.showDetail) {
+              this.refresh();
               this.showDetail = false;
             } else {
               this.router.navigate(['/playnow',{id:this.playerId}]);

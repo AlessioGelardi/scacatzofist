@@ -51,8 +51,7 @@ export class MarketSellComponent implements OnInit {
     private router: Router,
     private marketStateService: StateMarketService,
     private playerStateService: StatePlayerService,
-    private messageService: MessageService,
-    private elementRef: ElementRef) {
+    private messageService: MessageService) {
 
   }
 
@@ -88,23 +87,7 @@ export class MarketSellComponent implements OnInit {
 
     this.playerId = this.route.snapshot.paramMap.get('id')!;
     this.takePlayer(this.playerId!);
-
-    this.playerStateService.getZaino(this.playerId!).then((resp) => {
-      if(resp) {
-        this.zaino = resp;
-        this.sliceLimit = this.zaino.length;
-        this.takeEtichette();
-      } else {
-        //TO-DO gestione degli errori
-        /*
-        if(resp.status===402) {
-          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
-        }
-        */
-
-        this.messageService.alert('Attenzione!','Errore durante la chiamata getZaino','error');
-      }
-    });
+    this.takeZaino();
   }
 
   buttonOperationHandler(code: any) {
@@ -277,14 +260,16 @@ export class MarketSellComponent implements OnInit {
   }
 
   retrieveCards(searchFilter: any) {
-    if(searchFilter) {
-      this.searchFilter = searchFilter;
-    }
+    this.searchFilter = searchFilter;
   }
 
   doFilter() {
     this.viewFilter=!this.viewFilter;
     this.isDropdownVisible = false;
+
+    if(!this.viewFilter) {
+      this.retrieveCards(undefined);
+    }
   }
 
   doEtichetta() {
@@ -362,6 +347,25 @@ export class MarketSellComponent implements OnInit {
         */
 
         this.messageService.alert('Attenzione!','Errore durante la chiamata getPlayer','error');
+      }
+    });
+  }
+
+  private takeZaino() {
+    this.playerStateService.getZaino(this.playerId!).then((resp) => {
+      if(resp) {
+        this.zaino = resp;
+        this.sliceLimit = this.zaino.length;
+        this.takeEtichette();
+      } else {
+        //TO-DO gestione degli errori
+        /*
+        if(resp.status===402) {
+          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+        }
+        */
+
+        this.messageService.alert('Attenzione!','Errore durante la chiamata getZaino','error');
       }
     });
   }

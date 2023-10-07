@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -18,6 +18,7 @@ import { PlayNowModule } from './module/play-now/play-now.module';
 import { NotifierModule } from './module/notifier/notifier.module';
 import { TradeModule } from './module/trade/trade.module';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 
 @NgModule({
@@ -40,7 +41,10 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     PlayNowModule,
     NotifierModule,
     DragDropModule,
-    TradeModule
+    TradeModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: false,
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
