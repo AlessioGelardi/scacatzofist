@@ -1128,9 +1128,7 @@ export class MarketEdicolaComponent implements OnInit {
         }).then((result) => {
           if (result.isConfirmed) {
   
-            let prezzo = this.calculatePrezzo(taglia,baseCost,result.value);
-  
-            if(this.player!.credits!-prezzo>=0) {
+            if(this.player!.credits!-baseCost>=0) {
 
               let request:any = {};
               request.name = name;
@@ -1139,7 +1137,7 @@ export class MarketEdicolaComponent implements OnInit {
               request.taglia = taglia;
               request.race = race;
               request.quantity = result.value;
-              request.prezzo = prezzo;
+              request.prezzo = baseCost;
               request.playerId = this.player!._id!;
               request.monster = monster;
               request.src = this.buyPackSrc;
@@ -1148,7 +1146,7 @@ export class MarketEdicolaComponent implements OnInit {
   
               this.marketStateService.buyPack(request,false).then((resp) => {
                 if(resp) {
-                  this.player!.credits = this.player!.credits!-prezzo;
+                  this.player!.credits = this.player!.credits!-baseCost;
                   this.finishPurchase = true;
                   this.newPacks = resp;
                   this.viewCards = [];
@@ -1164,7 +1162,7 @@ export class MarketEdicolaComponent implements OnInit {
                 }
               });
             } else {
-              this.messageService.alert('Budget non sufficente!','Il prezzo del pack è '+prezzo,'error');
+              this.messageService.alert('Budget non sufficente!','Il prezzo del pack è '+baseCost,'error');
             }
           }
         })

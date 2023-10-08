@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1696708667215,
+  "timestamp": 1696774111563,
   "index": "scacatzofist/index.html",
   "assetGroups": [
     {
@@ -13,7 +13,7 @@
       "urls": [
         "scacatzofist/favicon.ico",
         "scacatzofist/index.html",
-        "scacatzofist/main.13128962b941dc2a.js",
+        "scacatzofist/main.d4edf93600d438dd.js",
         "scacatzofist/manifest.webmanifest",
         "scacatzofist/polyfills.867483452a5d5fe6.js",
         "scacatzofist/runtime.a116727f51fb0204.js",
@@ -327,8 +327,8 @@
     "scacatzofist/fa-v4compatibility.6209cf0172d95b0e.woff2": "8f80d0bbe995f7fe92320fdaec10cd5ccd710a51",
     "scacatzofist/fa-v4compatibility.92dce52f885fd838.ttf": "a9d072aca9e0fadc2a7167671ce3d6b18d9cd2cc",
     "scacatzofist/favicon.ico": "c7558ecdfa96c408352487d55f319ed551042b31",
-    "scacatzofist/index.html": "0c91f78bc8b04d98264bc2d2fda8a5a746fb238c",
-    "scacatzofist/main.13128962b941dc2a.js": "8207124d236dc696658d8996a47ddb410a58c071",
+    "scacatzofist/index.html": "03ab273d0ac792f5cc07ba77988cc945a932f7be",
+    "scacatzofist/main.d4edf93600d438dd.js": "b7d1b19b00a1b8ccd464d6059ef1b55004ab98d3",
     "scacatzofist/manifest.webmanifest": "bd37664930981689c0da5c13d3a31a0db98a1ba7",
     "scacatzofist/polyfills.867483452a5d5fe6.js": "9d306f3ba1b1e5b347ee7c98ccdeff480fb86adf",
     "scacatzofist/runtime.a116727f51fb0204.js": "e5de7d4ea6e9aa450b98e69ef7ad9e5e1a72c784",
