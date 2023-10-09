@@ -20,6 +20,7 @@ export class PlayerDetailComponent {
   player: Player | undefined;
 
   showModify = false;
+  changeName = false;
 
   modForm = new FormGroup({
     name: new FormControl('', Validators.required),
@@ -102,6 +103,7 @@ export class PlayerDetailComponent {
         case 'EDIT':
           if(this.showModify) {
             this.showModify = false;
+            this.changeName = false;
           } else {
             this.showModify = true;
             this.modForm.patchValue({
@@ -126,21 +128,31 @@ export class PlayerDetailComponent {
       request.pss = this.modForm.value.password;
       request.domanda = this.modForm.value.domanda;
       request.risposta = this.modForm.value.risposta;
+      request.changeName = this.changeName ? 1 : 0;
 
-      if(this.modForm.value.password === this.modForm.value.confirmpassword) {
-        this.playerStateService.updatePlayer(request).then((resp) => {
-          if(resp === true) {
-            this.messageService.alert('Fatto!','Dati aggiornati!','success');
-            this.playerStateService.resetPlayerState();
-            this.takePlayer(request.id);
-            this.showModify = false;
-          } else {
-            this.messageService.alert('Attenzione!','Errore durante la chiamata updatePlayer','error');
-          }
-        });
+      if(this.changeName && this.player?.name === request.name) {
+        this.messageService.alert('Attenzione!','Hai deciso di cambiare il nome, ma il nome non è stato cambiato','warning');
       } else {
-        this.messageService.alert('Attenzione!','Le password devono combaciare','warning');
+        if(this.modForm.value.password === this.modForm.value.confirmpassword) {
+          this.playerStateService.updatePlayer(request).then((resp) => {
+            if(resp === true) {
+              this.messageService.alert('Fatto!','Dati aggiornati!','success');
+              this.playerStateService.resetPlayerState();
+              this.takePlayer(request.id);
+              this.showModify = false;
+            } else {
+              if(resp && resp.status===401) {
+                this.messageService.alert('Nome già in uso!','Inserisci un nome diverso!','info');
+              } else {
+                this.messageService.alert('Attenzione!','Errore durante la chiamata updatePlayer','error');
+              }
+            }
+          });
+        } else {
+          this.messageService.alert('Attenzione!','Le password devono combaciare','warning');
+        }
       }
+
     } else {
       if(this.modForm.controls['email'].errors) {
         this.messageService.alert('Attenzione!','Inserisci una email valida','warning');
@@ -174,6 +186,10 @@ export class PlayerDetailComponent {
 
   showPss() {
     this.showPassword = !this.showPassword;
+  }
+
+  changeMyName() {
+    this.changeName = !this.changeName;
   }
 
   showConfirmPss() {
