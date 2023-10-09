@@ -101,6 +101,10 @@ export class StateNotifierService {
     return result;
   }
 
+  getHistory(id:string, history:boolean = false, myReqs:boolean = false, typeMode:number, page:number, limit:number) {
+    return this.notifierService.getReqs(id, page, limit, myReqs, history, typeMode)
+  }
+
   async createDuelRec(request:any) {
     this.spinnerService.show();
 

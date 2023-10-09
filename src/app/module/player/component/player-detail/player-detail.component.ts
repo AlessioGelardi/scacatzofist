@@ -7,7 +7,7 @@ import { Player } from 'src/app/module/interface/player';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { StateNotifierService } from 'src/app/module/notifier/services/state/state-notifier.service';
 import { TypeMod } from 'src/app/module/play-now/enum/typeMod';
-import { DictReqs } from 'src/app/module/interface/reqs';
+import { Reqs } from 'src/app/module/interface/reqs';
 
 @Component({
   selector: 'player-detail',
@@ -39,7 +39,9 @@ export class PlayerDetailComponent {
   ]
 
   pageSelected: string = "1";
-  history: DictReqs | undefined;
+  history: Reqs[] = [];
+  selectHistory: Reqs[] = [];
+  maxPage: number = 1;
 
   numDuelli:number = 0;
   numVittorie:number = 0;
@@ -153,7 +155,17 @@ export class PlayerDetailComponent {
   }
 
   selectPage(page: number) {
-    this.pageSelected = page.toString();
+    // Calcola l'indice di inizio in base alla pagina corrente e alla dimensione della pagina
+    let pageSize = 10
+    let startIndex = 0
+    if(this.history!.length>10) {
+      startIndex = (page - 1) * pageSize;
+    }
+
+    // Estrai i dati visibili dalla tua array completa
+    const endIndex = startIndex + pageSize;
+
+    this.selectHistory = this.history.slice(startIndex, endIndex);
   }
 
   checkWin(vincitore: string) {
@@ -190,8 +202,8 @@ export class PlayerDetailComponent {
     });
   }
 
-  private setCounters(index:number) {
-    for(let x of this.history!.reqs![index]) {
+  private setCounters() {
+    for(let x of this.history) {
       if(this.checkWin(x.vincitore!)) {
         this.numVittorie++;
       } else {
@@ -199,8 +211,29 @@ export class PlayerDetailComponent {
       }
     }
   }
+
+  private takeHistory(page = 1, pageSize = 10) {
+    this.notifierStateService.getHistory(this.player?._id!,true,false,TypeMod.ALL,page,pageSize).subscribe((response: any) => {
+      
+      this.history.push(...response);
+
+      if(this.selectHistory.length==0) {
+        this.selectPage(1);
+      }
+
+      // Controlla se ci sono più pagine di dati da ottenere
+      if (response.length === pageSize) {
+        // Se ci sono più dati disponibili, carica la pagina successiva
+        this.takeHistory(page + 1, pageSize);
+      } else {
+        this.setCounters();
+        this.maxPage = page;
+        this.numDuelli = this.history.length;
+      }
+    });
+  }
   
-  private takeHistory() {
+  /* private takeHistory() {
     this.pageSelected = "1";
     this.numDuelli = 0;
     this.numSconfitte = 0;
@@ -230,10 +263,10 @@ export class PlayerDetailComponent {
         if(resp.status===402) {
           this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
         }
-        */
+        
 
         this.messageService.alert('Attenzione!','Errore durante la chiamata getReqs','error');
       }
     });
-  }
+  }*/
 }
