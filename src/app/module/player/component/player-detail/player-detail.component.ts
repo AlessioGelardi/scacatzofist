@@ -54,6 +54,8 @@ export class PlayerDetailComponent {
   showPassword = false;
   showConfirmPassword = false;
 
+  prezzo:number = 300;
+
   constructor(private route: ActivatedRoute,
     private router: Router, private spinnerService: NgxSpinnerService,
     private messageService: MessageService,
@@ -144,6 +146,7 @@ export class PlayerDetailComponent {
               this.playerStateService.resetPlayerState();
               this.takePlayer(request.id);
               this.showModify = false;
+              this.changeName = false;
             } else {
               if(resp && resp.status===401) {
                 this.messageService.alert('Nome già in uso!','Inserisci un nome diverso!','info');
@@ -204,10 +207,18 @@ export class PlayerDetailComponent {
     return TypeMod; 
   }
 
+  private arrotondaEccesso(numero: number): number {
+    const migliaia = Math.ceil(numero / 1000);
+    return migliaia * 1000;
+  }
+
   private takePlayer(playerId: string) {
     this.playerStateService.getPlayer(playerId).then((resp) => {
       if(resp) {
         this.player = resp;
+        if(this.player.changeNameCnt! && this.player.changeNameCnt!>0) {
+          this.prezzo = this.arrotondaEccesso(300 * Math.pow(2, this.player.changeNameCnt+1))
+        }
       } else {
         //TO-DO gestione degli errori
         /*
