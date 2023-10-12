@@ -95,6 +95,17 @@ export class MarketEdicolaComponent implements OnInit {
     }
   }
 
+  downChange() {
+    if(this.numberCoins>=300) {
+      this.numberCoins -=300;
+    }
+    
+  }
+
+  upChange() {
+    this.numberCoins+=300;
+  }
+
   setTypePack(typePack:number) {
     this.viewCurrencyExchange = false;
     this.numberCoins=0;
