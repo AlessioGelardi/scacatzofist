@@ -97,6 +97,7 @@ export class MarketEdicolaComponent implements OnInit {
 
   setTypePack(typePack:number) {
     this.viewCurrencyExchange = false;
+    this.numberCoins=0;
     this.viewPack = !this.viewPack;
     switch(typePack){
       case 1:

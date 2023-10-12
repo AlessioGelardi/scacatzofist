@@ -83,7 +83,7 @@
     <div class="row" *ngIf="viewCurrencyExchange" class="d-flex justify-content-around mt-3">
         <div class="col-5">
             <label>Quanti coin vuoi acquistare?</label>
-            <input [(ngModel)]="numberCoins" type="number" step="300" class="form-control sfondino">
+            <input [(ngModel)]="numberCoins" type="number" min="0" max="{{player!.credits!*300}}" step="300" class="form-control sfondino">
         </div>
     </div>
     <div class="row" *ngIf="viewCurrencyExchange" class="d-flex justify-content-around mt-3">
