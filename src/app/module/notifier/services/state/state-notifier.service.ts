@@ -101,6 +101,29 @@ export class StateNotifierService {
     return result;
   }
 
+  getHistory(id:string, history:boolean = false, myReqs:boolean = false, typeMode:number, page:number, limit:number) {
+    return this.notifierService.getReqs(id, page, limit, myReqs, history, typeMode)
+  }
+
+  async getNumberDuels(playerId:string, history:boolean = false, myReqs:boolean = false,typeMode:number) {
+    this.spinnerService.show();
+
+    let duelRec;
+    try {
+      duelRec = await firstValueFrom(this.notifierService.getNumberDuels(playerId,history,myReqs));
+      this.spinnerService.hide();
+    } catch (error:any) {
+      this.spinnerService.hide();
+      if(error.status===402) {
+        this.messageService.alert('Attenzione!','Non sono riuscito a creare il training','error');
+      } else {
+        this.messageService.alert('Errore','Qualcosa è andato storto durante la creazione del training','error');
+      }
+    }
+
+    return duelRec;
+  }
+
   async createDuelRec(request:any) {
     this.spinnerService.show();
 

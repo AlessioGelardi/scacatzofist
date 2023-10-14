@@ -39,10 +39,23 @@ export class NotifierService {
     req.limit = limit;
     req.myReqs = myReqs;
     req.history = history;
+    req.counter = false;
     if(typeMod) {
       req.typeMod = typeMod!;
     }
     return this.http.get<Reqs[]>(this.apiUrlPlaynow,{params:req});
+  }
+
+  getNumberDuels(id:string, myReqs:boolean = false, history:boolean = false,typeMod?:number) {
+    let req:any = {};
+    req.id = id;
+    req.counter = true;
+    req.myReqs = myReqs;
+    req.history = history;
+    if(typeMod) {
+      req.typeMod = typeMod!;
+    }
+    return this.http.get<number>(this.apiUrlPlaynow,{params:req});
   }
   
   getNumberNotify(id:string):Observable<number>{

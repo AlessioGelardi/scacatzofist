@@ -80,19 +80,23 @@
             <button type="button" class="col-3 btn btn-lg rounded-pill grigino" (click)="viewExchange()">CAMBIO VALUTA</button>
         </div>
     </div>
-    <div class="row" *ngIf="viewCurrencyExchange" class="d-flex justify-content-around mt-3">
-        <div class="col-5">
+    <div class="row" *ngIf="viewCurrencyExchange" >
+        <div class="col-5" class="d-flex justify-content-around mt-3">
             <label>Quanti coin vuoi acquistare?</label>
-            <input [(ngModel)]="numberCoins" type="number" step="300" class="form-control sfondino">
         </div>
     </div>
-    <div class="row" *ngIf="viewCurrencyExchange" class="d-flex justify-content-around mt-3">
-        <div class="col-5">
-            <strong><label>{{numberCoins/300}} <i class="fa fa-diamond"></i></label>&nbsp;<i class="fa fa-arrow-right"></i>&nbsp;<label></label><label>{{numberCoins}} <i class="fa fa-database"></i></label></strong>
-            
+    <div class="row" *ngIf="viewCurrencyExchange" class="d-flex justify-content-around mt-4">
+        <div class="col-10">
+            <button type="button" class="col-2 btn btn-sm rounded-pill grigino" (click)="downChange()">-</button>&nbsp;
+            <strong class="col-6">
+                <label>{{numberCoins/300}} <i class="fa fa-diamond"></i></label>&nbsp;
+                <i class="fa fa-arrow-right"></i>&nbsp;<label></label>
+                <label>{{numberCoins}} <i class="fa fa-database"></i></label>
+            </strong>
+            &nbsp;<button type="button" class="col-2 btn btn-sm rounded-pill grigino" (click)="upChange()">+</button>        
         </div>
     </div>
-    <div class="row" *ngIf="viewCurrencyExchange" class="d-flex justify-content-around mt-3">
+    <div class="row" *ngIf="viewCurrencyExchange && numberCoins>0" class="d-flex justify-content-around mt-3">
         <button type="button" class="col-3 btn btn-lg grigino" (click)="buyCoins()">ACQUISTA</button>
     </div>
 </div>

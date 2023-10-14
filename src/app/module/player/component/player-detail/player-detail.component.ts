@@ -7,7 +7,9 @@ import { Player } from 'src/app/module/interface/player';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { StateNotifierService } from 'src/app/module/notifier/services/state/state-notifier.service';
 import { TypeMod } from 'src/app/module/play-now/enum/typeMod';
-import { DictReqs } from 'src/app/module/interface/reqs';
+import { Reqs } from 'src/app/module/interface/reqs';
+import { forkJoin, map } from 'rxjs';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'player-detail',
@@ -20,6 +22,7 @@ export class PlayerDetailComponent {
   player: Player | undefined;
 
   showModify = false;
+  changeName = false;
 
   modForm = new FormGroup({
     name: new FormControl('', Validators.required),
@@ -39,7 +42,10 @@ export class PlayerDetailComponent {
   ]
 
   pageSelected: string = "1";
-  history: DictReqs | undefined;
+  history: Reqs[] = [];
+  selectHistory: Reqs[] = [];
+  currentPage: number = 1;
+  currentDuel: number = 0;
 
   numDuelli:number = 0;
   numVittorie:number = 0;
@@ -48,8 +54,10 @@ export class PlayerDetailComponent {
   showPassword = false;
   showConfirmPassword = false;
 
+  prezzo:number = 300;
+
   constructor(private route: ActivatedRoute,
-    private router: Router,
+    private router: Router, private spinnerService: NgxSpinnerService,
     private messageService: MessageService,
     private playerStateService: StatePlayerService,
     private notifierStateService: StateNotifierService) {
@@ -82,6 +90,7 @@ export class PlayerDetailComponent {
 
     const playerId = this.route.snapshot.paramMap.get('id')!;
     this.takePlayer(playerId);
+    this.takeDuelCounter(playerId);
   }
 
   
@@ -100,6 +109,7 @@ export class PlayerDetailComponent {
         case 'EDIT':
           if(this.showModify) {
             this.showModify = false;
+            this.changeName = false;
           } else {
             this.showModify = true;
             this.modForm.patchValue({
@@ -124,21 +134,32 @@ export class PlayerDetailComponent {
       request.pss = this.modForm.value.password;
       request.domanda = this.modForm.value.domanda;
       request.risposta = this.modForm.value.risposta;
+      request.changeName = this.changeName ? 1 : 0;
 
-      if(this.modForm.value.password === this.modForm.value.confirmpassword) {
-        this.playerStateService.updatePlayer(request).then((resp) => {
-          if(resp === true) {
-            this.messageService.alert('Fatto!','Dati aggiornati!','success');
-            this.playerStateService.resetPlayerState();
-            this.takePlayer(request.id);
-            this.showModify = false;
-          } else {
-            this.messageService.alert('Attenzione!','Errore durante la chiamata updatePlayer','error');
-          }
-        });
+      if(this.changeName && this.player?.name === request.name) {
+        this.messageService.alert('Attenzione!','Hai deciso di cambiare il nome, ma il nome non è stato cambiato','warning');
       } else {
-        this.messageService.alert('Attenzione!','Le password devono combaciare','warning');
+        if(this.modForm.value.password === this.modForm.value.confirmpassword) {
+          this.playerStateService.updatePlayer(request).then((resp) => {
+            if(resp === true) {
+              this.messageService.alert('Fatto!','Dati aggiornati!','success');
+              this.playerStateService.resetPlayerState();
+              this.takePlayer(request.id);
+              this.showModify = false;
+              this.changeName = false;
+            } else {
+              if(resp && resp.status===401) {
+                this.messageService.alert('Nome già in uso!','Inserisci un nome diverso!','info');
+              } else {
+                this.messageService.alert('Attenzione!','Errore durante la chiamata updatePlayer','error');
+              }
+            }
+          });
+        } else {
+          this.messageService.alert('Attenzione!','Le password devono combaciare','warning');
+        }
       }
+
     } else {
       if(this.modForm.controls['email'].errors) {
         this.messageService.alert('Attenzione!','Inserisci una email valida','warning');
@@ -153,7 +174,17 @@ export class PlayerDetailComponent {
   }
 
   selectPage(page: number) {
-    this.pageSelected = page.toString();
+    // Calcola l'indice di inizio in base alla pagina corrente e alla dimensione della pagina
+    let pageSize = 10
+    let startIndex = 0
+    if(this.history!.length>10) {
+      startIndex = (Math.floor(page) - 1) * pageSize;
+    }
+
+    // Estrai i dati visibili dalla tua array completa
+    const endIndex = startIndex + pageSize;
+
+    this.selectHistory = this.history.slice(startIndex, endIndex);
   }
 
   checkWin(vincitore: string) {
@@ -164,6 +195,10 @@ export class PlayerDetailComponent {
     this.showPassword = !this.showPassword;
   }
 
+  changeMyName() {
+    this.changeName = !this.changeName;
+  }
+
   showConfirmPss() {
     this.showConfirmPassword = !this.showConfirmPassword;
   }
@@ -172,11 +207,18 @@ export class PlayerDetailComponent {
     return TypeMod; 
   }
 
+  private arrotondaEccesso(numero: number): number {
+    const migliaia = Math.ceil(numero / 1000);
+    return migliaia * 1000;
+  }
+
   private takePlayer(playerId: string) {
     this.playerStateService.getPlayer(playerId).then((resp) => {
       if(resp) {
         this.player = resp;
-        this.takeHistory();
+        if(this.player.changeNameCnt! && this.player.changeNameCnt!>0) {
+          this.prezzo = this.arrotondaEccesso(300 * Math.pow(2, this.player.changeNameCnt+1))
+        }
       } else {
         //TO-DO gestione degli errori
         /*
@@ -190,8 +232,8 @@ export class PlayerDetailComponent {
     });
   }
 
-  private setCounters(index:number) {
-    for(let x of this.history!.reqs![index]) {
+  private setCounters() {
+    for(let x of this.history) {
       if(this.checkWin(x.vincitore!)) {
         this.numVittorie++;
       } else {
@@ -199,8 +241,104 @@ export class PlayerDetailComponent {
       }
     }
   }
+
+  private takeDuelCounter(playerId:string) {
+    this.notifierStateService.getNumberDuels(playerId,true,false,TypeMod.ALL).then((resp) => {
+      if(resp) {
+        this.numDuelli = resp;
+        this.takeHistory(playerId);
+      } else {
+        //TO-DO gestione degli errori
+        /*
+        if(resp.status===402) {
+          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+        }
+        */
+
+        this.messageService.alert('Attenzione!','Errore durante la chiamata getPlayer','error');
+      }
+    });
+  }
+
+  private takeHistory(playerId:string,pageSize = 10) {
+    this.spinnerService.show();
+    if (this.currentDuel >= this.numDuelli) {
+      this.setCounters();
+      this.selectPage(1);
+      this.spinnerService.hide();
+      return;
+    }
+
+    const observables = [];
+    for (let page = this.currentPage; page <= this.currentPage + 4; page++) {
+      observables.push(
+        this.notifierStateService.getHistory(playerId,true,false,TypeMod.ALL,page,pageSize)
+      );
+    }
+
+    forkJoin(observables).pipe(
+        map((responses: any[]) => responses.map(response => response))
+      ).subscribe((response: any[]) => {
+
+        const newData = response.reduce((acc, response) => acc.concat(response), []);
+
+        this.history.push(...newData);
+
+        // Verifica se ci sono ulteriori dati
+        this.currentDuel += newData.length;
+        this.currentPage += observables.length;
+
+        // Continua a caricare dati se ci sono ulteriori pagine
+        this.takeHistory(playerId);
+      });
+
+/*
+
+    const observables = [];
+    let noMoreData = false;
   
-  private takeHistory() {
+    for (let page = 1; !noMoreData; page++) {
+      observables.push(
+        this.notifierStateService.getHistory(this.player?._id!,true,false,TypeMod.ALL,page,pageSize)
+          .pipe(
+            tap((response: any) => {
+              if (response.length === pageSize) {
+                noMoreData = true;
+              }
+            })
+          )
+      );
+    }
+  
+    forkJoin(observables)
+      .subscribe((responses: any[]) => {
+        this.history.push(...responses);
+
+        if(this.selectHistory.length==0) {
+          this.selectPage(1);
+        }
+
+        
+      });
+
+
+     this.notifierStateService.getHistory(this.player?._id!,true,false,TypeMod.ALL,page,pageSize).subscribe((response: any) => {
+      
+
+
+      // Controlla se ci sono più pagine di dati da ottenere
+      if (response.length === pageSize) {
+        // Se ci sono più dati disponibili, carica la pagina successiva
+        this.takeHistory(page + 1, pageSize);
+      } else {
+        this.setCounters();
+        this.maxPage = page;
+        this.numDuelli = this.history.length;
+      }
+    }); */
+  }
+  
+  /* private takeHistory() {
     this.pageSelected = "1";
     this.numDuelli = 0;
     this.numSconfitte = 0;
@@ -230,10 +368,10 @@ export class PlayerDetailComponent {
         if(resp.status===402) {
           this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
         }
-        */
+        
 
         this.messageService.alert('Attenzione!','Errore durante la chiamata getReqs','error');
       }
     });
-  }
+  }*/
 }

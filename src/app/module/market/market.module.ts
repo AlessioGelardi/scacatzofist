@@ -8,7 +8,7 @@ import { MarketEdicolaComponent } from './component/market-edicola/market-edicol
 import { VetrinaComponent } from './component/market-edicola/vetrina/vetrina.component';
 import { PlayerModule } from '../player/player.module';
 import { ZainoModule } from '../zaino/zaino.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { ColorPickerModule } from 'ngx-color-picker';
 
 

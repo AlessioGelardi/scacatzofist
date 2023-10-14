@@ -8,4 +8,5 @@ export interface Player {
     coin?: number;
     credits?: number;
     ruolo?: number;
+    changeNameCnt?:number;
 }
