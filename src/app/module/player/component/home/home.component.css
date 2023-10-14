@@ -18,6 +18,18 @@ label {
     animation: outlineAnimation 3s infinite;
 }
 
+.mat-progress-bar {
+    position: relative;
+  }
+  
+  .current-label {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white; /* Cambia il colore del testo in base al tuo sfondo */
+  }
+
 @keyframes outlineAnimation {
     0% {
         transform: scale(1);

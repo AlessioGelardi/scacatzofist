@@ -6,7 +6,7 @@ import { PlayerDetailComponent } from './component/player-detail/player-detail.c
 import { PlayerButtonsComponent } from './component/player-buttons/player-buttons.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FilterPlayerPipe } from './pipe/filter-player.pipe';
-
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 
 @NgModule({
@@ -20,7 +20,8 @@ import { FilterPlayerPipe } from './pipe/filter-player.pipe';
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatProgressBarModule
   ],
   exports: [
     PlayerStatusComponent,

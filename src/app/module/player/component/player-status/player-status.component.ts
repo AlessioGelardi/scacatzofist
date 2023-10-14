@@ -11,7 +11,7 @@ import { Socket } from 'ngx-socket-io';
 @Component({
   selector: 'player-status',
   templateUrl: './player-status.component.html',
-  styleUrls: ['../../styles/player.css']
+  styleUrls: ['./player-status.component.css','../../styles/player.css']
 })
 export class PlayerStatusComponent implements OnInit {
 
@@ -19,13 +19,18 @@ export class PlayerStatusComponent implements OnInit {
 
   numberNotify:number | undefined;
 
+  maxValue: number = 100; // Valore massimo variabile
+  currentValue: number = 0; // Valore corrente variabile
+
   constructor(private router: Router,
     private deckStateService: StateDeckService,
     private notifierStateService: StateNotifierService,
     private marketStateService: StateMarketService,
     private tradeStateService: StateTradeService,
     private playerStateService: StatePlayerService,
-    private socket: Socket) { }
+    private socket: Socket) {
+      this.currentValue=30
+    }
 
   ngOnInit(): void {
   }
