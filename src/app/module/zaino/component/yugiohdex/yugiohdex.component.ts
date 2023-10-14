@@ -54,7 +54,7 @@ export class YugiohdexComponent {
 
       this.databaseStateService.getCards(searchFilter.filter, this.page).then((resp) => {
         if(resp) {
-          this.cards=resp;
+          this.cards=this.filterZainoService.transform(resp,searchFilter);
           this.viewSearchResult=true;
           this.searchFilter = searchFilter;
         }
