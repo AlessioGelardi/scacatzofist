@@ -1,34 +1,26 @@
-import { animate, style, transition, trigger } from '@angular/animations';
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { StatePlayerService } from './module/player/services/state/state-player.service';
+import { Player } from './module/interface/player';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
-  animations: [
-    trigger('listAnimation', [
-      transition(':enter', [
-        style({ opacity: 0 }),
-        animate('0.2s', style({ opacity: 1 }))
-      ]),
-      transition(':leave', [
-        animate('0.2s', style({ opacity: 0 }))
-      ])
-    ])
-  ]
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
 
   viewSideBar = false;
+  player: Player | undefined;
 
-  constructor() {
-    
+  constructor(private playerStateService: StatePlayerService) {
+    this.playerStateService.getLoginPlayer().subscribe((value:Player | undefined) => {
+      this.player = value;
+    });
   }
 
-  turnHome() {
+  /* turnHome() {
     window.history.back();
-  }
+  } */
 
   openSideBar() {
     this.viewSideBar = !this.viewSideBar;

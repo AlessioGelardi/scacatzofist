@@ -19,9 +19,6 @@ export class PlayerStatusComponent implements OnInit {
 
   numberNotify:number | undefined;
 
-  maxValue: number = 100; // Valore massimo variabile
-  currentValue: number = 0; // Valore corrente variabile
-
   constructor(private router: Router,
     private deckStateService: StateDeckService,
     private notifierStateService: StateNotifierService,
@@ -29,7 +26,6 @@ export class PlayerStatusComponent implements OnInit {
     private tradeStateService: StateTradeService,
     private playerStateService: StatePlayerService,
     private socket: Socket) {
-      this.currentValue=30
     }
 
   ngOnInit(): void {
@@ -43,12 +39,17 @@ export class PlayerStatusComponent implements OnInit {
     this.router.navigate(['/inventory',{id:this.player?._id!}]);
   }
 
+  home() {
+    this.router.navigate(['/home',{id:this.player?._id!}]);
+  }
+
   logout() {
     this.deckStateService.resetState();
     this.marketStateService.resetState();
     this.playerStateService.resetState();
     this.notifierStateService.resetTournaments();
     this.tradeStateService.resetPrivateTrades();
+    this.playerStateService.getLoginPlayer().next(undefined)
     this.router.navigate(['/']);
     this.socket.emit('logout', this.player!.name);
   }

@@ -1,7 +1,7 @@
 <!-- Toolbar -->
 <div class="toolbar" role="banner">
   <div class="container d-flex justify-content-center">
-    <img class="logo" src="https://www.1001hobbies.it/c/56155-large_banner/yu-gi-oh.jpg" (click)="turnHome()" />
+    <img class="logo" src="https://www.1001hobbies.it/c/56155-large_banner/yu-gi-oh.jpg" />
   </div>
   <label class="position-absolute top-0 start-0">v.0.1.5-AlphaTecnica</label>
   <div>
@@ -14,6 +14,7 @@
 <div class="content" role="main">
   <div class="container">
     <div>
+      <player-status *ngIf="player" [player]="player"></player-status>
       <router-outlet></router-outlet>
     </div>
   </div>
