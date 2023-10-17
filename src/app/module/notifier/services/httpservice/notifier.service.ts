@@ -66,8 +66,8 @@ export class NotifierService {
     return this.http.post<boolean>(this.apiUrlTrainingRec,request,this.generateOptions());
   }
 
-  stopTraining():Observable<boolean> {
-    return this.http.put<boolean>(this.apiUrlTrainingRec,{},this.generateOptions());
+  stopTraining(request:any):Observable<boolean> {
+    return this.http.put<boolean>(this.apiUrlTrainingRec,request,this.generateOptions());
   }
 
   createDuelRec(request:any):Observable<any> {

@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { firstValueFrom } from 'rxjs';
+import { Observable, firstValueFrom } from 'rxjs';
 import { Card, Pack } from 'src/app/module/interface/card';
 import { Player } from 'src/app/module/interface/player';
 import { PlayerService } from '../httpservices/player.service';
 import { Socket } from 'ngx-socket-io';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,8 @@ export class StatePlayerService {
   private etichette?:any;
 
   private bonus: boolean = false;
+
+  private checkLogin = new BehaviorSubject<Player | undefined>(undefined);
 
   constructor(private spinnerService: NgxSpinnerService,
     private playerService: PlayerService,
@@ -58,6 +61,10 @@ export class StatePlayerService {
     this.etichette = undefined;
   }
 
+  getLoginPlayer() {
+    return this.checkLogin;
+  }
+
   async getPlayer(id:string) {
     this.spinnerService.show();
 
@@ -65,6 +72,7 @@ export class StatePlayerService {
       try {
         const response = await firstValueFrom(this.playerService.getPlayerById(id));
         this.player = response;
+        this.checkLogin.next(this.player);
         this.spinnerService.hide();
       } catch(error:any) {
         this.spinnerService.hide();

@@ -211,7 +211,9 @@ export class PlayNowTrainingComponent implements OnInit {
       confirmButtonText: 'Si, stop training!'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.notifierStateService.stopTraining().then((resp) => {
+        let request:any = {}
+        request.playerIdReq = this.player?._id!;
+        this.notifierStateService.stopTraining(request).then((resp) => {
           if(resp == true) {
             this.start=false;
           }
