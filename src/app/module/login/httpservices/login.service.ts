@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Player } from 'src/app/module/interface/player';
 import { environment } from 'src/environments/environment';
 import { Deck } from '../../interface/card';
@@ -21,7 +21,7 @@ export class LoginService {
     return this.http.post<Player>(this.apiUrlLogin, {username,pss});
   }
 
-  signin(player:Player): Observable<boolean>{
+  signin(player:any): Observable<boolean>{
     return this.http.post<boolean>(this.apiUrlSignin, player);
   }
 
@@ -38,5 +38,9 @@ export class LoginService {
 
   starterDeck() {
     return this.http.get<Deck[]>(this.apiUrlStarterDeck);
+  }
+
+  getIPAddress() {  
+    return this.http.get("http://api.ipify.org/?format=json");  
   }
 }

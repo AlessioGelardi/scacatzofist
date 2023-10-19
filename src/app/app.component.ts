@@ -20,7 +20,7 @@ export class AppComponent {
   {
     this.playerStateService.getLoginPlayer().subscribe((value:Player | undefined) => {
       this.player = value;
-      if(this.player?.level!%5==0 && !this.player?.reward) {
+      if(this.player?.level!>0 && this.player?.level!%5==0 && !this.player?.reward) {
         Swal.fire({
           title: 'Complimenti',
           backdrop: false,
