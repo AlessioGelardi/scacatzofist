@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1697925171077,
+  "timestamp": 1697925663474,
   "index": "scacatzofist/index.html",
   "assetGroups": [
     {
@@ -80,8 +80,6 @@
         "scacatzofist/assets/deck/zombie.png",
         "scacatzofist/assets/deck/zoodiaco.png",
         "scacatzofist/assets/exodia.png",
-        "scacatzofist/assets/favicon.ico",
-        "scacatzofist/assets/faviconOld.ico",
         "scacatzofist/assets/icons/android/android-launchericon-144-144.png",
         "scacatzofist/assets/icons/android/android-launchericon-192-192.png",
         "scacatzofist/assets/icons/android/android-launchericon-48-48.png",
@@ -344,8 +342,6 @@
     "scacatzofist/assets/deck/zombie.png": "57f1b38984afcdf3565738add7ceb022bd6077fe",
     "scacatzofist/assets/deck/zoodiaco.png": "a3784be40c5a3abecc8604fd48e021eae2849c04",
     "scacatzofist/assets/exodia.png": "a8666981b9d763274379ed45dc45c3a95606c172",
-    "scacatzofist/assets/favicon.ico": "7096b1b3c10b250d1414b387c7746558d6c321f9",
-    "scacatzofist/assets/faviconOld.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
     "scacatzofist/assets/icons/android/android-launchericon-144-144.png": "13f3fdb1ea1b398ded9cc546afddaeb6023d65c2",
     "scacatzofist/assets/icons/android/android-launchericon-192-192.png": "e5e41358ebf41137ba9e3f1c95410f1effda1750",
     "scacatzofist/assets/icons/android/android-launchericon-48-48.png": "ae3f98811d28631608df0b0356120cba5148ecba",
@@ -552,7 +548,7 @@
     "scacatzofist/fa-solid-900.3eae9857c06e9372.woff2": "6b99aa650bd12a36caa14e0127435d8f4cd3ba73",
     "scacatzofist/fa-v4compatibility.6209cf0172d95b0e.woff2": "8f80d0bbe995f7fe92320fdaec10cd5ccd710a51",
     "scacatzofist/fa-v4compatibility.92dce52f885fd838.ttf": "a9d072aca9e0fadc2a7167671ce3d6b18d9cd2cc",
-    "scacatzofist/favicon.ico": "c7558ecdfa96c408352487d55f319ed551042b31",
+    "scacatzofist/favicon.ico": "7096b1b3c10b250d1414b387c7746558d6c321f9",
     "scacatzofist/index.html": "da13f6f3e07940b463a72c05aabbe89100e2bb75",
     "scacatzofist/main.309cb225a81b9caa.js": "0d4904fbc156bf7772c728db14f8364ac3ed43c0",
     "scacatzofist/manifest.webmanifest": "4f64bc62803bedac0bfb372c5572dbb8c1a31f6c",
