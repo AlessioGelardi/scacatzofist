@@ -3,14 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Player } from 'src/app/module/interface/player';
 import { MessageService } from 'src/app/module/swalAlert/message.service';
 import { StatePlayerService } from '../../services/state/state-player.service';
-import { Socket } from 'ngx-socket-io';
-import { map } from 'rxjs/operators';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
 
-interface Message {
-  name?: string,
-  txt?: string
-}
 
 @Component({
   selector: 'player-home',
@@ -23,17 +16,10 @@ export class HomeComponent implements OnInit {
   numberNotify:number | undefined;
 
   bonus:boolean = false;
-
-  chatForm = new FormGroup({
-    message: new FormControl('', Validators.required)
-  });
-
   constructor(private route: ActivatedRoute,
     private playerStateService: StatePlayerService,
     private messageService: MessageService,
-    private router: Router,
-    private socket: Socket) {
-
+    private router: Router) {
   }
 
   ngOnInit(): void {
@@ -66,14 +52,6 @@ export class HomeComponent implements OnInit {
 
   trade() {
     this.router.navigate(['/trade',{id:this.player?._id}]);
-  }
-
-  pushMessage() {
-    const message = this.chatForm.value.message!;
-    this.socket.emit('message', {name:this.player?.name!,txt:message});
-    this.chatForm.patchValue({
-      message: ''
-    });
   }
 
   isObject(value: any): boolean {

@@ -9,4 +9,8 @@ export interface Player {
     credits?: number;
     ruolo?: number;
     changeNameCnt?:number;
+    level?:number;
+    currentExp?:number;
+    maxExp?:number;
+    reward?:any;
 }

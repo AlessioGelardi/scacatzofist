@@ -11,7 +11,7 @@ import { Socket } from 'ngx-socket-io';
 @Component({
   selector: 'player-status',
   templateUrl: './player-status.component.html',
-  styleUrls: ['../../styles/player.css']
+  styleUrls: ['./player-status.component.css','../../styles/player.css']
 })
 export class PlayerStatusComponent implements OnInit {
 
@@ -25,7 +25,8 @@ export class PlayerStatusComponent implements OnInit {
     private marketStateService: StateMarketService,
     private tradeStateService: StateTradeService,
     private playerStateService: StatePlayerService,
-    private socket: Socket) { }
+    private socket: Socket) {
+    }
 
   ngOnInit(): void {
   }
@@ -38,12 +39,17 @@ export class PlayerStatusComponent implements OnInit {
     this.router.navigate(['/inventory',{id:this.player?._id!}]);
   }
 
+  home() {
+    this.router.navigate(['/home',{id:this.player?._id!}]);
+  }
+
   logout() {
     this.deckStateService.resetState();
     this.marketStateService.resetState();
     this.playerStateService.resetState();
     this.notifierStateService.resetTournaments();
     this.tradeStateService.resetPrivateTrades();
+    this.playerStateService.getLoginPlayer().next(undefined)
     this.router.navigate(['/']);
     this.socket.emit('logout', this.player!.name);
   }

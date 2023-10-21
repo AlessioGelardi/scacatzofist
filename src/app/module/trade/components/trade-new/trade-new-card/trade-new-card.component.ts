@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { StateDeckService } from 'src/app/module/deck/services/state/state-deck.service';
 import { StatePlayerService } from 'src/app/module/player/services/state/state-player.service';
 import { MessageService } from 'src/app/module/swalAlert/message.service';

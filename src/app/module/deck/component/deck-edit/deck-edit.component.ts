@@ -6,7 +6,7 @@ import { StateDeckService } from '../../services/state/state-deck.service';
 import Swal from 'sweetalert2';
 import { StatePlayerService } from 'src/app/module/player/services/state/state-player.service';
 import { MessageService } from 'src/app/module/swalAlert/message.service';
-import { CdkDragDrop, CdkDragEnd, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { FilterZainoService } from 'src/app/module/zaino/services/filter-zaino.service';
 
 @Component({

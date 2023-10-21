@@ -159,12 +159,12 @@ export class StateNotifierService {
     return duelRec;
   }
 
-  async stopTraining() {
+  async stopTraining(request:any) {
     this.spinnerService.show();
 
     let duelRec;
     try {
-      duelRec = await firstValueFrom(this.notifierService.stopTraining());
+      duelRec = await firstValueFrom(this.notifierService.stopTraining(request));
       this.spinnerService.hide();
     } catch (error:any) {
       this.spinnerService.hide();

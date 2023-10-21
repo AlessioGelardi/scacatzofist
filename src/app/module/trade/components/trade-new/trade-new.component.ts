@@ -1,14 +1,9 @@
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Component } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Button } from 'src/app/module/interface/button';
-import { Card, Deck } from 'src/app/module/interface/card';
 import { Player } from 'src/app/module/interface/player';
 import { StatePlayerService } from 'src/app/module/player/services/state/state-player.service';
 import { MessageService } from 'src/app/module/swalAlert/message.service';
-import { StateTradeService } from '../../services/state/state-trade.service';
-import Swal from 'sweetalert2';
 import { StateDeckService } from 'src/app/module/deck/services/state/state-deck.service';
 
 @Component({

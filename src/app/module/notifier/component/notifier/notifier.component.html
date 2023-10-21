@@ -1,17 +1,9 @@
-<player-status [player]="player"></player-status>
 <notifier-buttons [buttons]="buttons" (buttonOperation)="buttonOperationHandler($event)"></notifier-buttons>
 
 <div class="mt-4" *ngIf="!showMoreDetail">
 
     <label>Le tue richieste</label>
 
-    <!-- <div class="mt-4" *ngIf="reqs?.length>1">
-        <div class="row d-flex justify-content-around">
-            <button type="button" class="col btn impagination" (click)="selectPage(1)"><i class='fa fa-angle-left'></i></button>
-            <button *ngFor="let number of getNumberRange(dictReqs?.page!)" type="button" class="col btn impagination" (click)="selectPage(number)">{{number}}</button>
-            <button type="button" class="col btn impagination" (click)="selectPage(dictReqs?.page!)"><i class='fa fa-angle-right'></i></button>
-        </div>
-    </div> -->
     <table class="table table-hover mt-4 text-center">
         <thead>
             <tr>
