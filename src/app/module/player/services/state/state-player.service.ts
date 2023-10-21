@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Observable, firstValueFrom } from 'rxjs';
+import { Observable, firstValueFrom, forkJoin, map } from 'rxjs';
 import { Card, Pack } from 'src/app/module/interface/card';
 import { Player } from 'src/app/module/interface/player';
 import { PlayerService } from '../httpservices/player.service';
 import { Socket } from 'ngx-socket-io';
 import { BehaviorSubject } from 'rxjs';
+import { TypeMod } from 'src/app/module/play-now/enum/typeMod';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class StatePlayerService {
 
   private player?: Player;
   private allplayers?: Player[];
-  private zaino?: Card[];
+  private zaino?: Card[] = [];
   private inventory?: Pack[];
 
   private etichette?:any;
@@ -22,6 +23,10 @@ export class StatePlayerService {
   private bonus: boolean = false;
 
   private checkLogin = new BehaviorSubject<Player | undefined>(undefined);
+
+  private currZainoIndex: number = 0;
+  private currPageZaino: number = 1;
+  private numCardZaino: number = 0;
 
   constructor(private spinnerService: NgxSpinnerService,
     private playerService: PlayerService,
@@ -73,6 +78,8 @@ export class StatePlayerService {
         const response = await firstValueFrom(this.playerService.getPlayerById(id));
         this.player = response;
         this.checkLogin.next(this.player);
+        this.getNumCardZaino(this.player._id!);
+
         this.spinnerService.hide();
       } catch(error:any) {
         this.spinnerService.hide();
@@ -84,7 +91,6 @@ export class StatePlayerService {
     if(this.player?.ruolo!==3) {
       this.socket.emit('sign_in', this.player!.name);
     }
-
 
     return this.player;
   }
@@ -143,6 +149,38 @@ export class StatePlayerService {
     } else {
       this.spinnerService.hide();
     }
+
+    this.spinnerService.show();
+    if (this.currZainoIndex >= this.numCardZaino) {
+      return;
+    }
+
+    const observables = [];
+    for (let page = this.currPageZaino; page <= this.currPageZaino + 4; page++) {
+      observables.push(
+        this.playerService.getZaino(id)
+      );
+    }
+
+    forkJoin(observables).pipe(
+        map((responses: any[]) => responses.map(response => response))
+      ).subscribe((response: any[]) => {
+
+        const newData = response.reduce((acc, response) => acc.concat(response), []);
+
+        this.zaino!.push(...newData);
+
+        // Verifica se ci sono ulteriori dati
+        this.currZainoIndex += newData.length;
+        this.currPageZaino += observables.length;
+
+        // Continua a caricare dati se ci sono ulteriori pagine
+        this.getZaino(id);
+        this.spinnerService.hide();
+      });
+
+
+
 
     return this.zaino;
   }
@@ -266,6 +304,25 @@ export class StatePlayerService {
 
     return response;
 
+  }
+
+  async getNumCardZaino(id:string) {
+    this.spinnerService.show();
+
+    if(!this.numCardZaino) {
+      try {
+        const response = await firstValueFrom(this.playerService.getNumCardZaino(id));
+        this.numCardZaino = response;
+        this.getZaino(id);
+        this.spinnerService.hide();
+      } catch(error:any) {
+        this.spinnerService.hide();
+      }
+    } else {
+      this.spinnerService.hide();
+    }
+
+    return this.numCardZaino;
   }
 
 
