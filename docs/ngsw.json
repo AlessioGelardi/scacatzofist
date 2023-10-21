@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1697925663474,
+  "timestamp": 1697926974142,
   "index": "scacatzofist/index.html",
   "assetGroups": [
     {
@@ -551,7 +551,7 @@
     "scacatzofist/favicon.ico": "7096b1b3c10b250d1414b387c7746558d6c321f9",
     "scacatzofist/index.html": "da13f6f3e07940b463a72c05aabbe89100e2bb75",
     "scacatzofist/main.309cb225a81b9caa.js": "0d4904fbc156bf7772c728db14f8364ac3ed43c0",
-    "scacatzofist/manifest.webmanifest": "4f64bc62803bedac0bfb372c5572dbb8c1a31f6c",
+    "scacatzofist/manifest.webmanifest": "25de327486da8f4926f44a90125d94f5b2cdfb68",
     "scacatzofist/polyfills.867483452a5d5fe6.js": "9d306f3ba1b1e5b347ee7c98ccdeff480fb86adf",
     "scacatzofist/runtime.a116727f51fb0204.js": "e5de7d4ea6e9aa450b98e69ef7ad9e5e1a72c784",
     "scacatzofist/scripts.ea4c78bc068af212.js": "9856e72e528e865cfde60d4cdb56099da4ffeac9",
