@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Player } from 'src/app/module/interface/player';
 import { MessageService } from 'src/app/module/swalAlert/message.service';
 import { StatePlayerService } from '../../services/state/state-player.service';
-import { Socket } from 'ngx-socket-io';
 
 
 @Component({

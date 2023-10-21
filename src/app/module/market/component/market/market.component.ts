@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Button } from 'src/app/module/interface/button';
-import { Card, Pack, SellCard, SellPack } from 'src/app/module/interface/card';
+import { Card, SellCard, SellPack } from 'src/app/module/interface/card';
 import { Player } from 'src/app/module/interface/player';
 import Swal from 'sweetalert2';
 import { StateMarketService } from '../../services/state/state-market.service';
