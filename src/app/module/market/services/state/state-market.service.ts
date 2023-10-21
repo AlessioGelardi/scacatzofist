@@ -15,6 +15,8 @@ export class StateMarketService {
 
   private dailyShop?: SellCard[] | undefined;
 
+  private packs?: any[];
+
   constructor(private spinnerService: NgxSpinnerService,
     private marketService: MarketService,
     private messageService: MessageService) {
@@ -32,11 +34,34 @@ export class StateMarketService {
   resetMarketPlace() {
     this.marketPlace = undefined;
   }
+  
+  resetPacks() {
+    this.packs = undefined;
+  }
 
   resetState() {
     this.marketPlace = undefined;
     this.marketPack = undefined;
     this.dailyShop = undefined;
+    this.packs = undefined;
+  }
+
+  async getPacks(typePack:number) {
+    this.spinnerService.show();
+
+    if(!this.packs) {
+      try {
+        const response = await firstValueFrom(this.marketService.getPacks(typePack));
+        this.packs = response;
+        this.spinnerService.hide();
+      } catch(error:any) {
+        this.spinnerService.hide();
+      }
+    } else {
+      this.spinnerService.hide();
+    }
+
+    return this.packs;
   }
 
   async getMarketPlace() {

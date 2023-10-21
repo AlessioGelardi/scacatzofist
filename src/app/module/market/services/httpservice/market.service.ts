@@ -16,6 +16,7 @@ export class MarketService {
   apiUrlMarketOpenPack: string =  environment.baseUrlMarket + "openpack";
   marketplaceById: string = environment.baseUrlMarket + "marketplaceById";
   apiUrlMarketDailyShop: string =  environment.baseUrlMarket + "dailyshop";
+  apiUrlMarketPacks: string = environment.baseUrlMarket + "packs";
 
   constructor(private http: HttpClient) { }
 
@@ -25,6 +26,10 @@ export class MarketService {
 
   getMarketpack(): Observable<SellPack[]> {
     return this.http.get<SellPack[]>(this.apiUrlMarketPack);
+  }
+
+  getPacks(typePack:number): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrlMarketPacks+'?case='+typePack);
   }
 
   getDailyShop(request:any): Observable<SellCard[]> {
