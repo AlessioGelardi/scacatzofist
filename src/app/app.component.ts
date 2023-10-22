@@ -65,8 +65,10 @@ export class AppComponent {
   }
 
   private takeCorrectLevel(level:number) {
-    let result = 5;
-    if(level>=10 && level<15) {
+    let result = 0;
+    if(level>=5 && level<10) {
+      result=5;
+    } else if(level>=10 && level<15) {
       result=10;
     } else if(level>=15 && level<20) {
       result=15;
