@@ -22,13 +22,14 @@ export class VetrinaComponent implements OnInit {
 
   ngOnInit(): void {
 
-    if(this.packs[0].dailyPack || this.packs[0].race) {
+
+    if(this.packs.length>0 && (this.packs[0].dailyPack || this.packs[0].race)) {
       this.showOnlyTaglia = true;
     }
     
-    if(this.packs[0].dailyPack) {
+    if(this.packs.length>0 && this.packs[0].dailyPack) {
       this.dailyPack = true;
-    } else if(this.packs[0].deck) {
+    } else if(this.packs.length>0 && this.packs[0].deck) {
       this.packs.sort((a, b) => a.baseCost - b.baseCost);
       this.dailyPack = false;
       this.isDeck = true;
