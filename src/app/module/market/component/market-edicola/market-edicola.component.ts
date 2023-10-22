@@ -108,10 +108,6 @@ export class MarketEdicolaComponent implements OnInit {
   }
 
   setTypePack(typePack:number) {
-    this.viewCurrencyExchange = false;
-    this.numberCoins=0;
-    this.viewPack = !this.viewPack;
-
     if(this.selectedTypePack !== typePack) {
       this.marketStateService.resetPacks();
     }
@@ -119,6 +115,9 @@ export class MarketEdicolaComponent implements OnInit {
     this.marketStateService.getPacks(typePack).then((resp) => {
       if(resp) {
         this.packs=resp;
+        this.viewCurrencyExchange = false;
+        this.numberCoins=0;
+        this.viewPack = !this.viewPack;
       } else {
         this.messageService.alert('Attenzione!','Errore durante la chiamata getPacks','error');
       }
