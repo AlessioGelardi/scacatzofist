@@ -22,7 +22,7 @@ export class AppComponent {
       this.player = value;
       if(this.player?.level!>0) {
         const correctLevel = this.takeCorrectLevel(this.player!.level!)
-        if(!this.player?.reward!.includes(correctLevel)) {
+        if(correctLevel>0 && !this.player?.reward!.includes(correctLevel)) {
           Swal.fire({
             title: 'Complimenti',
             backdrop: false,
