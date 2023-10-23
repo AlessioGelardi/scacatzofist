@@ -415,7 +415,7 @@ export class MarketEdicolaComponent implements OnInit {
       showLoaderOnConfirm: true
     }).then((result) => {
       if (result.isConfirmed) {
-        if(result.value>0) {
+        if(result.value>1000) {
           let request:any = {};
           request.playerId = this.player!._id!;
           request.packId = pack.id;
@@ -441,7 +441,7 @@ export class MarketEdicolaComponent implements OnInit {
             }
           });
         } else {
-          this.messageService.alert('Attenzione','Il prezzo deve essere almeno maggiore di 0','info');
+          this.messageService.alert('Attenzione','Il prezzo deve essere almeno maggiore di 1000','info');
         }
         
       }
