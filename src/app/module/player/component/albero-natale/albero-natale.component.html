@@ -1,0 +1,48 @@
+<div class="text-center">
+    <h4>CALENDARIO DELL'AVVENTO</h4>
+</div>
+<div class="mt-2 albero-natale" *ngIf="giorni && giorni.length>0">
+    <!-- Ramo superiore -->
+    <div class="ramo-superiore">
+        <div class="carte-ramo d-flex justify-content-around">
+            <div class="carta" *ngFor="let giorno of giorni.slice(0,1)" (click)="apriFinestra(giorno)" [class.aperta]="isFinestraAperta(giorno)" [class.today]="isToday(giorno)">
+                {{ giorno }}
+            </div>
+        </div>
+    </div>
+
+    <div class="ramo-superiore">
+        <div class="carte-ramo d-flex justify-content-center">
+            <div class="carta" *ngFor="let giorno of giorni.slice(1,4)" (click)="apriFinestra(giorno)" [class.aperta]="isFinestraAperta(giorno)" [class.today]="isToday(giorno)">
+                {{ giorno }}
+            </div>
+        </div>
+    </div>
+
+    <div class="ramo-superiore">
+        <div class="carte-ramo d-flex justify-content-center">
+            <div class="carta" *ngFor="let giorno of giorni.slice(4,9)" (click)="apriFinestra(giorno)" [class.aperta]="isFinestraAperta(giorno)" [class.today]="isToday(giorno)">
+                {{ giorno }}
+            </div>
+        </div>
+    </div>
+
+    <div class="ramo-superiore">
+        <div class="carte-ramo d-flex justify-content-center">
+            <div class="carta" *ngFor="let giorno of giorni.slice(9,16)" (click)="apriFinestra(giorno)" [class.aperta]="isFinestraAperta(giorno)" [class.today]="isToday(giorno)">
+                {{ giorno }}
+            </div>
+        </div>
+    </div>
+
+    <div class="ramo-superiore">
+        <div class="carte-ramo d-flex justify-content-center">
+            <div class="carta" *ngFor="let giorno of giorni.slice(16,26)" (click)="apriFinestra(giorno)" [class.aperta]="isFinestraAperta(giorno)" [class.today]="isToday(giorno)">
+                {{ giorno }}
+            </div>
+        </div>
+    </div>
+    <!-- Tronco dell'albero -->
+    <div class="tronco"></div>
+</div>
+  

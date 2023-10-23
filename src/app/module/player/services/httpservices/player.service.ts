@@ -15,6 +15,7 @@ export class PlayerService {
   apiUrlZaino: string = environment.baseUrlPlayer + "zainoById";
   apiUrlInventory: string = environment.baseUrlPlayer + "inventoryById";
   apiUrlEtichetta: string = environment.baseUrlPlayer + "etichetta";
+  apiUrlNatale: string = environment.baseUrlPlayer + "natale";
 
   constructor(private http: HttpClient) { }
 
@@ -52,6 +53,14 @@ export class PlayerService {
 
   delEtichetta(request:any) {
     return this.http.delete<boolean>(this.apiUrlEtichetta+'?id='+request.playerId+'&etich='+request.etich+'&cardId='+request.cardId);
+  }
+
+  apriEventoNatale(request:any) {
+    return this.http.put<boolean>(this.apiUrlNatale,request,this.generateOptions());
+  }
+
+  getEventoNatale(id:string) {
+    return this.http.get<number[]>(this.apiUrlNatale+'?id='+id);
   }
 
   private generateOptions() {

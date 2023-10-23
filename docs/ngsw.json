@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1698089928096,
+  "timestamp": 1698097506489,
   "index": "scacatzofist/index.html",
   "assetGroups": [
     {
@@ -13,12 +13,12 @@
       "urls": [
         "scacatzofist/favicon.ico",
         "scacatzofist/index.html",
-        "scacatzofist/main.3d7f1ae1d5d01d64.js",
+        "scacatzofist/main.0c7c3d4026575065.js",
         "scacatzofist/manifest.webmanifest",
         "scacatzofist/polyfills.867483452a5d5fe6.js",
         "scacatzofist/runtime.a116727f51fb0204.js",
         "scacatzofist/scripts.ea4c78bc068af212.js",
-        "scacatzofist/snowfall.jquery.js",
+        "scacatzofist/snowfall.jquery.min.js",
         "scacatzofist/styles.d3c0ec2463627830.css"
       ],
       "patterns": []
@@ -330,13 +330,13 @@
     "scacatzofist/fa-v4compatibility.6209cf0172d95b0e.woff2": "8f80d0bbe995f7fe92320fdaec10cd5ccd710a51",
     "scacatzofist/fa-v4compatibility.92dce52f885fd838.ttf": "a9d072aca9e0fadc2a7167671ce3d6b18d9cd2cc",
     "scacatzofist/favicon.ico": "c7558ecdfa96c408352487d55f319ed551042b31",
-    "scacatzofist/index.html": "416452a2fb2f2efa3ceb2cc1d700f7644da711a7",
-    "scacatzofist/main.3d7f1ae1d5d01d64.js": "3a9dbf37876b1ab38e27d5851c7a2bc5871d25ea",
+    "scacatzofist/index.html": "e268e20fe7bd8fdf477dced2fe6a463ed7a2387e",
+    "scacatzofist/main.0c7c3d4026575065.js": "323402e691eb7eb8966aa0ff77797d5d7c19a2ef",
     "scacatzofist/manifest.webmanifest": "bd37664930981689c0da5c13d3a31a0db98a1ba7",
     "scacatzofist/polyfills.867483452a5d5fe6.js": "9d306f3ba1b1e5b347ee7c98ccdeff480fb86adf",
     "scacatzofist/runtime.a116727f51fb0204.js": "e5de7d4ea6e9aa450b98e69ef7ad9e5e1a72c784",
     "scacatzofist/scripts.ea4c78bc068af212.js": "9856e72e528e865cfde60d4cdb56099da4ffeac9",
-    "scacatzofist/snowfall.jquery.js": "3d22eca11b9e6b9c2f571f3515efe3228f4567e9",
+    "scacatzofist/snowfall.jquery.min.js": "807dc78dbb06667f9de5d56578ac5eecc71bf050",
     "scacatzofist/styles.d3c0ec2463627830.css": "f6e64629bb90db17e91abc52794c6532e7436f7b"
   },
   "navigationUrls": [

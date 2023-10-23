@@ -1,11 +1,25 @@
 <div class="d-flex justify-content-center">
     <div class="col-9">
 
+        <div class="row">
+            <div class="d-flex justify-content-around text-center">
+                <div class="outline">
+                    <label>Come un magico calendario che svela un piccolo tesoro ogni giorno, il calendario dell'avvento ci avvolge nell'attesa luminosa del Natale</label>
+                </div>
+            </div>
+        </div>
+
         <div class="row" *ngIf="bonus">
             <div class="d-flex justify-content-around">
                 <div class="outline">
                     <label>Oggi è il weekend dei guadagni bonus, tutte le ricompense saranno raddoppiate</label>
                 </div>
+            </div>
+        </div>
+
+        <div class="row pt-5">
+            <div class="d-flex justify-content-around">
+                <button class="btn btn-lg" *ngIf="player?.ruolo !== 3" (click)="alberoMagico()">ALBERO MAGICO</button>
             </div>
         </div>
 

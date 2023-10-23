@@ -16,6 +16,7 @@ export class StatePlayerService {
   private allplayers?: Player[];
   private zaino?: Card[];
   private inventory?: Pack[];
+  private giorniNatale: number[] | undefined;
 
   private etichette?:any;
 
@@ -248,6 +249,43 @@ export class StatePlayerService {
 
 
     return response;
+  }
+
+  async apriEventoNatale(giorno:number) {
+    this.spinnerService.show();
+    let response;
+
+    try {
+      let request:any = {};
+      request.giorno = giorno;
+      request.playerId = this.player?._id!
+      response = await firstValueFrom(this.playerService.apriEventoNatale(request));
+      this.spinnerService.hide();
+    } catch (error: any) {
+      /* TO-DO [WinError 3] Impossibile trovare il percorso specificato: 'deck\\\\Ingranaggio Antico1.ydk' -> 'deck\\\\Ingranaggio Antico.ydk'*/
+      response = error;
+      this.spinnerService.hide();
+    }
+
+    return response;
+  }
+
+  async getEventoNatale(id:string) {
+    this.spinnerService.show();
+
+    if(!this.giorniNatale) {
+      try {
+        const response = await firstValueFrom(this.playerService.getEventoNatale(id));
+        this.giorniNatale = response;
+        this.spinnerService.hide();
+      } catch(error:any) {
+        this.spinnerService.hide();
+      }
+    } else {
+      this.spinnerService.hide();
+    }
+
+    return this.giorniNatale;
   }
 
 
