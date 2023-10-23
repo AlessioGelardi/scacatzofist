@@ -4,7 +4,7 @@
     right: -250px; /* La larghezza della sidebar */
     height: 100%;
     width: 250px; /* Larghezza desiderata della sidebar */
-    background-color: #737170; /* Colore di sfondo della sidebar */
+    background-color: #853030; /* Colore di sfondo della sidebar */
     transition: right 0.3s ease-in-out;
     z-index: 1000;
     color: #fff; /* Colore del testo della sidebar */
@@ -18,11 +18,11 @@
 .sidebar li {
     padding: 15px;
     cursor: pointer;
-    border-bottom: 1px solid #737170;
+    border-bottom: 1px solid #853030;
 }
 
 .sidebar li:hover {
-    background-color: #737170;
+    background-color: #853030;
 }
 
 .sidebar.open {

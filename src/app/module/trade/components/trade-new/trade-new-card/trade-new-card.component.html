@@ -23,7 +23,7 @@
         </div>
     </div>
     <div class="row mt-3">
-        <div class="col-6" style="border-right: solid #8a8989 1px">
+        <div class="col-6" style="border-right: solid #3a8530 1px">
             <div class="text-center">
                 <h5>OFFERTA </h5>
             </div>
@@ -45,7 +45,7 @@
             </form>
         </div>
 
-        <div class="col-6" style="border-left: solid #8a8989 1px">
+        <div class="col-6" style="border-left: solid #3a8530 1px">
             <div class="text-center">
                 <h5>RICHIESTA </h5>
             </div>
@@ -79,7 +79,7 @@
             </div>
         </div>
     </div>
-    <div class="col-3" style="padding-right:80px; border-right: solid #8a8989 1px">
+    <div class="col-3" style="padding-right:80px; border-right: solid #3a8530 1px">
         <label>CARTE OFFERTE</label>
         <div *ngIf="myPlate.length>0" class="row mt-2" cdkDropList (cdkDropListDropped)="onDrop($event)" [cdkDropListData]="myPlate" id="myPlate" [cdkDropListConnectedTo]="['myZaino']">
             <div *ngFor="let card of myPlate" class="col-3" cdkDrag (click)="showCard(card)" (cdkDragStarted)="onDragStart()" (cdkDragEnded)="onDragEnd()">
@@ -90,7 +90,7 @@
             <div class="area-drop mt-2"></div>
         </div>
     </div>
-    <div class="col-3" style="padding-right:80px; border-left: solid #8a8989 1px">
+    <div class="col-3" style="padding-right:80px; border-left: solid #3a8530 1px">
         <label>CARTE RICHIESTE</label>
         <div *ngIf="oppoPlate.length>0" class="row mt-2" cdkDropList (cdkDropListDropped)="onDrop($event)" [cdkDropListData]="oppoPlate" id="oppoPlate" [cdkDropListConnectedTo]="['oppoZaino']">
             <div *ngFor="let card of oppoPlate" class="col-3" cdkDrag (click)="showCard(card)" (cdkDragStarted)="onDragStart()" (cdkDragEnded)="onDragEnd()">
