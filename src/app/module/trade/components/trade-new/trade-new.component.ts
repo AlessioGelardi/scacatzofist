@@ -101,7 +101,8 @@ export class TradeNewComponent {
   }
 
   onTradeDeck() {
-    this.tradeDeck=true;
+    this.messageService.alert('In progress...',"Questa funzionalità è ancora in sviluppo... Ci dispiace per l'inconveniente torna più tardi !!! ",'info');
+    //this.tradeDeck=true;
   }
 
   onTradeCard() {

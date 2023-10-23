@@ -23,7 +23,7 @@ export class MarketEdicolaComponent implements OnInit {
   newPacks: Pack[] = [];
   viewCards: Card[] = [];
   
-  zaino: Card[] = [];
+  zaino: Card[] | undefined = [];
 
   viewPack: boolean = false;
   finishPurchase: boolean = false;
@@ -461,7 +461,9 @@ export class MarketEdicolaComponent implements OnInit {
     this.playerStateService.getPlayer(playerId).then((resp) => {
       if(resp) {
         this.player = resp;
-        this.takeZaino(this.player?._id!);
+        this.playerStateService.getZaino().subscribe((value:Card[] | undefined) => {
+          this.zaino = value;
+        });
       } else {
         //TO-DO gestione degli errori
         /*
@@ -492,23 +494,6 @@ export class MarketEdicolaComponent implements OnInit {
         break;
     }
     return cost;
-  }
-
-  private takeZaino(playerId:string) {
-    this.playerStateService.getZaino(playerId).then((resp) => {
-      if(resp) {
-        this.zaino=resp
-      } else {
-        //TO-DO gestione degli errori
-        /*
-        if(resp.status===402) {
-          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
-        }
-        */
-  
-        this.messageService.alert('Attenzione!','Errore durante la chiamata getZaino','error');
-      }
-    });
   }
 
 }

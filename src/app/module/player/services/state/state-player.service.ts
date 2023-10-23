@@ -16,6 +16,7 @@ export class StatePlayerService {
   private player?: Player;
   private allplayers?: Player[];
   private zaino?: Card[] = [];
+  private zainoNoCache?: Card[] = [];
   private inventory?: Pack[];
 
   private etichette?:any;
@@ -23,10 +24,16 @@ export class StatePlayerService {
   private bonus: boolean = false;
 
   private checkLogin = new BehaviorSubject<Player | undefined>(undefined);
+  private checkZaino = new BehaviorSubject<Card[] | undefined>(undefined);
 
   private currZainoIndex: number = 0;
   private currPageZaino: number = 1;
   private numCardZaino: number = 0;
+
+  private checkZainoNoCache = new BehaviorSubject<Card[] | undefined>(undefined);
+  private currZainoNoCacheIndex: number = 0;
+  private currPageZainoNoCache: number = 1;
+  private numCardZainoNoCache: number = 0;
 
   constructor(private spinnerService: NgxSpinnerService,
     private playerService: PlayerService,
@@ -68,6 +75,14 @@ export class StatePlayerService {
 
   getLoginPlayer() {
     return this.checkLogin;
+  }
+
+  getZaino() {
+    return this.checkZaino;
+  }
+
+  getZainoNoCache() {
+    return this.checkZainoNoCache;
   }
 
   async getPlayer(id:string) {
@@ -135,30 +150,24 @@ export class StatePlayerService {
     return this.allplayers;
   }
 
-  async getZaino(id:string) {
-    this.spinnerService.show();
+  async getZainoPlayer(id:string) {
+    this.zainoNoCache=undefined;
+    this.checkZainoNoCache.next(undefined);
+    this.getNumCardZaino(id,true);
+  }
 
-    if(!this.zaino) {
-      try {
-        const response = await firstValueFrom(this.playerService.getZaino(id));
-        this.zaino = response;
-        this.spinnerService.hide();
-      } catch(error:any) {
-        this.spinnerService.hide();
-      }
-    } else {
-      this.spinnerService.hide();
-    }
-
+  async getZainoAll(id:string,cache:boolean=false,pageSize = 20) {
     this.spinnerService.show();
-    if (this.currZainoIndex >= this.numCardZaino) {
+    if (!cache && this.currZainoIndex >= this.numCardZaino) {
+      return;
+    } else if(cache && this.currZainoNoCacheIndex >= this.numCardZainoNoCache) {
       return;
     }
 
     const observables = [];
     for (let page = this.currPageZaino; page <= this.currPageZaino + 4; page++) {
       observables.push(
-        this.playerService.getZaino(id)
+        this.playerService.getZaino(id,page,pageSize)
       );
     }
 
@@ -168,37 +177,32 @@ export class StatePlayerService {
 
         const newData = response.reduce((acc, response) => acc.concat(response), []);
 
-        this.zaino!.push(...newData);
+        if(!cache) {
+          if(!this.zaino) {
+            this.zaino = [];
+          }
+          this.zaino!.push(...newData);
+          this.checkZaino.next(this.zaino!);
 
-        // Verifica se ci sono ulteriori dati
-        this.currZainoIndex += newData.length;
-        this.currPageZaino += observables.length;
+          // Verifica se ci sono ulteriori dati
+          this.currZainoIndex += newData.length;
+          this.currPageZaino += observables.length;
+        } else {
+          if(!this.zainoNoCache) {
+            this.zainoNoCache = [];
+          }
+          this.zainoNoCache!.push(...newData);
+          this.checkZainoNoCache.next(this.zainoNoCache!);
+
+          // Verifica se ci sono ulteriori dati
+          this.currZainoNoCacheIndex += newData.length;
+          this.currPageZainoNoCache += observables.length;
+        }
 
         // Continua a caricare dati se ci sono ulteriori pagine
-        this.getZaino(id);
+        this.getZainoAll(id,cache);
         this.spinnerService.hide();
       });
-
-
-
-
-    return this.zaino;
-  }
-
-  async getZainoNoCache(id:string) {
-    this.spinnerService.show();
-
-    let zaino: Card[] = []
-
-    try {
-      const response = await firstValueFrom(this.playerService.getZaino(id));
-      zaino = response;
-      this.spinnerService.hide();
-    } catch(error:any) {
-      this.spinnerService.hide();
-    }
-
-    return zaino;
   }
 
   async getInventory(id:string) {
@@ -306,23 +310,41 @@ export class StatePlayerService {
 
   }
 
-  async getNumCardZaino(id:string) {
+  async getNumCardZaino(id:string, cache:boolean=false) {
     this.spinnerService.show();
 
-    if(!this.numCardZaino) {
-      try {
-        const response = await firstValueFrom(this.playerService.getNumCardZaino(id));
-        this.numCardZaino = response;
-        this.getZaino(id);
-        this.spinnerService.hide();
-      } catch(error:any) {
+    if(!cache) {
+      if(!this.numCardZaino) {
+        try {
+          const response = await firstValueFrom(this.playerService.getNumCardZaino(id));
+          this.numCardZaino = response;
+          this.getZainoAll(id);
+          this.spinnerService.hide();
+        } catch(error:any) {
+          this.spinnerService.hide();
+        }
+      } else {
+        this.getZainoAll(id);
         this.spinnerService.hide();
       }
-    } else {
-      this.spinnerService.hide();
-    }
 
-    return this.numCardZaino;
+      return this.numCardZaino;
+    } else {
+      if(!this.numCardZainoNoCache) {
+        try {
+          const response = await firstValueFrom(this.playerService.getNumCardZaino(id));
+          this.numCardZainoNoCache = response;
+          this.getZainoAll(id,cache);
+          this.spinnerService.hide();
+        } catch(error:any) {
+          this.spinnerService.hide();
+        }
+      } else {
+        this.getZainoAll(id,cache);
+        this.spinnerService.hide();
+      }
+      return this.numCardZainoNoCache;
+    }
   }
 
 

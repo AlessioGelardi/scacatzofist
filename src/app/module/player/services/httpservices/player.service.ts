@@ -32,8 +32,12 @@ export class PlayerService {
     return this.http.get<Player[]>(this.apiUrlPlayers);
   }
 
-  getZaino(id:string): Observable<Card[]> {
-    return this.http.get<Card[]>(this.apiUrlZaino+'?id='+id);
+  getZaino(id:string,page:number, limit:number): Observable<Card[]> {
+    let request:any = {};
+    request.id = id;
+    request.page = page;
+    request.limit = limit;
+    return this.http.get<Card[]>(this.apiUrlZaino,{params:request});
   }
 
   getInventory(id:string): Observable<Pack[]> {

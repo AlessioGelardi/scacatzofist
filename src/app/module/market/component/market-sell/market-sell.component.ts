@@ -26,7 +26,7 @@ export class MarketSellComponent implements OnInit {
 
   viewEtichetta = false;
 
-  zaino: Card[]=[];
+  zaino: Card[] | undefined=[];
 
   sliceLimit: number | undefined;
   sliceStart: number = 0;
@@ -87,7 +87,7 @@ export class MarketSellComponent implements OnInit {
 
     this.playerId = this.route.snapshot.paramMap.get('id')!;
     this.takePlayer(this.playerId!);
-    this.takeZaino();
+    //this.takeZaino();
   }
 
   buttonOperationHandler(code: any) {
@@ -338,6 +338,9 @@ export class MarketSellComponent implements OnInit {
     this.playerStateService.getPlayer(playerId).then((resp) => {
       if(resp) {
         this.player = resp;
+        this.playerStateService.getZaino().subscribe((value:Card[] | undefined) => {
+          this.zaino = value;
+        });
       } else {
         //TO-DO gestione degli errori
         /*
@@ -347,25 +350,6 @@ export class MarketSellComponent implements OnInit {
         */
 
         this.messageService.alert('Attenzione!','Errore durante la chiamata getPlayer','error');
-      }
-    });
-  }
-
-  private takeZaino() {
-    this.playerStateService.getZaino(this.playerId!).then((resp) => {
-      if(resp) {
-        this.zaino = resp;
-        this.sliceLimit = this.zaino.length;
-        this.takeEtichette();
-      } else {
-        //TO-DO gestione degli errori
-        /*
-        if(resp.status===402) {
-          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
-        }
-        */
-
-        this.messageService.alert('Attenzione!','Errore durante la chiamata getZaino','error');
       }
     });
   }

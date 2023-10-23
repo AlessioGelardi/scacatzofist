@@ -11,7 +11,7 @@ import { Razze } from '../../enum/races';
 export class ViewCardComponent implements OnInit {
 
   @Input() cards: Card[] = [];
-  @Input() zaino: Card[] = [];
+  @Input() zaino: Card[] | undefined = [];
 
   @Input() searchFilter: any | undefined;
 
@@ -29,7 +29,7 @@ export class ViewCardComponent implements OnInit {
   }
 
   checkExist(card:Card) {
-    return this.zaino.some(item => item.id === card.id);
+    return this.zaino!.some(item => item.id === card.id);
   }
 
 }

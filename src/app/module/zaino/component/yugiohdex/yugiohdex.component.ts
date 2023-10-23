@@ -19,7 +19,7 @@ export class YugiohdexComponent {
   
   player:Player | undefined;
 
-  zaino: Card[]=[];
+  zaino: Card[] | undefined = [];
 
   cards: Card[] = [];
   viewSearchResult: boolean = false;
@@ -61,7 +61,7 @@ export class YugiohdexComponent {
       });
     }
 
-    this.zaino = this.filterZainoService.transform(this.zaino,searchFilter);
+    this.zaino = this.filterZainoService.transform(this.zaino!,searchFilter);
   }
 
   home() {
@@ -82,7 +82,11 @@ export class YugiohdexComponent {
     this.playerStateService.getPlayer(playerId).then((resp) => {
       if(resp) {
         this.player = resp;
-        this.takeZaino();
+        this.playerStateService.getZaino().subscribe((value:Card[] | undefined) => {
+          this.zaino = value;
+        });
+        
+        //this.takeZaino();
       } else {
         //TO-DO gestione degli errori
         /*
@@ -96,7 +100,7 @@ export class YugiohdexComponent {
     });
   }
 
-  private takeZaino() {
+  /* private takeZaino() {
     this.playerStateService.getZaino(this.player?._id!).then((resp) => {
       if(resp) {
         this.zaino = resp;
@@ -106,12 +110,12 @@ export class YugiohdexComponent {
         if(resp.status===402) {
           this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
         }
-        */
+        
   
         this.messageService.alert('Attenzione!','Errore durante la chiamata getZaino','error');
       }
-    });
-  }
+    }); 
+  }*/
 
   private takeEtichette(playerId: string) {
     this.playerStateService.getEtichette(playerId).then((resp) => {

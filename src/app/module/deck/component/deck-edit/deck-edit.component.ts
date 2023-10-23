@@ -304,50 +304,39 @@ export class DeckEditComponent implements OnInit {
     return count;
   }
 
-  private takeZaino() {
+   private takeZaino() {
     this.zaino = []
-    this.playerStateService.getZaino(this.playerId!).then((resp) => {
-      if(resp) {
-        
-        for (const card of resp) {
-          let checkId = card.id
-          let inUse = false;
+    this.playerStateService.getZaino().subscribe((value:Card[] | undefined) => {
+      const resp: Card[] = value!;
+      for (const card of resp) {
+        let checkId = card.id
+        let inUse = false;
 
-          let iterObj = this.deck?.main.concat(this.deck?.extra, this.deck?.side)!;
-          let countZaino = 0;
-          let countZainoResp = 0;
-          let countDeck = 0;
+        let iterObj = this.deck?.main.concat(this.deck?.extra, this.deck?.side)!;
+        let countZaino = 0;
+        let countZainoResp = 0;
+        let countDeck = 0;
 
-          if(iterObj.some(obj => obj.id === checkId)) {
-            inUse = true;
-            countZainoResp = this.countCard(resp,checkId);
-            countDeck = this.countCard(iterObj,checkId);
-          }
+        if(iterObj.some(obj => obj.id === checkId)) {
+          inUse = true;
+          countZainoResp = this.countCard(resp,checkId);
+          countDeck = this.countCard(iterObj,checkId);
+        }
 
-          if(!inUse) {
-            this.zaino.push(card);
-            this.zainoBackup.push(card);
-          } else {
-            if(countZainoResp>0 && countDeck>0) {
-              countZaino = this.countCard(this.zaino,checkId);
-              if(countZaino !== countZainoResp-countDeck) {
-                for (let i = 0; i < countZainoResp-countDeck; i++) {
-                  this.zaino.push(card);
-                  this.zainoBackup.push(card);
-                }
+        if(!inUse) {
+          this.zaino.push(card);
+          this.zainoBackup.push(card);
+        } else {
+          if(countZainoResp>0 && countDeck>0) {
+            countZaino = this.countCard(this.zaino,checkId);
+            if(countZaino !== countZainoResp-countDeck) {
+              for (let i = 0; i < countZainoResp-countDeck; i++) {
+                this.zaino.push(card);
+                this.zainoBackup.push(card);
               }
             }
           }
         }
-      } else {
-        //TO-DO gestione degli errori
-        /*
-        if(resp.status===402) {
-          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
-        }
-        */
-
-        this.messageService.alert('Attenzione!','Errore durante la chiamata getZaino','error');
       }
     });
   }
