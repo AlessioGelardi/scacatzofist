@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1697298703909,
+  "timestamp": 1698089928096,
   "index": "scacatzofist/index.html",
   "assetGroups": [
     {
@@ -13,12 +13,13 @@
       "urls": [
         "scacatzofist/favicon.ico",
         "scacatzofist/index.html",
-        "scacatzofist/main.8c9b40573c6f248b.js",
+        "scacatzofist/main.3d7f1ae1d5d01d64.js",
         "scacatzofist/manifest.webmanifest",
         "scacatzofist/polyfills.867483452a5d5fe6.js",
         "scacatzofist/runtime.a116727f51fb0204.js",
         "scacatzofist/scripts.ea4c78bc068af212.js",
-        "scacatzofist/styles.029f5f95eb94cf15.css"
+        "scacatzofist/snowfall.jquery.js",
+        "scacatzofist/styles.d3c0ec2463627830.css"
       ],
       "patterns": []
     },
@@ -79,6 +80,7 @@
         "scacatzofist/assets/deck/zexal.png",
         "scacatzofist/assets/deck/zombie.png",
         "scacatzofist/assets/deck/zoodiaco.png",
+        "scacatzofist/assets/exodia.png",
         "scacatzofist/assets/favicon.ico",
         "scacatzofist/assets/faviconOld.ico",
         "scacatzofist/assets/icons/icon-128x128.png",
@@ -230,6 +232,7 @@
     "scacatzofist/assets/deck/zexal.png": "218d446841ecbb80ba8098b201eb8d5f6d02eadc",
     "scacatzofist/assets/deck/zombie.png": "57f1b38984afcdf3565738add7ceb022bd6077fe",
     "scacatzofist/assets/deck/zoodiaco.png": "a3784be40c5a3abecc8604fd48e021eae2849c04",
+    "scacatzofist/assets/exodia.png": "a8666981b9d763274379ed45dc45c3a95606c172",
     "scacatzofist/assets/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
     "scacatzofist/assets/faviconOld.ico": "b77b4ce86724d2fa991e60b1fcf6fa21793fa03c",
     "scacatzofist/assets/icons/icon-128x128.png": "dae3b6ed49bdaf4327b92531d4b5b4a5d30c7532",
@@ -327,13 +330,14 @@
     "scacatzofist/fa-v4compatibility.6209cf0172d95b0e.woff2": "8f80d0bbe995f7fe92320fdaec10cd5ccd710a51",
     "scacatzofist/fa-v4compatibility.92dce52f885fd838.ttf": "a9d072aca9e0fadc2a7167671ce3d6b18d9cd2cc",
     "scacatzofist/favicon.ico": "c7558ecdfa96c408352487d55f319ed551042b31",
-    "scacatzofist/index.html": "512aec9c74677c50e5125d87c4fa891a8a36b2ed",
-    "scacatzofist/main.8c9b40573c6f248b.js": "9683bb5ef62f23282db4383f7a734b43af5f065d",
+    "scacatzofist/index.html": "416452a2fb2f2efa3ceb2cc1d700f7644da711a7",
+    "scacatzofist/main.3d7f1ae1d5d01d64.js": "3a9dbf37876b1ab38e27d5851c7a2bc5871d25ea",
     "scacatzofist/manifest.webmanifest": "bd37664930981689c0da5c13d3a31a0db98a1ba7",
     "scacatzofist/polyfills.867483452a5d5fe6.js": "9d306f3ba1b1e5b347ee7c98ccdeff480fb86adf",
     "scacatzofist/runtime.a116727f51fb0204.js": "e5de7d4ea6e9aa450b98e69ef7ad9e5e1a72c784",
     "scacatzofist/scripts.ea4c78bc068af212.js": "9856e72e528e865cfde60d4cdb56099da4ffeac9",
-    "scacatzofist/styles.029f5f95eb94cf15.css": "c24c4c55d6b4d33e4a8fb9b20fc7d1b8a6b73b3a"
+    "scacatzofist/snowfall.jquery.js": "3d22eca11b9e6b9c2f571f3515efe3228f4567e9",
+    "scacatzofist/styles.d3c0ec2463627830.css": "f6e64629bb90db17e91abc52794c6532e7436f7b"
   },
   "navigationUrls": [
     {

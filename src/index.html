@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" id="snow-window">
 <head>
   <meta charset="utf-8">
   <title>ScacatzoFist</title>
@@ -10,8 +10,15 @@
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script> 
+	<script src="snowfall.jquery.js"></script>
 </head>
 <body style="background: #e29797;">
   <app-root></app-root>
 </body>
+<script type="text/javascript">// <![CDATA[
+  $(document).ready(function(){$('#snow-window').snowfall({flakeCount : 100, maxSpeed : 10});
+ $('#stopsnow').click(function(){ $('#snow-window').snowfall('clear')});});
+ // ]]&gt;</script>
+
 </html>

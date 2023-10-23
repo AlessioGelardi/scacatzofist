@@ -25,6 +25,7 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
+              "src/snowfall.jquery.js",
               "src/manifest.webmanifest"
             ],
             "styles": [
