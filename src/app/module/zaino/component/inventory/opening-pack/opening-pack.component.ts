@@ -28,7 +28,7 @@ import Swal from 'sweetalert2';
 export class OpeningPackComponent implements OnInit {
 
   @Input() cards!: Card[];
-  @Input() zaino!: Card[];
+  @Input() zaino!: Card[] | undefined;
 
   constructor(private messageService: MessageService) { }
 
@@ -46,7 +46,7 @@ export class OpeningPackComponent implements OnInit {
   }
 
   checkExist(card:Card) {
-    return this.zaino.some(item => item.id === card.id);
+    return this.zaino!.some(item => item.id === card.id);
   }
 
 }

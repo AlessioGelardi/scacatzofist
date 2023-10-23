@@ -32,7 +32,7 @@ export class PlayNowPlayersComponent {
   filterName:string | undefined;
 
   showZaini:boolean = false;
-  myZaino: Card[] = [];
+  myZaino: Card[] | undefined = [];
   myZainoBackup: Card[] = [];
   oppoZaino: Card[] = [];
   oppoZainoBackup: Card[] = [];
@@ -224,38 +224,28 @@ export class PlayNowPlayersComponent {
     });
   }
 
-  private takeZaino(playerId:string) {
+   private takeZaino(playerId:string) {
     if(this.playerId === playerId) {
-      this.playerStateService.getZaino(playerId).then((resp) => {
-        if(resp) {
-          this.myZaino=[]
-          for (const card of resp) {
-            let checkId = card.id
-            let inUse = false;
-    
-            for(const deck of this.myDecks) {
-              if (deck.main.concat(deck.extra, deck.side).some(obj => obj.id === checkId)) {
-                inUse = true;
-              }
-            }
-    
-            if(!inUse) {
-              this.myZaino.push(card)
-            }
-          }
-        } else {
-          //TO-DO gestione degli errori
-          /*
-          if(resp.status===402) {
-            this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
-          }
-          */
+      this.playerStateService.getZaino().subscribe((value:Card[] | undefined) => {
+        this.myZaino = value;
+        for (const card of value!) {
+          let checkId = card.id
+          let inUse = false;
   
-          this.messageService.alert('Attenzione!','Errore durante la chiamata getZaino','error');
+          for(const deck of this.myDecks) {
+            if (deck.main.concat(deck.extra, deck.side).some(obj => obj.id === checkId)) {
+              inUse = true;
+            }
+          }
+  
+          if(!inUse) {
+            this.myZaino!.push(card)
+          }
         }
       });
     } else {
-      this.playerStateService.getZainoNoCache(playerId).then((resp) => {
+      this.playerStateService.getZainoPlayer(playerId!);
+      this.playerStateService.getZainoNoCache().subscribe((resp:Card[] | undefined) => {
         if(resp) {
           this.oppoZaino=[]
           for (const card of resp) {
@@ -272,15 +262,6 @@ export class PlayNowPlayersComponent {
               this.oppoZaino.push(card)
             }
           }
-        } else {
-          //TO-DO gestione degli errori
-          /*
-          if(resp.status===402) {
-            this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
-          }
-          */
-  
-          this.messageService.alert('Attenzione!','Errore durante la chiamata getZaino','error');
         }
       });
     }
