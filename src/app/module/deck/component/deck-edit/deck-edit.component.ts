@@ -49,6 +49,7 @@ export class DeckEditComponent implements OnInit {
     private filterZainoService: FilterZainoService) { }
 
   ngOnInit(): void {
+    this.messageService.alert('Benvenuto in modifica deck!','Ricorda di aprire il programma "scacatzoFist" locale per salvare le modifiche sul deck','warning');
     this.permission = this.route.snapshot.paramMap.get('permission')! === "true";
     this.buttons = [
       {
@@ -295,49 +296,49 @@ export class DeckEditComponent implements OnInit {
   }
 
   private countCard(iterObj: Card[], id: string) {
-    let count = 0;
-    for (const card of iterObj) {
-      if (card.id === id) {
-        count++;
-      }
-    }
+    const oggettiFiltrati = iterObj.filter((oggetto) => oggetto.id === id);
+
+    // La lunghezza di oggettiFiltrati rappresenta il numero di elementi con l'ID specifico
+    const count = oggettiFiltrati.length;
     return count;
   }
 
    private takeZaino() {
     this.zaino = []
-    this.playerStateService.getZaino().subscribe((value:Card[] | undefined) => {
-      const resp: Card[] = value!;
-      for (const card of resp) {
-        let checkId = card.id
-        let inUse = false;
-
-        let iterObj = this.deck?.main.concat(this.deck?.extra, this.deck?.side)!;
-        let countZaino = 0;
-        let countZainoResp = 0;
-        let countDeck = 0;
-
-        if(iterObj.some(obj => obj.id === checkId)) {
-          inUse = true;
-          countZainoResp = this.countCard(resp,checkId);
-          countDeck = this.countCard(iterObj,checkId);
-        }
-
-        if(!inUse) {
-          this.zaino.push(card);
-          this.zainoBackup.push(card);
-        } else {
-          if(countZainoResp>0 && countDeck>0) {
-            countZaino = this.countCard(this.zaino,checkId);
-            if(countZaino !== countZainoResp-countDeck) {
-              for (let i = 0; i < countZainoResp-countDeck; i++) {
-                this.zaino.push(card);
-                this.zainoBackup.push(card);
+    this.playerStateService.getZaino().subscribe((resp:Card[] | undefined) => {
+      if(resp && resp.length>0) {
+        for (const card of resp) {
+          let checkId = card.id
+          let inUse = false;
+  
+          let iterObj = this.deck?.main.concat(this.deck?.extra, this.deck?.side)!;
+          let countZaino = 0;
+          let countZainoResp = 0;
+          let countDeck = 0;
+  
+          if(iterObj.some(obj => obj.id === checkId)) {
+            inUse = true;
+            countZainoResp = this.countCard(resp,checkId);
+            countDeck = this.countCard(iterObj,checkId);
+          }
+  
+          if(!inUse) {
+            this.zaino.push(card);
+            this.zainoBackup.push(card);
+          } else {
+            if(countZainoResp>0 && countDeck>0) {
+              countZaino = this.countCard(this.zaino,checkId);
+              if(countZaino !== countZainoResp-countDeck) {
+                for (let i = 0; i < countZainoResp-countDeck; i++) {
+                  this.zaino.push(card);
+                  this.zainoBackup.push(card);
+                }
               }
             }
           }
         }
       }
+      
     });
   }
 
