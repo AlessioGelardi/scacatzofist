@@ -65,12 +65,21 @@ export class StatePlayerService {
     this.etichette = undefined;
   }
 
+  resetNumCardZaino() {
+    this.numCardZaino = 0;
+  }
+  resetNumCardZainoNoCache() {
+    this.numCardZainoNoCache = 0;
+  }
+
   resetState() {
     this.player = undefined;
     this.allplayers = undefined;
     this.zaino = undefined;
     this.inventory = undefined;
     this.etichette = undefined;
+    this.resetNumCardZaino();
+    this.resetNumCardZainoNoCache();
   }
 
   getLoginPlayer() {
@@ -153,6 +162,8 @@ export class StatePlayerService {
   async getZainoPlayer(id:string) {
     this.zainoNoCache=undefined;
     this.checkZainoNoCache.next(undefined);
+    this.currZainoNoCacheIndex = 0;
+    this.currPageZainoNoCache = 1;
     this.getNumCardZaino(id,true);
   }
 
@@ -318,12 +329,16 @@ export class StatePlayerService {
         try {
           const response = await firstValueFrom(this.playerService.getNumCardZaino(id));
           this.numCardZaino = response;
+          this.currZainoIndex = 0;
+          this.currPageZaino = 1;
           this.getZainoAll(id);
           this.spinnerService.hide();
         } catch(error:any) {
           this.spinnerService.hide();
         }
       } else {
+        this.currZainoIndex = 0;
+        this.currPageZaino = 1;
         this.getZainoAll(id);
         this.spinnerService.hide();
       }
