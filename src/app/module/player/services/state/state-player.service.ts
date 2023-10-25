@@ -176,7 +176,14 @@ export class StatePlayerService {
     }
 
     const observables = [];
-    for (let page = this.currPageZaino; page <= this.currPageZaino + 4; page++) {
+    let iter=0
+    if(!cache) {
+      iter =  Math.ceil(this.numCardZaino/pageSize);
+    } else {
+      iter =  Math.ceil(this.numCardZainoNoCache/pageSize);
+    }
+
+    for (let page = this.currPageZaino; page <= this.currPageZaino + iter; page++) {
       observables.push(
         this.playerService.getZaino(id,page,pageSize)
       );
