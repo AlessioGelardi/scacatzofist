@@ -367,19 +367,24 @@ export class StatePlayerService {
     }
   }
 
+  private sortZaino(allcards:Card[], enumCard:number[]): Card[] {
+    return allcards.sort((a, b) => {
+      const indexA = enumCard.indexOf(a.type);
+      const indexB = enumCard.indexOf(b.type);
+    
+      if (indexA < indexB) {
+        return -1; // Mette a davanti a b se a viene prima in ordineTipo
+      } else if (indexA > indexB) {
+        return 1; // Mette b davanti a a se b viene prima in ordineTipo
+      } else {
+        return 0; // Lascia a e b nella loro posizione relativa
+      }
+    }).sort((a, b) => a.level - b.level);
+  }
+
   private componiZaino(allcards:Card[], enumCard:number[]): Card[] {
-      return allcards.filter((oggetto) => enumCard.includes(oggetto.type)).sort((a, b) => {
-        const indexA = enumCard.indexOf(a.type);
-        const indexB = enumCard.indexOf(b.type);
-      
-        if (indexA < indexB) {
-          return -1; // Mette a davanti a b se a viene prima in ordineTipo
-        } else if (indexA > indexB) {
-          return 1; // Mette b davanti a a se b viene prima in ordineTipo
-        } else {
-          return 0; // Lascia a e b nella loro posizione relativa
-        }
-      });
+    const filter = allcards.filter((oggetto) => enumCard.includes(oggetto.type))
+    return this.sortZaino(filter,enumCard);
   }
 
   private ordinaZaino() {

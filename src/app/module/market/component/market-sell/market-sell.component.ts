@@ -87,6 +87,7 @@ export class MarketSellComponent implements OnInit {
 
     this.playerId = this.route.snapshot.paramMap.get('id')!;
     this.takePlayer(this.playerId!);
+    this.takeEtichette();
     //this.takeZaino();
   }
 
