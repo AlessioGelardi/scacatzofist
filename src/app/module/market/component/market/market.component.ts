@@ -296,7 +296,12 @@ export class MarketComponent implements OnInit {
   }
 
   private takeDailyShop() {
-    this.marketStateService.getDailyShop(this.playerId!).then((resp) => {
+    const oggi: Date = new Date();
+    let doppio = false;
+    if(oggi.getDay() === 1) {
+      doppio = true;
+    }
+    this.marketStateService.getDailyShop(this.playerId!,doppio).then((resp) => {
       this.dailyshop = resp!;
     });
   }
