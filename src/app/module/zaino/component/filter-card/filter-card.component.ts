@@ -17,20 +17,7 @@ export class FilterCardComponent implements OnInit {
 
   @Output() cardsEmit: EventEmitter<any> = new EventEmitter();
 
-  filterCardForm = new FormGroup({
-    category: new FormControl('MOSTRO'),
-    name: new FormControl('',[
-      Validators.minLength(4)
-    ]),
-    attribute: new FormControl(''),
-    type: new FormControl(''),
-    race: new FormControl(''),
-    level: new FormControl(0),
-    atk: new FormControl(-50),
-    def: new FormControl(-50),
-    effect: new FormControl(true),
-    etich: new FormControl('')
-  });
+  filterCardForm: FormGroup;
 
   categories = Object.keys(Categorie).filter(key => isNaN(Number(key)));
   attributes = Object.keys(Attributi).filter(key => isNaN(Number(key)));
@@ -40,6 +27,20 @@ export class FilterCardComponent implements OnInit {
   defaultTypes: any;
 
   constructor(private messageService: MessageService) {
+    this.filterCardForm = new FormGroup({
+      category: new FormControl('MOSTRO'),
+      name: new FormControl('',[
+        Validators.minLength(4)
+      ]),
+      attribute: new FormControl(''),
+      type: new FormControl(''),
+      race: new FormControl(''),
+      level: new FormControl(0),
+      atk: new FormControl(-50),
+      def: new FormControl(-50),
+      effect: new FormControl(true),
+      etich: new FormControl('')
+    });
     this.defaultMonster();
   }
 

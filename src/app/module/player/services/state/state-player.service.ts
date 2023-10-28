@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Observable, firstValueFrom, forkJoin, map } from 'rxjs';
+import { firstValueFrom, forkJoin, map } from 'rxjs';
 import { Card, Pack } from 'src/app/module/interface/card';
 import { Player } from 'src/app/module/interface/player';
 import { PlayerService } from '../httpservices/player.service';
 import { Socket } from 'ngx-socket-io';
 import { BehaviorSubject } from 'rxjs';
-import { TypeMod } from 'src/app/module/play-now/enum/typeMod';
 
 @Injectable({
   providedIn: 'root'
@@ -65,12 +64,21 @@ export class StatePlayerService {
     this.etichette = undefined;
   }
 
+  resetNumCardZaino() {
+    this.numCardZaino = 0;
+  }
+  resetNumCardZainoNoCache() {
+    this.numCardZainoNoCache = 0;
+  }
+
   resetState() {
     this.player = undefined;
     this.allplayers = undefined;
     this.zaino = undefined;
     this.inventory = undefined;
     this.etichette = undefined;
+    this.resetNumCardZaino();
+    this.resetNumCardZainoNoCache();
   }
 
   getLoginPlayer() {
@@ -153,19 +161,31 @@ export class StatePlayerService {
   async getZainoPlayer(id:string) {
     this.zainoNoCache=undefined;
     this.checkZainoNoCache.next(undefined);
+    this.currZainoNoCacheIndex = 0;
+    this.currPageZainoNoCache = 1;
     this.getNumCardZaino(id,true);
   }
 
   async getZainoAll(id:string,cache:boolean=false,pageSize = 20) {
     this.spinnerService.show();
     if (!cache && this.currZainoIndex >= this.numCardZaino) {
+      this.ordinaZaino();
+      this.spinnerService.hide();
       return;
     } else if(cache && this.currZainoNoCacheIndex >= this.numCardZainoNoCache) {
+      this.checkZainoNoCache.next(this.zainoNoCache!);
       return;
     }
 
     const observables = [];
-    for (let page = this.currPageZaino; page <= this.currPageZaino + 4; page++) {
+    let iter=0
+    if(!cache) {
+      iter =  Math.ceil(this.numCardZaino/pageSize);
+    } else {
+      iter =  Math.ceil(this.numCardZainoNoCache/pageSize);
+    }
+
+    for (let page = this.currPageZaino; page <= this.currPageZaino + iter; page++) {
       observables.push(
         this.playerService.getZaino(id,page,pageSize)
       );
@@ -182,7 +202,6 @@ export class StatePlayerService {
             this.zaino = [];
           }
           this.zaino!.push(...newData);
-          this.checkZaino.next(this.zaino!);
 
           // Verifica se ci sono ulteriori dati
           this.currZainoIndex += newData.length;
@@ -192,7 +211,6 @@ export class StatePlayerService {
             this.zainoNoCache = [];
           }
           this.zainoNoCache!.push(...newData);
-          this.checkZainoNoCache.next(this.zainoNoCache!);
 
           // Verifica se ci sono ulteriori dati
           this.currZainoNoCacheIndex += newData.length;
@@ -318,14 +336,16 @@ export class StatePlayerService {
         try {
           const response = await firstValueFrom(this.playerService.getNumCardZaino(id));
           this.numCardZaino = response;
+          this.currZainoIndex = 0;
+          this.currPageZaino = 1;
           this.getZainoAll(id);
-          this.spinnerService.hide();
         } catch(error:any) {
           this.spinnerService.hide();
         }
       } else {
+        this.currZainoIndex = 0;
+        this.currPageZaino = 1;
         this.getZainoAll(id);
-        this.spinnerService.hide();
       }
 
       return this.numCardZaino;
@@ -345,6 +365,58 @@ export class StatePlayerService {
       }
       return this.numCardZainoNoCache;
     }
+  }
+
+  private sortZaino(allcards:Card[], enumCard:number[]): Card[] {
+    return allcards.sort((a, b) => {
+      const indexA = enumCard.indexOf(a.type);
+      const indexB = enumCard.indexOf(b.type);
+    
+      if (indexA < indexB) {
+        return -1; // Mette a davanti a b se a viene prima in ordineTipo
+      } else if (indexA > indexB) {
+        return 1; // Mette b davanti a a se b viene prima in ordineTipo
+      } else {
+        return 0; // Lascia a e b nella loro posizione relativa
+      }
+    }).sort((a, b) => a.level - b.level);
+  }
+
+  private componiZaino(allcards:Card[], enumCard:number[]): Card[] {
+    const filter = allcards.filter((oggetto) => enumCard.includes(oggetto.type))
+    return this.sortZaino(filter,enumCard);
+  }
+
+  private ordinaZaino() {
+    const xzyEnum = [8388609,8388641]
+    const synchroEnum = [8193,8225,12321]
+    const fusioneEnum = [65, 4161, 97, 4193]
+    const ritualeEnum = [129,161,673,4257,2097313]
+    const magiaEnum = [2,65538, 131074, 262146, 524290, 130]
+    const noEffetto = [17,4113]
+    const trappolaEnum = [4, 1048580, 131076]
+    let allEnum:number[] = []
+    allEnum.push(...xzyEnum)
+    allEnum.push(...synchroEnum)
+    allEnum.push(...fusioneEnum)
+    allEnum.push(...ritualeEnum)
+    allEnum.push(...magiaEnum)
+    allEnum.push(...noEffetto)
+    allEnum.push(...trappolaEnum)
+
+    const confCopy = this.zaino!
+
+    this.zaino = []
+    this.zaino.push(...this.componiZaino(confCopy,xzyEnum))
+    this.zaino.push(...this.componiZaino(confCopy,synchroEnum))
+    this.zaino.push(...this.componiZaino(confCopy,fusioneEnum))
+    this.zaino.push(...this.componiZaino(confCopy,ritualeEnum))
+    this.zaino.push(...this.componiZaino(confCopy,noEffetto))
+    this.zaino.push(...confCopy.filter((oggetto) => !allEnum.includes(oggetto.type)))
+    this.zaino.push(...this.componiZaino(confCopy,magiaEnum))
+    this.zaino.push(...this.componiZaino(confCopy,trappolaEnum))
+    
+    this.checkZaino.next(this.zaino!);
   }
 
 

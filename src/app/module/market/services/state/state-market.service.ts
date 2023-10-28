@@ -110,13 +110,14 @@ export class StateMarketService {
     return this.marketPack;    
   }
 
-  async getDailyShop(playerId:string) {
+  async getDailyShop(playerId:string,doppio:boolean) {
     this.spinnerService.show();
     
     if(!this.dailyShop) {
       try {
         let request: any = {}
         request.playerId = playerId;
+        request.doppio = doppio;
         const response = await firstValueFrom(this.marketService.getDailyShop(request));
         this.dailyShop = response;
         this.spinnerService.hide();

@@ -87,6 +87,7 @@ export class MarketSellComponent implements OnInit {
 
     this.playerId = this.route.snapshot.paramMap.get('id')!;
     this.takePlayer(this.playerId!);
+    this.takeEtichette();
     //this.takeZaino();
   }
 
@@ -129,7 +130,7 @@ export class MarketSellComponent implements OnInit {
       showLoaderOnConfirm: true
     }).then((result) => {
       if (result.isConfirmed) {
-        if(result.value>0) {
+        if(result.value>500) {
           let request:any = {};
           request.playerId = this.playerId!;
           request.cardId = card.id;
@@ -162,7 +163,7 @@ export class MarketSellComponent implements OnInit {
             }
           });
         } else {
-          this.messageService.alert('Attenzione','Il prezzo deve essere almeno maggiore di 0','info');
+          this.messageService.alert('Attenzione','Il prezzo deve essere almeno maggiore di 500','info');
         }
         
       }
