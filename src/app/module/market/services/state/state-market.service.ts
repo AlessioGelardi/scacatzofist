@@ -119,7 +119,7 @@ export class StateMarketService {
         request.playerId = playerId;
         request.doppio = doppio;
         const response = await firstValueFrom(this.marketService.getDailyShop(request));
-        this.dailyShop = response;
+        this.dailyShop = response.sort((a, b) => Number(b.card.type) - Number(a.card.type)).sort((a, b) => Number(b.prezzo) - Number(a.prezzo));
         this.spinnerService.hide();
       } catch (error:any) {
         this.spinnerService.hide();
