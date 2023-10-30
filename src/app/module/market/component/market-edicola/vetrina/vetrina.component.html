@@ -46,3 +46,8 @@
         </div>
     </div>
 </div>
+
+
+<div *ngIf="isDeck && selectDeck">
+    <show-deck [deck]="selectDeck"></show-deck>
+</div>

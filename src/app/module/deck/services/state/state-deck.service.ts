@@ -110,6 +110,25 @@ export class StateDeckService {
     return this.deck;
   }
 
+  async getStarterDeck(id:string) {
+    this.spinnerService.show();
+
+    try {
+      const response = await firstValueFrom(this.deckService.starterDeck(id));
+      this.spinnerService.hide();
+      return response;
+    } catch (error: any) {
+      this.spinnerService.hide();
+      if(error.status===402) {
+        this.messageService.alert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+      } else {
+        this.messageService.alert('Attenzione!','Errore durante la chiamata getDeckById','error');
+      }
+    }
+    return undefined;
+    
+  }
+
   async saveName(oldDeckName:string,newDeckName:string) {
     this.spinnerService.show();
     let response;

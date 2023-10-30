@@ -36,7 +36,7 @@ export class LoginService {
     return this.http.get<Player>(url);
   }
 
-  starterDeck() {
+  starterDecks() {
     return this.http.get<Deck[]>(this.apiUrlStarterDeck);
   }
 

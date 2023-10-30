@@ -15,6 +15,7 @@ export class DeckService {
   apiUrlAddDeck: string = environment.baseUrlDeck + "addDeck";
   apiUrlSaveNameDeck: string= environment.baseUrlService + "savedeck";
   apiUrlAlignDecks: string = environment.baseUrlService + "alignDecks";
+  apiUrlStarterDeckById: string = environment.baseUrlDeck + "starterDeck";
 
   apiUrlServiceDeck: string = environment.baseUrlService + "deck";
 
@@ -50,6 +51,10 @@ export class DeckService {
 
   alignDecks(id:string) {
     return this.http.get<boolean>(this.apiUrlAlignDecks+'?id='+id);
+  }
+
+  starterDeck(id:string) {
+    return this.http.get<Deck>(this.apiUrlStarterDeckById+'?id='+id);
   }
 
   private generateOptions() {
