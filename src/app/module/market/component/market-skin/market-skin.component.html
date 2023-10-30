@@ -1,0 +1,17 @@
+<div class="row">
+    <market-buttons [buttons]="buttons" (buttonOperation)="buttonOperationHandler($event)"></market-buttons>
+</div>
+
+<div class="row mt-4 text-center">
+    <h3>SKIN SHOP</h3>
+</div>
+<div class="row">
+    <div *ngFor="let sh of skinshop" class="col-3 d-flex justify-content-center pb-5">
+        <div class="mt-3 position-relative">
+            <img src="{{sh.src}}" class="cover mb-3" />
+            <div class="position-absolute bottom-10 start-50 translate-middle-x">
+                <button type="button" class="btn btn-sm btn-outline-success" style="width: 100px;" (click)="compraCard(sh)">{{sh.cost}} <i class="fa fa-database"></i></button>
+            </div>
+        </div>
+    </div>
+</div>

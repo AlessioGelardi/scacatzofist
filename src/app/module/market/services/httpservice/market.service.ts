@@ -17,6 +17,7 @@ export class MarketService {
   marketplaceById: string = environment.baseUrlMarket + "marketplaceById";
   apiUrlMarketDailyShop: string =  environment.baseUrlMarket + "dailyshop";
   apiUrlMarketPacks: string = environment.baseUrlMarket + "packs";
+  apiUrlMarketSkin: string = environment.baseUrlMarket + "skin";
 
   constructor(private http: HttpClient) { }
 
@@ -94,6 +95,10 @@ export class MarketService {
   acquistoPack(request:any) {
     request.dataUpdate = this.takeFormatToday();
     return this.http.put<boolean>(this.apiUrlMarketPack,request,this.generateOptions());
+  }
+
+  getSkins() {
+    return this.http.get<any[]>(this.apiUrlMarketSkin);
   }
 
   private takeFormatToday() {

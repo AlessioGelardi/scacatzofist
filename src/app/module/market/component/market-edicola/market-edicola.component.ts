@@ -65,6 +65,11 @@ export class MarketEdicolaComponent implements OnInit {
         code: "SELL",
         class: "fa fa-suitcase"
       },
+      {
+        name: "SKIN-BUTTON",
+        code: "SKIN",
+        class: "fa fa-film"
+      }
     ];
   }
 
@@ -91,6 +96,9 @@ export class MarketEdicolaComponent implements OnInit {
           break;
         case 'EDICOLA':
           this.router.navigate(['/edicola',{id:this.player!._id!}]);
+          break;
+        case 'SKIN':
+          this.router.navigate(['/skin',{id:this.player!._id!}]);
           break;
       }
     }
