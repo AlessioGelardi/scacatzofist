@@ -4,6 +4,7 @@
     background-color: #7b1fa2;
     border-radius: 100px 100px 0 0;
     position: relative;
+    cursor: pointer;
 }
   
 .number {
@@ -27,4 +28,12 @@
 .abbassa {
     position:relative;
     top:25px;
+}
+
+.pack {
+    width: 220px;
+}
+
+.pack:hover {
+    opacity: 0.7;
 }

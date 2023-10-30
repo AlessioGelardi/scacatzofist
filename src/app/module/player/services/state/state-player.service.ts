@@ -310,12 +310,12 @@ export class StatePlayerService {
     return response;
   }
 
-  async rewardLevel(request:any) {
+  async takeRewardLevel(request:any) {
     this.spinnerService.show();
     let response;
 
     try {
-      response = await firstValueFrom(this.playerService.rewardLevel(request));
+      response = await firstValueFrom(this.playerService.takeRewardLevel(request));
       this.spinnerService.hide();
     } catch (error: any) {
       /* TO-DO [WinError 3] Impossibile trovare il percorso specificato: 'deck\\\\Ingranaggio Antico1.ydk' -> 'deck\\\\Ingranaggio Antico.ydk'*/
@@ -323,9 +323,23 @@ export class StatePlayerService {
       this.spinnerService.hide();
     }
 
+    return response;
+  }
+
+  async getRewardLevel(level:number) {
+    this.spinnerService.show();
+    let response;
+
+    try {
+      response = await firstValueFrom(this.playerService.rewardLevel(level));
+      this.spinnerService.hide();
+    } catch (error: any) {
+      /* TO-DO [WinError 3] Impossibile trovare il percorso specificato: 'deck\\\\Ingranaggio Antico1.ydk' -> 'deck\\\\Ingranaggio Antico.ydk'*/
+      response = error;
+      this.spinnerService.hide();
+    }
 
     return response;
-
   }
 
   async getNumCardZaino(id:string, cache:boolean=false) {
@@ -417,6 +431,37 @@ export class StatePlayerService {
     this.zaino.push(...this.componiZaino(confCopy,trappolaEnum))
     
     this.checkZaino.next(this.zaino!);
+  }
+
+
+  public takeCorrectLevel(level:number) {
+    let result = 0;
+    if(level>=5 && level<10) {
+      result=5;
+    } else if(level>=10 && level<15) {
+      result=10;
+    } else if(level>=15 && level<20) {
+      result=15;
+    } else if(level>=20 && level<25) {
+      result=20;
+    } else if(level>=25 && level<30) {
+      result=25;
+    } else if(level>=30 && level<35) {
+      result=30;
+    } else if(level>=35 && level<40) {
+      result=35;
+    } else if(level>=40 && level<45) {
+      result=40;
+    } else if(level>=45 && level<50) {
+      result=45;
+    } else if(level>=50 && level<60) {
+      result=50;
+    } else if(level>=60 && level<70) {
+      result=60;
+    } else if(level>=60 && level<70) {
+      result=70;
+    }
+    return result;
   }
 
 
