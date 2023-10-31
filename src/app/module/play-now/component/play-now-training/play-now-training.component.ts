@@ -151,20 +151,12 @@ export class PlayNowTrainingComponent implements OnInit {
       request.playerName = this.player?.name;
       request.bonus = this.playerStateService.getBonus();
   
-      this.notifierStateService.createDuelRec(request).then((resp) => {
+      this.notifierStateService.stopTraining(request).then((resp) => {
         if(resp == true) {
           this.finishTraning=true;
           this.start=false;
           this.takeDuelRec();
   
-        } else {
-          //TO-DO gestione degli errori
-          if(resp && resp.status===402) {
-            this.stopTimer("Non sono state trovate partite registrate, sei sicuro di voler terminare il traning ?");
-          } else {
-            this.messageService.alert('Attenzione!','Errore durante la chiamata createDuelRec','error');
-          }  
-          
         }
       });
     } else {
