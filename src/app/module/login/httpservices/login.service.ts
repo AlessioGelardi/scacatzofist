@@ -17,8 +17,8 @@ export class LoginService {
 
   constructor(private http: HttpClient) {}
 
-  login(username:string,pss:string): Observable<Player>{
-    return this.http.post<Player>(this.apiUrlLogin, {username,pss});
+  login(username:string,pss:string,ip:string): Observable<Player>{
+    return this.http.post<Player>(this.apiUrlLogin, {username,pss,ip});
   }
 
   signin(player:any): Observable<boolean>{
