@@ -38,7 +38,7 @@ export class DeckComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.messageService.alert('Ricorda!','Ricorda di aprire il programma "scacatzoFist" locale per allineare i deck','warning');
+    this.messageService.alert('Ricorda!','Ricorda di aprire il programma "scacatzoFist" locale per allineare o modificare il nome dei deck','warning');
     this.permission = this.route.snapshot.paramMap.get('permission') === "true";
     if(this.permission) {
       this.buttons = [
