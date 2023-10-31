@@ -18,6 +18,7 @@ export class MarketService {
   apiUrlMarketDailyShop: string =  environment.baseUrlMarket + "dailyshop";
   apiUrlMarketPacks: string = environment.baseUrlMarket + "packs";
   apiUrlMarketSkin: string = environment.baseUrlMarket + "skin";
+  apiUrlMarketTexture: string = environment.baseUrlMarket + "texture";
 
   constructor(private http: HttpClient) { }
 
@@ -99,6 +100,10 @@ export class MarketService {
 
   getSkins() {
     return this.http.get<any[]>(this.apiUrlMarketSkin);
+  }
+
+  getSelectedTexture(playerId:string) {
+    return this.http.get<any[]>(this.apiUrlMarketTexture+'?id='+playerId);
   }
 
   private takeFormatToday() {

@@ -16,6 +16,7 @@ export class StateMarketService {
   private dailyShop?: SellCard[] | undefined;
 
   private skinShop?: any[] | undefined;
+  private selectedTexture?: any | undefined;
 
   private packs?: any[];
 
@@ -320,6 +321,25 @@ export class StateMarketService {
     }
 
     return this.skinShop;    
+  }
+
+  async getSelectedTexture(id:string) {
+    this.spinnerService.show();
+    
+    if(!this.selectedTexture) {
+      try {
+        const response = await firstValueFrom(this.marketService.getSelectedTexture(id));
+        this.selectedTexture = response;
+        this.spinnerService.hide();
+      } catch (error:any) {
+        this.spinnerService.hide();
+        this.messageService.alert('Errore','Qualcosa è andato storto durante il recupero del dailyshop','error');
+      }
+    } else {
+      this.spinnerService.hide();
+    }
+
+    return this.selectedTexture;    
   }
 
 }

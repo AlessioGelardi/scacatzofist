@@ -17,6 +17,7 @@ export class MarketSkinComponent {
   player:Player | undefined;
 
   skinshop:any[] = [];
+  selectedTexture:any | undefined;
 
   constructor(private route: ActivatedRoute,
     private router: Router,
@@ -31,6 +32,7 @@ export class MarketSkinComponent {
     const playerId = this.route.snapshot.paramMap.get('id')!;
 
     this.takePlayer(playerId);
+    this.takeSelectedTexture(playerId);
     this.takeSkins();
 
     this.buttons = [
@@ -76,6 +78,23 @@ export class MarketSkinComponent {
     this.playerStateService.getPlayer(playerId).then((resp) => {
       if(resp) {
         this.player = resp;
+      } else {
+        //TO-DO gestione degli errori
+        /*
+        if(resp.status===402) {
+          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+        }
+        */
+
+        this.messageService.alert('Attenzione!','Errore durante la chiamata getPlayer','error');
+      }
+    });
+  }
+
+  private takeSelectedTexture(playerId: string) {
+    this.marketStateService.getSelectedTexture(playerId).then((resp) => {
+      if(resp) {
+        this.selectedTexture = resp;
       } else {
         //TO-DO gestione degli errori
         /*
