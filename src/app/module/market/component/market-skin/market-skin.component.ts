@@ -17,6 +17,8 @@ export class MarketSkinComponent {
 
   player:Player | undefined;
 
+  typeCase:number = 0;
+
   skinshop:any[] = [];
   selectedTexture:any | undefined;
 
@@ -138,12 +140,24 @@ export class MarketSkinComponent {
           this.router.navigate(['/home',{id:this.player!._id}]);
           break;
         case 'BACK':
-          window.history.back();
+          if(this.typeCase!==0) {
+            this.typeCase=0;
+          } else {
+            window.history.back();
+          }
           break;
         case 'EDICOLA':
           this.router.navigate(['/edicola',{id:this.player!._id}]);
           break;
       }
+    }
+  }
+
+  showTexture(type:number) {
+    if(type!==2) {
+      this.messageService.alert('In progress...',"Questa funzionalità è ancora in sviluppo... Ci dispiace per l'inconveniente torna più tardi !!! ",'info');
+    } else {
+      this.typeCase = type;
     }
   }
 
