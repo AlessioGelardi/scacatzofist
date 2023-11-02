@@ -15,7 +15,6 @@ export class StateMarketService {
 
   private dailyShop?: SellCard[] | undefined;
 
-  private skinShop?: any[] | undefined;
   private selectedTexture?: any | undefined;
 
   private packs?: any[];
@@ -42,10 +41,6 @@ export class StateMarketService {
     this.packs = undefined;
   }
 
-  resetSkin() {
-    this.skinShop = undefined;
-  }
-
   resetSelectedTexture() {
     this.selectedTexture = undefined;
   }
@@ -55,7 +50,6 @@ export class StateMarketService {
     this.marketPack = undefined;
     this.dailyShop = undefined;
     this.packs = undefined;
-    this.skinShop = undefined;
     this.selectedTexture = undefined;
   }
 
@@ -309,23 +303,14 @@ export class StateMarketService {
     return response;
   }
 
-  async getSkins() {
+  async getSkins(type:number) {
     this.spinnerService.show();
-    
-    if(!this.skinShop) {
-      try {
-        const response = await firstValueFrom(this.marketService.getSkins());
-        this.skinShop = response;
-        this.spinnerService.hide();
-      } catch (error:any) {
-        this.spinnerService.hide();
-        this.messageService.alert('Errore','Qualcosa è andato storto durante il recupero del dailyshop','error');
-      }
-    } else {
-      this.spinnerService.hide();
-    }
+    let skinShop;
+    const response = await firstValueFrom(this.marketService.getSkins(type));
+    skinShop = response;
+    this.spinnerService.hide();
 
-    return this.skinShop;    
+    return skinShop;    
   }
 
   async getSelectedTexture(id:string) {

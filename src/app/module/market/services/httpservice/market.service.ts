@@ -98,8 +98,8 @@ export class MarketService {
     return this.http.put<boolean>(this.apiUrlMarketPack,request,this.generateOptions());
   }
 
-  getSkins() {
-    return this.http.get<any[]>(this.apiUrlMarketSkin);
+  getSkins(type:number) {
+    return this.http.get<any[]>(this.apiUrlMarketSkin+'?case='+type);
   }
 
   getSelectedTexture(playerId:string) {

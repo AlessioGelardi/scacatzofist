@@ -36,7 +36,6 @@ export class MarketSkinComponent {
 
     this.takePlayer(playerId);
     this.takeSelectedTexture(playerId);
-    this.takeSkins();
 
     this.buttons = [
       {
@@ -59,10 +58,8 @@ export class MarketSkinComponent {
 
   checkPurchase(name:string):boolean {
     let result = false;
-    if(this.selectedTexture && this.selectedTexture.purchase) {
-      if(this.selectedTexture.purchase.cover && this.selectedTexture.purchase.cover.length>0 && this.selectedTexture.purchase.cover.includes(name)) {
-        result= true
-      }
+    if(this.selectedTexture && this.selectedTexture.purchase && this.selectedTexture.purchase.length>0 && this.selectedTexture.purchase.includes(name)) {
+      result= true
     }
     return result;
   }
@@ -71,21 +68,47 @@ export class MarketSkinComponent {
     if(this.checkPurchase(sh.name)) {
       Swal.fire({
         title: 'Dove vuoi selezionare questa cover?',
-        showDenyButton: true,
+        showDenyButton: this.typeCase!==3 && this.typeCase!==0 ? true : false,
         showCancelButton: true,
-        confirmButtonText: 'La mia cover',
-        denyButtonText: 'Cover Avversario',
+        confirmButtonText: this.typeCase===2 ? 'La mia cover' : this.typeCase === 1 ? 'Sfondo menu' : 'Attacco',
+        denyButtonText: this.typeCase===2 ? 'Cover Avversario' : this.typeCase === 1 ? 'Sfondo duelli' : 'Attacco',
         cancelButtonText: 'Annulla',
       }).then((result) => {
-        if (result.isConfirmed) {
+        switch (this.typeCase) {
+          case 1:
+            if (result.isConfirmed) {
 
-          this.selezionaTexture(1,sh.name);
-          this.selectedTexture.selected.cover = sh.name;
+              this.selezionaTexture(3,sh.name);
+              this.selectedTexture.selected.bg_menu = sh.name;
+    
+            } else if (result.isDenied) {
+              this.selezionaTexture(4,sh.name);
+              this.selectedTexture.selected.bg = sh.name;
+    
+            }
+            break;
+          case 2:
+            if (result.isConfirmed) {
 
-        } else if (result.isDenied) {
-          this.selezionaTexture(2,sh.name);
-          this.selectedTexture.selected.cover2 = sh.name;
+              this.selezionaTexture(1,sh.name);
+              this.selectedTexture.selected.cover = sh.name;
+    
+            } else if (result.isDenied) {
+              this.selezionaTexture(2,sh.name);
+              this.selectedTexture.selected.cover2 = sh.name;
+    
+            }
+            break;
+          case 3:
+            if (result.isConfirmed) {
 
+              this.selezionaTexture(5,sh.name);
+              this.selectedTexture.selected.attack = sh.name;
+    
+            }
+            break;
+          default:
+            break;
         }
       })
     } else {
@@ -154,11 +177,8 @@ export class MarketSkinComponent {
   }
 
   showTexture(type:number) {
-    if(type!==2) {
-      this.messageService.alert('In progress...',"Questa funzionalità è ancora in sviluppo... Ci dispiace per l'inconveniente torna più tardi !!! ",'info');
-    } else {
-      this.typeCase = type;
-    }
+    this.typeCase=type;
+    this.takeSkins(this.typeCase);
   }
 
   private selezionaTexture(type:number, name:string) {
@@ -218,8 +238,8 @@ export class MarketSkinComponent {
     });
   }
 
-  private takeSkins() {
-    this.marketStateService.getSkins().then((resp) => {
+  private takeSkins(type:number) {
+    this.marketStateService.getSkins(type).then((resp) => {
       if(resp) {
         this.skinshop = resp;
       } else {
