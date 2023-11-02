@@ -77,6 +77,8 @@ export class StatePlayerService {
     this.zaino = undefined;
     this.inventory = undefined;
     this.etichette = undefined;
+    this.checkZaino.next(undefined);
+    this.checkZainoNoCache.next(undefined);
     this.resetNumCardZaino();
     this.resetNumCardZainoNoCache();
   }
