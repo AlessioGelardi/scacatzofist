@@ -5,15 +5,15 @@
 <div class="row mt-4 text-center">
     <h3>TEXTURE SHOP</h3>
 </div>
-<div class="row d-flex justify-content-around">
+<div class="row d-flex justify-content-around" *ngIf="selectedTexture && selectedTexture.selected">
     <div class="col-3 d-flex justify-content-around mt-2">
         <div class="m-3 position-relative text-center">
             <label> La mia cover </label>
-            <img src="{{'assets/textures/cover/'+selectedTexture.cover+'.png'}}" class="cover mb-3" />
+            <img src="{{'assets/textures/cover/'+selectedTexture.selected.cover+'.png'}}" class="cover mb-3" />
         </div>
         <div class="m-3 position-relative text-center">
             <label> Cover Avversario </label>
-            <img src="{{'assets/textures/cover/'+selectedTexture.cover2+'.png'}}" class="cover mb-3" />
+            <img src="{{'assets/textures/cover/'+selectedTexture.selected.cover2+'.png'}}" class="cover mb-3" />
         </div>
     </div>
 </div>
@@ -24,11 +24,11 @@
         <div class="mt-3 position-relative">
             <img src="{{sh.src}}" class="cover mb-3" />
             <div class="position-absolute bottom-10 start-50 translate-middle-x">
-                <button type="button" class="btn btn-sm btn-outline-success" style="width: 100px;" (click)="compraCard(sh)">
-                    <div *ngIf="sh.cost>0">
+                <button type="button" class="btn btn-sm btn-outline-success" style="width: 100px;" (click)="acquistaTexture(sh)">
+                    <div *ngIf="!checkPurchase(sh.name)">
                         {{sh.cost}} <i class="fa fa-database"></i>
                     </div>
-                    <div *ngIf="!(sh.cost>0)">
+                    <div *ngIf="checkPurchase(sh.name)">
                         SELEZIONA
                     </div>
                 </button>

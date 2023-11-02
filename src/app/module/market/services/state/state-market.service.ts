@@ -46,12 +46,17 @@ export class StateMarketService {
     this.skinShop = undefined;
   }
 
+  resetSelectedTexture() {
+    this.selectedTexture = undefined;
+  }
+
   resetState() {
     this.marketPlace = undefined;
     this.marketPack = undefined;
     this.dailyShop = undefined;
     this.packs = undefined;
     this.skinShop = undefined;
+    this.selectedTexture = undefined;
   }
 
   async getPacks(typePack:number) {
@@ -340,6 +345,40 @@ export class StateMarketService {
     }
 
     return this.selectedTexture;    
+  }
+
+  async acquistaTexture(request:any) {
+    this.spinnerService.show();
+    let response;
+
+    try {
+      response = await firstValueFrom(this.marketService.acquistaTexture(request));
+      this.spinnerService.hide();
+    } catch (error: any) {
+      /* TO-DO [WinError 3] Impossibile trovare il percorso specificato: 'deck\\\\Ingranaggio Antico1.ydk' -> 'deck\\\\Ingranaggio Antico.ydk'*/
+      response = error;
+      this.spinnerService.hide();
+    }
+
+
+    return response;
+  }
+
+  async selezionaTexture(request:any) {
+    this.spinnerService.show();
+    let response;
+
+    try {
+      response = await firstValueFrom(this.marketService.selezionaTexture(request));
+      this.spinnerService.hide();
+    } catch (error: any) {
+      /* TO-DO [WinError 3] Impossibile trovare il percorso specificato: 'deck\\\\Ingranaggio Antico1.ydk' -> 'deck\\\\Ingranaggio Antico.ydk'*/
+      response = error;
+      this.spinnerService.hide();
+    }
+
+
+    return response;
   }
 
 }

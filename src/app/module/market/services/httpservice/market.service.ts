@@ -106,6 +106,16 @@ export class MarketService {
     return this.http.get<any[]>(this.apiUrlMarketTexture+'?id='+playerId);
   }
 
+  acquistaTexture(request:any) {
+    request.dataUpdate = this.takeFormatToday();
+    return this.http.post<boolean>(this.apiUrlMarketTexture,request,this.generateOptions());
+  }
+
+  selezionaTexture(request:any) {
+    request.dataUpdate = this.takeFormatToday();
+    return this.http.put<boolean>(this.apiUrlMarketTexture,request,this.generateOptions());
+  }
+
   private takeFormatToday() {
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
