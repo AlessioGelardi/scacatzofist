@@ -43,11 +43,21 @@ export class VetrinaComponent implements OnInit {
   show(pack:any) {
     this.viewPrice = !this.viewPrice;
     this.selectPack = pack;
-    if(this.selectPack && this.isDeck) {
+    if(this.selectPack && this.selectPack.deck) {
       this.deckStateService.getStarterDeck(this.selectPack.deckId).then((resp) => {
+        this.isDeck = true;
         this.selectDeck = resp;
       });
+    } else {
+      this.isDeck = false;
+      this.selectDeck = undefined;
     }
+
+    window.scroll({ 
+      top: 0, 
+      left: 0, 
+      behavior: 'smooth' 
+    });
   }
 
   acquista(name:string, taglia:number, baseCost:number, type:number, monster:boolean, level:number, race:number,src:string,attribute:number) {
