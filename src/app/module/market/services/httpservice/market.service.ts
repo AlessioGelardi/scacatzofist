@@ -64,8 +64,7 @@ export class MarketService {
     acquisto.card.prezzo = sellCard.prezzo;
     acquisto.card.venduto = true;
     acquisto.playerIdAcquista = playerIdAcquista;
-
-    acquisto.dataUpdate = this.takeFormatToday();
+    acquisto.card.dataUpdate = this.takeFormatToday();
 
     return this.http.put<boolean>(this.apiUrlMarketPlace+'?id='+sellCard.id,acquisto,this.generateOptions());
   }
