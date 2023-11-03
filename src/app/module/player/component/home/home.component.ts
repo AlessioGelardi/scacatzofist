@@ -16,6 +16,7 @@ export class HomeComponent implements OnInit {
   numberNotify:number | undefined;
 
   bonus:boolean = false;
+  dailyshopdoppio:boolean = false;
   constructor(private route: ActivatedRoute,
     private playerStateService: StatePlayerService,
     private messageService: MessageService,
@@ -29,7 +30,9 @@ export class HomeComponent implements OnInit {
     this.takeNumberNotify(playerId);
 
     const oggi: Date = new Date();
-    if(oggi.getDay() === 6 || oggi.getDay() === 0) {
+    if(oggi.getDay() === 1) {
+      this.dailyshopdoppio = true;
+    } else if(oggi.getDay() === 6 || oggi.getDay() === 0) {
       this.bonus = true;
     }
   }
