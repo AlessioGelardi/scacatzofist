@@ -8,6 +8,7 @@ import { StatePlayerService } from 'src/app/module/player/services/state/state-p
 import { MessageService } from 'src/app/module/swalAlert/message.service';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { FilterZainoService } from 'src/app/module/zaino/services/filter-zaino.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-deck-edit',
@@ -45,8 +46,11 @@ export class DeckEditComponent implements OnInit {
     private deckStateService: StateDeckService,
     private route: ActivatedRoute,
     private playerStateService: StatePlayerService,
+    private spinnerService: NgxSpinnerService,
     private messageService: MessageService,
-    private filterZainoService: FilterZainoService) { }
+    private filterZainoService: FilterZainoService) {
+
+  }
 
   ngOnInit(): void {
     this.messageService.alert('Benvenuto in modifica deck!','Ricorda di aprire il programma "scacatzoFist" locale per salvare le modifiche sul deck','warning');
@@ -82,8 +86,8 @@ export class DeckEditComponent implements OnInit {
     this.deckId = this.route.snapshot.paramMap.get('id')!;
     this.playerId = this.route.snapshot.paramMap.get('playerId')!;
     this.newNameDeck = this.route.snapshot.paramMap.get('newNameDeck')!;
+    this.spinnerService.show();
     this.takeDeck();
-    this.takeEtichette();
   }
 
   buttonOperationHandler(code: any) {
@@ -295,49 +299,57 @@ export class DeckEditComponent implements OnInit {
     }
   }
 
-  private countCard(iterObj: Card[], id: string) {
-    const oggettiFiltrati = iterObj.filter((oggetto) => oggetto.id === id);
+  private conteggio(cardIds:string[]) {
+    // Crea un oggetto vuoto per tenere traccia delle occorrenze
+    var conteggio:any = {};
 
-    // La lunghezza di oggettiFiltrati rappresenta il numero di elementi con l'ID specifico
-    const count = oggettiFiltrati.length;
-    return count;
+    // Attraversa l'array
+    for (var i = 0; i < cardIds.length; i++) {
+      var numero = cardIds[i];
+
+      // Se la stringa è già presente nell'oggetto, aumenta il conteggio di 1
+      if (conteggio[numero]) {
+        conteggio[numero]++;
+      } else {
+        // Altrimenti, inizia il conteggio a 1
+        conteggio[numero] = 1;
+      }
+    }
+
+    // Restituisci l'oggetto con le occorrenze
+    return conteggio;
   }
 
    private takeZaino() {
     this.zaino = []
     this.playerStateService.getZaino().subscribe((resp:Card[] | undefined) => {
       if(resp && resp.length>0) {
+        let cardIds = []
         for (const card of resp) {
-          let checkId = card.id
-          let inUse = false;
-  
-          let iterObj = this.deck?.main.concat(this.deck?.extra, this.deck?.side)!;
-          let countZaino = 0;
-          let countZainoResp = 0;
-          let countDeck = 0;
-  
-          if(iterObj.some(obj => obj.id === checkId)) {
-            inUse = true;
-            countZainoResp = this.countCard(resp,checkId);
-            countDeck = this.countCard(iterObj,checkId);
-          }
-  
-          if(!inUse) {
-            this.zaino.push(card);
-            this.zainoBackup.push(card);
-          } else {
-            if(countZainoResp>0 && countDeck>0) {
-              countZaino = this.countCard(this.zaino,checkId);
-              if(countZaino !== countZainoResp-countDeck) {
-                for (let i = 0; i < countZainoResp-countDeck; i++) {
-                  this.zaino.push(card);
-                  this.zainoBackup.push(card);
-                }
-              }
-            }
+          cardIds.push(card.id)
+        }
+
+        const objConteggioResp = this.conteggio(cardIds);
+
+        cardIds = []
+        const totalDeck = this.deck?.main.concat(this.deck?.extra, this.deck?.side)!
+        for (const card of totalDeck) {
+          cardIds.push(card.id)
+        }
+        const objConteggioDeck = this.conteggio(cardIds);
+        for (const card of totalDeck) {
+          const conteggioZaino = objConteggioResp[card.id]
+          const conteggioDeck = objConteggioDeck[card.id]
+          if(conteggioZaino>conteggioDeck) {
+            this.zaino.push(resp.find(i => i.id === card.id)!)
           }
         }
+
+        const elementiRimasti = resp.filter(obj1 => !this.zaino.some(obj2 => obj2.id === obj1.id) && !objConteggioDeck[obj1.id]);
+        this.zaino.push(...elementiRimasti)
+        
       }
+      this.spinnerService.hide();
       
     });
   }
