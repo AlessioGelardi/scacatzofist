@@ -75,7 +75,7 @@ export class SigninComponent implements OnInit {
             email: email!,
             domanda: domanda!,
             risposta: risposta!,
-            ip: response['ip']
+            ip: [response['ip']]
           };
       
           try {

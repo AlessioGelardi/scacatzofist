@@ -17,6 +17,8 @@ export class MarketService {
   marketplaceById: string = environment.baseUrlMarket + "marketplaceById";
   apiUrlMarketDailyShop: string =  environment.baseUrlMarket + "dailyshop";
   apiUrlMarketPacks: string = environment.baseUrlMarket + "packs";
+  apiUrlMarketSkin: string = environment.baseUrlMarket + "skin";
+  apiUrlMarketTexture: string = environment.baseUrlMarket + "texture";
 
   constructor(private http: HttpClient) { }
 
@@ -62,8 +64,7 @@ export class MarketService {
     acquisto.card.prezzo = sellCard.prezzo;
     acquisto.card.venduto = true;
     acquisto.playerIdAcquista = playerIdAcquista;
-
-    acquisto.dataUpdate = this.takeFormatToday();
+    acquisto.card.dataUpdate = this.takeFormatToday();
 
     return this.http.put<boolean>(this.apiUrlMarketPlace+'?id='+sellCard.id,acquisto,this.generateOptions());
   }
@@ -94,6 +95,24 @@ export class MarketService {
   acquistoPack(request:any) {
     request.dataUpdate = this.takeFormatToday();
     return this.http.put<boolean>(this.apiUrlMarketPack,request,this.generateOptions());
+  }
+
+  getSkins(type:number) {
+    return this.http.get<any[]>(this.apiUrlMarketSkin+'?case='+type);
+  }
+
+  getSelectedTexture(playerId:string) {
+    return this.http.get<any[]>(this.apiUrlMarketTexture+'?id='+playerId);
+  }
+
+  acquistaTexture(request:any) {
+    request.dataUpdate = this.takeFormatToday();
+    return this.http.post<boolean>(this.apiUrlMarketTexture,request,this.generateOptions());
+  }
+
+  selezionaTexture(request:any) {
+    request.dataUpdate = this.takeFormatToday();
+    return this.http.put<boolean>(this.apiUrlMarketTexture,request,this.generateOptions());
   }
 
   private takeFormatToday() {

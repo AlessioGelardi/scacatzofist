@@ -52,7 +52,7 @@ export class FortuneWheelComponent implements OnInit {
     this.takePlayer(playerId);
 
     this.spinnerService.show();
-    this.loginService.starterDeck().subscribe({
+    this.loginService.starterDecks().subscribe({
       next: (result) => {
         if(result) {
           this.decks=result;

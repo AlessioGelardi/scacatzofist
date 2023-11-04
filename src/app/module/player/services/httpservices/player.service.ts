@@ -60,8 +60,12 @@ export class PlayerService {
     return this.http.delete<boolean>(this.apiUrlEtichetta+'?id='+request.playerId+'&etich='+request.etich+'&cardId='+request.cardId);
   }
 
-  rewardLevel(request:any) {
+  takeRewardLevel(request:any) {
     return this.http.put<boolean>(this.apiUrlRewardLevel,request,this.generateOptions());
+  }
+
+  rewardLevel(level:number) {
+    return this.http.get<any>(this.apiUrlRewardLevel+'?level='+level);
   }
 
   getNumCardZaino(id:string) {

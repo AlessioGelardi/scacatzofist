@@ -15,6 +15,8 @@ export class StateMarketService {
 
   private dailyShop?: SellCard[] | undefined;
 
+  private selectedTexture?: any | undefined;
+
   private packs?: any[];
 
   constructor(private spinnerService: NgxSpinnerService,
@@ -39,11 +41,16 @@ export class StateMarketService {
     this.packs = undefined;
   }
 
+  resetSelectedTexture() {
+    this.selectedTexture = undefined;
+  }
+
   resetState() {
     this.marketPlace = undefined;
     this.marketPack = undefined;
     this.dailyShop = undefined;
     this.packs = undefined;
+    this.selectedTexture = undefined;
   }
 
   async getPacks(typePack:number) {
@@ -119,7 +126,7 @@ export class StateMarketService {
         request.playerId = playerId;
         request.doppio = doppio;
         const response = await firstValueFrom(this.marketService.getDailyShop(request));
-        this.dailyShop = response;
+        this.dailyShop = response.sort((a, b) => Number(b.card.type) - Number(a.card.type)).sort((a, b) => Number(b.prezzo) - Number(a.prezzo));
         this.spinnerService.hide();
       } catch (error:any) {
         this.spinnerService.hide();
@@ -285,6 +292,69 @@ export class StateMarketService {
 
     try {
       response = await firstValueFrom(this.marketService.venditaPack(request));
+      this.spinnerService.hide();
+    } catch (error: any) {
+      /* TO-DO [WinError 3] Impossibile trovare il percorso specificato: 'deck\\\\Ingranaggio Antico1.ydk' -> 'deck\\\\Ingranaggio Antico.ydk'*/
+      response = error;
+      this.spinnerService.hide();
+    }
+
+
+    return response;
+  }
+
+  async getSkins(type:number) {
+    this.spinnerService.show();
+    let skinShop;
+    const response = await firstValueFrom(this.marketService.getSkins(type));
+    skinShop = response;
+    this.spinnerService.hide();
+
+    return skinShop;    
+  }
+
+  async getSelectedTexture(id:string) {
+    this.spinnerService.show();
+    
+    if(!this.selectedTexture) {
+      try {
+        const response = await firstValueFrom(this.marketService.getSelectedTexture(id));
+        this.selectedTexture = response;
+        this.spinnerService.hide();
+      } catch (error:any) {
+        this.spinnerService.hide();
+        this.messageService.alert('Errore','Qualcosa è andato storto durante il recupero del dailyshop','error');
+      }
+    } else {
+      this.spinnerService.hide();
+    }
+
+    return this.selectedTexture;    
+  }
+
+  async acquistaTexture(request:any) {
+    this.spinnerService.show();
+    let response;
+
+    try {
+      response = await firstValueFrom(this.marketService.acquistaTexture(request));
+      this.spinnerService.hide();
+    } catch (error: any) {
+      /* TO-DO [WinError 3] Impossibile trovare il percorso specificato: 'deck\\\\Ingranaggio Antico1.ydk' -> 'deck\\\\Ingranaggio Antico.ydk'*/
+      response = error;
+      this.spinnerService.hide();
+    }
+
+
+    return response;
+  }
+
+  async selezionaTexture(request:any) {
+    this.spinnerService.show();
+    let response;
+
+    try {
+      response = await firstValueFrom(this.marketService.selezionaTexture(request));
       this.spinnerService.hide();
     } catch (error: any) {
       /* TO-DO [WinError 3] Impossibile trovare il percorso specificato: 'deck\\\\Ingranaggio Antico1.ydk' -> 'deck\\\\Ingranaggio Antico.ydk'*/

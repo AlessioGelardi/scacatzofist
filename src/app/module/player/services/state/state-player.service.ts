@@ -77,6 +77,8 @@ export class StatePlayerService {
     this.zaino = undefined;
     this.inventory = undefined;
     this.etichette = undefined;
+    this.checkZaino.next(undefined);
+    this.checkZainoNoCache.next(undefined);
     this.resetNumCardZaino();
     this.resetNumCardZainoNoCache();
   }
@@ -173,7 +175,7 @@ export class StatePlayerService {
       this.spinnerService.hide();
       return;
     } else if(cache && this.currZainoNoCacheIndex >= this.numCardZainoNoCache) {
-      this.checkZainoNoCache.next(this.zainoNoCache!);
+      this.ordinaZaino(true);
       return;
     }
 
@@ -181,14 +183,21 @@ export class StatePlayerService {
     let iter=0
     if(!cache) {
       iter =  Math.ceil(this.numCardZaino/pageSize);
+
+      for (let page = this.currPageZaino; page <= this.currPageZaino + iter; page++) {
+        observables.push(
+          this.playerService.getZaino(id,page,pageSize)
+        );
+      }
+
     } else {
       iter =  Math.ceil(this.numCardZainoNoCache/pageSize);
-    }
 
-    for (let page = this.currPageZaino; page <= this.currPageZaino + iter; page++) {
-      observables.push(
-        this.playerService.getZaino(id,page,pageSize)
-      );
+      for (let page = this.currPageZainoNoCache; page <= this.currPageZainoNoCache + iter; page++) {
+        observables.push(
+          this.playerService.getZaino(id,page,pageSize)
+        );
+      }
     }
 
     forkJoin(observables).pipe(
@@ -310,12 +319,12 @@ export class StatePlayerService {
     return response;
   }
 
-  async rewardLevel(request:any) {
+  async takeRewardLevel(request:any) {
     this.spinnerService.show();
     let response;
 
     try {
-      response = await firstValueFrom(this.playerService.rewardLevel(request));
+      response = await firstValueFrom(this.playerService.takeRewardLevel(request));
       this.spinnerService.hide();
     } catch (error: any) {
       /* TO-DO [WinError 3] Impossibile trovare il percorso specificato: 'deck\\\\Ingranaggio Antico1.ydk' -> 'deck\\\\Ingranaggio Antico.ydk'*/
@@ -323,9 +332,23 @@ export class StatePlayerService {
       this.spinnerService.hide();
     }
 
+    return response;
+  }
+
+  async getRewardLevel(level:number) {
+    this.spinnerService.show();
+    let response;
+
+    try {
+      response = await firstValueFrom(this.playerService.rewardLevel(level));
+      this.spinnerService.hide();
+    } catch (error: any) {
+      /* TO-DO [WinError 3] Impossibile trovare il percorso specificato: 'deck\\\\Ingranaggio Antico1.ydk' -> 'deck\\\\Ingranaggio Antico.ydk'*/
+      response = error;
+      this.spinnerService.hide();
+    }
 
     return response;
-
   }
 
   async getNumCardZaino(id:string, cache:boolean=false) {
@@ -379,15 +402,22 @@ export class StatePlayerService {
       } else {
         return 0; // Lascia a e b nella loro posizione relativa
       }
-    }).sort((a, b) => a.level - b.level);
+    });
   }
 
-  private componiZaino(allcards:Card[], enumCard:number[]): Card[] {
-    const filter = allcards.filter((oggetto) => enumCard.includes(oggetto.type))
-    return this.sortZaino(filter,enumCard);
+  private componiZaino(allcards:Card[], enumCard:number[],sort:boolean=true): Card[] {
+    const filter = allcards.filter((oggetto) => enumCard.includes(oggetto.type)).sort((a, b) => Number(a.id) - Number(b.id));
+    let result = []
+    if(sort) {
+      result = this.sortZaino(filter,enumCard).sort((a, b) => b.level - a.level);
+    } else {
+      result = allcards.sort((a, b) => Number(a.id) - Number(b.id)).sort((a, b) => b.level - a.level);
+    }
+    return result;
   }
 
-  private ordinaZaino() {
+  private ordinaZaino(otherPlayer:boolean=false) {
+
     const xzyEnum = [8388609,8388641]
     const synchroEnum = [8193,8225,12321]
     const fusioneEnum = [65, 4161, 97, 4193]
@@ -404,19 +434,68 @@ export class StatePlayerService {
     allEnum.push(...noEffetto)
     allEnum.push(...trappolaEnum)
 
-    const confCopy = this.zaino!
+    if(!otherPlayer) {
+      const confCopy = this.zaino!
 
-    this.zaino = []
-    this.zaino.push(...this.componiZaino(confCopy,xzyEnum))
-    this.zaino.push(...this.componiZaino(confCopy,synchroEnum))
-    this.zaino.push(...this.componiZaino(confCopy,fusioneEnum))
-    this.zaino.push(...this.componiZaino(confCopy,ritualeEnum))
-    this.zaino.push(...this.componiZaino(confCopy,noEffetto))
-    this.zaino.push(...confCopy.filter((oggetto) => !allEnum.includes(oggetto.type)))
-    this.zaino.push(...this.componiZaino(confCopy,magiaEnum))
-    this.zaino.push(...this.componiZaino(confCopy,trappolaEnum))
-    
-    this.checkZaino.next(this.zaino!);
+      this.zaino = []
+      const noEnums = confCopy.filter((oggetto) => !allEnum.includes(oggetto.type));
+      this.zaino.push(...this.componiZaino(confCopy,xzyEnum))
+      this.zaino.push(...this.componiZaino(confCopy,synchroEnum))
+      this.zaino.push(...this.componiZaino(confCopy,fusioneEnum))
+      this.zaino.push(...this.componiZaino(confCopy,ritualeEnum))
+      this.zaino.push(...this.componiZaino(confCopy,noEffetto))
+      this.zaino.push(...this.componiZaino(noEnums,allEnum,false))
+      this.zaino.push(...this.componiZaino(confCopy,magiaEnum))
+      this.zaino.push(...this.componiZaino(confCopy,trappolaEnum))
+      
+      this.checkZaino.next(this.zaino!);
+    } else {
+      const confCopy = this.zainoNoCache!
+
+      this.zainoNoCache = []
+      const noEnums = confCopy.filter((oggetto) => !allEnum.includes(oggetto.type));
+      this.zainoNoCache.push(...this.componiZaino(confCopy,xzyEnum))
+      this.zainoNoCache.push(...this.componiZaino(confCopy,synchroEnum))
+      this.zainoNoCache.push(...this.componiZaino(confCopy,fusioneEnum))
+      this.zainoNoCache.push(...this.componiZaino(confCopy,ritualeEnum))
+      this.zainoNoCache.push(...this.componiZaino(confCopy,noEffetto))
+      this.zainoNoCache.push(...this.componiZaino(noEnums,allEnum,false))
+      this.zainoNoCache.push(...this.componiZaino(confCopy,magiaEnum))
+      this.zainoNoCache.push(...this.componiZaino(confCopy,trappolaEnum))
+      
+      this.checkZainoNoCache.next(this.zainoNoCache!);
+    }
+  }
+
+
+  public takeCorrectLevel(level:number) {
+    let result = 0;
+    if(level>=5 && level<10) {
+      result=5;
+    } else if(level>=10 && level<15) {
+      result=10;
+    } else if(level>=15 && level<20) {
+      result=15;
+    } else if(level>=20 && level<25) {
+      result=20;
+    } else if(level>=25 && level<30) {
+      result=25;
+    } else if(level>=30 && level<35) {
+      result=30;
+    } else if(level>=35 && level<40) {
+      result=35;
+    } else if(level>=40 && level<45) {
+      result=40;
+    } else if(level>=45 && level<50) {
+      result=45;
+    } else if(level>=50 && level<60) {
+      result=50;
+    } else if(level>=60 && level<70) {
+      result=60;
+    } else if(level>=60 && level<70) {
+      result=70;
+    }
+    return result;
   }
 
 

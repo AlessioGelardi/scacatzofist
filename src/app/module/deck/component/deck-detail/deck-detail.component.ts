@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Button } from 'src/app/module/interface/button';
-import { Card, Deck } from 'src/app/module/interface/card';
+import { Deck } from 'src/app/module/interface/card';
 import { StateDeckService } from '../../services/state/state-deck.service';
 import { MessageService } from 'src/app/module/swalAlert/message.service';
 
@@ -22,8 +22,7 @@ export class DeckDetailComponent implements OnInit {
 
   constructor(private router: Router,
     private route: ActivatedRoute,
-    private deckStateService: StateDeckService,
-    private messageService: MessageService) {
+    private deckStateService: StateDeckService) {
     
   }
 

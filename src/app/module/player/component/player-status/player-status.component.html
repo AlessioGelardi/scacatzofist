@@ -10,7 +10,7 @@
                 <div class="card-body d-flex justify-content-around">
                     <p class="abbassa">{{player?.coin}} <i class="fa fa-database"></i></p>
                     <div>
-                        <div class="semicerchio">
+                        <div class="semicerchio" (click)="showLvlReward()">
                             <div class="level">Lvl</div>
                             <div class="number">{{player?.level}}</div>
                         </div>

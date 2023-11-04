@@ -17,8 +17,8 @@ export class LoginService {
 
   constructor(private http: HttpClient) {}
 
-  login(username:string,pss:string): Observable<Player>{
-    return this.http.post<Player>(this.apiUrlLogin, {username,pss});
+  login(username:string,pss:string,ip:string): Observable<Player>{
+    return this.http.post<Player>(this.apiUrlLogin, {username,pss,ip});
   }
 
   signin(player:any): Observable<boolean>{
@@ -36,11 +36,11 @@ export class LoginService {
     return this.http.get<Player>(url);
   }
 
-  starterDeck() {
+  starterDecks() {
     return this.http.get<Deck[]>(this.apiUrlStarterDeck);
   }
 
   getIPAddress() {  
-    return this.http.get("http://api.ipify.org/?format=json");  
+    return this.http.get("https://api.ipify.org/?format=json");  
   }
 }

@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { StateDeckService } from 'src/app/module/deck/services/state/state-deck.service';
+import { Deck } from 'src/app/module/interface/card';
 
 @Component({
   selector: 'market-vetrina',
@@ -17,12 +19,11 @@ export class VetrinaComponent implements OnInit {
   dailyPack: boolean = false;
   showOnlyTaglia = false;
   isDeck: boolean = false;
+  selectDeck: Deck | undefined;
 
-  constructor() { }
+  constructor(private deckStateService: StateDeckService) { }
 
   ngOnInit(): void {
-
-
     if(this.packs.length>0 && (this.packs[0].dailyPack || this.packs[0].race)) {
       this.showOnlyTaglia = true;
     }
@@ -42,6 +43,21 @@ export class VetrinaComponent implements OnInit {
   show(pack:any) {
     this.viewPrice = !this.viewPrice;
     this.selectPack = pack;
+    if(this.selectPack && this.selectPack.deck) {
+      this.deckStateService.getStarterDeck(this.selectPack.deckId).then((resp) => {
+        this.isDeck = true;
+        this.selectDeck = resp;
+      });
+    } else {
+      this.isDeck = false;
+      this.selectDeck = undefined;
+    }
+
+    window.scroll({ 
+      top: 0, 
+      left: 0, 
+      behavior: 'smooth' 
+    });
   }
 
   acquista(name:string, taglia:number, baseCost:number, type:number, monster:boolean, level:number, race:number,src:string,attribute:number) {
