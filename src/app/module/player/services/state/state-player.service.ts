@@ -168,7 +168,7 @@ export class StatePlayerService {
     this.getNumCardZaino(id,true);
   }
 
-  async getZainoAll(id:string,cache:boolean=false,pageSize = 20) {
+  async getZainoAll(id:string,cache:boolean=false,pageSize = 40) {
     this.spinnerService.show();
     if (!cache && this.currZainoIndex >= this.numCardZaino) {
       this.ordinaZaino();
@@ -176,24 +176,25 @@ export class StatePlayerService {
       return;
     } else if(cache && this.currZainoNoCacheIndex >= this.numCardZainoNoCache) {
       this.ordinaZaino(true);
+      this.spinnerService.hide();
       return;
     }
 
     const observables = [];
-    let iter=0
+    //let iter=0
     if(!cache) {
-      iter =  Math.ceil(this.numCardZaino/pageSize);
+      //iter =  Math.ceil(this.numCardZaino/pageSize);
 
-      for (let page = this.currPageZaino; page <= this.currPageZaino + iter; page++) {
+      for (let page = this.currPageZaino; page <= this.currPageZaino + 20; page++) {
         observables.push(
           this.playerService.getZaino(id,page,pageSize)
         );
       }
 
     } else {
-      iter =  Math.ceil(this.numCardZainoNoCache/pageSize);
+      //iter =  Math.ceil(this.numCardZainoNoCache/pageSize);
 
-      for (let page = this.currPageZainoNoCache; page <= this.currPageZainoNoCache + iter; page++) {
+      for (let page = this.currPageZainoNoCache; page <= this.currPageZainoNoCache + 20; page++) {
         observables.push(
           this.playerService.getZaino(id,page,pageSize)
         );
@@ -228,7 +229,6 @@ export class StatePlayerService {
 
         // Continua a caricare dati se ci sono ulteriori pagine
         this.getZainoAll(id,cache);
-        this.spinnerService.hide();
       });
   }
 

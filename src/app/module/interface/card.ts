@@ -4,7 +4,7 @@ export interface Card {
     type: number;
     attribute: number;
     race: number;
-    description: string;
+    desc: string;
     level: number;
     atk: number;
     def: number;
