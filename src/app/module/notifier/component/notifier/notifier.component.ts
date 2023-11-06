@@ -229,6 +229,7 @@ export class NotifierComponent implements OnInit {
           request.status = Status.COMPLETATO;
           request.role = this.playerRole;
           request.typeMod = typeMod;
+          request.expBonus = this.playerStateService.getGuadagniBonus();
           this.notifierStateService.updateRequest(request).then((resp) => {
             if(resp === true) {
               //this.notifierStateService.resetState();
@@ -283,6 +284,7 @@ export class NotifierComponent implements OnInit {
       request.status = newstatus;
       request.playerIdReq = req.playerIdReq;
       request.playerIdOppo = req.playerIdOppo;
+      request.expBonus = this.playerStateService.getGuadagniBonus();
       this.notifierStateService.updateRequest(request).then((resp) => {
         if(resp) {
           //this.notifierStateService.resetState();

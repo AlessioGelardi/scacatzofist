@@ -150,13 +150,20 @@ export class PlayNowTrainingComponent implements OnInit {
       request.status = 1;
       request.playerName = this.player?.name;
       request.bonus = this.playerStateService.getGuadagniBonus();
-  
-      this.notifierStateService.stopTraining(request).then((resp) => {
+      request.expBonus = this.playerStateService.getExpBonus();
+      this.stopTraining();
+      this.notifierStateService.createDuelRec(request).then((resp) => {
         if(resp == true) {
           this.finishTraning=true;
           this.start=false;
           this.takeDuelRec();
-  
+        } else {
+          //TO-DO gestione degli errori
+          if(resp && resp.status===402) {
+            this.stopTimer("Non sono state trovate partite registrate, sei sicuro di voler terminare il traning ?");
+          } else {
+            this.messageService.alert('Attenzione!','Errore durante la chiamata createDuelRec','error');
+          }
         }
       });
     } else {
@@ -176,7 +183,6 @@ export class PlayNowTrainingComponent implements OnInit {
 
         this.playerStateService.resetPlayerState();
         this.takePlayer();
-
         this.takeDuelRec();
 
       } else {
@@ -192,6 +198,16 @@ export class PlayNowTrainingComponent implements OnInit {
     });
   }
 
+  private stopTime() {
+    let request:any = {}
+    request.playerIdReq = this.player?._id!;
+    this.notifierStateService.stopTraining(request).then((resp) => {
+      if(resp == true) {
+        this.start=false;
+      }
+    });
+  }
+
   private stopTimer(message:string) {
     Swal.fire({
       title: 'Sei sicuro?',
@@ -203,13 +219,7 @@ export class PlayNowTrainingComponent implements OnInit {
       confirmButtonText: 'Si, stop training!'
     }).then((result) => {
       if (result.isConfirmed) {
-        let request:any = {}
-        request.playerIdReq = this.player?._id!;
-        this.notifierStateService.stopTraining(request).then((resp) => {
-          if(resp == true) {
-            this.start=false;
-          }
-        });
+        this.stopTraining();
       }
     })
   }
