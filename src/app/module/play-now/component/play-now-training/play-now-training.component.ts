@@ -149,7 +149,7 @@ export class PlayNowTrainingComponent implements OnInit {
       request.typeMod = TypeMod.TRAINING;
       request.status = 1;
       request.playerName = this.player?.name;
-      request.bonus = this.playerStateService.getBonus();
+      request.bonus = this.playerStateService.getGuadagniBonus();
   
       this.notifierStateService.stopTraining(request).then((resp) => {
         if(resp == true) {

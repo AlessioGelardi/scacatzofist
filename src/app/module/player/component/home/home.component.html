@@ -1,18 +1,26 @@
 <div class="d-flex justify-content-center">
     <div class="col-9">
 
-        <div class="row" *ngIf="bonus">
+        <div class="row" *ngIf="dailyshopdoppio">
             <div class="d-flex justify-content-around">
                 <div class="outline">
-                    <label>Oggi è il weekend dei guadagni doppi, tutte le ricompense saranno raddoppiate</label>
+                    <label>Inizia la settimana con il botto! Ogni lunedì, goditi il 'Daily Shop' doppio</label>
                 </div>
             </div>
         </div>
 
-        <div class="row" *ngIf="dailyshopdoppio">
+        <div class="row" *ngIf="expBonus">
             <div class="d-flex justify-content-around">
                 <div class="outline">
-                    <label>Oggi è lunedì, questo significa che il daily shop è doppio!</label>
+                    <label>Rendiamo il tuo sabato ancora più spettacolare con l'evento EXP x2! Non perderti questa occasione unica per crescere più rapidamente.</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" *ngIf="bonus">
+            <div class="d-flex justify-content-around">
+                <div class="outline">
+                    <label>La domenica è il giorno in cui i coin e i crediti vengono raddoppiati, approfittane! </label>
                 </div>
             </div>
         </div>

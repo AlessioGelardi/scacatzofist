@@ -20,7 +20,8 @@ export class StatePlayerService {
 
   private etichette?:any;
 
-  private bonus: boolean = false;
+  private guadagniBonus: boolean = false;
+  private expBonus: boolean = false;
 
   private checkLogin = new BehaviorSubject<Player | undefined>(undefined);
   private checkZaino = new BehaviorSubject<Card[] | undefined>(undefined);
@@ -40,12 +41,20 @@ export class StatePlayerService {
 
   }
 
-  setBonus(bonus:boolean) {
-    this.bonus = bonus;
+  setGuadagniBonus(bonus:boolean) {
+    this.guadagniBonus = bonus;
   }
 
-  getBonus() {
-    return this.bonus;
+  getGuadagniBonus() {
+    return this.guadagniBonus;
+  }
+
+  setExpBonus(expBonus:boolean) {
+    this.expBonus = expBonus;
+  }
+
+  getExpBonus() {
+    return this.expBonus;
   }
 
   resetZaino() {
