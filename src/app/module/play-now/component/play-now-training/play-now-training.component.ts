@@ -151,7 +151,7 @@ export class PlayNowTrainingComponent implements OnInit {
       request.playerName = this.player?.name;
       request.bonus = this.playerStateService.getGuadagniBonus();
       request.expBonus = this.playerStateService.getExpBonus();
-      this.stopTraining();
+      this.stopTrainingReq();
       this.notifierStateService.createDuelRec(request).then((resp) => {
         if(resp == true) {
           this.finishTraning=true;
@@ -198,7 +198,7 @@ export class PlayNowTrainingComponent implements OnInit {
     });
   }
 
-  private stopTime() {
+  private stopTrainingReq() {
     let request:any = {}
     request.playerIdReq = this.player?._id!;
     this.notifierStateService.stopTraining(request).then((resp) => {
@@ -219,7 +219,7 @@ export class PlayNowTrainingComponent implements OnInit {
       confirmButtonText: 'Si, stop training!'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.stopTraining();
+        this.stopTrainingReq();
       }
     })
   }
