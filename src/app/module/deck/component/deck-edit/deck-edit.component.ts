@@ -88,6 +88,7 @@ export class DeckEditComponent implements OnInit {
     this.newNameDeck = this.route.snapshot.paramMap.get('newNameDeck')!;
     this.spinnerService.show();
     this.takeDeck();
+    this.takeEtichette();
   }
 
   buttonOperationHandler(code: any) {
@@ -341,12 +342,14 @@ export class DeckEditComponent implements OnInit {
           const conteggioZaino = objConteggioResp[card.id]
           const conteggioDeck = objConteggioDeck[card.id]
           if(conteggioZaino>conteggioDeck) {
-            this.zaino.push(resp.find(i => i.id === card.id)!)
+            const cardFind = resp.find(i => i.id === card.id)!
+            this.zaino.push(cardFind)
           }
         }
 
         const elementiRimasti = resp.filter(obj1 => !this.zaino.some(obj2 => obj2.id === obj1.id) && !objConteggioDeck[obj1.id]);
         this.zaino.push(...elementiRimasti)
+        this.zainoBackup.push(...this.zaino)
         
       }
       this.spinnerService.hide();

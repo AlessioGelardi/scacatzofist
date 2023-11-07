@@ -13,7 +13,7 @@ export class FilterZainoService {
     if(searchFilter) {
       let x: Card[] = result;
       if(searchFilter.filter.etich) {
-        x = value.filter(card => card.etich && card.etich["name"].toUpperCase().includes(searchFilter.filter.etich.toUpperCase()));
+        x = value.filter(card => card.etich && card.etich["name"].toUpperCase() === searchFilter.filter.etich.toUpperCase());
       }
 
       if(searchFilter.filter.name) {

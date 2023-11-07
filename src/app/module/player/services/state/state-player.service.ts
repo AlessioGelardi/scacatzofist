@@ -113,7 +113,7 @@ export class StatePlayerService {
         this.player = response;
         this.checkLogin.next(this.player);
         this.getNumCardZaino(this.player._id!);
-
+        this.getEtichette(this.player._id!);
         this.spinnerService.hide();
       } catch(error:any) {
         this.spinnerService.hide();
