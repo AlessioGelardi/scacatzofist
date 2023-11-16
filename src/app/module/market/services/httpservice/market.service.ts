@@ -16,6 +16,7 @@ export class MarketService {
   apiUrlMarketOpenPack: string =  environment.baseUrlMarket + "openpack";
   marketplaceById: string = environment.baseUrlMarket + "marketplaceById";
   apiUrlMarketDailyShop: string =  environment.baseUrlMarket + "dailyshop";
+  apiUrlMarketRefreshDailyShop: string =  environment.baseUrlMarket + "refreshdailyshop";
   apiUrlMarketPacks: string = environment.baseUrlMarket + "packs";
   apiUrlMarketSkin: string = environment.baseUrlMarket + "skin";
   apiUrlMarketTexture: string = environment.baseUrlMarket + "texture";
@@ -38,6 +39,11 @@ export class MarketService {
   getDailyShop(request:any): Observable<SellCard[]> {
     request.dataUpdate = this.takeFormatToday();
     return this.http.put<SellCard[]>(this.apiUrlMarketDailyShop,request,this.generateOptions());
+  }
+
+  refreshDailyShop(request:any): Observable<boolean> {
+    request.dataUpdate = this.takeFormatToday();
+    return this.http.put<boolean>(this.apiUrlMarketRefreshDailyShop,request,this.generateOptions());
   }
 
   getMarketPlaceById(playerId:string) { //To-DO verificare se si può fare un percorso unico tra getMarketPlace e getmarketplacebyid

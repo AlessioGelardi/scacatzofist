@@ -27,7 +27,7 @@ export class StateMarketService {
 
   }
 
-  resetDailyShopState() {
+  resetDailyShop() {
     this.dailyShop = undefined;
   }
 
@@ -265,6 +265,26 @@ export class StateMarketService {
 
     try {
       response = await firstValueFrom(this.marketService.acquistaCoins(request));
+      this.spinnerService.hide();
+    } catch (error: any) {
+      /* TO-DO [WinError 3] Impossibile trovare il percorso specificato: 'deck\\\\Ingranaggio Antico1.ydk' -> 'deck\\\\Ingranaggio Antico.ydk'*/
+      response = error;
+      this.spinnerService.hide();
+    }
+
+
+    return response;
+  }
+
+  async refreshDailyShop(playerId:string, doppio:boolean) {
+    this.spinnerService.show();
+    let response;
+
+    try {
+      let request: any = {}
+      request.playerId = playerId;
+      request.doppio = doppio;
+      response = await firstValueFrom(this.marketService.refreshDailyShop(request));
       this.spinnerService.hide();
     } catch (error: any) {
       /* TO-DO [WinError 3] Impossibile trovare il percorso specificato: 'deck\\\\Ingranaggio Antico1.ydk' -> 'deck\\\\Ingranaggio Antico.ydk'*/

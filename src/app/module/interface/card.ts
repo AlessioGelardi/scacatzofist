@@ -43,6 +43,7 @@ export interface SellCard {
     playerId?: string;
     playerName?: string;
     dailyShop?: boolean;
+    refresh?:boolean;
 }
 
 export interface SellPack {

@@ -25,6 +25,7 @@ export class MarketComponent implements OnInit {
   marketPack: SellPack[] | undefined;
 
   dailyshop: SellCard[] | undefined;
+  refreshDSFatto:boolean = false;
 
   constructor(private route: ActivatedRoute,
     private router: Router,
@@ -109,7 +110,7 @@ export class MarketComponent implements OnInit {
               if(resp) {
                 this.player!.coin = this.player!.coin! - Number(sellCard.prezzo);
                 this.messageService.alert('Fatto!','Carta acquistata!','success');
-                this.marketStateService.resetDailyShopState();
+                this.marketStateService.resetDailyShop();
                 this.playerStateService.resetZaino();
                 this.takeDailyShop();
               } else {
@@ -273,6 +274,38 @@ export class MarketComponent implements OnInit {
     }
   }
 
+  refreshDailyShop() {
+    Swal.fire({
+      title: 'Sei sicuro?',
+      html: "Il daily shop attuale verrà sostituito con uno nuovo al prezzo di 25 <i class='fa fa-diamond'></i>",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, sono sicuro!',
+      cancelButtonText: 'No, annulla!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        if(this.player!.credits!-25>=0) {
+          let doppio = this.takeDoppio();
+          this.marketStateService.refreshDailyShop(this.playerId!,doppio).then((resp) => {
+            if(resp === true) {
+              //TO-DO gestire errori
+              this.player!.credits = Number(this.player!.credits!) - 25;
+              this.marketStateService.resetDailyShop();
+              this.takeDailyShop();
+            } else {
+              this.messageService.alert('Attenzione!','Problema durante il reset del daily shop','error');
+            }
+          });
+        } else {
+          this.messageService.alert('Errore','Non hai abbastanza crediti','error');
+        }
+      }
+    })
+  }
+
   private takeMarketPlace() {
     this.marketStateService.getMarketPlace().then((resp) => {
       this.marketPlace = resp!;
@@ -303,14 +336,20 @@ export class MarketComponent implements OnInit {
     });
   }
 
-  private takeDailyShop() {
+  private takeDoppio():boolean {
     const oggi: Date = new Date();
     let doppio = false;
     if(oggi.getDay() === 1) {
       doppio = true;
     }
+    return doppio;
+  }
+
+  private takeDailyShop() {
+    let doppio = this.takeDoppio();
     this.marketStateService.getDailyShop(this.playerId!,doppio).then((resp) => {
       this.dailyshop = resp!;
+      this.refreshDSFatto = this.dailyshop[0].refresh!;
     });
   }
 
