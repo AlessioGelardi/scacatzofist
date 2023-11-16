@@ -59,52 +59,38 @@
     <button *ngIf="imOrg && tournament!.status === 1" class="col-3 btn btn-bg rounded grigino" (click)="annullaTorneo()">ANNULLA TORNEO</button>
 </div>
 
-<div class="mt-5" *ngIf="tournament!.type === 1">
-    <div class="row">
-        <div class="col-3 text-center" style="margin-top: 150px;" *ngIf="!this.tournament!.podio['terzoPosto']">
-            <label>Terzo posto</label>
-            <div class="box"></div>
-        </div>
-        <div class="col-3 text-center" style="margin-top: 150px;" *ngIf="this.tournament!.podio['terzoPosto']">
+<div class="mt-5" *ngIf="tournament!.type === 1 && tournament!.status === 2">
+    <!-- prima riga (solo per terzo posto)-->
+    <div class="row d-flex justify-content-around text-center" *ngIf="this.tournament!.podio['terzoPosto']"> 
+        <div class="col-3">
             <label>Terzo posto</label>
             <div class="box">
                 <label class="mt-4">{{this.tournament!.podio['terzoPosto']}}</label>
             </div>
         </div>
-        <div class="col-3" *ngIf="tournament!.status===1">
-            <div *ngFor="let player of getNumbers(4)" >
-                <div class="box mt-4"></div>
+    </div>
+
+    <!-- seconda riga (solo per prima fase)-->
+    <div class="row d-flex justify-content-around text-center mt-4"> 
+        <div class="col-3" *ngFor="let player of this.tournament!.posPlayer['firstRound']" >
+            <div class="box">
+                <label class="mt-4">{{player}}</label>
             </div>
         </div>
-        <div class="col-3 text-center" *ngIf="tournament!.status!==1">
-            <div *ngFor="let player of this.tournament!.posPlayer['firstRound']" >
-                <div class="box mt-4">
-                    <label class="mt-4">{{player}}</label>
-                </div>
+    </div>
+
+    <!-- terza riga (solo per seconda fase)-->
+    <div class="row d-flex justify-content-around text-center mt-4" *ngIf="tournament!.posPlayer['secondRound']?.length>0"> 
+        <div class="col-3" *ngFor="let player of this.tournament!.posPlayer['secondRound']" >
+            <div class="box">
+                <label class="mt-4">{{player}}</label>
             </div>
         </div>
-        <div class="col-3 mt-4" *ngIf="!tournament!.posPlayer['secondRound']">
-            <label class="mt-4">Secondo posto</label>
-            <div *ngFor="let player of getNumbers(2)">
-                <div class="box" style="margin-bottom: 110px;"></div>
-            </div>
-        </div>
-        <div class="col-3 mt-4 text-center" *ngIf="tournament!.posPlayer['secondRound']?.length>0">
-            <label class="mt-4">Secondo posto</label>
-            <div *ngFor="let player of tournament!.posPlayer['secondRound']">
-                <div class="box" style="margin-bottom: 110px;">
-                    <label class="mt-4">{{player}}</label>
-                </div>
-                <div *ngFor="let player of getNumbers(2 - (tournament!.posPlayer['secondRound'] ? tournament!.posPlayer['secondRound']?.length : 0))">
-                    <div class="box" style="margin-bottom: 110px;"></div>
-                </div>
-            </div>
-        </div>
-        <div class="col-3 text-center" style="margin-top: 140px;" *ngIf="!this.tournament!.podio['primoPosto']">
-            <label>Primo posto</label>
-            <div class="box"></div>
-        </div>
-        <div class="col-3 text-center" style="margin-top: 140px;" *ngIf="this.tournament!.podio['primoPosto']">
+    </div>
+
+    <!-- quarta riga (solo per primo posto)-->
+    <div class="row d-flex justify-content-around text-center mt-4" *ngIf="this.tournament!.podio['primoPosto']"> 
+        <div class="col-3">
             <label>Primo posto</label>
             <div class="box">
                 <label class="mt-4">{{this.tournament!.podio['primoPosto']}}</label>
