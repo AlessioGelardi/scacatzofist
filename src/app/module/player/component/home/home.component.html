@@ -9,6 +9,14 @@
             </div>
         </div>
 
+        <div class="row" *ngIf="ishorusEye">
+            <div class="d-flex justify-content-around">
+                <div class="outline">
+                    <label>Nuove carte disponibili. Gira la ruota e lasciati guidare dall'antica saggezza di Horus e dal suo regale occhio.</label>
+                </div>
+            </div>
+        </div>
+
         <div class="row" *ngIf="expBonus">
             <div class="d-flex justify-content-around">
                 <div class="outline">
@@ -29,14 +37,20 @@
             <div class="d-flex justify-content-around">
                 <button class="btn btn-lg" (click)="modificaDeck()">MODIFICA DECK</button>
                 <button class="btn btn-lg" (click)="searchCard()">YU-GI-OH DEX</button>
+                <button class="btn btn-lg" (click)="horusEye()">EYE OF HORUS</button>
+            </div>
+        </div>
+
+        <div class="row pt-5">
+            <div class="d-flex justify-content-around">
                 <button class="btn btn-lg" *ngIf="player?.ruolo !== 3" (click)="marketPlace()">MARKET PLACE</button>
+                <button class="btn btn-lg" *ngIf="player?.ruolo !== 3" (click)="trade()">TRADE</button>
             </div>
         </div>
 
         <div class="row pt-5">
             <div class="d-flex justify-content-around">
                 <button class="btn btn-lg" *ngIf="player?.ruolo !== 3" (click)="giocaAdesso()">GIOCA ADESSO</button>
-                <button class="btn btn-lg" *ngIf="player?.ruolo !== 3" (click)="trade()">TRADE</button>
             </div>
         </div>
     </div>

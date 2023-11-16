@@ -22,6 +22,7 @@ export class StatePlayerService {
 
   private guadagniBonus: boolean = false;
   private expBonus: boolean = false;
+  private horusEye: boolean = false;
 
   private checkLogin = new BehaviorSubject<Player | undefined>(undefined);
   private checkZaino = new BehaviorSubject<Card[] | undefined>(undefined);
@@ -57,6 +58,14 @@ export class StatePlayerService {
     return this.expBonus;
   }
 
+  setHorusEye(horusEye:boolean) {
+    this.horusEye = horusEye;
+  }
+
+  getHorusEye() {
+    return this.horusEye;
+  }
+
   resetZaino() {
     this.zaino = undefined;
   }
@@ -90,6 +99,9 @@ export class StatePlayerService {
     this.checkZainoNoCache.next(undefined);
     this.resetNumCardZaino();
     this.resetNumCardZainoNoCache();
+    this.setExpBonus(false);
+    this.setGuadagniBonus(false);
+    this.setHorusEye(false);
   }
 
   getLoginPlayer() {

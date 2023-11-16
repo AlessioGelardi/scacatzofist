@@ -18,6 +18,7 @@ export class HomeComponent implements OnInit {
   bonus:boolean = false;
   expBonus:boolean = false;
   dailyshopdoppio:boolean = false;
+  ishorusEye:boolean = false;
   
   constructor(private route: ActivatedRoute,
     private playerStateService: StatePlayerService,
@@ -36,6 +37,10 @@ export class HomeComponent implements OnInit {
       case 1: //lunedi
         this.dailyshopdoppio = true;
         break;
+      case 5: //venerdi
+        this.ishorusEye = true;
+        this.playerStateService.setHorusEye(this.ishorusEye);
+        break;
       case 6: //sabato
         this.expBonus = true;
         this.playerStateService.setExpBonus(this.expBonus);
@@ -53,6 +58,10 @@ export class HomeComponent implements OnInit {
 
   searchCard() {
     this.router.navigate(['/database',{id:this.player?._id}]);
+  }
+
+  horusEye() {
+    this.router.navigate(['/horuseye',{id:this.player?._id}]);
   }
 
   marketPlace() {
