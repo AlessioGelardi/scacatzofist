@@ -48,7 +48,7 @@ export class StateTradeService {
         this.spinnerService.hide();
       } catch (error:any) {
         this.spinnerService.hide();
-        this.messageService.alert('Errore','Qualcosa è andato storto durante il recupero del dailyshop','error');
+        this.messageService.alert('Errore','Qualcosa è andato storto durante il recupero del getPrivateTrade','error');
       }
     } else {
       this.spinnerService.hide();
@@ -68,7 +68,7 @@ export class StateTradeService {
       this.spinnerService.hide();
     } catch (error:any) {
       this.spinnerService.hide();
-      this.messageService.alert('Errore','Qualcosa è andato storto durante il recupero del dailyshop','error');
+      this.messageService.alert('Errore','Qualcosa è andato storto durante il recupero del getTrade','error');
     }
 
     return trade;    

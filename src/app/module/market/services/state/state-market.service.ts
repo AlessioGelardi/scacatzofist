@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { firstValueFrom } from 'rxjs';
-import { SellCard, SellPack } from 'src/app/module/interface/card';
+import { Card, SellCard, SellPack } from 'src/app/module/interface/card';
 import { MarketService } from '../httpservice/market.service';
 import { MessageService } from 'src/app/module/swalAlert/message.service';
 
@@ -19,13 +19,15 @@ export class StateMarketService {
 
   private packs?: any[];
 
+  private horusEye?: any | undefined;
+
   constructor(private spinnerService: NgxSpinnerService,
     private marketService: MarketService,
     private messageService: MessageService) {
 
   }
 
-  resetDailyShopState() {
+  resetDailyShop() {
     this.dailyShop = undefined;
   }
 
@@ -44,6 +46,10 @@ export class StateMarketService {
   resetSelectedTexture() {
     this.selectedTexture = undefined;
   }
+  
+  resetHorusEye() {
+    this.horusEye = undefined;
+  }
 
   resetState() {
     this.marketPlace = undefined;
@@ -51,6 +57,7 @@ export class StateMarketService {
     this.dailyShop = undefined;
     this.packs = undefined;
     this.selectedTexture = undefined;
+    this.horusEye = undefined;
   }
 
   async getPacks(typePack:number) {
@@ -269,6 +276,26 @@ export class StateMarketService {
     return response;
   }
 
+  async refreshDailyShop(playerId:string, doppio:boolean) {
+    this.spinnerService.show();
+    let response;
+
+    try {
+      let request: any = {}
+      request.playerId = playerId;
+      request.doppio = doppio;
+      response = await firstValueFrom(this.marketService.refreshDailyShop(request));
+      this.spinnerService.hide();
+    } catch (error: any) {
+      /* TO-DO [WinError 3] Impossibile trovare il percorso specificato: 'deck\\\\Ingranaggio Antico1.ydk' -> 'deck\\\\Ingranaggio Antico.ydk'*/
+      response = error;
+      this.spinnerService.hide();
+    }
+
+
+    return response;
+  }
+
   async openPack(request:any) {
     this.spinnerService.show();
     let response;
@@ -366,4 +393,39 @@ export class StateMarketService {
     return response;
   }
 
+  async getHorusEye(request:any) {
+    this.spinnerService.show();
+    
+    if(!this.horusEye) {
+      try {
+        const response = await firstValueFrom(this.marketService.getHorusEye(request));
+        this.horusEye = response;
+        this.spinnerService.hide();
+      } catch (error:any) {
+        this.spinnerService.hide();
+        this.messageService.alert('Errore','Qualcosa è andato storto durante il recupero del horusEye','error');
+      }
+    } else {
+      this.spinnerService.hide();
+    }
+
+    return this.horusEye;    
+  }
+
+  async postHorusEye(request:any) {
+    this.spinnerService.show();
+    let response;
+
+    try {
+      response = await firstValueFrom(this.marketService.postHorusEye(request));
+      this.spinnerService.hide();
+    } catch (error: any) {
+      /* TO-DO [WinError 3] Impossibile trovare il percorso specificato: 'deck\\\\Ingranaggio Antico1.ydk' -> 'deck\\\\Ingranaggio Antico.ydk'*/
+      response = error;
+      this.spinnerService.hide();
+    }
+
+
+    return response;
+  }
 }

@@ -216,14 +216,6 @@ export class TradeNewCardComponent {
               this.myZainoBackup.push(card);
             }
           }
-        } else {
-          //TO-DO gestione degli errori
-          /*
-          if(resp.status===402) {
-            this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
-          }*/
-  
-          this.messageService.alert('Attenzione!','Errore durante la chiamata getZaino','error');
         }
       });
     } else {

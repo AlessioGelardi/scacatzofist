@@ -8,6 +8,9 @@
         <div class="row mt-4 text-center">
             <h3>DAILY SHOP</h3>
         </div>
+        <div class="row" class="d-flex justify-content-center" *ngIf="!refreshDSFatto">
+            <button type="button" class="col-3 btn btn-sm btn-outline-success" style="width: 100px;" (click)="refreshDailyShop()">25 <i class="fa fa-diamond"></i></button>
+        </div>
         <div class="row">
             <div *ngFor="let ds of dailyshop" class="col-3 d-flex justify-content-center pb-5">
                 <div class="mt-3 position-relative">

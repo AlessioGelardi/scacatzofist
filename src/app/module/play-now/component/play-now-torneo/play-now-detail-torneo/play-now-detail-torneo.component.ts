@@ -185,6 +185,7 @@ export class PlayNowDetailTorneoComponent {
       request.playerName = this.player?.name!;
       request.typeMod = TypeMod.TORNEO;
       request.podio = this.tournament?.podio;
+      request.expBonus = this.playerStateService.getExpBonus();
 
       this.notifierStateService.createDuelRec(request).then((resp) => {
         if(resp == true) {  

@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Pack, SellCard, SellPack } from 'src/app/module/interface/card';
+import { Card, Pack, SellCard, SellPack } from 'src/app/module/interface/card';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -16,9 +16,11 @@ export class MarketService {
   apiUrlMarketOpenPack: string =  environment.baseUrlMarket + "openpack";
   marketplaceById: string = environment.baseUrlMarket + "marketplaceById";
   apiUrlMarketDailyShop: string =  environment.baseUrlMarket + "dailyshop";
+  apiUrlMarketRefreshDailyShop: string =  environment.baseUrlMarket + "refreshdailyshop";
   apiUrlMarketPacks: string = environment.baseUrlMarket + "packs";
   apiUrlMarketSkin: string = environment.baseUrlMarket + "skin";
   apiUrlMarketTexture: string = environment.baseUrlMarket + "texture";
+  apiUrlMarketHorusEye: string =  environment.baseUrlMarket + "horuseye";
 
   constructor(private http: HttpClient) { }
 
@@ -37,6 +39,11 @@ export class MarketService {
   getDailyShop(request:any): Observable<SellCard[]> {
     request.dataUpdate = this.takeFormatToday();
     return this.http.put<SellCard[]>(this.apiUrlMarketDailyShop,request,this.generateOptions());
+  }
+
+  refreshDailyShop(request:any): Observable<boolean> {
+    request.dataUpdate = this.takeFormatToday();
+    return this.http.put<boolean>(this.apiUrlMarketRefreshDailyShop,request,this.generateOptions());
   }
 
   getMarketPlaceById(playerId:string) { //To-DO verificare se si può fare un percorso unico tra getMarketPlace e getmarketplacebyid
@@ -113,6 +120,16 @@ export class MarketService {
   selezionaTexture(request:any) {
     request.dataUpdate = this.takeFormatToday();
     return this.http.put<boolean>(this.apiUrlMarketTexture,request,this.generateOptions());
+  }
+
+  getHorusEye(request:any): Observable<any> {
+    request.dataUpdate = this.takeFormatToday();
+    return this.http.put<any>(this.apiUrlMarketHorusEye,request,this.generateOptions());
+  }
+
+  postHorusEye(request:any) {
+    request.dataUpdate = this.takeFormatToday();
+    return this.http.post<any>(this.apiUrlMarketHorusEye,request,this.generateOptions());
   }
 
   private takeFormatToday() {

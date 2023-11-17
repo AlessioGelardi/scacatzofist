@@ -93,7 +93,7 @@ export class PlayNowPlayersComponent {
         request.playerIdOppo = playerId;
         request.playerNameOppo = playerName;
         request.status = 1;
-        request.bonus = this.playerStateService.getBonus() && this.typeMode===TypeMod.SCONTRO;
+        request.bonus = this.playerStateService.getGuadagniBonus() && this.typeMode===TypeMod.SCONTRO;
         request.vincita = this.rewardVincita;
         request.perdita = this.rewardPerdita;
 

@@ -88,6 +88,7 @@ export class DeckEditComponent implements OnInit {
     this.newNameDeck = this.route.snapshot.paramMap.get('newNameDeck')!;
     this.spinnerService.show();
     this.takeDeck();
+    this.takeEtichette();
   }
 
   buttonOperationHandler(code: any) {
@@ -120,21 +121,32 @@ export class DeckEditComponent implements OnInit {
           const mainIntoExtra = this.checkMainIntoExtra();
 
           if(!extraIntoMain && !mainIntoExtra) {
-            this.deckStateService.updateDeck(this.deck!,this.deckId!).then((resp) => {
-              if(resp) {
-                this.deckStateService.resetPlayerDecks();
-                this.messageService.alert('Fatto!','Deck salvato con successo.','success');
-              } else {
-                this.messageService.alert('Errore','Qualcosa è andato storto durante il salvataggio del deck','error');
+            if(this.deck!.main.length<=60 && this.deck!.extra.length<=15 && this.deck!.side.length<=20) {
+              this.deckStateService.updateDeck(this.deck!,this.deckId!).then((resp) => {
+                if(resp) {
+                  this.deckStateService.resetPlayerDecks();
+                  this.messageService.alert('Fatto!','Deck salvato con successo.','success');
+                } else {
+                  this.messageService.alert('Errore','Qualcosa è andato storto durante il salvataggio del deck','error');
+                }
+              });
+            } else {
+              if(this.deck!.main.length>60) {
+                this.messageService.alert('Attenzione','Il MAIN può contenere fino ad un massimo di 60 carte','warning');
+              } else if (this.deck!.extra.length>15) {
+                this.messageService.alert('Attenzione',"L'EXTRA può contenere fino ad un massimo di 15 carte",'warning');
+              } else if (this.deck!.side.length>20) {
+                this.messageService.alert('Attenzione','Il SIDE può contenere fino ad un massimo di 20 carte','warning');
               }
-            });
+            }
+
           } else {
             if(extraIntoMain) {
-              this.messageService.alert('Errore',"Il main deck non deve contenere carte di tipo fusione,synchro o xyz, per favore spostale nell'extra deck",'error');
+              this.messageService.alert('Attenzione',"Il main deck non deve contenere carte di tipo fusione,synchro o xyz, per favore spostale nell'extra deck",'warning');
             }
 
             if(mainIntoExtra) {
-              this.messageService.alert('Errore',"L'extra deck deve contenere carte solo di tipo fusione,synchro o xyz, per favore sposta il resto delle carte nel main deck",'error');
+              this.messageService.alert('Attenzione',"L'extra deck deve contenere carte solo di tipo fusione,synchro o xyz, per favore sposta il resto delle carte nel main deck",'warning');
             }
           }
           break;
@@ -341,12 +353,14 @@ export class DeckEditComponent implements OnInit {
           const conteggioZaino = objConteggioResp[card.id]
           const conteggioDeck = objConteggioDeck[card.id]
           if(conteggioZaino>conteggioDeck) {
-            this.zaino.push(resp.find(i => i.id === card.id)!)
+            const cardFind = resp.find(i => i.id === card.id)!
+            this.zaino.push(cardFind)
           }
         }
 
         const elementiRimasti = resp.filter(obj1 => !this.zaino.some(obj2 => obj2.id === obj1.id) && !objConteggioDeck[obj1.id]);
         this.zaino.push(...elementiRimasti)
+        this.zainoBackup.push(...this.zaino)
         
       }
       this.spinnerService.hide();

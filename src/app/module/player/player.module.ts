@@ -7,6 +7,7 @@ import { PlayerButtonsComponent } from './component/player-buttons/player-button
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FilterPlayerPipe } from './pipe/filter-player.pipe';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { HoruseyeComponent } from './component/horuseye/horuseye.component';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     PlayerStatusComponent,
     PlayerDetailComponent,
     PlayerButtonsComponent,
-    FilterPlayerPipe
+    FilterPlayerPipe,
+    HoruseyeComponent
   ],
   imports: [
     CommonModule,
