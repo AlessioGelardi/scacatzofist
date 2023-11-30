@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { StatePlayerService } from '../../services/state/state-player.service';
 import { MessageService } from 'src/app/module/swalAlert/message.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Player } from 'src/app/module/interface/player';
 
 @Component({
@@ -18,6 +18,7 @@ export class AlberoNataleComponent {
   ggToday: number = 0;
 
   constructor(private route: ActivatedRoute,
+    private router: Router,
     private playerStateService: StatePlayerService,
     private messageService: MessageService)
   {
@@ -30,8 +31,6 @@ export class AlberoNataleComponent {
     var mm = String(today.getMonth() + 1).padStart(2, '0');
 
     this.ggToday = Number(dd);
-
-
 
     this.playerStateService.getEventoNatale(playerId).then((resp) => {
       if(resp) {
@@ -70,6 +69,10 @@ export class AlberoNataleComponent {
 
   isToday(giorno:number) {
     return this.ggToday===giorno;
+  }
+
+  home() {
+    this.router.navigate(['/home',{id:this.player?._id!}]);
   }
 
   private takePlayer(playerId: string) {
