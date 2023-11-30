@@ -6,7 +6,7 @@
   height: 60px;
   display: flex;
   align-items: center;
-  background-color: #737170;
+  background-color: #365621;
   color: white;
   font-weight: 600;
 }
@@ -34,7 +34,7 @@
 .login_btn {
   width: 100%;
   background: #df0032 !important;
-  color: #cecdcb !important;
+  color: #e29797 !important;
 }
 .login_btn:focus {
   box-shadow: none !important;
@@ -46,7 +46,7 @@
 
 .input-group-text {
   background: #df0032 !important;
-  color: #cecdcb !important;
+  color: #e29797 !important;
   border: 0 !important;
   border-radius: 0.25rem 0 0 0.25rem !important;
 }
@@ -65,5 +65,5 @@
 }
 
 .form-control {
-  background-color: #cecdcb;
+  background-color: #e29797;
 }

@@ -24,7 +24,7 @@ export class MessageService {
         backdrop: false,
         title: card.name,
         color: '#3e3d3c',
-        background: '#cdcccc',
+        background: '#9ec981',
         html: '<p>Livello: <strong>'+card.level+
         '</strong> Attributo: <strong>'+Attributi[card.attribute]+
         '</strong> Razza: <strong>'+Razze[card.race]+'</strong></p><p>'+
@@ -38,7 +38,7 @@ export class MessageService {
         backdrop: false,
         title: card.name,
         color: '#3e3d3c',
-        background: '#cdcccc',
+        background: '#9ec981',
         html: '<p>'+ card.desc+'</p>',
         imageUrl: 'https://images.ygoprodeck.com/images/cards/'+card.id+'.jpg',
         imageWidth: 160
@@ -53,7 +53,7 @@ export class MessageService {
       backdrop: false,
       title: pack.name,
       color: '#3e3d3c',
-      background: '#cdcccc',
+      background: '#9ec981',
       html: '<label style="font-size:14px"> PACK '+pack.name+' contenente '+pack.taglia+' carte!'+'</label>',
       imageUrl: pack.src,
       imageWidth: 160

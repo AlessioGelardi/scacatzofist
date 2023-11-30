@@ -91,7 +91,7 @@ export class MarketComponent implements OnInit {
     Swal.fire({
       title: sellCard.card.name,
       color: '#3e3d3c',
-      background: '#cdcccc',
+      background: '#9ec981',
       html: '<label style="font-size:14px"> Sei sicur* di acquistare '+sellCard.card.name+' a <b>'+sellCard.prezzo+'</b> coin ?</label>',
       imageUrl: 'https://images.ygoprodeck.com/images/cards/'+sellCard.card.id+'.jpg',
       imageWidth: 160,
@@ -142,7 +142,7 @@ export class MarketComponent implements OnInit {
     Swal.fire({
       title: cardName,
       color: '#3e3d3c',
-      background: '#cdcccc',
+      background: '#9ec981',
       html: '<label style="font-size:14px"> Sei sicur* di cancellare la vendita di <strong>'+cardName+'</strong> ?',
       imageUrl: 'https://images.ygoprodeck.com/images/cards/'+cardId+'.jpg',
       imageWidth: 160,
@@ -171,7 +171,7 @@ export class MarketComponent implements OnInit {
     Swal.fire({
       title: pack.name,
       color: '#3e3d3c',
-      background: '#cdcccc',
+      background: '#9ec981',
       html: '<label style="font-size:14px"> Sei sicur* di acquistare '+pack.name+' a <b>'+pack.prezzo+'</b> coin ?</label>',
       imageUrl: pack.src,
       imageWidth: 160,
@@ -222,7 +222,7 @@ export class MarketComponent implements OnInit {
     Swal.fire({
       title: "PACK "+sellPack.name,
       color: '#3e3d3c',
-      background: '#cdcccc',
+      background: '#9ec981',
       html: '<label style="font-size:14px"> Sei sicur* di cancellare la vendita del pack <strong>'+sellPack.name+'</strong> ?',
       imageUrl: sellPack.src,
       imageWidth: 160,

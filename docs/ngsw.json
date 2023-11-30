@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1700317497270,
+  "timestamp": 1701364132351,
   "index": "scacatzofist/index.html",
   "assetGroups": [
     {
@@ -13,11 +13,12 @@
       "urls": [
         "scacatzofist/favicon.ico",
         "scacatzofist/index.html",
-        "scacatzofist/main.9bc55aef0b19759c.js",
+        "scacatzofist/main.1e62e01cedc6db1c.js",
         "scacatzofist/manifest.webmanifest",
         "scacatzofist/polyfills.867483452a5d5fe6.js",
         "scacatzofist/runtime.a116727f51fb0204.js",
         "scacatzofist/scripts.ea4c78bc068af212.js",
+        "scacatzofist/snowfall.jquery.min.js",
         "scacatzofist/styles.d3c0ec2463627830.css"
       ],
       "patterns": []
@@ -639,12 +640,13 @@
     "scacatzofist/fa-v4compatibility.6209cf0172d95b0e.woff2": "8f80d0bbe995f7fe92320fdaec10cd5ccd710a51",
     "scacatzofist/fa-v4compatibility.92dce52f885fd838.ttf": "a9d072aca9e0fadc2a7167671ce3d6b18d9cd2cc",
     "scacatzofist/favicon.ico": "7096b1b3c10b250d1414b387c7746558d6c321f9",
-    "scacatzofist/index.html": "6c9a04b05edc324a68b51ef1d34c5d55c0cf53a1",
-    "scacatzofist/main.9bc55aef0b19759c.js": "a0d9e9098d469355f7e3c6c60a517a49599df5ea",
+    "scacatzofist/index.html": "bffeecd3cbb6ac32a4db86bfbe8ef83a59cb2626",
+    "scacatzofist/main.1e62e01cedc6db1c.js": "921dad46f47947a7f0f20aba9c846053e9d32f07",
     "scacatzofist/manifest.webmanifest": "942cc21e64c661b39420b49c10f06a24fdd392f9",
     "scacatzofist/polyfills.867483452a5d5fe6.js": "9d306f3ba1b1e5b347ee7c98ccdeff480fb86adf",
     "scacatzofist/runtime.a116727f51fb0204.js": "e5de7d4ea6e9aa450b98e69ef7ad9e5e1a72c784",
     "scacatzofist/scripts.ea4c78bc068af212.js": "9856e72e528e865cfde60d4cdb56099da4ffeac9",
+    "scacatzofist/snowfall.jquery.min.js": "807dc78dbb06667f9de5d56578ac5eecc71bf050",
     "scacatzofist/styles.d3c0ec2463627830.css": "f6e64629bb90db17e91abc52794c6532e7436f7b"
   },
   "navigationUrls": [

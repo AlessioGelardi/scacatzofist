@@ -10,8 +10,13 @@
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script> 
+	<script src="snowfall.jquery.min.js"></script>
 </head>
-<body style="background: #beb9b3;">
+<body style="background: #e29797;" id="snow-window" class="darkBg">
   <app-root></app-root>
 </body>
+<script type='text/javascript'>
+  $(document).snowfall({flakeCount : 100, maxSpeed : 5, maxSize : 5});
+</script>
 </html>

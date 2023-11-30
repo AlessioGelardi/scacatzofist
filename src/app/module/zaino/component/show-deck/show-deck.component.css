@@ -5,17 +5,17 @@
 }
 
 .card {
-    background-color: #cdcccc;
+    background-color: #9ec981;
     color: #3e3d3c !important;
 }
 
 .card-header {
-    background-color: #8a8989;
+    background-color: #3a8530;
     color: #3e3d3c !important;
 }
 
 .card-body {
-    background-color: #cdcccc;
+    background-color: #9ec981;
     color: #3e3d3c !important;
 }
 
@@ -24,18 +24,18 @@
 }
 
 .accordion > .accordion-item {
-    background-color: #8a8989;
+    background-color: #3a8530;
     color: #3e3d3c !important;
-    --bs-accordion-border-color: #8a8989;
+    --bs-accordion-border-color: #3a8530;
 }
 
 #headingMain > .accordion-button {
-    background-color: #8a8989;
+    background-color: #3a8530;
     color: #3e3d3c !important;
 }
 
 .accordion-header > .accordion-button  {
-    background-color: #8a8989;
+    background-color: #3a8530;
     color: #3e3d3c !important;
     border: 2px dotted #3e3d3c;
 }

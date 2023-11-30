@@ -76,6 +76,10 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/trade',{id:this.player?._id}]);
   }
 
+  alberoMagico() {
+    this.router.navigate(['/alberomagico',{id:this.player?._id}]);
+  }
+
   isObject(value: any): boolean {
     return typeof value === 'object' && value !== null;
   }

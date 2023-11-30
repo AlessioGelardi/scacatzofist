@@ -17,6 +17,7 @@ export class PlayerService {
   apiUrlEtichetta: string = environment.baseUrlPlayer + "etichetta";
   apiUrlRewardLevel: string = environment.baseUrlPlayer + "rewardLevel";
   apiUrlnumCardsZaino: string = environment.baseUrlPlayer + "numCards";
+  apiUrlNatale: string = environment.baseUrlPlayer + "natale";
 
   constructor(private http: HttpClient) { }
 
@@ -70,6 +71,14 @@ export class PlayerService {
 
   getNumCardZaino(id:string) {
     return this.http.get<number>(this.apiUrlnumCardsZaino+'?id='+id);
+  }
+
+  apriEventoNatale(request:any) {
+    return this.http.put<boolean>(this.apiUrlNatale,request,this.generateOptions());
+  }
+
+  getEventoNatale(id:string) {
+    return this.http.get<number[]>(this.apiUrlNatale+'?id='+id);
   }
 
   private generateOptions() {

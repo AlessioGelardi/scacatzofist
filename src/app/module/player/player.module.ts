@@ -8,6 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FilterPlayerPipe } from './pipe/filter-player.pipe';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { HoruseyeComponent } from './component/horuseye/horuseye.component';
+import { AlberoNataleComponent } from './component/albero-natale/albero-natale.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { HoruseyeComponent } from './component/horuseye/horuseye.component';
     PlayerDetailComponent,
     PlayerButtonsComponent,
     FilterPlayerPipe,
-    HoruseyeComponent
+    HoruseyeComponent,
+    AlberoNataleComponent
   ],
   imports: [
     CommonModule,
