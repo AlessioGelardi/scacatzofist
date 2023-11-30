@@ -38,7 +38,7 @@ export class DeckComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.messageService.alert('Benvenuto!','Ricorda di aprire il terminale locale per le modifiche sui deck','warning');
+    this.messageService.alert('Ricorda!','Ricorda di aprire il programma "scacatzoFist" locale per allineare o modificare il nome dei deck','warning');
     this.permission = this.route.snapshot.paramMap.get('permission') === "true";
     if(this.permission) {
       this.buttons = [
@@ -61,12 +61,7 @@ export class DeckComponent implements OnInit {
           name: "EDIT-BUTTON",
           code: "EDIT",
           class: "fa fa-pencil"
-        }/*,
-        {
-          name: "IMPORT-BUTTON",
-          code: "IMPORT",
-          class: "fa fa-download"
-        }*/
+        }
       ];
     } else {
       this.buttons = [
@@ -77,8 +72,6 @@ export class DeckComponent implements OnInit {
         }
       ];
     }
-
-
     
     this.playerId = this.route.snapshot.paramMap.get('id')!;
     

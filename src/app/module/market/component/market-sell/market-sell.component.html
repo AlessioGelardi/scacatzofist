@@ -2,95 +2,97 @@
     <market-buttons [buttons]="buttons" (buttonOperation)="buttonOperationHandler($event)"></market-buttons>
 </div>
 
-<div *ngIf="isDropdownVisible" class="dropdown-etichetta" [style.left.px]="dropdownLeft" [style.top.px]="dropdownTop">
-    <div *ngFor="let etich of etichette">
-        <a (click)="assegnaEtichetta(etich)">{{etich.name}}</a>
+<div *ngIf="zaino">
+    <div *ngIf="isDropdownVisible" class="dropdown-etichetta" [style.left.px]="dropdownLeft" [style.top.px]="dropdownTop">
+        <div *ngFor="let etich of etichette">
+            <a (click)="assegnaEtichetta(etich)">{{etich.name}}</a>
+        </div>
     </div>
-</div>
-
-<div class="d-flex justify-content-center mt-4">
-    <div>
-        <h5>Le tue carte disponibili <strong>{{zaino.length}}</strong> </h5> 
+    
+    <div class="d-flex justify-content-center mt-4">
+        <div>
+            <h5>Le tue carte disponibili <strong>{{zaino!.length}}</strong> </h5> 
+        </div>
     </div>
-</div>
-
-<div class="d-flex justify-content-between mt-2">
-    <div *ngIf="!viewFilter">
-        <button class="btn btn-sm rounded grigino" (click)="doFilter()"><i class="fa fa-filter"></i></button>
-    </div>
-    <div *ngIf="viewFilter">
-        <div class="row">
+    
+    <div class="d-flex justify-content-between mt-2">
+        <div *ngIf="!viewFilter">
+            <button class="btn btn-sm rounded grigino" (click)="doFilter()"><i class="fa fa-filter"></i></button>
+        </div>
+        <div *ngIf="viewFilter">
+            <div class="row">
+                <div class="position-relative">
+                    <button class="col-1 btn btn-sm rounded grigino position-absolute top-0 start-100 translate-middle" (click)="doFilter()"><i class="fa fa-times"></i></button>
+                </div>
+                <filter-card [etichette]="etichette" (cardsEmit)="retrieveCards($event)"></filter-card>
+            </div>
+        </div>
+        <div *ngIf="!viewEtichetta">
+            <button class="btn btn-sm rounded grigino" (click)="doEtichetta()">Crea etichetta</button>
+        </div>
+        <div *ngIf="viewEtichetta">
             <div class="position-relative">
-                <button class="col-1 btn btn-sm rounded grigino position-absolute top-0 start-100 translate-middle" (click)="doFilter()"><i class="fa fa-times"></i></button>
+                <button class="col-2 btn btn-sm rounded grigino position-absolute top-0 start-100 translate-middle" (click)="doEtichetta()"><i class="fa fa-times"></i></button>
             </div>
-            <filter-card [etichette]="etichette" (cardsEmit)="retrieveCards($event)"></filter-card>
-        </div>
-    </div>
-    <div *ngIf="!viewEtichetta">
-        <button class="btn btn-sm rounded grigino" (click)="doEtichetta()">Crea etichetta</button>
-    </div>
-    <div *ngIf="viewEtichetta">
-        <div class="position-relative">
-            <button class="col-2 btn btn-sm rounded grigino position-absolute top-0 start-100 translate-middle" (click)="doEtichetta()"><i class="fa fa-times"></i></button>
-        </div>
-        <div class="row d-flex justify-content-left">
-            <div class="col-12 m-2">
-                <div class="row">
-                    <label>Nome Etichetta</label>
+            <div class="row d-flex justify-content-left">
+                <div class="col-12 m-2">
+                    <div class="row">
+                        <label>Nome Etichetta</label>
+                    </div>
+                    <div class="row">
+                        <input [(ngModel)]="etichetta" class="col-5" type="text" class="form-control sfondino" placeholder="Inserisci nome etichetta">
+                    </div>
                 </div>
-                <div class="row">
-                    <input [(ngModel)]="etichetta" class="col-5" type="text" class="form-control sfondino" placeholder="Inserisci nome etichetta">
-                </div>
-            </div>
-            <div class="col-12 m-2">
-                <div class="row">
-                    <label>Colore Etichetta</label>
-                </div>
-                <div class="row">
-                    <input [(colorPicker)]="color" [style.background]="color"/>
+                <div class="col-12 m-2">
+                    <div class="row">
+                        <label>Colore Etichetta</label>
+                    </div>
+                    <div class="row">
+                        <input [(colorPicker)]="color" [style.background]="color"/>
+                    </div>
                 </div>
             </div>
-        </div>
-        <button class="btn btn-sm rounded grigino" style="margin-right: 5px" (click)="createEtichetta()"><i class="fa fa-plus"></i></button>
-    </div>
-</div>
-
-<div class="mt-2" *ngIf="!viewCard">
-    <table class="table table-hover mt-2 text-center">
-        <thead>
-            <tr>
-                <th scope="col-1">&nbsp;</th>
-                <th scope="col">Nome</th>
-                <th scope="col">ATK</th>
-                <th scope="col">DEF</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let card of zaino | filterZaino: searchFilter! | slice:sliceStart:sliceEnd; let i=index">
-                <td>
-                    <button type="button" class="btn btn-outline-dark btn-sm" #buttonElement (click)="openMenuEtichetta(buttonElement,card)" [style.background-color]="card.etich ? card.etich.color : null"><i class="fa fa-star"></i></button>&nbsp;
-                    <button type="button" class="btn btn-outline-dark btn-sm" (click)="sellCard(card)"><i class="fa fa-dollar"></i></button>
-                </td>
-                <td class="text-truncate" (click)="showCard(card)">{{card.name}}</td>
-                <td>{{card.atk}}</td>
-                <td>{{card.def}}</td>
-            </tr>
-        </tbody>
-    </table>
-    <div class="row mt-1">
-        <div class="d-flex justify-content-between mt-1">
-            <button class="btn btn-outline-dark btn-sm px-3" *ngIf="sliceStart>0" (click)="backSlice()"><i class="fa fa-arrow-left"></i></button>
-            <button class="btn btn-outline-dark btn-sm px-3" *ngIf="sliceLimit! >= sliceEnd" (click)="continueSlice()"><i class="fa fa-arrow-right"></i></button>
+            <button class="btn btn-sm rounded grigino" style="margin-right: 5px" (click)="createEtichetta()"><i class="fa fa-plus"></i></button>
         </div>
     </div>
-</div>
-
-<div class="mt-2" *ngIf="viewCard">
-    <div class="col-11">
-        <div class="row">
-            <div *ngFor="let card of zaino | filterZaino: searchFilter!" class="col-1 mt-3">
-                <button type="button" class="col-12 btn btn-outline-dark btn-sm" #buttonElement (click)="openMenuEtichetta(buttonElement,card)" [style.background-color]="card.etich ? card.etich.color : null"><i class="fa fa-star"></i></button>
-                <img class="deckcard mt-1" src="{{'https://images.ygoprodeck.com/images/cards/'+card?.id+'.jpg'}}" (click)="showCard(card)"/>
+    
+    <div class="mt-2" *ngIf="!viewCard">
+        <table class="table table-hover mt-2 text-center">
+            <thead>
+                <tr>
+                    <th scope="col-1">&nbsp;</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">ATK</th>
+                    <th scope="col">DEF</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let card of zaino! | filterZaino: searchFilter! | slice:sliceStart:sliceEnd; let i=index">
+                    <td>
+                        <button type="button" class="btn btn-outline-dark btn-sm" #buttonElement (click)="openMenuEtichetta(buttonElement,card)" [style.background-color]="card.etich ? card.etich.color : null"><i class="fa fa-star"></i></button>&nbsp;
+                        <button type="button" class="btn btn-outline-dark btn-sm" (click)="sellCard(card)"><i class="fa fa-dollar"></i></button>
+                    </td>
+                    <td class="text-truncate" (click)="showCard(card)">{{card.name}}</td>
+                    <td>{{card.atk}}</td>
+                    <td>{{card.def}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="row mt-1">
+            <div class="d-flex justify-content-between mt-1">
+                <button class="btn btn-outline-dark btn-sm px-3" *ngIf="sliceStart>0" (click)="backSlice()"><i class="fa fa-arrow-left"></i></button>
+                <button class="btn btn-outline-dark btn-sm px-3" *ngIf="sliceLimit! >= sliceEnd" (click)="continueSlice()"><i class="fa fa-arrow-right"></i></button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="mt-2" *ngIf="viewCard">
+        <div class="col-11">
+            <div class="row">
+                <div *ngFor="let card of zaino! | filterZaino: searchFilter!" class="col-1 mt-3">
+                    <button type="button" class="col-12 btn btn-outline-dark btn-sm" #buttonElement (click)="openMenuEtichetta(buttonElement,card)" [style.background-color]="card.etich ? card.etich.color : null"><i class="fa fa-star"></i></button>
+                    <img class="deckcard mt-1" src="{{'https://images.ygoprodeck.com/images/cards/'+card?.id+'.jpg'}}" (click)="showCard(card)"/>
+                </div>
             </div>
         </div>
     </div>

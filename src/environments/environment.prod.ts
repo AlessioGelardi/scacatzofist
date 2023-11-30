@@ -1,11 +1,11 @@
 export const environment = {
   production: true,
-  baseUrlLogin: 'https://renderwin.onrender.com/login/',
-  baseUrlPlayer: 'https://renderwin.onrender.com/player/',
-  baseUrlDeck: 'https://renderwin.onrender.com/deck/',
-  baseUrlMarket: 'https://renderwin.onrender.com/market/',
-  baseUrlNotifier: 'https://renderwin.onrender.com/notifier/',
-  baseUrlDatabase: 'https://renderwin.onrender.com/database/',
-  baseUrlTrade: 'https://renderwin.onrender.com/trade/',
+  baseUrlLogin: 'https://vercelwin-world.vercel.app/login/',
+  baseUrlPlayer: 'https://vercelwin-world.vercel.app/player/',
+  baseUrlDeck: 'https://vercelwin-world.vercel.app/deck/',
+  baseUrlMarket: 'https://vercelwin-world.vercel.app/market/',
+  baseUrlNotifier: 'https://vercelwin-world.vercel.app/notifier/',
+  baseUrlDatabase: 'https://vercelwin-world.vercel.app/database/',
+  baseUrlTrade: 'https://vercelwin-world.vercel.app/trade/',
   baseUrlService: 'http://localhost:5001/service/'
 };

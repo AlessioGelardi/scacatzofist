@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Player } from 'src/app/module/interface/player';
 import { environment } from 'src/environments/environment';
 import { Deck } from '../../interface/card';
@@ -17,11 +17,11 @@ export class LoginService {
 
   constructor(private http: HttpClient) {}
 
-  login(username:string,pss:string): Observable<Player>{
-    return this.http.post<Player>(this.apiUrlLogin, {username,pss});
+  login(username:string,pss:string,ip:string): Observable<Player>{
+    return this.http.post<Player>(this.apiUrlLogin, {username,pss,ip});
   }
 
-  signin(player:Player): Observable<boolean>{
+  signin(player:any): Observable<boolean>{
     return this.http.post<boolean>(this.apiUrlSignin, player);
   }
 
@@ -36,7 +36,11 @@ export class LoginService {
     return this.http.get<Player>(url);
   }
 
-  starterDeck() {
+  starterDecks() {
     return this.http.get<Deck[]>(this.apiUrlStarterDeck);
+  }
+
+  getIPAddress() {  
+    return this.http.get("https://api.ipify.org/?format=json");  
   }
 }

@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Pack, SellCard, SellPack } from 'src/app/module/interface/card';
+import { Card, Pack, SellCard, SellPack } from 'src/app/module/interface/card';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -16,6 +16,11 @@ export class MarketService {
   apiUrlMarketOpenPack: string =  environment.baseUrlMarket + "openpack";
   marketplaceById: string = environment.baseUrlMarket + "marketplaceById";
   apiUrlMarketDailyShop: string =  environment.baseUrlMarket + "dailyshop";
+  apiUrlMarketRefreshDailyShop: string =  environment.baseUrlMarket + "refreshdailyshop";
+  apiUrlMarketPacks: string = environment.baseUrlMarket + "packs";
+  apiUrlMarketSkin: string = environment.baseUrlMarket + "skin";
+  apiUrlMarketTexture: string = environment.baseUrlMarket + "texture";
+  apiUrlMarketHorusEye: string =  environment.baseUrlMarket + "horuseye";
 
   constructor(private http: HttpClient) { }
 
@@ -27,9 +32,18 @@ export class MarketService {
     return this.http.get<SellPack[]>(this.apiUrlMarketPack);
   }
 
+  getPacks(typePack:number): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrlMarketPacks+'?case='+typePack);
+  }
+
   getDailyShop(request:any): Observable<SellCard[]> {
     request.dataUpdate = this.takeFormatToday();
     return this.http.put<SellCard[]>(this.apiUrlMarketDailyShop,request,this.generateOptions());
+  }
+
+  refreshDailyShop(request:any): Observable<boolean> {
+    request.dataUpdate = this.takeFormatToday();
+    return this.http.put<boolean>(this.apiUrlMarketRefreshDailyShop,request,this.generateOptions());
   }
 
   getMarketPlaceById(playerId:string) { //To-DO verificare se si può fare un percorso unico tra getMarketPlace e getmarketplacebyid
@@ -57,8 +71,7 @@ export class MarketService {
     acquisto.card.prezzo = sellCard.prezzo;
     acquisto.card.venduto = true;
     acquisto.playerIdAcquista = playerIdAcquista;
-
-    acquisto.dataUpdate = this.takeFormatToday();
+    acquisto.card.dataUpdate = this.takeFormatToday();
 
     return this.http.put<boolean>(this.apiUrlMarketPlace+'?id='+sellCard.id,acquisto,this.generateOptions());
   }
@@ -89,6 +102,34 @@ export class MarketService {
   acquistoPack(request:any) {
     request.dataUpdate = this.takeFormatToday();
     return this.http.put<boolean>(this.apiUrlMarketPack,request,this.generateOptions());
+  }
+
+  getSkins(type:number) {
+    return this.http.get<any[]>(this.apiUrlMarketSkin+'?case='+type);
+  }
+
+  getSelectedTexture(playerId:string) {
+    return this.http.get<any[]>(this.apiUrlMarketTexture+'?id='+playerId);
+  }
+
+  acquistaTexture(request:any) {
+    request.dataUpdate = this.takeFormatToday();
+    return this.http.post<boolean>(this.apiUrlMarketTexture,request,this.generateOptions());
+  }
+
+  selezionaTexture(request:any) {
+    request.dataUpdate = this.takeFormatToday();
+    return this.http.put<boolean>(this.apiUrlMarketTexture,request,this.generateOptions());
+  }
+
+  getHorusEye(request:any): Observable<any> {
+    request.dataUpdate = this.takeFormatToday();
+    return this.http.put<any>(this.apiUrlMarketHorusEye,request,this.generateOptions());
+  }
+
+  postHorusEye(request:any) {
+    request.dataUpdate = this.takeFormatToday();
+    return this.http.post<any>(this.apiUrlMarketHorusEye,request,this.generateOptions());
   }
 
   private takeFormatToday() {

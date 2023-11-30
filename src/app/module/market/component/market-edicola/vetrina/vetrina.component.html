@@ -41,8 +41,13 @@
             <button class="btn btn-lg rounded buttonSelect" *ngIf="!showOnlyTaglia && !isDeck" (click)="acquista(selectPack.name,3,selectPack.baseCost,selectPack.type,selectPack.monster,selectPack.level,selectPack.race,selectPack.src,selectPack.attribute)">3</button>
             <button class="btn btn-lg rounded buttonSelect" *ngIf="!showOnlyTaglia && !isDeck" (click)="acquista(selectPack.name,7,selectPack.baseCost,selectPack.type,selectPack.monster,selectPack.level,selectPack.race,selectPack.src,selectPack.attribute)">7</button>
             <button class="btn btn-lg rounded buttonSelect" *ngIf="!isDeck" (click)="acquista(selectPack.name,12,selectPack.baseCost,selectPack.type,selectPack.monster,selectPack.level,selectPack.race,selectPack.src,selectPack.attribute)">12</button>
-            <button class="btn btn-lg rounded buttonSelect" *ngIf="isDeck" (click)="acquistaDeck(selectPack.name,selectPack.baseCost,selectPack.src, selectPack.id)">ACQUISTA DECK</button>
+            <button class="btn btn-lg rounded buttonSelect" *ngIf="isDeck" (click)="acquistaDeck(selectPack.name,selectPack.baseCost,selectPack.src, selectPack.deckId)">ACQUISTA DECK</button>
             <button class="btn btn-lg rounded buttonSelect" *ngIf="!showOnlyTaglia && !isDeck" (click)="acquista(selectPack.name,15,selectPack.baseCost,selectPack.type,selectPack.monster,selectPack.level,selectPack.race,selectPack.src,selectPack.attribute)">15</button>
         </div>
     </div>
+</div>
+
+
+<div *ngIf="isDeck && selectDeck">
+    <show-deck [deck]="selectDeck"></show-deck>
 </div>

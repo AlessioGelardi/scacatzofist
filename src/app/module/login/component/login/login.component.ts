@@ -40,29 +40,34 @@ export class LoginComponent implements OnInit {
 
   async login() {
     if(this.loginForm.valid) {
-      const user = this.loginForm.value.name!;
-      const password = this.loginForm.value.password!;
+
   
       try {
         this.spinnerService.show();
-        this.loginService.login(user,password).subscribe({
-          next: (result) => {
-            if(result) {
-              if(user!=="StarterDeck") {
-                this.socket.emit('sign_in', user);
+        this.loginService.getIPAddress().subscribe((response: any) => {
+          const user = this.loginForm.value.name!;
+          const password = this.loginForm.value.password!;
+          const ip = response['ip'];
+          this.loginService.login(user,password,ip).subscribe({
+            next: (result) => {
+              if(result) {
+                if(user!=="StarterDeck") {
+                  this.socket.emit('sign_in', user);
+                }
+                this.router.navigate(['/home',{id:result._id}]);
               }
-              this.router.navigate(['/home',{id:result._id}]);
+            },
+            error: (error: any) => {
+              this.spinnerService.hide();
+              this.messageService.alert('Attenzione!','Utente e password errati o non ancora registrati','error');
+              this.viewActionButton=true;
+            },
+            complete: () => {
+              this.spinnerService.hide();
             }
-          },
-          error: (error: any) => {
-            this.spinnerService.hide();
-            this.messageService.alert('Attenzione!','Utente e password errati o non ancora registrati','error');
-            this.viewActionButton=true;
-          },
-          complete: () => {
-            this.spinnerService.hide();
-          }
+          });
         });
+        
       } catch {
         this.messageService.alert('Attenzione!','Qualcosa è andato storto durante la chiamata del servizio.','error');
       }

@@ -10,6 +10,7 @@ import { PlayerModule } from '../player/player.module';
 import { ZainoModule } from '../zaino/zaino.module';
 import { FormsModule } from '@angular/forms';
 import { ColorPickerModule } from 'ngx-color-picker';
+import { MarketSkinComponent } from './component/market-skin/market-skin.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { ColorPickerModule } from 'ngx-color-picker';
     MarketButtonsComponent,
     MarketSellComponent,
     MarketEdicolaComponent,
-    VetrinaComponent
+    VetrinaComponent,
+    MarketSkinComponent
   ],
   imports: [
     CommonModule,

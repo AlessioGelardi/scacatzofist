@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Player } from 'src/app/module/interface/player';
 import { MessageService } from 'src/app/module/swalAlert/message.service';
 import { StatePlayerService } from '../../services/state/state-player.service';
-import { Socket } from 'ngx-socket-io';
 
 
 @Component({
@@ -17,6 +16,10 @@ export class HomeComponent implements OnInit {
   numberNotify:number | undefined;
 
   bonus:boolean = false;
+  expBonus:boolean = false;
+  dailyshopdoppio:boolean = false;
+  ishorusEye:boolean = false;
+  
   constructor(private route: ActivatedRoute,
     private playerStateService: StatePlayerService,
     private messageService: MessageService,
@@ -30,8 +33,22 @@ export class HomeComponent implements OnInit {
     this.takeNumberNotify(playerId);
 
     const oggi: Date = new Date();
-    if(oggi.getDay() === 6 || oggi.getDay() === 0) {
-      this.bonus = true;
+    switch(oggi.getDay()) {
+      case 1: //lunedi
+        this.dailyshopdoppio = true;
+        break;
+      case 5: //venerdi
+        this.ishorusEye = true;
+        this.playerStateService.setHorusEye(this.ishorusEye);
+        break;
+      case 6: //sabato
+        this.expBonus = true;
+        this.playerStateService.setExpBonus(this.expBonus);
+        break;
+      case 0: //domenica
+        this.bonus = true;
+        this.playerStateService.setGuadagniBonus(this.bonus);
+        break; 
     }
   }
 
@@ -41,6 +58,10 @@ export class HomeComponent implements OnInit {
 
   searchCard() {
     this.router.navigate(['/database',{id:this.player?._id}]);
+  }
+
+  horusEye() {
+    this.router.navigate(['/horuseye',{id:this.player?._id}]);
   }
 
   marketPlace() {

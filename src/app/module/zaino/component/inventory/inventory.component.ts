@@ -20,7 +20,7 @@ export class InventoryComponent implements OnInit {
   buttons: Button[] = [];
 
   inventory: Pack[] = [];
-  zaino: Card[] = [];
+  zaino: Card[] | undefined = [];
 
   viewCards: Card[] = [];
 
@@ -56,7 +56,9 @@ export class InventoryComponent implements OnInit {
 
     this.takePlayer(playerId!);
     this.takeInventory(playerId!);
-    this.takeZaino(playerId!);
+    this.playerStateService.getZaino().subscribe((value:Card[] | undefined) => {
+      this.zaino = value;
+    });
   }
   
   action(code:string) {
@@ -124,7 +126,7 @@ export class InventoryComponent implements OnInit {
       showLoaderOnConfirm: true
     }).then((result) => {
       if (result.isConfirmed) {
-        if(result.value>0) {
+        if(result.value>1000) {
           let request:any = {};
           request.playerId = this.player!._id!;
           request.packId = pack.id;
@@ -151,7 +153,7 @@ export class InventoryComponent implements OnInit {
             }
           });
         } else {
-          this.messageService.alert('Attenzione','Il prezzo deve essere almeno maggiore di 0','info');
+          this.messageService.alert('Attenzione','Il prezzo deve essere almeno maggiore di 1000','info');
         }
         
       }
@@ -198,23 +200,6 @@ export class InventoryComponent implements OnInit {
         */
 
         this.messageService.alert('Attenzione!','Errore durante la chiamata getInventory','error');
-      }
-    });
-  }
-
-  private takeZaino(playerId:string) {
-    this.playerStateService.getZaino(playerId).then((resp) => {
-      if(resp) {
-        this.zaino=resp
-      } else {
-        //TO-DO gestione degli errori
-        /*
-        if(resp.status===402) {
-          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
-        }
-        */
-  
-        this.messageService.alert('Attenzione!','Errore durante la chiamata getZaino','error');
       }
     });
   }

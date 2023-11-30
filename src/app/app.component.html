@@ -3,13 +3,13 @@
   <div class="container d-flex justify-content-center">
     <img class="logo" src="https://www.1001hobbies.it/c/56155-large_banner/yu-gi-oh.jpg" />
   </div>
-  <label class="position-absolute top-0 start-0">v.0.1.5-AlphaTecnica</label>
+  <label class="position-absolute top-0 start-0">v.0.2.3-AlphaTecnica</label>
   <div>
     <button class="btn btn-bg" (click)="openSideBar()"><i class="fa fa-bars"></i></button>
   </div>
 </div>
 
-<app-sidebar [isOpen]="viewSideBar" (close)="openSideBar()"></app-sidebar>
+<sidebar-utenti [isOpen]="viewSideBar" (close)="openSideBar()"></sidebar-utenti>
 
 <div class="content" role="main">
   <div class="container">

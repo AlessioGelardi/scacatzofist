@@ -6,8 +6,9 @@ import { StateDeckService } from '../../services/state/state-deck.service';
 import Swal from 'sweetalert2';
 import { StatePlayerService } from 'src/app/module/player/services/state/state-player.service';
 import { MessageService } from 'src/app/module/swalAlert/message.service';
-import { CdkDragDrop, CdkDragEnd, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { FilterZainoService } from 'src/app/module/zaino/services/filter-zaino.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-deck-edit',
@@ -45,10 +46,14 @@ export class DeckEditComponent implements OnInit {
     private deckStateService: StateDeckService,
     private route: ActivatedRoute,
     private playerStateService: StatePlayerService,
+    private spinnerService: NgxSpinnerService,
     private messageService: MessageService,
-    private filterZainoService: FilterZainoService) { }
+    private filterZainoService: FilterZainoService) {
+
+  }
 
   ngOnInit(): void {
+    this.messageService.alert('Benvenuto in modifica deck!','Ricorda di aprire il programma "scacatzoFist" locale per salvare le modifiche sul deck','warning');
     this.permission = this.route.snapshot.paramMap.get('permission')! === "true";
     this.buttons = [
       {
@@ -81,6 +86,7 @@ export class DeckEditComponent implements OnInit {
     this.deckId = this.route.snapshot.paramMap.get('id')!;
     this.playerId = this.route.snapshot.paramMap.get('playerId')!;
     this.newNameDeck = this.route.snapshot.paramMap.get('newNameDeck')!;
+    this.spinnerService.show();
     this.takeDeck();
     this.takeEtichette();
   }
@@ -115,21 +121,32 @@ export class DeckEditComponent implements OnInit {
           const mainIntoExtra = this.checkMainIntoExtra();
 
           if(!extraIntoMain && !mainIntoExtra) {
-            this.deckStateService.updateDeck(this.deck!,this.deckId!).then((resp) => {
-              if(resp) {
-                this.deckStateService.resetPlayerDecks();
-                this.messageService.alert('Fatto!','Deck salvato con successo.','success');
-              } else {
-                this.messageService.alert('Errore','Qualcosa è andato storto durante il salvataggio del deck','error');
+            if(this.deck!.main.length<=60 && this.deck!.extra.length<=15 && this.deck!.side.length<=20) {
+              this.deckStateService.updateDeck(this.deck!,this.deckId!).then((resp) => {
+                if(resp) {
+                  this.deckStateService.resetPlayerDecks();
+                  this.messageService.alert('Fatto!','Deck salvato con successo.','success');
+                } else {
+                  this.messageService.alert('Errore','Qualcosa è andato storto durante il salvataggio del deck','error');
+                }
+              });
+            } else {
+              if(this.deck!.main.length>60) {
+                this.messageService.alert('Attenzione','Il MAIN può contenere fino ad un massimo di 60 carte','warning');
+              } else if (this.deck!.extra.length>15) {
+                this.messageService.alert('Attenzione',"L'EXTRA può contenere fino ad un massimo di 15 carte",'warning');
+              } else if (this.deck!.side.length>20) {
+                this.messageService.alert('Attenzione','Il SIDE può contenere fino ad un massimo di 20 carte','warning');
               }
-            });
+            }
+
           } else {
             if(extraIntoMain) {
-              this.messageService.alert('Errore',"Il main deck non deve contenere carte di tipo fusione,synchro o xyz, per favore spostale nell'extra deck",'error');
+              this.messageService.alert('Attenzione',"Il main deck non deve contenere carte di tipo fusione,synchro o xyz, per favore spostale nell'extra deck",'warning');
             }
 
             if(mainIntoExtra) {
-              this.messageService.alert('Errore',"L'extra deck deve contenere carte solo di tipo fusione,synchro o xyz, per favore sposta il resto delle carte nel main deck",'error');
+              this.messageService.alert('Attenzione',"L'extra deck deve contenere carte solo di tipo fusione,synchro o xyz, per favore sposta il resto delle carte nel main deck",'warning');
             }
           }
           break;
@@ -294,61 +311,60 @@ export class DeckEditComponent implements OnInit {
     }
   }
 
-  private countCard(iterObj: Card[], id: string) {
-    let count = 0;
-    for (const card of iterObj) {
-      if (card.id === id) {
-        count++;
+  private conteggio(cardIds:string[]) {
+    // Crea un oggetto vuoto per tenere traccia delle occorrenze
+    var conteggio:any = {};
+
+    // Attraversa l'array
+    for (var i = 0; i < cardIds.length; i++) {
+      var numero = cardIds[i];
+
+      // Se la stringa è già presente nell'oggetto, aumenta il conteggio di 1
+      if (conteggio[numero]) {
+        conteggio[numero]++;
+      } else {
+        // Altrimenti, inizia il conteggio a 1
+        conteggio[numero] = 1;
       }
     }
-    return count;
+
+    // Restituisci l'oggetto con le occorrenze
+    return conteggio;
   }
 
-  private takeZaino() {
+   private takeZaino() {
     this.zaino = []
-    this.playerStateService.getZaino(this.playerId!).then((resp) => {
-      if(resp) {
-        
+    this.playerStateService.getZaino().subscribe((resp:Card[] | undefined) => {
+      if(resp && resp.length>0) {
+        let cardIds = []
         for (const card of resp) {
-          let checkId = card.id
-          let inUse = false;
+          cardIds.push(card.id)
+        }
 
-          let iterObj = this.deck?.main.concat(this.deck?.extra, this.deck?.side)!;
-          let countZaino = 0;
-          let countZainoResp = 0;
-          let countDeck = 0;
+        const objConteggioResp = this.conteggio(cardIds);
 
-          if(iterObj.some(obj => obj.id === checkId)) {
-            inUse = true;
-            countZainoResp = this.countCard(resp,checkId);
-            countDeck = this.countCard(iterObj,checkId);
-          }
-
-          if(!inUse) {
-            this.zaino.push(card);
-            this.zainoBackup.push(card);
-          } else {
-            if(countZainoResp>0 && countDeck>0) {
-              countZaino = this.countCard(this.zaino,checkId);
-              if(countZaino !== countZainoResp-countDeck) {
-                for (let i = 0; i < countZainoResp-countDeck; i++) {
-                  this.zaino.push(card);
-                  this.zainoBackup.push(card);
-                }
-              }
-            }
+        cardIds = []
+        const totalDeck = this.deck?.main.concat(this.deck?.extra, this.deck?.side)!
+        for (const card of totalDeck) {
+          cardIds.push(card.id)
+        }
+        const objConteggioDeck = this.conteggio(cardIds);
+        for (const card of totalDeck) {
+          const conteggioZaino = objConteggioResp[card.id]
+          const conteggioDeck = objConteggioDeck[card.id]
+          if(conteggioZaino>conteggioDeck) {
+            const cardFind = resp.find(i => i.id === card.id)!
+            this.zaino.push(cardFind)
           }
         }
-      } else {
-        //TO-DO gestione degli errori
-        /*
-        if(resp.status===402) {
-          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
-        }
-        */
 
-        this.messageService.alert('Attenzione!','Errore durante la chiamata getZaino','error');
+        const elementiRimasti = resp.filter(obj1 => !this.zaino.some(obj2 => obj2.id === obj1.id) && !objConteggioDeck[obj1.id]);
+        this.zaino.push(...elementiRimasti)
+        this.zainoBackup.push(...this.zaino)
+        
       }
+      this.spinnerService.hide();
+      
     });
   }
 

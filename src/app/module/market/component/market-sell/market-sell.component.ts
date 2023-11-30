@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Button } from 'src/app/module/interface/button';
 import { Card } from 'src/app/module/interface/card';
@@ -26,7 +26,7 @@ export class MarketSellComponent implements OnInit {
 
   viewEtichetta = false;
 
-  zaino: Card[]=[];
+  zaino: Card[] | undefined=[];
 
   sliceLimit: number | undefined;
   sliceStart: number = 0;
@@ -82,12 +82,18 @@ export class MarketSellComponent implements OnInit {
         name: "EDICOLA-BUTTON",
         code: "EDICOLA",
         class: "fa fa-diamond"
+      },
+      {
+        name: "SKIN-BUTTON",
+        code: "SKIN",
+        class: "fa fa-film"
       }
     ];
 
     this.playerId = this.route.snapshot.paramMap.get('id')!;
     this.takePlayer(this.playerId!);
-    this.takeZaino();
+    this.takeEtichette();
+    //this.takeZaino();
   }
 
   buttonOperationHandler(code: any) {
@@ -107,6 +113,9 @@ export class MarketSellComponent implements OnInit {
           break;
         case 'EDICOLA':
           this.router.navigate(['/edicola',{id:this.playerId!}]);
+          break;
+        case 'SKIN':
+          this.router.navigate(['/skin',{id:this.playerId!}]);
           break;
       }
     }
@@ -129,7 +138,7 @@ export class MarketSellComponent implements OnInit {
       showLoaderOnConfirm: true
     }).then((result) => {
       if (result.isConfirmed) {
-        if(result.value>0) {
+        if(result.value>500) {
           let request:any = {};
           request.playerId = this.playerId!;
           request.cardId = card.id;
@@ -162,7 +171,7 @@ export class MarketSellComponent implements OnInit {
             }
           });
         } else {
-          this.messageService.alert('Attenzione','Il prezzo deve essere almeno maggiore di 0','info');
+          this.messageService.alert('Attenzione','Il prezzo deve essere almeno maggiore di 500','info');
         }
         
       }
@@ -338,6 +347,9 @@ export class MarketSellComponent implements OnInit {
     this.playerStateService.getPlayer(playerId).then((resp) => {
       if(resp) {
         this.player = resp;
+        this.playerStateService.getZaino().subscribe((value:Card[] | undefined) => {
+          this.zaino = value;
+        });
       } else {
         //TO-DO gestione degli errori
         /*
@@ -347,25 +359,6 @@ export class MarketSellComponent implements OnInit {
         */
 
         this.messageService.alert('Attenzione!','Errore durante la chiamata getPlayer','error');
-      }
-    });
-  }
-
-  private takeZaino() {
-    this.playerStateService.getZaino(this.playerId!).then((resp) => {
-      if(resp) {
-        this.zaino = resp;
-        this.sliceLimit = this.zaino.length;
-        this.takeEtichette();
-      } else {
-        //TO-DO gestione degli errori
-        /*
-        if(resp.status===402) {
-          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
-        }
-        */
-
-        this.messageService.alert('Attenzione!','Errore durante la chiamata getZaino','error');
       }
     });
   }

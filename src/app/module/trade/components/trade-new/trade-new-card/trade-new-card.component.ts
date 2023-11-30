@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { StateDeckService } from 'src/app/module/deck/services/state/state-deck.service';
 import { StatePlayerService } from 'src/app/module/player/services/state/state-player.service';
 import { MessageService } from 'src/app/module/swalAlert/message.service';
@@ -196,12 +196,12 @@ export class TradeNewCardComponent {
     return formatDate+'-'+startDate.getHours()+':'+startDate.getMinutes()+':'+startDate.getSeconds();
   }
 
-  private takeZaino(playerId:string) {
+   private takeZaino(playerId:string) {
     if(this.player!._id === playerId) {
-      this.playerStateService.getZaino(playerId).then((resp) => {
-        if(resp) {
+      this.playerStateService.getZaino().subscribe((value:Card[] | undefined) => {
+        if(value) {
           this.myZaino=[]
-          for (const card of resp) {
+          for (const card of value) {
             let checkId = card.id
             let inUse = false;
     
@@ -216,19 +216,11 @@ export class TradeNewCardComponent {
               this.myZainoBackup.push(card);
             }
           }
-        } else {
-          //TO-DO gestione degli errori
-          /*
-          if(resp.status===402) {
-            this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
-          }
-          */
-  
-          this.messageService.alert('Attenzione!','Errore durante la chiamata getZaino','error');
         }
       });
     } else {
-      this.playerStateService.getZainoNoCache(playerId).then((resp) => {
+      this.playerStateService.getZainoPlayer(playerId);
+      this.playerStateService.getZainoNoCache().subscribe((resp:Card[] | undefined) => {
         if(resp) {
           this.oppoZaino=[];
           for (const card of resp) {
@@ -246,15 +238,6 @@ export class TradeNewCardComponent {
               this.oppoZainoBackup.push(card);
             }
           }
-        } else {
-          //TO-DO gestione degli errori
-          /*
-          if(resp.status===402) {
-            this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
-          }
-          */
-  
-          this.messageService.alert('Attenzione!','Errore durante la chiamata getZaino','error');
         }
       });
     }

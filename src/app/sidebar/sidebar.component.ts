@@ -3,7 +3,7 @@ import { Socket } from 'ngx-socket-io';
 import { map } from 'rxjs';
 
 @Component({
-  selector: 'app-sidebar',
+  selector: 'sidebar-utenti',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css']
 })

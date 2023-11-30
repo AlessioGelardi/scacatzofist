@@ -7,6 +7,7 @@ import { PlayerButtonsComponent } from './component/player-buttons/player-button
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FilterPlayerPipe } from './pipe/filter-player.pipe';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { HoruseyeComponent } from './component/horuseye/horuseye.component';
 import { AlberoNataleComponent } from './component/albero-natale/albero-natale.component';
 
 
@@ -17,6 +18,7 @@ import { AlberoNataleComponent } from './component/albero-natale/albero-natale.c
     PlayerDetailComponent,
     PlayerButtonsComponent,
     FilterPlayerPipe,
+    HoruseyeComponent,
     AlberoNataleComponent
   ],
   imports: [

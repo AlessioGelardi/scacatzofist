@@ -19,6 +19,7 @@ export class CardListComponent implements OnInit {
   @Output() removeCard: EventEmitter<any> = new EventEmitter();
 
   kindDeck: string | undefined;
+  maxcard:number | undefined;
 
   @Output() zainoRemove: EventEmitter<Card> = new EventEmitter();
 
@@ -28,13 +29,16 @@ export class CardListComponent implements OnInit {
 
     switch(this.typeDeck) {
       case 1:
-        this.kindDeck='main';
+        this.kindDeck = 'main';
+        this.maxcard = 60;
         break;
       case 2:
         this.kindDeck='extra';
+        this.maxcard = 15;
         break;
       case 3:
         this.kindDeck='side';
+        this.maxcard = 20;
         break;
       default:
         break;

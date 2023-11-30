@@ -40,8 +40,8 @@ export class PlayNowComponent implements OnInit {
     const playerId = this.route.snapshot.paramMap.get('id')!; 
     this.takePlayer(playerId);
 
-    const bonus:boolean = this.route.snapshot.paramMap.get('bonus') === "true";
-    this.playerStateService.setBonus(bonus);
+    //const bonus:boolean = this.route.snapshot.paramMap.get('bonus') === "true";
+    //this.playerStateService.setGuadagniBonus(bonus);
   }
 
   buttonOperationHandler(code: any) {

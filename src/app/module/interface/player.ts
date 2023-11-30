@@ -12,4 +12,5 @@ export interface Player {
     level?:number;
     currentExp?:number;
     maxExp?:number;
+    reward?:any;
 }

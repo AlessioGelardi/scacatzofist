@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Button } from 'src/app/module/interface/button';
-import { Card, Pack, SellCard, SellPack } from 'src/app/module/interface/card';
+import { Card, SellCard, SellPack } from 'src/app/module/interface/card';
 import { Player } from 'src/app/module/interface/player';
 import Swal from 'sweetalert2';
 import { StateMarketService } from '../../services/state/state-market.service';
@@ -25,6 +25,7 @@ export class MarketComponent implements OnInit {
   marketPack: SellPack[] | undefined;
 
   dailyshop: SellCard[] | undefined;
+  refreshDSFatto:boolean = false;
 
   constructor(private route: ActivatedRoute,
     private router: Router,
@@ -51,6 +52,11 @@ export class MarketComponent implements OnInit {
         name: "EDICOLA-BUTTON",
         code: "EDICOLA",
         class: "fa fa-diamond"
+      },
+      {
+        name: "SKIN-BUTTON",
+        code: "SKIN",
+        class: "fa fa-film"
       }
     ];
 
@@ -104,7 +110,7 @@ export class MarketComponent implements OnInit {
               if(resp) {
                 this.player!.coin = this.player!.coin! - Number(sellCard.prezzo);
                 this.messageService.alert('Fatto!','Carta acquistata!','success');
-                this.marketStateService.resetDailyShopState();
+                this.marketStateService.resetDailyShop();
                 this.playerStateService.resetZaino();
                 this.takeDailyShop();
               } else {
@@ -261,8 +267,43 @@ export class MarketComponent implements OnInit {
         case 'EDICOLA':
           this.router.navigate(['/edicola',{id:this.playerId!}]);
           break;
+        case 'SKIN':
+          this.router.navigate(['/skin',{id:this.playerId!}]);
+          break;
       }
     }
+  }
+
+  refreshDailyShop() {
+    Swal.fire({
+      title: 'Sei sicuro?',
+      html: "Il daily shop attuale verrà sostituito con uno nuovo al prezzo di 25 <i class='fa fa-diamond'></i>",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, sono sicuro!',
+      cancelButtonText: 'No, annulla!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        if(this.player!.credits!-25>=0) {
+          let doppio = this.takeDoppio();
+          this.marketStateService.refreshDailyShop(this.playerId!,doppio).then((resp) => {
+            if(resp === true) {
+              //TO-DO gestire errori
+              this.player!.credits = Number(this.player!.credits!) - 25;
+              this.marketStateService.resetDailyShop();
+              this.takeDailyShop();
+            } else {
+              this.messageService.alert('Attenzione!','Problema durante il reset del daily shop','error');
+            }
+          });
+        } else {
+          this.messageService.alert('Errore','Non hai abbastanza crediti','error');
+        }
+      }
+    })
   }
 
   private takeMarketPlace() {
@@ -295,9 +336,20 @@ export class MarketComponent implements OnInit {
     });
   }
 
+  private takeDoppio():boolean {
+    const oggi: Date = new Date();
+    let doppio = false;
+    if(oggi.getDay() === 1) {
+      doppio = true;
+    }
+    return doppio;
+  }
+
   private takeDailyShop() {
-    this.marketStateService.getDailyShop(this.playerId!).then((resp) => {
+    let doppio = this.takeDoppio();
+    this.marketStateService.getDailyShop(this.playerId!,doppio).then((resp) => {
       this.dailyshop = resp!;
+      this.refreshDSFatto = this.dailyshop[0].refresh!;
     });
   }
 

@@ -28,7 +28,7 @@ export class MessageService {
         html: '<p>Livello: <strong>'+card.level+
         '</strong> Attributo: <strong>'+Attributi[card.attribute]+
         '</strong> Razza: <strong>'+Razze[card.race]+'</strong></p><p>'+
-        card.description+'</p><p>ATK: <strong>'+card.atk+'</strong> DEF: <strong>'+card.def+'</strong></p>',
+        card.desc+'</p><p>ATK: <strong>'+card.atk+'</strong> DEF: <strong>'+card.def+'</strong></p>',
         imageUrl: 'https://images.ygoprodeck.com/images/cards/'+card.id+'.jpg',
         imageWidth: 160
       })
@@ -39,7 +39,7 @@ export class MessageService {
         title: card.name,
         color: '#3e3d3c',
         background: '#9ec981',
-        html: '<p>'+ card.description+'</p>',
+        html: '<p>'+ card.desc+'</p>',
         imageUrl: 'https://images.ygoprodeck.com/images/cards/'+card.id+'.jpg',
         imageWidth: 160
       })

@@ -15,6 +15,8 @@ export class PlayerService {
   apiUrlZaino: string = environment.baseUrlPlayer + "zainoById";
   apiUrlInventory: string = environment.baseUrlPlayer + "inventoryById";
   apiUrlEtichetta: string = environment.baseUrlPlayer + "etichetta";
+  apiUrlRewardLevel: string = environment.baseUrlPlayer + "rewardLevel";
+  apiUrlnumCardsZaino: string = environment.baseUrlPlayer + "numCards";
   apiUrlNatale: string = environment.baseUrlPlayer + "natale";
 
   constructor(private http: HttpClient) { }
@@ -31,8 +33,12 @@ export class PlayerService {
     return this.http.get<Player[]>(this.apiUrlPlayers);
   }
 
-  getZaino(id:string): Observable<Card[]> {
-    return this.http.get<Card[]>(this.apiUrlZaino+'?id='+id);
+  getZaino(id:string,page:number, limit:number): Observable<Card[]> {
+    let request:any = {};
+    request.id = id;
+    request.page = page;
+    request.limit = limit;
+    return this.http.get<Card[]>(this.apiUrlZaino,{params:request});
   }
 
   getInventory(id:string): Observable<Pack[]> {
@@ -53,6 +59,18 @@ export class PlayerService {
 
   delEtichetta(request:any) {
     return this.http.delete<boolean>(this.apiUrlEtichetta+'?id='+request.playerId+'&etich='+request.etich+'&cardId='+request.cardId);
+  }
+
+  takeRewardLevel(request:any) {
+    return this.http.put<boolean>(this.apiUrlRewardLevel,request,this.generateOptions());
+  }
+
+  rewardLevel(level:number) {
+    return this.http.get<any>(this.apiUrlRewardLevel+'?level='+level);
+  }
+
+  getNumCardZaino(id:string) {
+    return this.http.get<number>(this.apiUrlnumCardsZaino+'?id='+id);
   }
 
   apriEventoNatale(request:any) {
