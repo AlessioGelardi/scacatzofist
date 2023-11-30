@@ -86,8 +86,12 @@ export class StatePlayerService {
   resetNumCardZaino() {
     this.numCardZaino = 0;
   }
+
   resetNumCardZainoNoCache() {
     this.numCardZainoNoCache = 0;
+  }
+  resetGiorniNatale() {
+    this.giorniNatale = undefined;
   }
 
   resetState() {
@@ -103,6 +107,7 @@ export class StatePlayerService {
     this.setExpBonus(false);
     this.setGuadagniBonus(false);
     this.setHorusEye(false);
+    this.resetGiorniNatale();
   }
 
   getLoginPlayer() {
