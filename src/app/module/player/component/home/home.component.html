@@ -47,6 +47,20 @@
             </div>
         </div>
 
+        <div class="row">
+            <div class="d-flex justify-content-around text-center">
+                <div class="outline">
+                    <label>Giorno 30, 31 e 1 Gennaio dei crediti e dei coin appariranno, approfittane! </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row pt-3">
+            <div class="d-flex justify-content-around">
+                <button class="btn btn-lg" *ngIf="player?.ruolo !== 3" (click)="regaloSpeciale()">REGALO SPECIALE</button>
+            </div>
+        </div>
+
         <div class="row pt-3">
             <div class="d-flex justify-content-around">
                 <button class="btn btn-lg" (click)="modificaDeck()">MODIFICA DECK</button>

@@ -19,6 +19,8 @@ export class HomeComponent implements OnInit {
   expBonus:boolean = false;
   dailyshopdoppio:boolean = false;
   ishorusEye:boolean = false;
+
+  oggiDate:Date = new Date();
   
   constructor(private route: ActivatedRoute,
     private playerStateService: StatePlayerService,
@@ -32,8 +34,7 @@ export class HomeComponent implements OnInit {
     this.takePlayer(playerId);
     this.takeNumberNotify(playerId);
 
-    const oggi: Date = new Date();
-    switch(oggi.getDay()) {
+    switch(this.oggiDate.getDay()) {
       case 1: //lunedi
         this.dailyshopdoppio = true;
         break;
@@ -78,6 +79,17 @@ export class HomeComponent implements OnInit {
 
   alberoMagico() {
     this.router.navigate(['/alberomagico',{id:this.player?._id}]);
+  }
+
+  regaloSpeciale() {
+    this.playerStateService.apriEventoNatale(this.oggiDate.getDate()).then((resp) => {
+      if(resp === true) {
+        this.messageService.alert('Fatto!','Hai ricevuto un regalo speciale, i tuoi crediti e i tuoi coin sono stati accreditati!','success');
+        //this.playerStateService.resetPlayerState();
+      } else {
+        this.messageService.alert('Attenzione!','Errore durante la chiamata regaloSpeciale','error');
+      }
+    });
   }
 
   isObject(value: any): boolean {
