@@ -4,10 +4,19 @@
         <div class="row" *ngIf="bonus">
             <div class="d-flex justify-content-around text-center">
                 <div class="outline">
-                    <label>Un regalo speciale per te, solo per te. Festeggia il nuovo anno! </label>
+                    <label>Come un magico calendario che svela un piccolo tesoro ogni giorno, il calendario dell'avvento ci avvolge nell'attesa luminosa del Natale</label>
                 </div>
             </div>
         </div>
+
+        <!-- 
+        <div class="row" *ngIf="bonus">
+            <div class="d-flex justify-content-around text-center">
+                <div class="outline">
+                    <label>Un regalo speciale per te, solo per te. Festeggia il nuovo anno! </label>
+                </div>
+            </div>
+        </div>-->
 
         <div class="row" *ngIf="dailyshopdoppio">
             <div class="d-flex justify-content-around text-center">
@@ -41,11 +50,17 @@
             </div>
         </div>
 
-        <div class="row">
+        <!-- <div class="row">
             <div class="d-flex justify-content-around text-center">
                 <div class="outline">
                     <label>Giorno 30, 31 e 1 Gennaio dei crediti e dei coin appariranno, approfittane! </label>
                 </div>
+            </div>
+        </div> -->
+
+        <div class="row pt-3">
+            <div class="d-flex justify-content-around">
+                <button class="btn btn-lg" *ngIf="player?.ruolo !== 3" (click)="alberoMagico()">ALBERO MAGICO</button>
             </div>
         </div>
 

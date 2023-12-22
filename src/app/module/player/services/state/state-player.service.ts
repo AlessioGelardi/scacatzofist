@@ -533,7 +533,7 @@ export class StatePlayerService {
       let request:any = {};
       request.giorno = giorno;
       request.playerId = this.player?._id!;
-      request.capodanno = 1;
+      request.capodanno = 0;
       response = await firstValueFrom(this.playerService.apriEventoNatale(request));
       this.spinnerService.hide();
     } catch (error: any) {
