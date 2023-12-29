@@ -86,7 +86,7 @@ export class HomeComponent implements OnInit {
       if(resp) {
         const giorni = resp as number[]
 
-        if(giorni.includes(this.oggiDate.getDate())) {
+        if(giorni.includes(this.oggiDate.getDate()) || (this.oggiDate.getDate() === 1 && giorni.includes(32))) {
           this.messageService.alert('Attenzione!','hai gia aperto il regalo di oggi, torna domani','error');
         } else {
           this.playerStateService.resetGiorniNatale();
