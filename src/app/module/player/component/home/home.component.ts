@@ -82,14 +82,38 @@ export class HomeComponent implements OnInit {
   }
 
   regaloSpeciale() {
-    this.playerStateService.apriEventoNatale(this.oggiDate.getDate()).then((resp) => {
-      if(resp === true) {
-        this.messageService.alert('Fatto!','Hai ricevuto un regalo speciale, i tuoi crediti e i tuoi coin sono stati accreditati!','success');
-        //this.playerStateService.resetPlayerState();
+    this.playerStateService.getEventoNatale(this.player?._id!).then((resp) => {
+      if(resp) {
+        const giorni = resp as number[]
+
+        if(giorni.includes(this.oggiDate.getDate())) {
+          this.messageService.alert('Attenzione!','hai gia aperto il regalo di oggi, torna domani','error');
+        } else {
+          this.playerStateService.resetGiorniNatale();
+          this.playerStateService.apriEventoNatale(this.oggiDate.getDate()).then((resp) => {
+            if(resp === true) {
+              this.messageService.alert('Fatto!','Hai ricevuto un regalo speciale, i tuoi crediti e i tuoi coin sono stati accreditati!','success');
+              //this.playerStateService.resetPlayerState();
+            } else {
+              this.messageService.alert('Attenzione!','Errore durante la chiamata regaloSpeciale','error');
+            }
+          });
+        }
       } else {
-        this.messageService.alert('Attenzione!','Errore durante la chiamata regaloSpeciale','error');
+        //TO-DO gestione degli errori
+        /*
+        if(resp.status===402) {
+          this.swalAlert('Attenzione!','non ho trovato nulla con questo id, probabilmente devi fare la registrazione','error');
+        }
+        */
+
+        this.messageService.alert('Attenzione!','Errore durante la chiamata getEventoNatale','error');
       }
     });
+
+
+
+
   }
 
   isObject(value: any): boolean {
